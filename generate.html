@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>個別ページ生成ツール</title>
+  <style>
+    body { font-family: "Segoe UI", sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; background: #f9f9f9; }
+    h1 { margin-bottom: 8px; }
+    p.desc { color: #666; margin-bottom: 24px; line-height: 1.7; }
+    .step { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+    .step h2 { font-size: 16px; margin-bottom: 12px; }
+    .step h2 .num { display: inline-block; width: 28px; height: 28px; line-height: 28px; text-align: center; background: #ff0000; color: #fff; border-radius: 50%; font-size: 14px; margin-right: 8px; }
+    input[type="file"] { margin-bottom: 8px; }
+    .btn { display: inline-block; padding: 10px 24px; background: #ff0000; color: #fff; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; margin-top: 8px; }
+    .btn:hover { background: #cc0000; }
+    .btn:disabled { background: #ccc; cursor: not-allowed; }
+    .log { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin-top: 16px; max-height: 400px; overflow-y: auto; font-family: monospace; font-size: 13px; white-space: pre-wrap; }
+    .success { color: #2e7d32; }
+    .info { color: #1565c0; }
+    .error { color: #c62828; }
+    .loaded { color: #2e7d32; font-weight: bold; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <h1>個別ページ生成ツール</h1>
+  <p class="desc">
+    videos.json を読み込んで、videos.js・個別動画ページ・sitemap.xml を一括生成します。<br>
+    <strong>手順:</strong> videos.json をメモ帳で編集 → このページで読み込み → 生成ボタンを押す
+  </p>
+
+  <div class="step">
+    <h2><span class="num">1</span>videos.json を選択</h2>
+    <input type="file" id="fileInput" accept=".json">
+    <div id="loadStatus"></div>
+  </div>
+
+  <div class="step">
+    <h2><span class="num">2</span>生成 &amp; ダウンロード</h2>
+    <button class="btn" id="generateBtn" onclick="generateAll()" disabled>すべて生成</button>
+  </div>
+
+  <div class="log" id="log"></div>
+
+  <script>
+    let videos = [];
+    const log = document.getElementById("log");
+    const fileInput = document.getElementById("fileInput");
+    const generateBtn = document.getElementById("generateBtn");
+    const loadStatus = document.getElementById("loadStatus");
+
+    function addLog(msg, cls = "") {
+      log.innerHTML += `<span class="${cls}">${msg}</span>\n`;
+      log.scrollTop = log.scrollHeight;
+    }
+
+    const SITE_URL = "https://example.com"; // ← デプロイ先のURLに変更してください
+
+    const categoryLabel = {
+      short: "ショート",
+      inazuma: "イナイレV",
+      pokepoke: "ポケポケ",
+      minecraft: "マイクラ"
+    };
+
+    // ===== JSONファイル読み込み =====
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          videos = JSON.parse(ev.target.result);
+          loadStatus.innerHTML = `<span class="loaded">読み込み完了: ${videos.length}本の動画</span>`;
+          generateBtn.disabled = false;
+          addLog(`videos.json を読み込みました（${videos.length}本）`, "info");
+        } catch (err) {
+          loadStatus.innerHTML = `<span class="error">JSONの形式にエラーがあります: ${err.message}</span>`;
+          generateBtn.disabled = true;
+          addLog(`エラー: ${err.message}`, "error");
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    // ===== 各種生成関数 =====
+    function escHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function downloadFile(filename, content, type = "text/html") {
+      const blob = new Blob([content], { type: type + ";charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    function generateVideosJs() {
+      const content = "const videos = " + JSON.stringify(videos, null, 2) + ";\n";
+      downloadFile("videos.js", content, "application/javascript");
+      addLog("✓ videos.js をダウンロードしました", "success");
+    }
+
+    function generateSitemap() {
+      const urls = videos.map(v => `  <url>
+    <loc>${SITE_URL}/video-${v.id}.html</loc>
+    <lastmod>${v.date}</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>`).join("\n");
+
+      const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${SITE_URL}/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+${urls}
+</urlset>`;
+
+      downloadFile("sitemap.xml", sitemap, "application/xml");
+      addLog("✓ sitemap.xml をダウンロードしました", "success");
+    }
+
+    function generateVideoPage(video) {
+      const relatedVideos = videos.filter(v => v.id !== video.id).slice(0, 4);
+      const relatedCards = relatedVideos.map(v => `
+        <a href="video-${v.id}.html" class="video-card">
+          <div class="video-thumbnail">
+            <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="${escHtml(v.title)}" loading="lazy">
+            <span class="video-duration">${v.duration}</span>
+          </div>
+          <div class="video-info">
+            <h3 class="video-title">${escHtml(v.title)}</h3>
+            <p class="video-meta">${v.views}回視聴</p>
+          </div>
+        </a>`).join("\n");
+
+      return `<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO 基本タグ -->
+  <title>${escHtml(video.title)} | やまむー【yamamu】</title>
+  <meta name="description" content="${escHtml(video.description)}">
+  <link rel="canonical" href="${SITE_URL}/video-${video.id}.html">
+
+  <!-- OGP (SNS共有用) -->
+  <meta property="og:type" content="video.other">
+  <meta property="og:title" content="${escHtml(video.title)}">
+  <meta property="og:description" content="${escHtml(video.description)}">
+  <meta property="og:image" content="https://img.youtube.com/vi/${video.id}/maxresdefault.jpg">
+  <meta property="og:url" content="${SITE_URL}/video-${video.id}.html">
+  <meta property="og:site_name" content="やまむー【yamamu】">
+  <meta property="og:video" content="https://www.youtube.com/embed/${video.id}">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${escHtml(video.title)}">
+  <meta name="twitter:description" content="${escHtml(video.description)}">
+  <meta name="twitter:image" content="https://img.youtube.com/vi/${video.id}/maxresdefault.jpg">
+
+  <!-- JSON-LD 構造化データ (Google検索用) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": ${JSON.stringify(video.title)},
+    "description": ${JSON.stringify(video.description)},
+    "thumbnailUrl": "https://img.youtube.com/vi/${video.id}/maxresdefault.jpg",
+    "uploadDate": "${video.date}",
+    "contentUrl": "https://www.youtube.com/watch?v=${video.id}",
+    "embedUrl": "https://www.youtube.com/embed/${video.id}",
+    "interactionStatistic": {
+      "@type": "InteractionCounter",
+      "interactionType": { "@type": "WatchAction" },
+      "userInteractionCount": ${video.views.replace(/,/g, "")}
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "やまむー【yamamu】",
+      "url": "${SITE_URL}"
+    }
+  }
+  <\/script>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="video.css">
+</head>
+<body>
+  <!-- ヘッダー -->
+  <header class="header">
+    <a href="index.html" class="header-left" style="text-decoration:none">
+      <img src="icon.png" alt="やまむー" class="header-icon">
+      <span class="logo-text">やまむー</span>
+    </a>
+    <div class="header-right">
+      <button class="theme-toggle" id="themeToggle" title="テーマ切替">
+        <svg viewBox="0 0 24 24" width="22" height="22">
+          <path fill="#606060" d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- パンくずリスト (SEO用) -->
+  <nav class="breadcrumb" aria-label="パンくずリスト">
+    <a href="index.html">ホーム</a>
+    <span>›</span>
+    <a href="index.html#${video.category}">${categoryLabel[video.category] || video.category}</a>
+    <span>›</span>
+    ${escHtml(video.title)}
+  </nav>
+
+  <!-- 動画プレーヤー -->
+  <section class="video-player-section">
+    <div class="video-player-container">
+      <iframe src="https://www.youtube.com/embed/${video.id}"
+        title="${escHtml(video.title)}"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <!-- 動画情報 -->
+  <article class="video-detail">
+    <h1 class="video-detail-title">${escHtml(video.title)}</h1>
+    <div class="video-detail-meta">
+      <span>${video.views}回視聴</span>
+      <span>${video.date}</span>
+      <span class="video-category-tag">${categoryLabel[video.category] || video.category}</span>
+    </div>
+    <div class="video-detail-description">${escHtml(video.description)}</div>
+  </article>
+
+  <!-- 関連動画 -->
+  <section class="related-section">
+    <h2 class="related-title">その他の動画</h2>
+    <div class="related-grid">
+      ${relatedCards}
+    </div>
+  </section>
+
+  <!-- フッター -->
+  <footer class="footer">
+    <p>&copy; 2026 やまむー【yamamu】. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // ダークテーマ
+    const themeToggle = document.getElementById("themeToggle");
+    function setTheme(dark) {
+      document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+      localStorage.setItem("theme", dark ? "dark" : "light");
+    }
+    themeToggle.addEventListener("click", () => {
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      setTheme(!isDark);
+    });
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark" || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+      setTheme(true);
+    }
+  <\/script>
+</body>
+</html>`;
+    }
+
+    // ===== 一括生成 =====
+    async function generateAll() {
+      log.innerHTML = "";
+      addLog("=== 生成開始 ===\n", "info");
+
+      // 1. videos.js を生成
+      addLog("videos.js を生成中...", "info");
+      generateVideosJs();
+      await new Promise(r => setTimeout(r, 500));
+
+      // 2. 個別ページを生成
+      addLog(`\n個別ページを生成中（${videos.length}本）...`, "info");
+      for (let i = 0; i < videos.length; i++) {
+        const v = videos[i];
+        const filename = `video-${v.id}.html`;
+        const html = generateVideoPage(v);
+        downloadFile(filename, html);
+        addLog(`✓ ${filename}  - ${v.title}`, "success");
+        await new Promise(r => setTimeout(r, 500));
+      }
+
+      // 3. sitemap.xml を生成
+      addLog("\nsitemap.xml を生成中...", "info");
+      generateSitemap();
+
+      addLog("\n=== 完了！ ===", "success");
+      addLog(`\n生成ファイル:`);
+      addLog(`  - videos.js（トップページ用）`);
+      addLog(`  - ${videos.length}個の動画ページ`);
+      addLog(`  - sitemap.xml`);
+      addLog(`\nダウンロードされたファイルをプロジェクトフォルダに移動してください。`);
+      addLog(`※ SITE_URL を自分のドメインに変更してください（現在: ${SITE_URL}）`);
+    }
+  </script>
+</body>
+</html>

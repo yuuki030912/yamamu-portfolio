@@ -1,0 +1,110 @@
+/* ===== 動画個別ページ用スタイル ===== */
+
+/* 動画プレーヤー */
+.video-player-section {
+  background: #000;
+  width: 100%;
+}
+
+.video-player-container {
+  max-width: 960px;
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+}
+
+.video-player-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* 動画情報 */
+.video-detail {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px 24px 40px;
+}
+
+.video-detail-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.video-detail-meta {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.video-detail-description {
+  font-size: 15px;
+  color: var(--text-primary);
+  line-height: 1.8;
+  padding: 16px;
+  background: var(--chip-bg);
+  border-radius: 12px;
+  margin-bottom: 32px;
+  white-space: pre-wrap;
+}
+
+/* 関連動画セクション */
+.related-section {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px 40px;
+}
+
+.related-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+/* パンくずリスト */
+.breadcrumb {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 12px 24px 0;
+  font-size: 13px;
+}
+
+.breadcrumb a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: var(--text-primary);
+}
+
+.breadcrumb span {
+  color: var(--text-secondary);
+  margin: 0 6px;
+}
+
+@media (max-width: 768px) {
+  .video-detail {
+    padding: 16px;
+  }
+
+  .video-detail-title {
+    font-size: 18px;
+  }
+
+  .related-section {
+    padding: 0 16px 32px;
+  }
+}

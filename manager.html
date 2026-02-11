@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>動画管理ツール</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: "Segoe UI", "Noto Sans JP", sans-serif; background: #f5f5f5; color: #333; }
+
+    .app { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+    h1 { font-size: 22px; margin-bottom: 4px; }
+    .subtitle { color: #666; font-size: 14px; margin-bottom: 24px; }
+
+    /* APIキー設定 */
+    .api-section {
+      background: #fff; border: 1px solid #ddd; border-radius: 10px;
+      padding: 16px 20px; margin-bottom: 16px;
+    }
+    .api-section label { font-weight: 600; font-size: 14px; display: block; margin-bottom: 6px; }
+    .api-row { display: flex; gap: 8px; }
+    .api-row input {
+      flex: 1; padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px;
+      font-size: 14px; font-family: monospace;
+    }
+    .api-row button {
+      padding: 8px 16px; background: #333; color: #fff; border: none;
+      border-radius: 6px; cursor: pointer; font-size: 14px; white-space: nowrap;
+    }
+    .api-row button:hover { background: #555; }
+    .api-status { font-size: 12px; margin-top: 6px; color: #666; }
+    .api-status.saved { color: #2e7d32; }
+
+    /* URL入力 */
+    .add-section {
+      background: #fff; border: 1px solid #ddd; border-radius: 10px;
+      padding: 20px; margin-bottom: 16px;
+    }
+    .add-section h2 { font-size: 16px; margin-bottom: 12px; }
+    .url-input-row { display: flex; gap: 8px; margin-bottom: 8px; }
+    .url-input-row input {
+      flex: 1; padding: 10px 14px; border: 1px solid #ccc; border-radius: 8px;
+      font-size: 15px;
+    }
+    .url-input-row input:focus { outline: none; border-color: #ff0000; }
+    .btn-add {
+      padding: 10px 24px; background: #ff0000; color: #fff; border: none;
+      border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-add:hover { background: #cc0000; }
+    .btn-add:disabled { background: #ccc; cursor: not-allowed; }
+    .add-status { font-size: 13px; min-height: 20px; }
+    .add-status.error { color: #c62828; }
+    .add-status.loading { color: #1565c0; }
+    .add-status.success { color: #2e7d32; }
+
+    /* カテゴリ選択 */
+    .category-select { margin-top: 10px; }
+    .category-select label { font-size: 13px; color: #666; margin-right: 8px; }
+    .category-select select {
+      padding: 6px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;
+    }
+
+    /* 動画リスト */
+    .list-section {
+      background: #fff; border: 1px solid #ddd; border-radius: 10px;
+      padding: 20px; margin-bottom: 16px;
+    }
+    .list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .list-header h2 { font-size: 16px; }
+    .list-header .count { color: #666; font-size: 14px; }
+
+    .video-item {
+      display: flex; gap: 12px; padding: 12px 0;
+      border-bottom: 1px solid #eee; align-items: flex-start;
+    }
+    .video-item:last-child { border-bottom: none; }
+    .video-item img {
+      width: 120px; height: 68px; object-fit: cover;
+      border-radius: 6px; flex-shrink: 0; background: #000;
+    }
+    .video-item-info { flex: 1; min-width: 0; }
+    .video-item-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .video-item-meta { font-size: 12px; color: #666; margin-bottom: 4px; }
+    .video-item-cat {
+      display: inline-block; padding: 2px 8px; background: #f2f2f2;
+      border-radius: 4px; font-size: 11px; color: #666;
+    }
+    .video-item-actions { display: flex; gap: 6px; flex-shrink: 0; align-items: flex-start; }
+    .btn-up, .btn-down, .btn-del {
+      width: 32px; height: 32px; border: 1px solid #ddd; border-radius: 6px;
+      background: #fff; cursor: pointer; font-size: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .btn-up:hover, .btn-down:hover { background: #f0f0f0; }
+    .btn-del { color: #c62828; border-color: #e0b0b0; }
+    .btn-del:hover { background: #fce4ec; }
+
+    .empty-list { text-align: center; padding: 32px; color: #999; font-size: 14px; }
+
+    /* エクスポート */
+    .export-section {
+      background: #fff; border: 1px solid #ddd; border-radius: 10px;
+      padding: 20px; margin-bottom: 16px;
+    }
+    .export-section h2 { font-size: 16px; margin-bottom: 12px; }
+    .export-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn-export {
+      padding: 10px 20px; background: #1565c0; color: #fff; border: none;
+      border-radius: 8px; font-size: 14px; cursor: pointer;
+    }
+    .btn-export:hover { background: #0d47a1; }
+    .btn-export:disabled { background: #ccc; cursor: not-allowed; }
+    .btn-export.secondary { background: #333; }
+    .btn-export.secondary:hover { background: #555; }
+
+    /* インポート */
+    .import-section {
+      background: #fff; border: 1px solid #ddd; border-radius: 10px;
+      padding: 20px; margin-bottom: 16px;
+    }
+    .import-section h2 { font-size: 16px; margin-bottom: 12px; }
+    .import-desc { font-size: 13px; color: #666; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>動画管理ツール</h1>
+    <p class="subtitle">YouTube URLから動画情報を自動取得して videos.json を管理します</p>
+
+    <!-- APIキー設定 -->
+    <div class="api-section">
+      <label>YouTube Data API キー</label>
+      <div class="api-row">
+        <input type="password" id="apiKeyInput" placeholder="AIza...">
+        <button onclick="saveApiKey()">保存</button>
+      </div>
+      <div class="api-status" id="apiStatus">※ APIキーはブラウザのローカルストレージに保存されます</div>
+    </div>
+
+    <!-- 既存データ読み込み -->
+    <div class="import-section">
+      <h2>既存の videos.json を読み込み</h2>
+      <p class="import-desc">既にデータがある場合はファイルを選択してください。なければスキップしてOKです。</p>
+      <input type="file" id="importFile" accept=".json">
+    </div>
+
+    <!-- URL入力 -->
+    <div class="add-section">
+      <h2>動画を追加</h2>
+      <div class="url-input-row">
+        <input type="text" id="urlInput" placeholder="YouTube URL を貼り付け (例: https://www.youtube.com/watch?v=xxxxx)">
+        <button class="btn-add" id="addBtn" onclick="addVideo()">追加</button>
+      </div>
+      <div class="category-select">
+        <label>カテゴリ:</label>
+        <select id="categorySelect">
+          <option value="short">ショート</option>
+          <option value="inazuma">イナイレV</option>
+          <option value="pokepoke">ポケポケ</option>
+          <option value="minecraft">マイクラ</option>
+        </select>
+      </div>
+      <div class="add-status" id="addStatus"></div>
+    </div>
+
+    <!-- 動画リスト -->
+    <div class="list-section">
+      <div class="list-header">
+        <h2>動画リスト</h2>
+        <span class="count" id="videoCount">0本</span>
+      </div>
+      <div id="videoList">
+        <div class="empty-list">動画がありません。URLを入力して追加してください。</div>
+      </div>
+    </div>
+
+    <!-- エクスポート -->
+    <div class="export-section">
+      <h2>エクスポート</h2>
+      <div class="export-btns">
+        <button class="btn-export" onclick="exportJson()">videos.json をダウンロード</button>
+        <button class="btn-export secondary" onclick="openGenerate()">generate.html で全ページ生成 →</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let videos = [];
+
+    // ===== APIキー管理 =====
+    const apiKeyInput = document.getElementById("apiKeyInput");
+    const apiStatus = document.getElementById("apiStatus");
+
+    // 保存済みキーを復元
+    const savedKey = localStorage.getItem("yt_api_key");
+    if (savedKey) {
+      apiKeyInput.value = savedKey;
+      apiStatus.textContent = "APIキー設定済み";
+      apiStatus.className = "api-status saved";
+    }
+
+    function saveApiKey() {
+      const key = apiKeyInput.value.trim();
+      if (!key) return;
+      localStorage.setItem("yt_api_key", key);
+      apiStatus.textContent = "APIキーを保存しました";
+      apiStatus.className = "api-status saved";
+    }
+
+    function getApiKey() {
+      return apiKeyInput.value.trim() || localStorage.getItem("yt_api_key") || "";
+    }
+
+    // ===== 既存データ読み込み =====
+    document.getElementById("importFile").addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          if (Array.isArray(data)) {
+            videos = data;
+            renderList();
+            setStatus(`${videos.length}本の動画を読み込みました`, "success");
+          }
+        } catch (err) {
+          setStatus("JSONの読み込みに失敗: " + err.message, "error");
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    // ===== YouTube URL解析 =====
+    function extractVideoId(url) {
+      const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/,
+        /^([a-zA-Z0-9_-]{11})$/
+      ];
+      for (const p of patterns) {
+        const m = url.match(p);
+        if (m) return m[1];
+      }
+      return null;
+    }
+
+    // ===== 動画追加 =====
+    async function addVideo() {
+      const urlInput = document.getElementById("urlInput");
+      const url = urlInput.value.trim();
+      const category = document.getElementById("categorySelect").value;
+
+      if (!url) { setStatus("URLを入力してください", "error"); return; }
+
+      const videoId = extractVideoId(url);
+      if (!videoId) { setStatus("有効なYouTube URLではありません", "error"); return; }
+
+      // 重複チェック
+      if (videos.some(v => v.id === videoId)) {
+        setStatus("この動画は既に追加されています", "error");
+        return;
+      }
+
+      const apiKey = getApiKey();
+      if (!apiKey) { setStatus("APIキーを設定してください", "error"); return; }
+
+      setStatus("動画情報を取得中...", "loading");
+      document.getElementById("addBtn").disabled = true;
+
+      try {
+        const res = await fetch(
+          `https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id=${videoId}&key=${apiKey}`
+        );
+        const data = await res.json();
+
+        if (data.error) {
+          setStatus("APIエラー: " + data.error.message, "error");
+          return;
+        }
+
+        if (!data.items || data.items.length === 0) {
+          setStatus("動画が見つかりませんでした", "error");
+          return;
+        }
+
+        const item = data.items[0];
+        const snippet = item.snippet;
+        const stats = item.statistics;
+        const duration = parseDuration(item.contentDetails.duration);
+
+        const video = {
+          id: videoId,
+          title: snippet.title,
+          category: category,
+          date: snippet.publishedAt.split("T")[0],
+          views: Number(stats.viewCount).toLocaleString(),
+          duration: duration,
+          description: snippet.description.split("\n")[0].substring(0, 200)
+        };
+
+        videos.push(video);
+        renderList();
+        urlInput.value = "";
+        setStatus(`「${video.title}」を追加しました`, "success");
+
+      } catch (err) {
+        setStatus("取得に失敗: " + err.message, "error");
+      } finally {
+        document.getElementById("addBtn").disabled = false;
+      }
+    }
+
+    // ISO 8601 duration → "mm:ss" or "h:mm:ss"
+    function parseDuration(iso) {
+      const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+      if (!m) return "0:00";
+      const h = parseInt(m[1] || 0);
+      const min = parseInt(m[2] || 0);
+      const sec = parseInt(m[3] || 0);
+      if (h > 0) return `${h}:${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+      return `${min}:${String(sec).padStart(2, "0")}`;
+    }
+
+    // ===== ステータス表示 =====
+    function setStatus(msg, type = "") {
+      const el = document.getElementById("addStatus");
+      el.textContent = msg;
+      el.className = "add-status " + type;
+    }
+
+    // ===== 動画リスト表示 =====
+    const categoryLabel = {
+      short: "ショート",
+      inazuma: "イナイレV",
+      pokepoke: "ポケポケ",
+      minecraft: "マイクラ"
+    };
+
+    function renderList() {
+      const list = document.getElementById("videoList");
+      const count = document.getElementById("videoCount");
+      count.textContent = `${videos.length}本`;
+
+      if (videos.length === 0) {
+        list.innerHTML = '<div class="empty-list">動画がありません。URLを入力して追加してください。</div>';
+        return;
+      }
+
+      list.innerHTML = videos.map((v, i) => `
+        <div class="video-item">
+          <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="">
+          <div class="video-item-info">
+            <div class="video-item-title">${escHtml(v.title)}</div>
+            <div class="video-item-meta">${v.views}回視聴 ・ ${v.date} ・ ${v.duration}</div>
+            <span class="video-item-cat">${categoryLabel[v.category] || v.category}</span>
+          </div>
+          <div class="video-item-actions">
+            <button class="btn-up" onclick="moveVideo(${i},-1)" title="上に移動" ${i === 0 ? 'disabled' : ''}>↑</button>
+            <button class="btn-down" onclick="moveVideo(${i},1)" title="下に移動" ${i === videos.length - 1 ? 'disabled' : ''}>↓</button>
+            <button class="btn-del" onclick="deleteVideo(${i})" title="削除">×</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function escHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function moveVideo(index, dir) {
+      const newIndex = index + dir;
+      if (newIndex < 0 || newIndex >= videos.length) return;
+      [videos[index], videos[newIndex]] = [videos[newIndex], videos[index]];
+      renderList();
+    }
+
+    function deleteVideo(index) {
+      const title = videos[index].title;
+      if (confirm(`「${title}」を削除しますか？`)) {
+        videos.splice(index, 1);
+        renderList();
+      }
+    }
+
+    // ===== エクスポート =====
+    function exportJson() {
+      if (videos.length === 0) { alert("動画がありません"); return; }
+      const json = JSON.stringify(videos, null, 2);
+      const blob = new Blob([json], { type: "application/json;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "videos.json";
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    function openGenerate() {
+      window.open("generate.html", "_blank");
+    }
+
+    // ===== Enter キーで追加 =====
+    document.getElementById("urlInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") addVideo();
+    });
+  </script>
+</body>
+</html>
