@@ -83,9 +83,32 @@
 .video-content-body {
   font-size: 15px;
   color: var(--text-primary);
-  line-height: 2.0;
-  white-space: pre-wrap;
+  line-height: 1.9;
   word-wrap: break-word;
+}
+
+.video-content-body h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 24px 0 8px;
+  padding-left: 10px;
+  border-left: 3px solid var(--accent);
+}
+
+.video-content-body h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 16px 0 6px;
+}
+
+.video-content-body p {
+  margin: 0 0 12px;
+}
+
+.video-content-body strong {
+  color: var(--accent);
 }
 
 /* 関連動画セクション */

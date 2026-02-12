@@ -54,7 +54,7 @@
       log.scrollTop = log.scrollHeight;
     }
 
-    const SITE_URL = "https://yuuki030912.github.io/yamamu-portfolio"; // ← デプロイ先URL
+    const SITE_URL = "https://yamamu-youtube.jp"; // ← デプロイ先URL
 
     const categoryLabel = {
       short: "ショート",
@@ -113,7 +113,7 @@
 
     function generateSitemap() {
       const urls = videos.map(v => `  <url>
-    <loc>${SITE_URL}/video-${v.id}.html</loc>
+    <loc>${SITE_URL}/video-${v.category}-${v.id}.html</loc>
     <lastmod>${v.date}</lastmod>
     <changefreq>monthly</changefreq>
   </url>`).join("\n");
@@ -132,10 +132,87 @@ ${urls}
       addLog("✓ sitemap.xml をダウンロードしました", "success");
     }
 
+    // ===== Markdown風テキスト → リッチHTML変換 =====
+    function contentToHtml(text) {
+      if (!text) return "";
+      // 各行を処理
+      const lines = text.split("\n");
+      let html = "";
+      let inList = false;
+
+      for (let i = 0; i < lines.length; i++) {
+        let line = lines[i].trim();
+        if (!line) {
+          if (inList) { html += "</ul>\n"; inList = false; }
+          continue;
+        }
+
+        // ### 見出し → <h3>
+        if (line.startsWith("### ")) {
+          if (inList) { html += "</ul>\n"; inList = false; }
+          html += `<h4>${escHtml(line.slice(4))}</h4>\n`;
+          continue;
+        }
+        // ## 見出し → <h3>
+        if (line.startsWith("## ")) {
+          if (inList) { html += "</ul>\n"; inList = false; }
+          html += `<h3>${escHtml(line.slice(3))}</h3>\n`;
+          continue;
+        }
+        // ** で囲まれた行（見出し風）
+        if (/^\*\*(.+)\*\*$/.test(line)) {
+          if (inList) { html += "</ul>\n"; inList = false; }
+          const inner = line.match(/^\*\*(.+)\*\*$/)[1];
+          html += `<h3>${escHtml(inner)}</h3>\n`;
+          continue;
+        }
+        // 行頭が ① ② 等の番号見出し
+        if (/^[①②③④⑤⑥⑦⑧⑨⑩]\s/.test(line)) {
+          if (inList) { html += "</ul>\n"; inList = false; }
+          html += `<h4>${escHtml(line)}</h4>\n`;
+          continue;
+        }
+        // Q. で始まる行（FAQ）
+        if (/^Q[\.\．]/.test(line)) {
+          if (inList) { html += "</ul>\n"; inList = false; }
+          html += `<p><strong>${escHtml(line)}</strong>`;
+          // 次行が A. なら続ける
+          if (i + 1 < lines.length && /^A[\.\．]/.test(lines[i + 1].trim())) {
+            html += `<br>${escHtml(lines[i + 1].trim())}</p>\n`;
+            i++;
+          } else {
+            html += `</p>\n`;
+          }
+          continue;
+        }
+        // --- 区切り線
+        if (/^---+$/.test(line)) {
+          if (inList) { html += "</ul>\n"; inList = false; }
+          continue; // 区切り線は無視
+        }
+        // 箇条書き（行頭 - や ・）
+        if (/^[-・]\s/.test(line)) {
+          if (!inList) { html += "<ul>\n"; inList = true; }
+          html += `<li>${escHtml(line.slice(2))}</li>\n`;
+          continue;
+        }
+        // 通常テキスト → <p>
+        if (inList) { html += "</ul>\n"; inList = false; }
+        // **太字** をインライン処理
+        let processed = escHtml(line).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+        html += `<p>${processed}</p>\n`;
+      }
+      if (inList) html += "</ul>\n";
+      return html;
+    }
+
     function generateVideoPage(video) {
-      const relatedVideos = videos.filter(v => v.id !== video.id).slice(0, 4);
+      // 同カテゴリ優先 → 足りない分は他カテゴリで補完（最大4本）
+      const sameCategory = videos.filter(v => v.id !== video.id && v.category === video.category);
+      const otherCategory = videos.filter(v => v.id !== video.id && v.category !== video.category);
+      const relatedVideos = [...sameCategory, ...otherCategory].slice(0, 4);
       const relatedCards = relatedVideos.map(v => `
-        <a href="video-${v.id}.html" class="video-card">
+        <a href="video-${v.category}-${v.id}.html" class="video-card">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="${escHtml(v.title)}" loading="lazy">
             <span class="video-duration">${v.duration}</span>
@@ -156,14 +233,14 @@ ${urls}
   <title>${escHtml(video.title)} | やまむー【yamamu】</title>
   <meta name="description" content="${escHtml((video.content || video.description).substring(0, 160))}">
   ${video.tags ? `<meta name="keywords" content="${escHtml(video.tags.join(', '))}">` : ""}
-  <link rel="canonical" href="${SITE_URL}/video-${video.id}.html">
+  <link rel="canonical" href="${SITE_URL}/video-${video.category}-${video.id}.html">
 
   <!-- OGP (SNS共有用) -->
   <meta property="og:type" content="video.other">
   <meta property="og:title" content="${escHtml(video.title)}">
   <meta property="og:description" content="${escHtml((video.content || video.description).substring(0, 200))}">
   <meta property="og:image" content="https://img.youtube.com/vi/${video.id}/maxresdefault.jpg">
-  <meta property="og:url" content="${SITE_URL}/video-${video.id}.html">
+  <meta property="og:url" content="${SITE_URL}/video-${video.category}-${video.id}.html">
   <meta property="og:site_name" content="やまむー【yamamu】">
   <meta property="og:video" content="https://www.youtube.com/embed/${video.id}">
 
@@ -244,16 +321,20 @@ ${urls}
       <span>${video.views}回視聴</span>
       <span>${video.date}</span>
       <span class="video-category-tag">${categoryLabel[video.category] || video.category}</span>
-      ${video.tags ? video.tags.map(t => `<span class="video-tag">${escHtml(t)}</span>`).join(" ") : ""}
     </div>
     <div class="video-detail-description">${escHtml(video.description)}</div>
+    ${video.tags ? `
+    <!-- タグ -->
+    <div class="video-tags" style="margin-top:12px; display:flex; flex-wrap:wrap; gap:6px;">
+      ${video.tags.map(t => `<span class="video-tag">${escHtml(t)}</span>`).join("\n      ")}
+    </div>` : ""}
   </article>
 
   ${video.content ? `
-  <!-- 動画について (SEOリッチコンテンツ) -->
+  <!-- リッチコンテンツ（SEO用 記事本文） -->
   <section class="video-content-section">
-    <h2 class="video-content-heading">動画について</h2>
-    <div class="video-content-body">${escHtml(video.content)}</div>
+    <h2 class="video-content-heading">動画の内容まとめ</h2>
+    <div class="video-content-body">${contentToHtml(video.content)}</div>
   </section>
   ` : ""}
 
@@ -304,7 +385,7 @@ ${urls}
       addLog(`\n個別ページを生成中（${videos.length}本）...`, "info");
       for (let i = 0; i < videos.length; i++) {
         const v = videos[i];
-        const filename = `video-${v.id}.html`;
+        const filename = `video-${v.category}-${v.id}.html`;
         const html = generateVideoPage(v);
         downloadFile(filename, html);
         addLog(`✓ ${filename}  - ${v.title}`, "success");
@@ -321,7 +402,7 @@ ${urls}
       addLog(`  - ${videos.length}個の動画ページ`);
       addLog(`  - sitemap.xml`);
       addLog(`\nダウンロードされたファイルをプロジェクトフォルダに移動してください。`);
-      addLog(`※ SITE_URL を自分のドメインに変更してください（現在: ${SITE_URL}）`);
+      addLog(`サイトURL: ${SITE_URL}`);
     }
   </script>
 </body>
