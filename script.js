@@ -13,7 +13,7 @@ let currentSearch = "";
 function createVideoCard(video) {
   const card = document.createElement("a");
   card.className = "video-card";
-  card.href = `video-${video.id}.html`;
+  card.href = `video-${video.category}-${video.id}.html`;
   card.setAttribute("data-category", video.category);
 
   const categoryLabel = {
