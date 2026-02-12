@@ -63,12 +63,17 @@ body {
   align-items: center;
   gap: 8px;
   cursor: pointer;
+  flex-shrink: 0;
+  min-width: 0;
 }
 
 .logo-text {
   font-size: 18px;
   font-weight: 700;
   color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .header-center {
@@ -440,8 +445,17 @@ body {
 
 /* ===== レスポンシブ ===== */
 @media (max-width: 768px) {
+  .logo-text {
+    font-size: 15px;
+  }
+
+  .header-icon {
+    width: 28px;
+    height: 28px;
+  }
+
   .header-center {
-    margin: 0 12px;
+    margin: 0 8px;
   }
 
   .channel-info {
@@ -465,6 +479,19 @@ body {
 }
 
 @media (max-width: 480px) {
+  .logo-text {
+    font-size: 13px;
+  }
+
+  .header-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .header {
+    padding: 0 8px;
+  }
+
   .video-grid {
     grid-template-columns: 1fr;
   }
