@@ -3,35 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>やまむー - ゲーム攻略解説まとめ</title>
-  <meta name="description" content="やまむー【yamamu】の動画ポートフォリオサイト。イナズマイレブン・マイクラ・ポケモンのゲーム実況＆解説動画を公開しています。">
+  <title>やまむー【yamamu】イナイレV攻略・ゲーム実況解説まとめ</title>
+  <meta name="description" content="やまむー【yamamu】のゲーム攻略サイト。イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の最強装備・ビーンズ・アプデ情報・KP上昇など対戦攻略を動画と記事で解説。マイクラ・ポケポケの実況も公開中。">
+  <meta name="keywords" content="やまむー, yamamu, イナイレV, イナズマイレブン, イナイレ攻略, 英雄たちのヴィクトリーロード, 最強装備, ビーンズ, KP上昇, アプデ, ゲーム実況">
+  <link rel="canonical" href="https://yamamu-youtube.jp/">
+  <meta name="google-site-verification" content="EBRfXcCa1aJa6JIc-OMNkl45UK8_rRyl6QtdaW7iBiE" />
+
+  <!-- OGP -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="やまむー - ゲーム攻略解説まとめ">
-  <meta property="og:description" content="イナズマイレブン・マイクラ・ポケモンのゲーム実況＆解説動画を公開しています。">
+  <meta property="og:title" content="やまむー【yamamu】イナイレV攻略・ゲーム実況解説まとめ">
+  <meta property="og:description" content="イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の最強装備・ビーンズ・アプデ情報・対戦攻略を動画と記事で解説。">
+  <meta property="og:url" content="https://yamamu-youtube.jp/">
   <meta property="og:site_name" content="やまむー【yamamu】">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="https://yamamu-youtube.jp/icon.png">
+  <meta property="og:locale" content="ja_JP">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="やまむー【yamamu】イナイレV攻略・ゲーム実況解説まとめ">
+  <meta name="twitter:description" content="イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の攻略を動画と記事で解説。">
+  <meta name="twitter:image" content="https://yamamu-youtube.jp/icon.png">
+
+  <!-- JSON-LD: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "やまむー【yamamu】イナイレV攻略・ゲーム実況解説まとめ",
+    "url": "https://yamamu-youtube.jp/",
+    "description": "イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の最強装備・ビーンズ・アプデ情報・対戦攻略を動画と記事で解説するゲーム攻略サイト。",
+    "inLanguage": "ja",
+    "publisher": {
+      "@type": "Organization",
+      "name": "やまむー【yamamu】",
+      "url": "https://yamamu-youtube.jp",
+      "sameAs": [
+        "https://www.youtube.com/@yamamu",
+        "https://twitter.com/YamamuGaming"
+      ]
+    }
+  }
+  </script>
+
+  <!-- JSON-LD: ItemList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "イナイレV攻略動画一覧",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "url": "https://yamamu-youtube.jp/video-inazuma-KbPbGgBTkwQ.html",
+        "name": "【イナイレV】ポジション別おすすめ最強装備＆ビーンズの付け方"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "url": "https://yamamu-youtube.jp/video-inazuma-8Nq0oy4qOBw.html",
+        "name": "【イナイレV】アプデ後話題のKP上昇を使ったら強すぎた件"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "url": "https://yamamu-youtube.jp/video-inazuma-384dA6UW7D0.html",
+        "name": "【イナイレV】最新アプデ仕様まとめ！ラフ超弱体化で正義一強？"
+      }
+    ]
+  }
+  </script>
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!-- ヘッダー -->
   <header class="header">
     <div class="header-left">
-      <img src="icon.png" alt="やまむー" class="header-icon">
+      <img src="icon.png" alt="やまむー" class="header-icon" width="32" height="32">
       <span class="logo-text">やまむー</span>
     </div>
     <div class="header-center">
       <div class="search-box">
+        <label for="searchInput" class="sr-only">動画を検索</label>
         <input type="text" id="searchInput" placeholder="動画を検索...">
-        <button id="searchBtn" class="search-btn">
-          <svg viewBox="0 0 24 24" width="20" height="20">
+        <button id="searchBtn" class="search-btn" aria-label="検索">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
             <path fill="#606060" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
           </svg>
         </button>
       </div>
     </div>
     <div class="header-right">
-      <button class="theme-toggle" id="themeToggle" title="テーマ切替">
-        <svg viewBox="0 0 24 24" width="22" height="22">
+      <button class="theme-toggle" id="themeToggle" title="テーマ切替" aria-label="ダークモード切替">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
           <path id="themeIcon" fill="#606060" d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
         </svg>
       </button>
@@ -43,28 +108,27 @@
     <div class="banner-overlay">
       <div class="channel-info">
         <div class="channel-avatar">
-          <img src="icon.png" alt="やまむー">
+          <img src="icon.png" alt="やまむー" width="80" height="80">
         </div>
         <div class="channel-details">
           <h1 class="channel-name">やまむー【yamamu】</h1>
           <p class="channel-handle">@yamamu</p>
-          <p class="channel-stats">ゲーム実況＆解説チャンネル</p>
-          <p class="channel-description">🌟【ゲーム実況＆解説】イナズマイレブン・マイクラ・ポケモンを本気で楽しむチャンネル！
-Twitter（X）：@YamamuGaming
-お仕事用メールアドレス：yamamu0309@gmail.com
-※お仕事のご連絡はX（旧Twitter）のDMでもOKです。</p>
+          <p class="channel-stats">イナイレV攻略・ゲーム実況＆解説チャンネル</p>
+          <p class="channel-description">イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）を中心に、マイクラ・ポケポケなどゲーム攻略＆実況動画を配信中！
+最強装備・ビーンズ・アプデ情報・KP上昇戦術など、対戦に役立つ攻略情報をお届けします。
+Twitter（X）：@YamamuGaming</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- カテゴリフィルター -->
-  <nav class="category-bar">
+  <nav class="category-bar" aria-label="カテゴリ選択">
     <button class="category-chip active" data-category="all">すべて</button>
-    <button class="category-chip" data-category="short">ショート</button>
     <button class="category-chip" data-category="inazuma">イナイレV</button>
     <button class="category-chip" data-category="pokepoke">ポケポケ</button>
     <button class="category-chip" data-category="minecraft">マイクラ</button>
+    <button class="category-chip" data-category="short">ショート</button>
   </nav>
 
   <!-- 動画グリッド -->
@@ -72,8 +136,30 @@ Twitter（X）：@YamamuGaming
     <!-- 動画は JavaScript で動的に生成 -->
   </main>
 
+  <!-- SEO用テキストコンテンツ -->
+  <section class="seo-content" style="max-width:960px; margin:0 auto; padding:24px;">
+    <h2 style="font-size:20px; margin-bottom:12px; color:var(--text-primary);">イナイレV（イナズマイレブン英雄たちのヴィクトリーロード）攻略情報</h2>
+    <p style="font-size:14px; color:var(--text-secondary); line-height:1.8; margin-bottom:16px;">
+      当サイトでは、イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の対戦攻略を中心に、最新アップデート情報・最強装備考察・ビーンズの付け方・KP上昇戦術・テンション管理・シュートチェイン対策など、オンライン対戦で勝つための攻略情報を動画と記事で解説しています。
+    </p>
+    <h3 style="font-size:16px; margin-bottom:8px; color:var(--text-primary);">最新の攻略記事</h3>
+    <ul style="font-size:14px; color:var(--text-secondary); line-height:2; padding-left:20px; margin-bottom:16px;">
+      <li><a href="video-inazuma-KbPbGgBTkwQ.html" style="color:var(--text-primary); text-decoration:underline;">ポジション別おすすめ最強装備＆ビーンズの付け方（アレス/バサラ/シード対応）</a></li>
+      <li><a href="video-inazuma-8Nq0oy4qOBw.html" style="color:var(--text-primary); text-decoration:underline;">KP上昇は本当に強い？現環境での評価と使いどころを解説</a></li>
+      <li><a href="video-inazuma-384dA6UW7D0.html" style="color:var(--text-primary); text-decoration:underline;">最新アプデ仕様まとめ！ラフプレイ弱体化・技巧コンボ変更点</a></li>
+    </ul>
+    <h3 style="font-size:16px; margin-bottom:8px; color:var(--text-primary);">このサイトについて</h3>
+    <p style="font-size:14px; color:var(--text-secondary); line-height:1.8;">
+      やまむー【yamamu】はイナイレV・マイクラ・ポケポケのゲーム攻略動画を配信するYouTubeチャンネルです。動画では伝えきれない詳細な攻略情報を、記事形式でまとめて公開しています。
+    </p>
+  </section>
+
   <!-- フッター -->
   <footer class="footer">
+    <nav aria-label="フッターナビゲーション" style="margin-bottom:8px;">
+      <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank" style="color:var(--text-secondary); margin:0 8px; text-decoration:none; font-size:13px;">YouTube</a>
+      <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank" style="color:var(--text-secondary); margin:0 8px; text-decoration:none; font-size:13px;">X (Twitter)</a>
+    </nav>
     <p>&copy; 2026 やまむー【yamamu】. All rights reserved.</p>
   </footer>
 
