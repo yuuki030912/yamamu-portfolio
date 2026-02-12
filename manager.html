@@ -99,6 +99,29 @@
 
     .empty-list { text-align: center; padding: 32px; color: #999; font-size: 14px; }
 
+    /* SEOフィールド */
+    .seo-fields { margin-top: 12px; }
+    .seo-fields label { font-size: 13px; color: #666; display: block; margin-bottom: 4px; margin-top: 10px; }
+    .seo-fields textarea {
+      width: 100%; padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px;
+      font-size: 14px; font-family: inherit; resize: vertical; min-height: 80px;
+    }
+    .seo-fields input[type="text"] {
+      width: 100%; padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px;
+      font-size: 14px;
+    }
+    .seo-fields textarea:focus, .seo-fields input[type="text"]:focus {
+      outline: none; border-color: #ff0000;
+    }
+    .badge-seo {
+      display: inline-block; padding: 1px 6px; background: #e8f5e9; color: #2e7d32;
+      border-radius: 4px; font-size: 10px; margin-left: 4px; font-weight: 600;
+    }
+    .badge-tags {
+      display: inline-block; padding: 1px 6px; background: #e3f2fd; color: #1565c0;
+      border-radius: 4px; font-size: 10px; margin-left: 4px; font-weight: 600;
+    }
+
     /* エクスポート */
     .export-section {
       background: #fff; border: 1px solid #ddd; border-radius: 10px;
@@ -161,6 +184,12 @@
           <option value="pokepoke">ポケポケ</option>
           <option value="minecraft">マイクラ</option>
         </select>
+      </div>
+      <div class="seo-fields">
+        <label>SEO詳細コンテンツ（任意 - 動画ページに「動画について」セクションとして表示されます）</label>
+        <textarea id="contentInput" placeholder="動画の詳しい説明やSEO向けの記事を入力...&#10;改行もそのまま反映されます。"></textarea>
+        <label>タグ（任意 - カンマ区切りで入力）</label>
+        <input type="text" id="tagsInput" placeholder="例: イナズマイレブン, イナイレV, 攻略, ゲーム実況">
       </div>
       <div class="add-status" id="addStatus"></div>
     </div>
@@ -290,6 +319,9 @@
         const stats = item.statistics;
         const duration = parseDuration(item.contentDetails.duration);
 
+        const contentVal = document.getElementById("contentInput").value.trim();
+        const tagsVal = document.getElementById("tagsInput").value.trim();
+
         const video = {
           id: videoId,
           title: snippet.title,
@@ -300,9 +332,15 @@
           description: snippet.description.split("\n")[0].substring(0, 200)
         };
 
+        // SEOオプショナルフィールド
+        if (contentVal) video.content = contentVal;
+        if (tagsVal) video.tags = tagsVal.split(",").map(t => t.trim()).filter(t => t);
+
         videos.push(video);
         renderList();
         urlInput.value = "";
+        document.getElementById("contentInput").value = "";
+        document.getElementById("tagsInput").value = "";
         setStatus(`「${video.title}」を追加しました`, "success");
 
       } catch (err) {
@@ -355,6 +393,8 @@
             <div class="video-item-title">${escHtml(v.title)}</div>
             <div class="video-item-meta">${v.views}回視聴 ・ ${v.date} ・ ${v.duration}</div>
             <span class="video-item-cat">${categoryLabel[v.category] || v.category}</span>
+            ${v.content ? '<span class="badge-seo">SEO記事あり</span>' : ''}
+            ${v.tags && v.tags.length ? `<span class="badge-tags">${v.tags.length}タグ</span>` : ''}
           </div>
           <div class="video-item-actions">
             <button class="btn-up" onclick="moveVideo(${i},-1)" title="上に移動" ${i === 0 ? 'disabled' : ''}>↑</button>

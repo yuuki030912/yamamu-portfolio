@@ -89,6 +89,13 @@
       return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
     }
 
+    // "22:47" → "PT22M47S", "4:02" → "PT4M2S"
+    function toISO8601Duration(dur) {
+      const parts = dur.split(":").map(Number);
+      if (parts.length === 3) return `PT${parts[0]}H${parts[1]}M${parts[2]}S`;
+      return `PT${parts[0]}M${parts[1]}S`;
+    }
+
     function downloadFile(filename, content, type = "text/html") {
       const blob = new Blob([content], { type: type + ";charset=utf-8" });
       const a = document.createElement("a");
@@ -147,13 +154,14 @@ ${urls}
 
   <!-- SEO 基本タグ -->
   <title>${escHtml(video.title)} | やまむー【yamamu】</title>
-  <meta name="description" content="${escHtml(video.description)}">
+  <meta name="description" content="${escHtml((video.content || video.description).substring(0, 160))}">
+  ${video.tags ? `<meta name="keywords" content="${escHtml(video.tags.join(', '))}">` : ""}
   <link rel="canonical" href="${SITE_URL}/video-${video.id}.html">
 
   <!-- OGP (SNS共有用) -->
   <meta property="og:type" content="video.other">
   <meta property="og:title" content="${escHtml(video.title)}">
-  <meta property="og:description" content="${escHtml(video.description)}">
+  <meta property="og:description" content="${escHtml((video.content || video.description).substring(0, 200))}">
   <meta property="og:image" content="https://img.youtube.com/vi/${video.id}/maxresdefault.jpg">
   <meta property="og:url" content="${SITE_URL}/video-${video.id}.html">
   <meta property="og:site_name" content="やまむー【yamamu】">
@@ -162,7 +170,7 @@ ${urls}
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${escHtml(video.title)}">
-  <meta name="twitter:description" content="${escHtml(video.description)}">
+  <meta name="twitter:description" content="${escHtml((video.content || video.description).substring(0, 200))}">
   <meta name="twitter:image" content="https://img.youtube.com/vi/${video.id}/maxresdefault.jpg">
 
   <!-- JSON-LD 構造化データ (Google検索用) -->
@@ -171,11 +179,13 @@ ${urls}
     "@context": "https://schema.org",
     "@type": "VideoObject",
     "name": ${JSON.stringify(video.title)},
-    "description": ${JSON.stringify(video.description)},
+    "description": ${JSON.stringify(video.content || video.description)},
     "thumbnailUrl": "https://img.youtube.com/vi/${video.id}/maxresdefault.jpg",
     "uploadDate": "${video.date}",
+    "duration": "${toISO8601Duration(video.duration)}",
     "contentUrl": "https://www.youtube.com/watch?v=${video.id}",
     "embedUrl": "https://www.youtube.com/embed/${video.id}",
+    ${video.tags ? `"keywords": ${JSON.stringify(video.tags.join(", "))},` : ""}
     "interactionStatistic": {
       "@type": "InteractionCounter",
       "interactionType": { "@type": "WatchAction" },
@@ -234,9 +244,18 @@ ${urls}
       <span>${video.views}回視聴</span>
       <span>${video.date}</span>
       <span class="video-category-tag">${categoryLabel[video.category] || video.category}</span>
+      ${video.tags ? video.tags.map(t => `<span class="video-tag">${escHtml(t)}</span>`).join(" ") : ""}
     </div>
     <div class="video-detail-description">${escHtml(video.description)}</div>
   </article>
+
+  ${video.content ? `
+  <!-- 動画について (SEOリッチコンテンツ) -->
+  <section class="video-content-section">
+    <h2 class="video-content-heading">動画について</h2>
+    <div class="video-content-body">${escHtml(video.content)}</div>
+  </section>
+  ` : ""}
 
   <!-- 関連動画 -->
   <section class="related-section">
