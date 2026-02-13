@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>個別ページ生成ツール</title>
+  <meta name="robots" content="noindex, nofollow">
   <style>
     body { font-family: "Segoe UI", sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; background: #f9f9f9; }
     h1 { margin-bottom: 8px; }
@@ -87,6 +88,20 @@
     // ===== 各種生成関数 =====
     function escHtml(str) {
       return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    // Markdown記法を除去してプレーンテキストにする
+    function stripMarkdown(text) {
+      if (!text) return "";
+      return text
+        .replace(/\*\*(.+?)\*\*/g, "$1")  // **太字** → 太字
+        .replace(/^#{1,6}\s+/gm, "")       // # 見出し → 見出し
+        .replace(/^---+$/gm, "")           // --- 区切り線
+        .replace(/^[-・]\s/gm, "")          // 箇条書き
+        .replace(/\n{2,}/g, " ")           // 改行をスペースに
+        .replace(/\n/g, " ")
+        .replace(/\s{2,}/g, " ")
+        .trim();
     }
 
     // "22:47" → "PT22M47S", "4:02" → "PT4M2S"
@@ -231,14 +246,14 @@ ${urls}
 
   <!-- SEO 基本タグ -->
   <title>${escHtml(video.title)} | やまむー【yamamu】</title>
-  <meta name="description" content="${escHtml((video.content || video.description).substring(0, 160))}">
+  <meta name="description" content="${escHtml(stripMarkdown(video.content || video.description).substring(0, 160))}">
   ${video.tags ? `<meta name="keywords" content="${escHtml(video.tags.join(', '))}">` : ""}
   <link rel="canonical" href="${SITE_URL}/video-${video.category}-${video.id}.html">
 
   <!-- OGP (SNS共有用) -->
   <meta property="og:type" content="video.other">
   <meta property="og:title" content="${escHtml(video.title)}">
-  <meta property="og:description" content="${escHtml((video.content || video.description).substring(0, 200))}">
+  <meta property="og:description" content="${escHtml(stripMarkdown(video.content || video.description).substring(0, 200))}">
   <meta property="og:image" content="https://img.youtube.com/vi/${video.id}/maxresdefault.jpg">
   <meta property="og:url" content="${SITE_URL}/video-${video.category}-${video.id}.html">
   <meta property="og:site_name" content="やまむー【yamamu】">
@@ -247,7 +262,7 @@ ${urls}
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${escHtml(video.title)}">
-  <meta name="twitter:description" content="${escHtml((video.content || video.description).substring(0, 200))}">
+  <meta name="twitter:description" content="${escHtml(stripMarkdown(video.content || video.description).substring(0, 200))}">
   <meta name="twitter:image" content="https://img.youtube.com/vi/${video.id}/maxresdefault.jpg">
 
   <!-- JSON-LD 構造化データ (Google検索用) -->
@@ -276,6 +291,19 @@ ${urls}
   }
   <\/script>
 
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "${SITE_URL}/" },
+      { "@type": "ListItem", "position": 2, "name": "${categoryLabel[video.category] || video.category}", "item": "${SITE_URL}/#${video.category}" },
+      { "@type": "ListItem", "position": 3, "name": "${escHtml(video.title).substring(0, 60)}" }
+    ]
+  }
+  <\/script>
+
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="video.css">
 </head>
@@ -283,7 +311,7 @@ ${urls}
   <!-- ヘッダー -->
   <header class="header">
     <a href="index.html" class="header-left" style="text-decoration:none">
-      <img src="icon.png" alt="やまむー" class="header-icon">
+      <img src="icon.png" alt="やまむー" class="header-icon" width="32" height="32">
       <span class="logo-text">やまむー</span>
     </a>
     <div class="header-right">

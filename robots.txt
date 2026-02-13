@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://yamamu-youtube.jp/sitemap.xml
+
+# 管理ツールはクロールさせない
+Disallow: /generate.html
+Disallow: /manager.html
