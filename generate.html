@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>サイト一括生成ツール</title>
   <meta name="robots" content="noindex, nofollow">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG" crossorigin="anonymous"></script>
   <style>
     body { font-family: "Segoe UI", sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; background: #f9f9f9; }
     h1 { margin-bottom: 8px; }
@@ -431,6 +431,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https://img.youtube.com data:; frame-src https://www.youtube.com; font-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <!-- SEO 基本タグ -->
   <title>${escHtml(video.title)} | やまむー【yamamu】</title>
@@ -529,7 +532,9 @@
     <div class="video-player-container">
       <iframe src="https://www.youtube.com/embed/${video.id}"
         title="${escHtml(video.title)}"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        sandbox="allow-scripts allow-same-origin allow-presentation"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allow="accelerometer; encrypted-media; picture-in-picture"
         allowfullscreen></iframe>
     </div>
   </section>
@@ -585,22 +590,7 @@ ${navLinksHtml}
     <p>&copy; 2026 やまむー【yamamu】. All rights reserved.</p>
   </footer>
 
-  <script>
-    // ダークテーマ
-    const themeToggle = document.getElementById("themeToggle");
-    function setTheme(dark) {
-      document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
-      localStorage.setItem("theme", dark ? "dark" : "light");
-    }
-    themeToggle.addEventListener("click", () => {
-      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-      setTheme(!isDark);
-    });
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark" || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-      setTheme(true);
-    }
-  <\/script>
+  <script src="theme.js"><\/script>
 </body>
 </html>`;
     }
@@ -665,6 +655,9 @@ ${cardsHtml}
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https://img.youtube.com data:; frame-src https://www.youtube.com; font-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <!-- SEO 基本タグ -->
   <title>${escHtml(config.titleSeo)} | やまむー【yamamu】</title>
@@ -805,21 +798,7 @@ ${sectionsHtml}
     <p>&copy; 2026 やまむー【yamamu】. All rights reserved.</p>
   </footer>
 
-  <script>
-    const themeToggle = document.getElementById("themeToggle");
-    function setTheme(dark) {
-      document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
-      localStorage.setItem("theme", dark ? "dark" : "light");
-    }
-    themeToggle.addEventListener("click", () => {
-      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-      setTheme(!isDark);
-    });
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark" || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-      setTheme(true);
-    }
-  <\/script>
+  <script src="theme.js"><\/script>
 </body>
 </html>`;
     }
@@ -857,6 +836,9 @@ ${sectionsHtml}
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https://img.youtube.com data:; frame-src https://www.youtube.com; font-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>やまむー【yamamu】イナイレV攻略・ゲーム実況解説まとめ</title>
   <meta name="description" content="やまむー【yamamu】のゲーム攻略サイト。イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の最強装備・ビーンズ・アプデ情報・KP上昇など対戦攻略を動画と記事で解説。マイクラ・ポケポケの実況も公開中。">
   <meta name="keywords" content="やまむー, yamamu, イナイレV, イナズマイレブン, イナイレ攻略, 英雄たちのヴィクトリーロード, 最強装備, ビーンズ, KP上昇, アプデ, ゲーム実況">

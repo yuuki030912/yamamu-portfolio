@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https://img.youtube.com data:; frame-src https://www.youtube.com; font-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <!-- SEO 基本タグ -->
   <title>【イナイレV】パッシブ継承の仕様とポジション別おすすめパッシブまとめ!!【イナズマイレブン英雄たちのヴィクトリーロード】 | やまむー【yamamu】</title>
@@ -122,7 +125,7 @@
     <div class="video-player-container">
       <iframe src="https://www.youtube.com/embed/Pixll0J9O7k"
         title="【イナイレV】パッシブ継承の仕様とポジション別おすすめパッシブまとめ!!【イナズマイレブン英雄たちのヴィクトリーロード】"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        sandbox="allow-scripts allow-same-origin allow-presentation" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; encrypted-media; picture-in-picture"
         allowfullscreen></iframe>
     </div>
   </section>
@@ -263,21 +266,6 @@
     <p>&copy; 2026 やまむー【yamamu】. All rights reserved.</p>
   </footer>
 
-  <script>
-    // ダークテーマ
-    const themeToggle = document.getElementById("themeToggle");
-    function setTheme(dark) {
-      document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
-      localStorage.setItem("theme", dark ? "dark" : "light");
-    }
-    themeToggle.addEventListener("click", () => {
-      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-      setTheme(!isDark);
-    });
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark" || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-      setTheme(true);
-    }
-  </script>
+  <script src="theme.js"></script>
 </body>
 </html>
