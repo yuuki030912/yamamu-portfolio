@@ -297,6 +297,16 @@
       return "general";
     }
 
+    // ビルドカテゴリ内のサブ分類（タブ切替用）
+    function getBuildSubcategory(video) {
+      const tags = (video.tags || []).join(" ");
+      if (tags.indexOf("正義ビルド") >= 0 || tags.indexOf("正義テンション") >= 0) return "justice";
+      if (tags.indexOf("ラフプレー") >= 0 || tags.indexOf("ラフプレイ") >= 0 || tags.indexOf("ラフビルド") >= 0) return "rough";
+      if (tags.indexOf("カウンター") >= 0) return "counter";
+      if (tags.indexOf("パッシブ継承") >= 0) return "passive-inherit";
+      return "other";
+    }
+
     function generateFAQ(video) {
       const content = video.content || "";
       const faqs = [];
@@ -889,7 +899,9 @@ ${sectionsHtml}
 
       // 動画カード
       const sorted = themeVideos.slice().sort((a, b) => parseInt(b.views.replace(/,/g, "")) - parseInt(a.views.replace(/,/g, "")));
-      const cardsHtml = sorted.map(v => `        <a href="video-${v.category}-${v.id}.html" class="video-card">
+      const cardsHtml = sorted.map(v => {
+        const subcatAttr = themeKey === "build" ? ` data-subcategory="${getBuildSubcategory(v)}"` : "";
+        return `        <a href="video-${v.category}-${v.id}.html" class="video-card"${subcatAttr}>
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="${escHtml(v.title).substring(0, 40)}" loading="lazy">
             <span class="video-duration">${v.duration}</span>
@@ -898,7 +910,8 @@ ${sectionsHtml}
             <h3 class="video-title">${escHtml(v.title)}</h3>
             <p class="video-meta">${v.views}回視聴</p>
           </div>
-        </a>`).join("\n");
+        </a>`;
+      }).join("\n");
 
       // 関連テーマリンク（他の5テーマ）
       const otherThemes = Object.entries(config.themes)
@@ -931,6 +944,20 @@ ${sectionsHtml}
         const isActive = item.href === activeHref ? " active" : "";
         return `    <a href="${item.href}" class="wiki-nav-link${isActive}">${item.text}</a>`;
       }).join("\n");
+
+      // ビルドカテゴリ専用タブバー
+      const buildTabBarHtml = themeKey === "build" ? `
+      <div class="category-bar build-tab-bar">
+        <button class="category-chip build-tab-chip active" data-subcategory="all">すべて</button>
+        <button class="category-chip build-tab-chip" data-subcategory="justice">正義ビルド</button>
+        <button class="category-chip build-tab-chip" data-subcategory="rough">ラフプレービルド</button>
+        <button class="category-chip build-tab-chip" data-subcategory="counter">カウンタービルド</button>
+        <button class="category-chip build-tab-chip" data-subcategory="passive-inherit">パッシブ継承</button>
+        <button class="category-chip build-tab-chip" data-subcategory="other">その他</button>
+      </div>
+      <p id="build-tab-count" class="build-tab-count">${sorted.length}本の動画を表示中</p>` : "";
+
+      const buildTabScriptHtml = themeKey === "build" ? `\n  <script src="build-tabs.js"><\/script>` : "";
 
       return `<!DOCTYPE html>
 <html lang="ja">
@@ -1004,6 +1031,8 @@ ${sectionsHtml}
     .related-themes { margin-top: 40px; }
     .related-themes h2 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
     .related-themes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .build-tab-bar { padding: 12px 0; }
+    .build-tab-count { font-size: 13px; color: var(--text-secondary); padding: 4px 0 12px; }
     @media (max-width: 768px) {
       .category-hero h1 { font-size: 22px; }
       .category-main { padding: 16px; }
@@ -1059,6 +1088,7 @@ ${navHtml}
       <div class="theme-section-header">
         <h2>${escHtml(themeInfo.name)}</h2>
       </div>
+${buildTabBarHtml}
       <div class="theme-video-list">
 ${cardsHtml}
       </div>
@@ -1091,7 +1121,7 @@ ${otherThemes}
     <p>&copy; 2026 やまむー【yamamu】. All rights reserved.</p>
   </footer>
 
-  <script src="${ASSET_PREFIX}theme.js"><\/script>
+  <script src="${ASSET_PREFIX}theme.js"><\/script>${buildTabScriptHtml}
 </body>
 </html>`;
     }

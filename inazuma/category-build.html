@@ -70,6 +70,8 @@
     .related-themes { margin-top: 40px; }
     .related-themes h2 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
     .related-themes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .build-tab-bar { padding: 12px 0; }
+    .build-tab-count { font-size: 13px; color: var(--text-secondary); padding: 4px 0 12px; }
     @media (max-width: 768px) {
       .category-hero h1 { font-size: 22px; }
       .category-main { padding: 16px; }
@@ -136,8 +138,17 @@
       <div class="theme-section-header">
         <h2>ビルド・パッシブ攻略</h2>
       </div>
+      <div class="category-bar build-tab-bar">
+        <button class="category-chip build-tab-chip active" data-subcategory="all">すべて</button>
+        <button class="category-chip build-tab-chip" data-subcategory="justice">正義ビルド</button>
+        <button class="category-chip build-tab-chip" data-subcategory="rough">ラフプレービルド</button>
+        <button class="category-chip build-tab-chip" data-subcategory="counter">カウンタービルド</button>
+        <button class="category-chip build-tab-chip" data-subcategory="passive-inherit">パッシブ継承</button>
+        <button class="category-chip build-tab-chip" data-subcategory="other">その他</button>
+      </div>
+      <p id="build-tab-count" class="build-tab-count">21本の動画を表示中</p>
       <div class="theme-video-list">
-        <a href="video-inazuma-zwmCNI5-hfI.html" class="video-card">
+        <a href="video-inazuma-zwmCNI5-hfI.html" class="video-card" data-subcategory="passive-inherit">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/zwmCNI5-hfI/mqdefault.jpg" alt="【イナイレV】ポジション別最強おすすめパッシブまとめ！パッシブ継承神過ぎｗ【イナ" loading="lazy">
             <span class="video-duration">1:54</span>
@@ -147,7 +158,7 @@
             <p class="video-meta">170,923回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-Pixll0J9O7k.html" class="video-card">
+        <a href="video-inazuma-Pixll0J9O7k.html" class="video-card" data-subcategory="passive-inherit">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/Pixll0J9O7k/mqdefault.jpg" alt="【イナイレV】パッシブ継承の仕様とポジション別おすすめパッシブまとめ!!【イナズ" loading="lazy">
             <span class="video-duration">8:02</span>
@@ -157,7 +168,7 @@
             <p class="video-meta">55,654回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-m9htc5Yi_4k.html" class="video-card">
+        <a href="video-inazuma-m9htc5Yi_4k.html" class="video-card" data-subcategory="counter">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/m9htc5Yi_4k/mqdefault.jpg" alt="【イナイレV】流行るな！今ランクマで増えてるロングシュート戦法がヤバい【イナズマ" loading="lazy">
             <span class="video-duration">0:45</span>
@@ -167,7 +178,7 @@
             <p class="video-meta">41,954回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-D_S7QziSAXo.html" class="video-card">
+        <a href="video-inazuma-D_S7QziSAXo.html" class="video-card" data-subcategory="rough">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/D_S7QziSAXo/mqdefault.jpg" alt="【イナイレV】ラフ超弱体化されてもまだいける説【イナズマイレブン英雄たちのヴィク" loading="lazy">
             <span class="video-duration">0:39</span>
@@ -177,7 +188,7 @@
             <p class="video-meta">34,218回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-r5shzEtMMHM.html" class="video-card">
+        <a href="video-inazuma-r5shzEtMMHM.html" class="video-card" data-subcategory="other">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/r5shzEtMMHM/mqdefault.jpg" alt="【イナイレV】BASARAの全パッシブ早見表‼おすすめキャラはこれだ!!" loading="lazy">
             <span class="video-duration">4:09</span>
@@ -187,7 +198,7 @@
             <p class="video-meta">33,615回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-q_dy5jb_xFw.html" class="video-card">
+        <a href="video-inazuma-q_dy5jb_xFw.html" class="video-card" data-subcategory="passive-inherit">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/q_dy5jb_xFw/mqdefault.jpg" alt="【イナイレV】パッシブ継承元おすすめキャラ！最強キャラに必要なパッシブはこれで完" loading="lazy">
             <span class="video-duration">4:29</span>
@@ -197,7 +208,7 @@
             <p class="video-meta">30,785回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-sUUxaoTYBVA.html" class="video-card">
+        <a href="video-inazuma-sUUxaoTYBVA.html" class="video-card" data-subcategory="justice">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/sUUxaoTYBVA/mqdefault.jpg" alt="【イナイレV】今話題の対人最強タクティクスまとめ【イナズマイレブン英雄たちのヴィ" loading="lazy">
             <span class="video-duration">1:12</span>
@@ -207,7 +218,7 @@
             <p class="video-meta">28,897回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-ocNqvn5EdNI.html" class="video-card">
+        <a href="video-inazuma-ocNqvn5EdNI.html" class="video-card" data-subcategory="rough">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/ocNqvn5EdNI/mqdefault.jpg" alt="【イナイレV】ポジション別最強おすすめパッシブまとめ（ラフビルド編）パッシブ継承" loading="lazy">
             <span class="video-duration">1:39</span>
@@ -217,7 +228,7 @@
             <p class="video-meta">23,564回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-4gVPLKWIkYc.html" class="video-card">
+        <a href="video-inazuma-4gVPLKWIkYc.html" class="video-card" data-subcategory="justice">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/4gVPLKWIkYc/mqdefault.jpg" alt="【イナイレV】最強ビルド「正義テンション」の完成形でランクマいった結果…" loading="lazy">
             <span class="video-duration">33:35</span>
@@ -227,7 +238,7 @@
             <p class="video-meta">17,549回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-4hl1Y9pXwgc.html" class="video-card">
+        <a href="video-inazuma-4hl1Y9pXwgc.html" class="video-card" data-subcategory="justice">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/4hl1Y9pXwgc/mqdefault.jpg" alt="【イナイレV】正義ビルドの最適解｜パッシブ構成を完全解説【イナズマイレブン英雄た" loading="lazy">
             <span class="video-duration">19:04</span>
@@ -237,7 +248,7 @@
             <p class="video-meta">14,811回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-AjEi0n-QyEA.html" class="video-card">
+        <a href="video-inazuma-AjEi0n-QyEA.html" class="video-card" data-subcategory="justice">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/AjEi0n-QyEA/mqdefault.jpg" alt="【イナイレV】選手に付ける最強ビルドパッシブおすすめはこれ！正義テンションカウン" loading="lazy">
             <span class="video-duration">10:30</span>
@@ -247,7 +258,7 @@
             <p class="video-meta">12,493回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-mLXyq-eyFeM.html" class="video-card">
+        <a href="video-inazuma-mLXyq-eyFeM.html" class="video-card" data-subcategory="justice">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/mLXyq-eyFeM/mqdefault.jpg" alt="【イナイレV】アプデ後最強ビルドはこれ？！正義ビルドの厳選しなおす箇所紹介します" loading="lazy">
             <span class="video-duration">10:17</span>
@@ -257,7 +268,7 @@
             <p class="video-meta">11,357回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-wAQTK9wW43s.html" class="video-card">
+        <a href="video-inazuma-wAQTK9wW43s.html" class="video-card" data-subcategory="justice">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/wAQTK9wW43s/mqdefault.jpg" alt="【イナイレV】正義テンションビルド「同属性パ」の完成形！ポジション別パッシブ＆装" loading="lazy">
             <span class="video-duration">18:35</span>
@@ -267,7 +278,7 @@
             <p class="video-meta">9,511回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-pjr1FqI1ez8.html" class="video-card">
+        <a href="video-inazuma-pjr1FqI1ez8.html" class="video-card" data-subcategory="other">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/pjr1FqI1ez8/mqdefault.jpg" alt="【イナイレV】必見！これゲットするだけで15％もステータス差がつくおすすめカスタ" loading="lazy">
             <span class="video-duration">5:13</span>
@@ -277,7 +288,7 @@
             <p class="video-meta">8,902回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-NL49XdTH7jc.html" class="video-card">
+        <a href="video-inazuma-NL49XdTH7jc.html" class="video-card" data-subcategory="other">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/NL49XdTH7jc/mqdefault.jpg" alt="【イナイレV】パッシブ理論値は強い？弱い？総プレイ1200時間が真相を教えます【" loading="lazy">
             <span class="video-duration">6:21</span>
@@ -287,7 +298,7 @@
             <p class="video-meta">6,587回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-UgsszCgRWiQ.html" class="video-card">
+        <a href="video-inazuma-UgsszCgRWiQ.html" class="video-card" data-subcategory="rough">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/UgsszCgRWiQ/mqdefault.jpg" alt="【イナイレV】今最強のラフのポジション別おすすめパッシブとパッシブ継承元キャラま" loading="lazy">
             <span class="video-duration">4:56</span>
@@ -297,7 +308,7 @@
             <p class="video-meta">5,768回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-IGYda06sIXo.html" class="video-card">
+        <a href="video-inazuma-IGYda06sIXo.html" class="video-card" data-subcategory="counter">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/IGYda06sIXo/mqdefault.jpg" alt="【イナイレV】カウンターシュート覚えたら勝率爆上がりしました" loading="lazy">
             <span class="video-duration">17:38</span>
@@ -307,7 +318,7 @@
             <p class="video-meta">5,260回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-8Nq0oy4qOBw.html" class="video-card">
+        <a href="video-inazuma-8Nq0oy4qOBw.html" class="video-card" data-subcategory="other">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/8Nq0oy4qOBw/mqdefault.jpg" alt="【イナイレV】アプデ後話題のKP上昇を使ったら強すぎた件ｗｗｗ【イナズマイレブン" loading="lazy">
             <span class="video-duration">22:47</span>
@@ -317,7 +328,7 @@
             <p class="video-meta">5,255回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-wBNBs7UG8nM.html" class="video-card">
+        <a href="video-inazuma-wBNBs7UG8nM.html" class="video-card" data-subcategory="rough">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/wBNBs7UG8nM/mqdefault.jpg" alt="【イナイレV】ロングシュートを高火力で撃ちまくれ‼ラフプレーテンションビルド" loading="lazy">
             <span class="video-duration">16:40</span>
@@ -327,7 +338,7 @@
             <p class="video-meta">4,357回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-dM_4pxvBcws.html" class="video-card">
+        <a href="video-inazuma-dM_4pxvBcws.html" class="video-card" data-subcategory="justice">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/dM_4pxvBcws/mqdefault.jpg" alt="【イナイレV】今流行りの同属性ビルドが最強すぎるｗｗ" loading="lazy">
             <span class="video-duration">20:25</span>
@@ -337,7 +348,7 @@
             <p class="video-meta">4,332回視聴</p>
           </div>
         </a>
-        <a href="video-inazuma-svsNx9wg8Mk.html" class="video-card">
+        <a href="video-inazuma-svsNx9wg8Mk.html" class="video-card" data-subcategory="passive-inherit">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/svsNx9wg8Mk/mqdefault.jpg" alt="【イナイレV】パッシブ厳選緩和、パッシブ継承について考察‼みんなどう思う？【イナ" loading="lazy">
             <span class="video-duration">7:21</span>
@@ -406,5 +417,6 @@
   </footer>
 
   <script src="../theme.js"></script>
+  <script src="build-tabs.js"></script>
 </body>
 </html>
