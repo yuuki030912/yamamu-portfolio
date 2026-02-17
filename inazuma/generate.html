@@ -668,9 +668,9 @@ ${navLinksHtml}
         else { if (!themeGroups.general) themeGroups.general = { name: "その他", desc: "", videos: [] }; themeGroups.general.videos.push(v); }
       });
 
-      // 目次
+      // 目次（各テーマ別ページへリンク）
       const tocHtml = Object.entries(themeGroups).filter(([,g]) => g.videos.length > 0).map(([key, g], i) =>
-        `        <li><a href="#${key}">${g.name}</a></li>`
+        `        <li><a href="category-${key}.html">${g.name}</a></li>`
       ).join("\n");
 
       // セクション
