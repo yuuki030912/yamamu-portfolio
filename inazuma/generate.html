@@ -115,7 +115,8 @@
           battle: { name: "対戦テクニック・立ち回り", desc: "勝率を上げるための戦い方、テンション管理、タクティクス選択など、オンライン対戦で勝つためのテクニックを解説しています。" },
           farming: { name: "周回・効率プレイ", desc: "クロニクル周回やHEROバトル周回など、素材集めを効率的に進めるための方法を解説しています。" },
           update: { name: "アップデート・環境考察", desc: "最新アプデの変更点やBASARA化の情報、環境の変化と今後の予想をまとめています。" },
-          beginner: { name: "初心者向けガイド", desc: "フォーカスの仕様やキズナリンクの使い方など、イナイレVを始めたばかりの人向けの基礎知識を解説しています。" }
+          beginner: { name: "初心者向けガイド", desc: "フォーカスの仕様やキズナリンクの使い方など、イナイレVを始めたばかりの人向けの基礎知識を解説しています。" },
+          fun: { name: "面白企画", desc: "イナイレVのキャラクタークイズやチャレンジ企画など、ファンなら楽しめるエンタメ系コンテンツをまとめています。" }
         },
         themeSeoTexts: {
           build: `<h2>イナイレV ビルド・パッシブ攻略ガイド</h2>
@@ -155,7 +156,13 @@
       <h3>序盤にやるべきこと</h3>
       <p>ゲーム開始後はまずクロニクルモードを進めて選手を集め、レベル47を目指してチームパッシブを全解放しましょう。正義ビルドのチーム編成が初心者には最もおすすめです。</p>
       <h3>フォーカスとキズナリンクの基本</h3>
-      <p>フォーカスは攻撃側と守備側の数値で勝敗が決まるバトルシステムで、テンション獲得の主な手段です。キズナリンクは選手間の絆を深め、連携必殺技を発動するシステムです。これらの基本を理解することが上達の第一歩です。</p>`
+      <p>フォーカスは攻撃側と守備側の数値で勝敗が決まるバトルシステムで、テンション獲得の主な手段です。キズナリンクは選手間の絆を深め、連携必殺技を発動するシステムです。これらの基本を理解することが上達の第一歩です。</p>`,
+          fun: `<h2>イナイレV 面白企画・クイズ・チャレンジまとめ</h2>
+      <p>イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）に登場する全5400人以上のキャラクターを使ったクイズ企画やチャレンジ動画をまとめています。攻略情報とは一味違った、ファンなら思わず笑ってしまうエンタメコンテンツです。</p>
+      <h3>キャラクタークイズ企画</h3>
+      <p>イナイレシリーズのモブキャラやマイナーキャラの名前を当てるクイズ企画を公開中。99%の人が知らない超マニアックなキャラクターから、友達と一緒に楽しめるカジュアルなクイズまで、さまざまな難易度で楽しめます。</p>
+      <h3>全5400人チャレンジ</h3>
+      <p>イナイレVに収録されている全5400人以上のキャラクターの中から名前を当てるチャレンジ企画。メインキャラからモブキャラまで全てが出題対象で、イナイレ博士レベルの知識が問われます。</p>`
         },
         themeFaqs: {
           build: [
@@ -189,6 +196,11 @@
             { q: "初心者はまず何をすべき？", a: "まずクロニクルモードを進めて選手を集め、レベル47を目指してチームパッシブを全解放しましょう。ビルドは正義ビルドがおすすめです。" },
             { q: "フォーカスの仕組みは？", a: "フォーカスは攻撃側（AT）と守備側（DF）の数値で勝敗が決まるバトルシステムです。勝利するとテンションを獲得でき、必殺技が使えるようになります。" },
             { q: "おすすめの初心者向けビルドは？", a: "正義ビルドが初心者に最もおすすめです。常時発動で安定性が高く、複雑な操作を必要としません。監督・マネージャーを正義ビルドで統一するだけで大きな効果があります。" }
+          ],
+          fun: [
+            { q: "イナイレVには何人のキャラクターがいますか？", a: "イナイレVには全5400人以上のキャラクターが収録されています。歴代シリーズの人気キャラからモブキャラまで、全員に名前が付けられています。" },
+            { q: "クイズ企画の難易度は？", a: "モブキャラ名クイズは99%の人が知らないレベルの超難問です。メインキャラから出題するカジュアルなものもあるので、イナイレ初心者からマニアまで楽しめます。" },
+            { q: "友達と一緒に楽しめる企画はありますか？", a: "イナイレを全く知らない友達にキャラクターの名前を当ててもらうクイズ企画があります。予想外の珍回答が飛び出す面白い内容です。" }
           ]
         },
         categoryFaqs: [
@@ -214,6 +226,7 @@
           { href: "category-equipment.html", text: "装備・ビーンズ攻略" },
           { href: "category-battle.html", text: "対戦テクニック" },
           { href: "category-farming.html", text: "周回・効率プレイ" },
+          { href: "category-fun.html", text: "面白企画" },
           { href: "category-update.html", text: "アプデ・環境考察" },
           { href: "category-beginner.html", text: "初心者向けガイド" }
         ]
@@ -366,7 +379,8 @@
         if (tags.includes("アップデート") || tags.includes("basara") || tags.includes("アプデ")) return "update";
         if (tags.includes("初心者") || tags.includes("フォーカス") || tags.includes("キズナ")) return "beginner";
         if (tags.includes("対戦") || tags.includes("テンション") || tags.includes("タクティクス") || tags.includes("戦い方")) return "battle";
-        return "battle";
+        if (tags.includes("クイズ") || tags.includes("面白企画") || tags.includes("チャレンジ") || tags.includes("おもしろ")) return "fun";
+        return "fun";
       }
       return "general";
     }
@@ -633,6 +647,7 @@ ${gameNavHtml}
     <a href="category-farming.html" class="wiki-nav-link">周回効率</a>
     <a href="guide-beginner.html" class="wiki-nav-link">初心者ガイド</a>
     <a href="category-update.html" class="wiki-nav-link">アプデ情報</a>
+    <a href="category-fun.html" class="wiki-nav-link">面白企画</a>
   </nav>
 
   <!-- パンくずリスト (SEO用) -->
@@ -889,6 +904,7 @@ ${gameNavHtml}
     <a href="category-farming.html" class="wiki-nav-link">周回効率</a>
     <a href="guide-beginner.html" class="wiki-nav-link">初心者ガイド</a>
     <a href="category-update.html" class="wiki-nav-link">アプデ情報</a>
+    <a href="category-fun.html" class="wiki-nav-link">面白企画</a>
   </nav>
 
   <!-- パンくずリスト -->
@@ -995,7 +1011,8 @@ ${themeFaqList.map(f => `        <dt>Q. ${escHtml(f.q)}</dt>\n        <dd>A. ${e
         battle: "category-battle.html",
         farming: "category-farming.html",
         update: "category-update.html",
-        beginner: "category-beginner.html"
+        beginner: "category-beginner.html",
+        fun: "category-fun.html"
       };
       const activeHref = navActiveMap[themeKey] || "";
 
@@ -1040,7 +1057,8 @@ ${themeFaqList.map(f => `        <dt>Q. ${escHtml(f.q)}</dt>\n        <dd>A. ${e
         { href: "category-battle.html", text: "対戦テクニック" },
         { href: "category-farming.html", text: "周回効率" },
         { href: "guide-beginner.html", text: "初心者ガイド" },
-        { href: "category-update.html", text: "アプデ情報" }
+        { href: "category-update.html", text: "アプデ情報" },
+        { href: "category-fun.html", text: "面白企画" }
       ];
       const navHtml = navItems.map(item => {
         const isActive = item.href === activeHref ? " active" : "";
@@ -1351,6 +1369,7 @@ ${gameNavHtml}
     <a href="category-farming.html" class="wiki-nav-link">周回効率</a>
     <a href="guide-beginner.html" class="wiki-nav-link">初心者ガイド</a>
     <a href="category-update.html" class="wiki-nav-link">アプデ情報</a>
+    <a href="category-fun.html" class="wiki-nav-link">面白企画</a>
   </nav>
 
   <!-- コンパクトヒーロー -->

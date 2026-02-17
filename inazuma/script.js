@@ -11,7 +11,8 @@ var themeConfig = {
   battle: { name: "対戦テクニック・立ち回り", anchor: "battle" },
   farming: { name: "周回・効率プレイ", anchor: "farming" },
   update: { name: "アップデート・環境考察", anchor: "update" },
-  beginner: { name: "初心者向けガイド", anchor: "beginner" }
+  beginner: { name: "初心者向けガイド", anchor: "beginner" },
+  fun: { name: "面白企画", anchor: "fun" }
 };
 
 function getThemeCategory(video) {
@@ -23,7 +24,8 @@ function getThemeCategory(video) {
     if (tags.indexOf("アップデート") >= 0 || tags.indexOf("basara") >= 0 || tags.indexOf("アプデ") >= 0) return "update";
     if (tags.indexOf("初心者") >= 0 || tags.indexOf("フォーカス") >= 0 || tags.indexOf("キズナ") >= 0) return "beginner";
     if (tags.indexOf("対戦") >= 0 || tags.indexOf("テンション") >= 0 || tags.indexOf("タクティクス") >= 0 || tags.indexOf("戦い方") >= 0) return "battle";
-    return "battle";
+    if (tags.indexOf("クイズ") >= 0 || tags.indexOf("面白企画") >= 0 || tags.indexOf("チャレンジ") >= 0 || tags.indexOf("おもしろ") >= 0) return "fun";
+    return "fun";
   }
   return "general";
 }
@@ -143,7 +145,7 @@ function renderThemeSections() {
   });
 
   // 各テーマをレンダリング
-  var themeOrder = ["build", "equipment", "battle", "farming", "update", "beginner"];
+  var themeOrder = ["build", "equipment", "battle", "farming", "update", "beginner", "fun"];
   themeOrder.forEach(function(key) {
     var config = themeConfig[key];
     var vids = themed[key] || [];

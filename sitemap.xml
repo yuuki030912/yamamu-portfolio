@@ -55,6 +55,12 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://yamamu-youtube.jp/inazuma/category-fun.html</loc>
+    <lastmod>2026-02-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://yamamu-youtube.jp/inazuma/guide-beginner.html</loc>
     <lastmod>2026-02-18</lastmod>
     <changefreq>monthly</changefreq>
