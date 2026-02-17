@@ -86,6 +86,7 @@ Ver1.5.0でチームパッシブに上限が設けられ、単一ビルド特化
 │   ├── videos.js        — 動画データ配列
 │   ├── videos.json      — 動画データ元ファイル
 │   ├── generate.html    — 管理ツール（GAME_ID="inazuma", ASSET_PREFIX="../"）
+│   ├── build-tabs.js    — ビルド攻略ページ タブ切替JS
 │   ├── category-*.html  — カテゴリ・テーマ別ページ
 │   ├── guide-*.html     — 攻略ガイドページ（手動作成）
 │   └── video-inazuma-*.html — 各動画の個別ページ
@@ -146,6 +147,30 @@ Ver1.5.0でチームパッシブに上限が設けられ、単一ビルド特化
 2. 「すべて生成」でZIPダウンロード（index.html, category-*.html, category-{theme}.html, video-*.html, sitemap.xml, videos.js）
 3. 「新規のみ生成」で既存ファイルを除外して差分生成
 4. guidePages配列にガイドページを手動登録（generate.html内、自動生成対象外）
+
+### ビルド攻略タブ切替機能
+category-build.html にビルド種類別のタブフィルタリングUIを実装。
+
+#### サブカテゴリ（タブ）
+| タブキー | ラベル | タグ判定ロジック |
+|----------|--------|------------------|
+| all | すべて | 全表示（デフォルト） |
+| justice | 正義ビルド | 「正義ビルド」or「正義テンション」 |
+| rough | ラフプレービルド | 「ラフプレー」or「ラフプレイ」or「ラフビルド」 |
+| counter | カウンタービルド | 「カウンター」 |
+| passive-inherit | パッシブ継承 | 「パッシブ継承」 |
+| other | その他 | 上記いずれにも非該当 |
+
+#### 実装構成
+- **`inazuma/build-tabs.js`**: タブ切替ロジック（IIFE）。`.build-tab-chip`クリックで`.video-card[data-subcategory]`をshow/hide。URLハッシュ対応（`#justice`等）、hashchangeでブラウザ戻る/進む対応
+- **`inazuma/generate.html`内の`getBuildSubcategory()`**: タグベースでサブカテゴリを判定するヘルパー関数（`getThemeCategory()`の近くに配置）
+- **`generateThemePage()`**: `themeKey === "build"`の時のみ、動画カードに`data-subcategory`属性を付与、タブバーHTML挿入、build-tabs.jsのscriptタグ追加
+- **CSS**: 既存の`.category-bar`/`.category-chip`を流用。追加CSSは`.build-tab-bar`と`.build-tab-count`のみ
+- **SEO**: 全カードはHTML上に存在（`display:none`で非表示）。JS無効時は全表示フォールバック
+- **注意**: 「ラフプレー」と「ラフプレイ」の表記揺れあり。両方のタグをチェックする
+
+#### カテゴリページの目次（TOC）リンク
+category-inazuma.html の目次リンクは、ページ内アンカー（`#build`等）ではなく個別カテゴリページ（`category-build.html`等）への外部リンク。`#guides`のみページ内アンカーのまま。generate.html の `tocHtml` 生成でもこのパターンを使用。
 
 ### ページ追加時の手順
 - **動画ページ**: `inazuma/videos.json` に追加 → `inazuma/generate.html` で再生成
