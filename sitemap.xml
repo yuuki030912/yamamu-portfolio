@@ -2,206 +2,488 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://yamamu-youtube.jp/</loc>
-    <lastmod>2026-02-13</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/category-inazuma.html</loc>
-    <lastmod>2026-02-14</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://yamamu-youtube.jp/guide-beginner.html</loc>
+    <lastmod>2026-02-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://yamamu-youtube.jp/guide-passive-build.html</loc>
-    <lastmod>2026-02-14</lastmod>
+    <lastmod>2026-02-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/guide-equipment.html</loc>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/guide-farming.html</loc>
-    <lastmod>2026-02-14</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/guide-battle-tips.html</loc>
-    <lastmod>2026-02-14</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-8Nq0oy4qOBw.html</loc>
-    <lastmod>2026-02-12</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-384dA6UW7D0.html</loc>
-    <lastmod>2026-02-11</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-NNopNIWMqsg.html</loc>
-    <lastmod>2026-02-10</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-LBRfFAvMdr4.html</loc>
-    <lastmod>2026-02-09</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-zb2SB9eoJZo.html</loc>
-    <lastmod>2026-02-09</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-wAQTK9wW43s.html</loc>
-    <lastmod>2026-02-06</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-KbPbGgBTkwQ.html</loc>
-    <lastmod>2026-02-05</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-AjEi0n-QyEA.html</loc>
-    <lastmod>2026-02-04</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-NL49XdTH7jc.html</loc>
-    <lastmod>2026-02-03</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-4hl1Y9pXwgc.html</loc>
-    <lastmod>2026-02-02</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-UgsszCgRWiQ.html</loc>
-    <lastmod>2026-02-01</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-Bo2ciwdMhkk.html</loc>
-    <lastmod>2026-01-30</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-q_dy5jb_xFw.html</loc>
-    <lastmod>2026-01-29</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-Pixll0J9O7k.html</loc>
-    <lastmod>2026-01-29</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma--3ykkj6VhaM.html</loc>
-    <lastmod>2026-01-26</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-JOeiDbr--rM.html</loc>
-    <lastmod>2026-01-24</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-NfrAvHoTSfI.html</loc>
-    <lastmod>2026-01-23</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-EV33jRq0GYs.html</loc>
-    <lastmod>2026-01-22</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-_3BHVoXRyys.html</loc>
-    <lastmod>2026-01-20</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-svsNx9wg8Mk.html</loc>
-    <lastmod>2026-01-18</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-AASbssjfxXQ.html</loc>
-    <lastmod>2026-01-15</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-YhHgPS4xPRc.html</loc>
-    <lastmod>2026-01-09</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-OgtQ6tkyx7Y.html</loc>
-    <lastmod>2026-01-05</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-YkqGlxok9Fk.html</loc>
-    <lastmod>2026-01-01</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-c-Ze9gtnn54.html</loc>
-    <lastmod>2025-12-29</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-2Cr5vSJD-AA.html</loc>
-    <lastmod>2025-12-28</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-zp8Nsf0n64w.html</loc>
-    <lastmod>2025-12-27</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-UzQ3Wv2VEMs.html</loc>
-    <lastmod>2025-12-26</lastmod>
+    <lastmod>2026-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://yamamu-youtube.jp/video-inazuma-nVuhPOw891A.html</loc>
+    <lastmod>2026-02-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-r5shzEtMMHM.html</loc>
     <lastmod>2025-12-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-wT3wqekrR_w.html</loc>
+    <lastmod>2025-12-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-q1VVQtYFKCg.html</loc>
+    <lastmod>2025-12-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-l73bEiL4R9U.html</loc>
+    <lastmod>2025-12-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-yUDn_T7YjPk.html</loc>
+    <lastmod>2025-12-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-5VnoLqLduyo.html</loc>
+    <lastmod>2025-12-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-IGYda06sIXo.html</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma--QtG24qXv54.html</loc>
+    <lastmod>2025-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-ue4Cgad2gCA.html</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-dM_4pxvBcws.html</loc>
+    <lastmod>2025-12-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-yK3mU3mFxTI.html</loc>
+    <lastmod>2025-12-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-pjr1FqI1ez8.html</loc>
+    <lastmod>2025-12-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-7dESgLC7PyI.html</loc>
+    <lastmod>2025-12-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-4gVPLKWIkYc.html</loc>
+    <lastmod>2025-12-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-_VZMEJmk_dA.html</loc>
+    <lastmod>2025-12-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-mLXyq-eyFeM.html</loc>
+    <lastmod>2025-12-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-23LK-ExknQg.html</loc>
+    <lastmod>2025-12-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-w7PADYRXXqQ.html</loc>
+    <lastmod>2025-12-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-wBNBs7UG8nM.html</loc>
+    <lastmod>2025-12-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-c705YQt0yyw.html</loc>
+    <lastmod>2025-12-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-_g6qEKsR9Yk.html</loc>
+    <lastmod>2025-12-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-m9htc5Yi_4k.html</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-D_S7QziSAXo.html</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-ApGBU4mNRY4.html</loc>
+    <lastmod>2026-02-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-sUUxaoTYBVA.html</loc>
+    <lastmod>2026-02-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-vfpN_MMezEc.html</loc>
+    <lastmod>2026-02-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-0s1XI-y5d_s.html</loc>
+    <lastmod>2026-02-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-RRQ3OD_qOkI.html</loc>
+    <lastmod>2026-02-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-hosm5yqftyA.html</loc>
+    <lastmod>2026-02-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-RbY4LMcWfEE.html</loc>
+    <lastmod>2026-02-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-REcOlP9rwq4.html</loc>
+    <lastmod>2026-02-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-ocNqvn5EdNI.html</loc>
+    <lastmod>2026-02-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-lGlFNt36ExU.html</loc>
+    <lastmod>2026-01-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-zwmCNI5-hfI.html</loc>
+    <lastmod>2026-01-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-fCYa7_fAxd8.html</loc>
+    <lastmod>2026-01-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-CEUOy8MEBc0.html</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-nosCpg4ydKk.html</loc>
+    <lastmod>2026-01-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-YJFLWzc8bf8.html</loc>
+    <lastmod>2026-01-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-nwz__vTg06I.html</loc>
+    <lastmod>2026-01-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-pmR5vSIv49M.html</loc>
+    <lastmod>2026-01-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-Gs1CHx3V8X4.html</loc>
+    <lastmod>2026-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-M3DmRd1u9tU.html</loc>
+    <lastmod>2026-01-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-RuoZ_pfCv-Q.html</loc>
+    <lastmod>2026-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-odeuGgva9H8.html</loc>
+    <lastmod>2026-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/video-inazuma-P6-ofFef4EM.html</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

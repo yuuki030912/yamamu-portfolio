@@ -71,6 +71,8 @@
     }
 
     const SITE_URL = "https://yamamu-youtube.jp";
+    const GAME_ID = "pokepoke";  // ゲームごとに変更（inazuma / pokepoke）
+    const ASSET_PREFIX = "../"; // 共有アセット（style.css等）へのパス（サブディレクトリから）
 
     const categoryLabel = {
       short: "ショート",
@@ -80,16 +82,35 @@
     };
 
     // ===== カテゴリ設定 =====
+    // ゲームごとのロゴテキスト
+    const gameLogoText = {
+      inazuma: "イナイレV攻略Wiki",
+      pokepoke: "ポケポケ攻略Wiki",
+      minecraft: "マイクラ攻略Wiki",
+      short: "ショート動画まとめ"
+    };
+
+    // ゲーム切替ナビHTML
+    const gameNavHtml = `
+  <nav class="game-nav" aria-label="ゲーム選択">
+    <a href="${ASSET_PREFIX}index.html" class="game-nav-link">トップ</a>
+    <a href="${ASSET_PREFIX}inazuma/" class="game-nav-link${GAME_ID === 'inazuma' ? ' active' : ''}">イナイレV</a>
+    <a href="${ASSET_PREFIX}pokepoke/" class="game-nav-link${GAME_ID === 'pokepoke' ? ' active' : ''}">ポケポケ</a>
+  </nav>`;
+
+    // 現在のゲームのロゴテキスト
+    const logoText = gameLogoText[GAME_ID] || "やまむーゲーム攻略Wiki";
+
     const categoryConfig = {
       inazuma: {
         label: "イナイレV",
         fullLabel: "イナイレV 攻略まとめ",
         titleSeo: "イナイレV攻略まとめ｜パッシブ・装備・周回・対戦テクニック完全ガイド",
-        descSeo: "イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の攻略情報を完全網羅。パッシブ継承・最強装備・ビーンズ周回・対戦テクニック・正義テンションビルドなど、テーマ別に動画と記事で解説。初心者から上級者まで対応。",
+        descSeo: "イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の攻略情報を完全網羅。パッシブ継承・正義ビルド・最強装備・ビーンズ周回・対戦テクニックなど、テーマ別に動画と記事で解説。初心者から上級者まで対応。",
         keywords: "イナイレV, イナイレ攻略, イナズマイレブン, 英雄たちのヴィクトリーロード, パッシブ, 装備, ビーンズ, 対戦, 正義テンション, やまむー",
         heroDesc: "イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の攻略情報をテーマ別にまとめました。パッシブ・装備・周回・対戦テクニックなど、目的に合った攻略動画がすぐに見つかります。",
         themes: {
-          build: { name: "ビルド・パッシブ攻略", desc: "正義テンションビルドの最適解やパッシブ構成、パッシブ継承の仕様など、キャラ育成に必要な情報をまとめています。" },
+          build: { name: "ビルド・パッシブ攻略", desc: "正義ビルドの最適解やパッシブ構成、パッシブ継承の仕様など、キャラ育成に必要な情報をまとめています。" },
           equipment: { name: "装備・ビーンズ攻略", desc: "ポジション別の最強装備やビーンズの付け方、効率的なビーンズ周回方法を解説しています。" },
           battle: { name: "対戦テクニック・立ち回り", desc: "勝率を上げるための戦い方、テンション管理、タクティクス選択など、オンライン対戦で勝つためのテクニックを解説しています。" },
           farming: { name: "周回・効率プレイ", desc: "クロニクル周回やHEROバトル周回など、素材集めを効率的に進めるための方法を解説しています。" },
@@ -99,28 +120,28 @@
         categoryFaqs: [
           { q: "イナイレVの最強装備は何ですか？", a: "ポジションによって最強装備は異なります。FWは攻撃力特化、DFは守備特化、GKはKP重視の装備がおすすめです。アレス・バサラシードアプデ後の最新環境に対応した装備ガイドを動画で詳しく解説しています。" },
           { q: "パッシブ継承のおすすめキャラは？", a: "パッシブ継承元のおすすめキャラはポジション別に異なります。攻撃系・守備系・汎用パッシブそれぞれの継承元キャラを網羅した動画で、効率的な継承の進め方を解説しています。" },
-          { q: "正義テンションと技巧テンションどちらが強い？", a: "現環境では正義テンションが最も安定した戦術です。最新アプデでラフプレイが弱体化し、技巧コンボも調整が入ったため、正義テンション＋カウンタービルドが環境トップとなっています。" },
+          { q: "正義ビルドとテンションビルドどちらが強い？", a: "対人戦では正義ビルドが最強です。ファウルを取られるまでATDFが常時上昇する安定性が圧倒的で、環境トップとなっています。テンションビルドは周回やCPU戦向きです。Ver1.5.0以降は正義×テンションなどの組み合わせ構成が主流になっています。" },
           { q: "ビーンズの効率的な集め方は？", a: "最高効率の周回方法では1時間で3000個以上のビーンズが集まります。おすすめの周回場所とチーム編成、監督AIの設定方法を動画で詳しく解説しています。" },
           { q: "BASARA化するにはどうすればいい？", a: "最新アプデにより、バサラシードなしでもBASARA化が可能になりました。対象キャラと条件、従来との違いを動画で解説しています。BASARA円堂守はKP1万超えも可能な最強GKです。" }
         ],
         seoText: `<h2>イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）攻略ガイド</h2>
       <p>当サイトでは、イナズマイレブン英雄たちのヴィクトリーロード（通称：イナイレV）の対戦攻略を中心に、最新アップデート情報や育成ガイドを動画と記事で解説しています。総プレイ1200時間以上のやり込み勢であるやまむーが、実戦経験に基づいた攻略情報をお届けします。</p>
       <h3>パッシブ継承と育成</h3>
-      <p>イナイレVの育成で最も重要なのがパッシブ継承です。パッシブ継承元のおすすめキャラやポジション別のパッシブ構成、理論値と妥協値の比較など、効率的な育成に必要な情報を網羅しています。正義テンションビルドの最適解も公開中です。</p>
+      <p>イナイレVの育成で最も重要なのがパッシブ継承です。パッシブ継承元のおすすめキャラやポジション別のパッシブ構成、理論値と妥協値の比較など、効率的な育成に必要な情報を網羅しています。正義ビルドの最適解も公開中です。</p>
       <h3>装備・ビーンズの最適化</h3>
       <p>アレス・バサラシードアプデ後の環境に対応した、ポジション別の最強装備とビーンズの付け方を解説。FW・MF・DF・GKそれぞれに最適な装備構成がわかります。1時間で3000個以上集まるビーンズ周回方法も必見です。</p>
       <h3>対戦テクニック</h3>
-      <p>オンライン対戦で勝率を上げるための戦い方やテンション管理のコツを紹介。正義テンションの最強タクティクスやKP上昇の活用法、フォーカスの勝ち方など、初心者から上級者まで役立つ対戦テクニックをまとめています。</p>
+      <p>オンライン対戦で勝率を上げるための戦い方やテンション管理のコツを紹介。正義ビルド環境の最強タクティクスやKP上昇の活用法、フォーカスの勝ち方など、初心者から上級者まで役立つ対戦テクニックをまとめています。</p>
       <h3>周回・効率プレイ</h3>
       <p>クロニクルモードの効率的な周回場所やHEROバトルの周回方法を検証。監督AIで勝率99%を実現する設定方法や、アドバンスウィンの取り方も解説しています。素材集めを効率的に進めたい方はぜひ参考にしてください。</p>`,
         navLinks: [
           { href: "category-inazuma.html", text: "イナイレV攻略まとめ" },
-          { href: "category-inazuma.html#build", text: "ビルド・パッシブ攻略" },
-          { href: "category-inazuma.html#equipment", text: "装備・ビーンズ攻略" },
-          { href: "category-inazuma.html#battle", text: "対戦テクニック" },
-          { href: "category-inazuma.html#farming", text: "周回・効率プレイ" },
-          { href: "category-inazuma.html#update", text: "アプデ・環境考察" },
-          { href: "category-inazuma.html#beginner", text: "初心者向けガイド" }
+          { href: "category-build.html", text: "ビルド・パッシブ攻略" },
+          { href: "category-equipment.html", text: "装備・ビーンズ攻略" },
+          { href: "category-battle.html", text: "対戦テクニック" },
+          { href: "category-farming.html", text: "周回・効率プレイ" },
+          { href: "category-update.html", text: "アプデ・環境考察" },
+          { href: "category-beginner.html", text: "初心者向けガイド" }
         ]
       },
       minecraft: {
@@ -163,7 +184,9 @@
 
     // ガイドページ一覧（ハードコード）
     const guidePages = [
-      { url: "guide-passive-build.html", title: "パッシブ継承・ビルド完全攻略ガイド｜正義テンション最強構成", category: "inazuma" },
+      { url: "guide-beginner.html", title: "初心者攻略ガイド｜始めたらまずやるべきこと完全まとめ", category: "inazuma" },
+      { url: "guide-passive-build.html", title: "パッシブ継承・ビルド完全攻略ガイド｜正義ビルド最強構成", category: "inazuma" },
+      { url: "guide-equipment.html", title: "装備・ビーンズ完全攻略ガイド｜ポジション別最強装備とビーンズの付け方", category: "inazuma" },
       { url: "guide-farming.html", title: "周回・素材集め効率ガイド｜ビーンズ・HERO・クロニクル", category: "inazuma" },
       { url: "guide-battle-tips.html", title: "対戦テクニック完全ガイド｜勝率を上げる戦い方", category: "inazuma" }
     ];
@@ -293,7 +316,7 @@
       }
       if (content.includes("アプデ") && content.includes("ラフ")) {
         faqs.push({ q: "最新アプデでラフプレイはどう変わった？", a: "ラフプレイのファール率が大幅に上昇し弱体化しました。以前のようなゴリ押し戦術は通用しにくくなっています。" });
-        faqs.push({ q: "現環境で一番強い戦術は？", a: "正義テンション＋カウンター系の構成が環境トップです。ラフプレイ弱体化・技巧コンボ調整により、正義テンションが最も安定しています。" });
+        faqs.push({ q: "現環境で一番強い戦術は？", a: "正義ビルドを主軸にカウンター系を組み合わせた構成が環境トップです。ラフプレイ弱体化により、正義ビルドの安定性が際立っています。" });
       }
       if (content.includes("テンション管理")) {
         faqs.push({ q: "テンション管理で一番大事なことは？", a: "必殺技構成を覚えること、相手にテンションを溜めさせない動き、リソースを無駄使いしないことが重要です。" });
@@ -303,10 +326,10 @@
         faqs.push({ q: "勝率を上げるために一番意識すべきことは？", a: "安定した立ち回り、無駄な技の使用を減らすこと、相手の戦術に合わせた柔軟な対応が重要です。序盤・中盤・終盤で戦い方を変えることも大切です。" });
       }
       if (content.includes("タクティクス") && content.includes("正義")) {
-        faqs.push({ q: "正義テンションの最強タクティクスは？", a: "現環境で最も勝率が高いのは正義テンションの攻撃的・守備的両面を活かした戦術です。カウンター主体の戦い方も有効です。" });
+        faqs.push({ q: "正義ビルド環境の最強タクティクスは？", a: "現環境で最も勝率が高いのは正義ビルドの常時ATDFバフを活かした攻守両面の戦術です。カウンター主体の戦い方も有効です。" });
       }
       if (content.includes("同属性パ")) {
-        faqs.push({ q: "同属性パとは何？", a: "チーム全員を同じ属性で統一するビルドです。属性ボーナスを最大限に活かせ、正義テンションとの相性が抜群です。" });
+        faqs.push({ q: "同属性パとは何？", a: "チーム全員を同じ属性で統一するビルドです。属性ボーナスを最大限に活かせ、正義ビルドとの相性が抜群です。" });
         faqs.push({ q: "同属性パのメリットは？", a: "属性ボーナスの数値的メリットが大きく、高評価率98.5%の完成度を誇るビルドです。FW・MF・DF・GK全ポジションの構成を動画で公開しています。" });
       }
       if (content.includes("最強装備") && content.includes("ビーンズ")) {
@@ -320,7 +343,7 @@
         faqs.push({ q: "パッシブ理論値を目指す価値はある？", a: "場面によります。理論値と妥協値の数値差は実戦で感じにくい場合もあるため、コスパの良い厳選ラインを把握することが重要です。" });
       }
       if (content.includes("正義ビルド") && content.includes("最適解")) {
-        faqs.push({ q: "正義ビルドの最適解は？", a: "正義テンションの仕組みを理解した上で、FW攻撃特化・MF攻守バランス・DF守備特化・GK最適パッシブのポジション別構成が最適解です。" });
+        faqs.push({ q: "正義ビルドの最適解は？", a: "正義ビルドのATDF常時バフの仕組みを理解した上で、FW攻撃特化・MF攻守バランス・DF守備特化・GK最適パッシブのポジション別構成が最適解です。" });
       }
       if (content.includes("パッシブ継承") && content.includes("仕様")) {
         faqs.push({ q: "パッシブ継承の仕組みは？", a: "パッシブ継承には条件と制限があり、成功率も定められています。継承の優先順位を理解し、効率的に素材キャラを集めることが重要です。" });
@@ -439,14 +462,14 @@
   <title>${escHtml(video.title)} | やまむー【yamamu】</title>
   <meta name="description" content="${escHtml(stripMarkdown(video.content || video.description).substring(0, 160))}">
   ${video.tags ? `<meta name="keywords" content="${escHtml(video.tags.join(", "))}">` : ""}
-  <link rel="canonical" href="${SITE_URL}/video-${video.category}-${video.id}.html">
+  <link rel="canonical" href="${SITE_URL}/${GAME_ID}/video-${video.category}-${video.id}.html">
 
   <!-- OGP (SNS共有用) -->
   <meta property="og:type" content="video.other">
   <meta property="og:title" content="${escHtml(video.title)}">
   <meta property="og:description" content="${escHtml(stripMarkdown(video.content || video.description).substring(0, 200))}">
   <meta property="og:image" content="https://img.youtube.com/vi/${video.id}/maxresdefault.jpg">
-  <meta property="og:url" content="${SITE_URL}/video-${video.category}-${video.id}.html">
+  <meta property="og:url" content="${SITE_URL}/${GAME_ID}/video-${video.category}-${video.id}.html">
   <meta property="og:site_name" content="やまむー【yamamu】">
   <meta property="og:video" content="https://www.youtube.com/embed/${video.id}">
 
@@ -489,7 +512,7 @@
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "${SITE_URL}/" },
-      { "@type": "ListItem", "position": 2, "name": "${catLabel}攻略", "item": "${SITE_URL}/${catPageUrl}" },
+      { "@type": "ListItem", "position": 2, "name": "${catLabel}攻略", "item": "${SITE_URL}/${GAME_ID}/${catPageUrl}" },
       { "@type": "ListItem", "position": 3, "name": "${escHtml(video.title).substring(0, 60)}" }
     ]
   }
@@ -499,15 +522,15 @@
   ${faqSchemaJson}
   <\/script>
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="video.css">
+  <link rel="stylesheet" href="${ASSET_PREFIX}style.css">
+  <link rel="stylesheet" href="${ASSET_PREFIX}video.css">
 </head>
 <body>
   <!-- ヘッダー -->
   <header class="header">
     <a href="index.html" class="header-left" style="text-decoration:none">
-      <img src="icon.png" alt="やまむー" class="header-icon" width="32" height="32">
-      <span class="logo-text">やまむー</span>
+      <img src="${ASSET_PREFIX}icon.png" alt="やまむー" class="header-icon" width="32" height="32">
+      <span class="logo-text">${logoText}</span>
     </a>
     <div class="header-right">
       <button class="theme-toggle" id="themeToggle" title="テーマ切替">
@@ -517,6 +540,16 @@
       </button>
     </div>
   </header>
+${gameNavHtml}
+  <nav class="wiki-nav" aria-label="メインナビゲーション">
+    <a href="index.html" class="wiki-nav-link">ホーム</a>
+    <a href="category-build.html" class="wiki-nav-link">ビルド攻略</a>
+    <a href="category-equipment.html" class="wiki-nav-link">装備・ビーンズ</a>
+    <a href="category-battle.html" class="wiki-nav-link">対戦テクニック</a>
+    <a href="category-farming.html" class="wiki-nav-link">周回効率</a>
+    <a href="guide-beginner.html" class="wiki-nav-link">初心者ガイド</a>
+    <a href="category-update.html" class="wiki-nav-link">アプデ情報</a>
+  </nav>
 
   <!-- パンくずリスト (SEO用) -->
   <nav class="breadcrumb" aria-label="パンくずリスト">
@@ -587,10 +620,22 @@ ${navLinksHtml}
 
   <!-- フッター -->
   <footer class="footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <a href="${ASSET_PREFIX}index.html">ポータル</a>
+      <a href="index.html">ホーム</a>
+      <a href="category-inazuma.html">イナイレV攻略まとめ</a>
+      <a href="guide-beginner.html">初心者ガイド</a>
+      <a href="guide-passive-build.html">パッシブ・ビルド攻略</a>
+      <a href="guide-equipment.html">装備・ビーンズ攻略</a>
+      <a href="guide-farming.html">周回効率ガイド</a>
+      <a href="guide-battle-tips.html">対戦テクニック</a>
+      <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
+      <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
+    </nav>
     <p>&copy; 2026 やまむー【yamamu】. All rights reserved.</p>
   </footer>
 
-  <script src="theme.js"><\/script>
+  <script src="${ASSET_PREFIX}theme.js"><\/script>
 </body>
 </html>`;
     }
@@ -663,13 +708,13 @@ ${cardsHtml}
   <title>${escHtml(config.titleSeo)} | やまむー【yamamu】</title>
   <meta name="description" content="${escHtml(config.descSeo)}">
   <meta name="keywords" content="${escHtml(config.keywords)}">
-  <link rel="canonical" href="${SITE_URL}/category-${category}.html">
+  <link rel="canonical" href="${SITE_URL}/${GAME_ID}/category-${category}.html">
 
   <!-- OGP -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="${escHtml(config.titleSeo)}">
   <meta property="og:description" content="${escHtml(config.descSeo).substring(0, 120)}">
-  <meta property="og:url" content="${SITE_URL}/category-${category}.html">
+  <meta property="og:url" content="${SITE_URL}/${GAME_ID}/category-${category}.html">
   <meta property="og:site_name" content="やまむー【yamamu】">
   <meta property="og:image" content="${SITE_URL}/icon.png">
   <meta property="og:locale" content="ja_JP">
@@ -687,7 +732,7 @@ ${cardsHtml}
     "@type": "CollectionPage",
     "name": "${escHtml(config.fullLabel)}",
     "description": "${escHtml(config.descSeo).substring(0, 200)}",
-    "url": "${SITE_URL}/category-${category}.html",
+    "url": "${SITE_URL}/${GAME_ID}/category-${category}.html",
     "isPartOf": { "@type": "WebSite", "name": "やまむー【yamamu】", "url": "${SITE_URL}/" },
     "publisher": { "@type": "Organization", "name": "やまむー【yamamu】", "url": "${SITE_URL}" }
   }
@@ -706,8 +751,8 @@ ${cardsHtml}
   <\/script>
 ${faqSchemaStr}
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="video.css">
+  <link rel="stylesheet" href="${ASSET_PREFIX}style.css">
+  <link rel="stylesheet" href="${ASSET_PREFIX}video.css">
   <style>
     .category-hero { background: var(--banner-bg); padding: 40px 24px 32px; text-align: center; color: #fff; }
     .category-hero h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
@@ -740,8 +785,8 @@ ${faqSchemaStr}
   <!-- ヘッダー -->
   <header class="header">
     <a href="index.html" class="header-left" style="text-decoration:none">
-      <img src="icon.png" alt="やまむー" class="header-icon" width="32" height="32">
-      <span class="logo-text">やまむー</span>
+      <img src="${ASSET_PREFIX}icon.png" alt="やまむー" class="header-icon" width="32" height="32">
+      <span class="logo-text">${logoText}</span>
     </a>
     <div class="header-right">
       <button class="theme-toggle" id="themeToggle" title="テーマ切替" aria-label="ダークモード切替">
@@ -751,6 +796,16 @@ ${faqSchemaStr}
       </button>
     </div>
   </header>
+${gameNavHtml}
+  <nav class="wiki-nav" aria-label="メインナビゲーション">
+    <a href="index.html" class="wiki-nav-link">ホーム</a>
+    <a href="category-build.html" class="wiki-nav-link">ビルド攻略</a>
+    <a href="category-equipment.html" class="wiki-nav-link">装備・ビーンズ</a>
+    <a href="category-battle.html" class="wiki-nav-link">対戦テクニック</a>
+    <a href="category-farming.html" class="wiki-nav-link">周回効率</a>
+    <a href="guide-beginner.html" class="wiki-nav-link">初心者ガイド</a>
+    <a href="category-update.html" class="wiki-nav-link">アプデ情報</a>
+  </nav>
 
   <!-- パンくずリスト -->
   <nav class="breadcrumb" aria-label="パンくずリスト">
@@ -791,44 +846,268 @@ ${sectionsHtml}
 
   <!-- フッター -->
   <footer class="footer">
-    <nav aria-label="フッターナビゲーション" style="margin-bottom:8px;">
-      <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank" style="color:var(--text-secondary); margin:0 8px; text-decoration:none; font-size:13px;">YouTube</a>
-      <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank" style="color:var(--text-secondary); margin:0 8px; text-decoration:none; font-size:13px;">X (Twitter)</a>
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <a href="${ASSET_PREFIX}index.html">ポータル</a>
+      <a href="index.html">ホーム</a>
+      <a href="category-inazuma.html">イナイレV攻略まとめ</a>
+      <a href="guide-beginner.html">初心者ガイド</a>
+      <a href="guide-passive-build.html">パッシブ・ビルド攻略</a>
+      <a href="guide-equipment.html">装備・ビーンズ攻略</a>
+      <a href="guide-farming.html">周回効率ガイド</a>
+      <a href="guide-battle-tips.html">対戦テクニック</a>
+      <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
+      <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
     </nav>
     <p>&copy; 2026 やまむー【yamamu】. All rights reserved.</p>
   </footer>
 
-  <script src="theme.js"><\/script>
+  <script src="${ASSET_PREFIX}theme.js"><\/script>
+</body>
+</html>`;
+    }
+
+    // ===== テーマ別個別ページ生成 =====
+    function generateThemePage(category, themeKey, themeVideos, allCategoryVideos) {
+      const config = categoryConfig[category];
+      if (!config) return "";
+      const themeInfo = config.themes[themeKey];
+      if (!themeInfo) return "";
+
+      const totalViews = themeVideos.reduce((sum, v) => sum + parseInt(v.views.replace(/,/g, "")), 0);
+      const viewsLabel = totalViews >= 10000 ? Math.floor(totalViews / 10000) + "万回以上" : totalViews.toLocaleString() + "回";
+
+      // ナビバーの active を判定するためのマッピング
+      const navActiveMap = {
+        build: "category-build.html",
+        equipment: "category-equipment.html",
+        battle: "category-battle.html",
+        farming: "category-farming.html",
+        update: "category-update.html",
+        beginner: "category-beginner.html"
+      };
+      const activeHref = navActiveMap[themeKey] || "";
+
+      // 動画カード
+      const sorted = themeVideos.slice().sort((a, b) => parseInt(b.views.replace(/,/g, "")) - parseInt(a.views.replace(/,/g, "")));
+      const cardsHtml = sorted.map(v => `        <a href="video-${v.category}-${v.id}.html" class="video-card">
+          <div class="video-thumbnail">
+            <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="${escHtml(v.title).substring(0, 40)}" loading="lazy">
+            <span class="video-duration">${v.duration}</span>
+          </div>
+          <div class="video-info">
+            <h3 class="video-title">${escHtml(v.title)}</h3>
+            <p class="video-meta">${v.views}回視聴</p>
+          </div>
+        </a>`).join("\n");
+
+      // 関連テーマリンク（他の5テーマ）
+      const otherThemes = Object.entries(config.themes)
+        .filter(([key]) => key !== themeKey)
+        .map(([key, info]) => {
+          const themeVids = allCategoryVideos.filter(v => getThemeCategory(v) === key);
+          return `        <a href="category-${key}.html" class="video-card" style="text-align:center; padding:20px;">
+          <div class="video-info">
+            <h3 class="video-title" style="font-size:15px;">${escHtml(info.name)}</h3>
+            <p class="video-meta">${themeVids.length}本の攻略動画</p>
+          </div>
+        </a>`;
+        }).join("\n");
+
+      // テーマ別SEO title/description
+      const themeTitleSeo = `${themeInfo.name}｜イナイレV攻略`;
+      const themeDescSeo = `${themeInfo.desc} イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の${themeInfo.name}を動画で徹底解説。`;
+
+      // ナビバーHTML
+      const navItems = [
+        { href: "index.html", text: "ホーム" },
+        { href: "category-build.html", text: "ビルド攻略" },
+        { href: "category-equipment.html", text: "装備・ビーンズ" },
+        { href: "category-battle.html", text: "対戦テクニック" },
+        { href: "category-farming.html", text: "周回効率" },
+        { href: "guide-beginner.html", text: "初心者ガイド" },
+        { href: "category-update.html", text: "アプデ情報" }
+      ];
+      const navHtml = navItems.map(item => {
+        const isActive = item.href === activeHref ? " active" : "";
+        return `    <a href="${item.href}" class="wiki-nav-link${isActive}">${item.text}</a>`;
+      }).join("\n");
+
+      return `<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https://img.youtube.com data:; frame-src https://www.youtube.com; font-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- SEO 基本タグ -->
+  <title>${escHtml(themeTitleSeo)} | やまむー【yamamu】</title>
+  <meta name="description" content="${escHtml(themeDescSeo)}">
+  <meta name="keywords" content="${escHtml(config.keywords)}, ${escHtml(themeInfo.name)}">
+  <link rel="canonical" href="${SITE_URL}/${GAME_ID}/category-${themeKey}.html">
+
+  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="${escHtml(themeTitleSeo)}">
+  <meta property="og:description" content="${escHtml(themeDescSeo).substring(0, 120)}">
+  <meta property="og:url" content="${SITE_URL}/${GAME_ID}/category-${themeKey}.html">
+  <meta property="og:site_name" content="やまむー【yamamu】">
+  <meta property="og:image" content="${SITE_URL}/icon.png">
+  <meta property="og:locale" content="ja_JP">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="${escHtml(themeTitleSeo)}">
+  <meta name="twitter:description" content="${escHtml(themeDescSeo).substring(0, 120)}">
+  <meta name="twitter:image" content="${SITE_URL}/icon.png">
+
+  <!-- JSON-LD: CollectionPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "${escHtml(themeInfo.name)}",
+    "description": "${escHtml(themeDescSeo).substring(0, 200)}",
+    "url": "${SITE_URL}/${GAME_ID}/category-${themeKey}.html",
+    "isPartOf": { "@type": "WebSite", "name": "やまむー【yamamu】", "url": "${SITE_URL}/" },
+    "publisher": { "@type": "Organization", "name": "やまむー【yamamu】", "url": "${SITE_URL}" }
+  }
+  <\/script>
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "${SITE_URL}/" },
+      { "@type": "ListItem", "position": 2, "name": "${escHtml(config.fullLabel)}", "item": "${SITE_URL}/${GAME_ID}/category-${category}.html" },
+      { "@type": "ListItem", "position": 3, "name": "${escHtml(themeInfo.name)}" }
+    ]
+  }
+  <\/script>
+
+  <link rel="stylesheet" href="${ASSET_PREFIX}style.css">
+  <link rel="stylesheet" href="${ASSET_PREFIX}video.css">
+  <style>
+    .category-hero { background: var(--banner-bg); padding: 40px 24px 32px; text-align: center; color: #fff; }
+    .category-hero h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .category-hero p { font-size: 15px; opacity: 0.9; max-width: 700px; margin: 0 auto; line-height: 1.7; }
+    .category-stats { display: flex; justify-content: center; gap: 24px; margin-top: 16px; font-size: 14px; opacity: 0.8; }
+    .category-main { max-width: 960px; margin: 0 auto; padding: 24px; }
+    .theme-section { margin-bottom: 40px; }
+    .theme-section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
+    .theme-section-header h2 { font-size: 20px; font-weight: 700; color: var(--text-primary); }
+    .theme-section-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.7; }
+    .theme-video-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .related-themes { margin-top: 40px; }
+    .related-themes h2 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
+    .related-themes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    @media (max-width: 768px) {
+      .category-hero h1 { font-size: 22px; }
+      .category-main { padding: 16px; }
+      .theme-video-list { grid-template-columns: 1fr; }
+      .related-themes-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <!-- ヘッダー -->
+  <header class="header">
+    <a href="index.html" class="header-left" style="text-decoration:none">
+      <img src="${ASSET_PREFIX}icon.png" alt="やまむー" class="header-icon" width="32" height="32">
+      <span class="logo-text">${logoText}</span>
+    </a>
+    <div class="header-right">
+      <button class="theme-toggle" id="themeToggle" title="テーマ切替" aria-label="ダークモード切替">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+          <path fill="#606060" d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+${gameNavHtml}
+  <nav class="wiki-nav" aria-label="メインナビゲーション">
+${navHtml}
+  </nav>
+
+  <!-- パンくずリスト -->
+  <nav class="breadcrumb" aria-label="パンくずリスト">
+    <a href="index.html">ホーム</a>
+    <span>›</span>
+    <a href="category-${category}.html">${escHtml(config.fullLabel)}</a>
+    <span>›</span>
+    ${escHtml(themeInfo.name)}
+  </nav>
+
+  <!-- カテゴリヒーロー -->
+  <section class="category-hero">
+    <h1>${escHtml(themeInfo.name)}</h1>
+    <p>${escHtml(themeInfo.desc)}</p>
+    <div class="category-stats">
+      <span>攻略動画 ${themeVideos.length}本</span>
+      <span>総再生数 ${viewsLabel}</span>
+    </div>
+  </section>
+
+  <!-- メインコンテンツ -->
+  <div class="category-main">
+
+    <!-- テーマ動画一覧 -->
+    <section class="theme-section">
+      <div class="theme-section-header">
+        <h2>${escHtml(themeInfo.name)}</h2>
+      </div>
+      <div class="theme-video-list">
+${cardsHtml}
+      </div>
+    </section>
+
+    <!-- 関連テーマ -->
+    <section class="related-themes">
+      <h2>他のテーマで攻略動画を探す</h2>
+      <div class="related-themes-grid">
+${otherThemes}
+      </div>
+    </section>
+
+  </div>
+
+  <!-- フッター -->
+  <footer class="footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <a href="${ASSET_PREFIX}index.html">ポータル</a>
+      <a href="index.html">ホーム</a>
+      <a href="category-inazuma.html">イナイレV攻略まとめ</a>
+      <a href="guide-beginner.html">初心者ガイド</a>
+      <a href="guide-passive-build.html">パッシブ・ビルド攻略</a>
+      <a href="guide-equipment.html">装備・ビーンズ攻略</a>
+      <a href="guide-farming.html">周回効率ガイド</a>
+      <a href="guide-battle-tips.html">対戦テクニック</a>
+      <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
+      <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
+    </nav>
+    <p>&copy; 2026 やまむー【yamamu】. All rights reserved.</p>
+  </footer>
+
+  <script src="${ASSET_PREFIX}theme.js"><\/script>
 </body>
 </html>`;
     }
 
     // ===== index.html 生成 =====
     function generateIndexPage() {
-      const categories = [...new Set(videos.map(v => v.category))];
-      const catChips = categories.map(cat =>
-        `    <a href="category-${cat}.html" class="category-chip" data-category="${cat}" style="text-decoration:none;">${categoryLabel[cat] || cat}</a>`
-      ).join("\n");
-
       // ItemList JSON-LD
       const itemList = videos.map((v, i) =>
-        `      { "@type": "ListItem", "position": ${i + 1}, "url": "${SITE_URL}/video-${v.category}-${v.id}.html", "name": "${escHtml(v.title).substring(0, 60)}" }`
+        `      { "@type": "ListItem", "position": ${i + 1}, "url": "${SITE_URL}/${GAME_ID}/video-${v.category}-${v.id}.html", "name": "${escHtml(v.title).substring(0, 60)}" }`
       ).join(",\n");
 
-      // 最新の攻略記事リンク（上位10件）
-      const topArticles = videos.slice(0, 10).map(v =>
-        `      <li><a href="video-${v.category}-${v.id}.html" style="color:var(--text-primary); text-decoration:underline;">${escHtml(v.title).substring(0, 60)}</a></li>`
-      ).join("\n");
-
-      // 残りの記事
-      const restArticles = videos.slice(10).map(v =>
-        `        <li><a href="video-${v.category}-${v.id}.html" style="color:var(--text-primary); text-decoration:underline;">${escHtml(v.title).substring(0, 60)}</a></li>`
-      ).join("\n");
-
-      // ガイドページリンク
-      const guideLinks = [
-        ...categories.map(cat => `      <li><a href="category-${cat}.html" style="color:var(--text-primary); text-decoration:underline;">${categoryLabel[cat] || cat}攻略まとめ｜テーマ別に動画を探す</a></li>`),
-        ...guidePages.map(g => `      <li><a href="${g.url}" style="color:var(--text-primary); text-decoration:underline;">${escHtml(g.title)}</a></li>`)
+      // ガイドページリンク（SEOセクション用）
+      const categories = [...new Set(videos.map(v => v.category))];
+      const guideLinksHtml = [
+        ...categories.map(cat => `          <li><a href="category-${cat}.html">${categoryLabel[cat] || cat}攻略まとめ｜テーマ別に動画を探す</a></li>`),
+        ...guidePages.map(g => `          <li><a href="${g.url}">${escHtml(g.title)}</a></li>`)
       ].join("\n");
 
       return `<!DOCTYPE html>
@@ -839,24 +1118,23 @@ ${sectionsHtml}
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https://img.youtube.com data:; frame-src https://www.youtube.com; font-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>やまむー【yamamu】イナイレV攻略・ゲーム実況解説まとめ</title>
+  <title>イナイレV攻略Wiki｜やまむー【yamamu】</title>
   <meta name="description" content="やまむー【yamamu】のゲーム攻略サイト。イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の最強装備・ビーンズ・アプデ情報・KP上昇など対戦攻略を動画と記事で解説。マイクラ・ポケポケの実況も公開中。">
   <meta name="keywords" content="やまむー, yamamu, イナイレV, イナズマイレブン, イナイレ攻略, 英雄たちのヴィクトリーロード, 最強装備, ビーンズ, KP上昇, アプデ, ゲーム実況">
-  <link rel="canonical" href="${SITE_URL}/">
-  <meta name="google-site-verification" content="EBRfXcCa1aJa6JIc-OMNkl45UK8_rRyl6QtdaW7iBiE" />
+  <link rel="canonical" href="${SITE_URL}/${GAME_ID}/">
 
   <!-- OGP -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="やまむー【yamamu】イナイレV攻略・ゲーム実況解説まとめ">
+  <meta property="og:title" content="イナイレV攻略Wiki｜やまむー【yamamu】">
   <meta property="og:description" content="イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の最強装備・ビーンズ・アプデ情報・対戦攻略を動画と記事で解説。">
-  <meta property="og:url" content="${SITE_URL}/">
+  <meta property="og:url" content="${SITE_URL}/${GAME_ID}/">
   <meta property="og:site_name" content="やまむー【yamamu】">
   <meta property="og:image" content="${SITE_URL}/icon.png">
   <meta property="og:locale" content="ja_JP">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="やまむー【yamamu】イナイレV攻略・ゲーム実況解説まとめ">
+  <meta name="twitter:title" content="イナイレV攻略Wiki｜やまむー【yamamu】">
   <meta name="twitter:description" content="イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の攻略を動画と記事で解説。">
   <meta name="twitter:image" content="${SITE_URL}/icon.png">
 
@@ -865,8 +1143,8 @@ ${sectionsHtml}
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "やまむー【yamamu】イナイレV攻略・ゲーム実況解説まとめ",
-    "url": "${SITE_URL}/",
+    "name": "イナイレV攻略Wiki｜やまむー【yamamu】",
+    "url": "${SITE_URL}/${GAME_ID}/",
     "description": "イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の最強装備・ビーンズ・アプデ情報・対戦攻略を動画と記事で解説するゲーム攻略サイト。",
     "inLanguage": "ja",
     "publisher": {
@@ -893,19 +1171,19 @@ ${itemList}
   }
   <\/script>
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="${ASSET_PREFIX}style.css">
 </head>
 <body>
-  <!-- ヘッダー -->
+  <!-- ヘッダー Row 1 -->
   <header class="header">
-    <div class="header-left">
-      <img src="icon.png" alt="やまむー" class="header-icon" width="32" height="32">
-      <span class="logo-text">やまむー</span>
-    </div>
+    <a href="index.html" class="header-left">
+      <img src="${ASSET_PREFIX}icon.png" alt="やまむー" class="header-icon" width="32" height="32">
+      <span class="logo-text">${logoText}</span>
+    </a>
     <div class="header-center">
       <div class="search-box">
-        <label for="searchInput" class="sr-only">動画を検索</label>
-        <input type="text" id="searchInput" placeholder="動画を検索...">
+        <label for="searchInput" class="sr-only">記事を検索</label>
+        <input type="text" id="searchInput" placeholder="攻略記事を検索...">
         <button id="searchBtn" class="search-btn" aria-label="検索">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
             <path fill="#606060" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
@@ -922,67 +1200,175 @@ ${itemList}
     </div>
   </header>
 
-  <!-- チャンネルバナー -->
-  <section class="channel-banner">
-    <div class="banner-overlay">
-      <div class="channel-info">
-        <div class="channel-avatar">
-          <img src="icon.png" alt="やまむー" width="80" height="80">
-        </div>
-        <div class="channel-details">
-          <h1 class="channel-name">やまむー【yamamu】</h1>
-          <p class="channel-handle">@yamamu</p>
-          <p class="channel-stats">イナイレV攻略・ゲーム実況＆解説チャンネル</p>
-          <p class="channel-description">イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）を中心に、マイクラ・ポケポケなどゲーム攻略＆実況動画を配信中！
-最強装備・ビーンズ・アプデ情報・KP上昇戦術など、対戦に役立つ攻略情報をお届けします。
-Twitter（X）：@YamamuGaming</p>
-        </div>
-      </div>
+
+${gameNavHtml}
+  <!-- ナビゲーションバー Row 2 -->
+  <nav class="wiki-nav" aria-label="メインナビゲーション">
+    <a href="index.html" class="wiki-nav-link active">ホーム</a>
+    <a href="category-build.html" class="wiki-nav-link">ビルド攻略</a>
+    <a href="category-equipment.html" class="wiki-nav-link">装備・ビーンズ</a>
+    <a href="category-battle.html" class="wiki-nav-link">対戦テクニック</a>
+    <a href="category-farming.html" class="wiki-nav-link">周回効率</a>
+    <a href="guide-beginner.html" class="wiki-nav-link">初心者ガイド</a>
+    <a href="category-update.html" class="wiki-nav-link">アプデ情報</a>
+  </nav>
+
+  <!-- コンパクトヒーロー -->
+  <section class="wiki-hero">
+    <div class="wiki-hero-inner">
+      <h1 class="wiki-hero-title">イナイレV 攻略Wiki</h1>
+      <p class="wiki-hero-subtitle">やまむー｜総プレイ1200時間超のやり込み攻略情報</p>
     </div>
   </section>
 
-  <!-- カテゴリフィルター -->
-  <nav class="category-bar" aria-label="カテゴリ選択">
-    <button class="category-chip active" data-category="all">すべて</button>
-${catChips}
-  </nav>
+  <!-- 2カラムレイアウト -->
+  <div class="wiki-layout">
+    <!-- メインエリア -->
+    <main class="wiki-main">
 
-  <!-- 動画グリッド -->
-  <main class="video-grid" id="videoGrid">
-    <!-- 動画は JavaScript で動的に生成 -->
-  </main>
+      <!-- 検索結果エリア（検索時のみ表示） -->
+      <div class="search-results-area" id="searchResults">
+        <div class="search-results-header">
+          <span class="search-results-count" id="searchCount"></span>
+          <button class="search-results-close" id="searchClose">検索を閉じる</button>
+        </div>
+        <div class="search-results-grid" id="searchResultsGrid"></div>
+      </div>
 
-  <!-- SEO用テキストコンテンツ -->
-  <section class="seo-content" style="max-width:960px; margin:0 auto; padding:24px;">
-    <h2 style="font-size:20px; margin-bottom:12px; color:var(--text-primary);">イナイレV（イナズマイレブン英雄たちのヴィクトリーロード）攻略情報</h2>
-    <p style="font-size:14px; color:var(--text-secondary); line-height:1.8; margin-bottom:16px;">
-      当サイトでは、イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の対戦攻略を中心に、最新アップデート情報・最強装備考察・ビーンズの付け方・KP上昇戦術・テンション管理・シュートチェイン対策など、オンライン対戦で勝つための攻略情報を動画と記事で解説しています。
-    </p>
-    <h3 style="font-size:16px; margin-bottom:8px; color:var(--text-primary);">最新の攻略記事</h3>
-    <ul style="font-size:14px; color:var(--text-secondary); line-height:2; padding-left:20px; margin-bottom:16px;">
-${topArticles}
-    </ul>
-${videos.length > 10 ? `    <details style="margin-bottom:16px;">
-      <summary style="font-size:14px; color:var(--text-primary); cursor:pointer; font-weight:600;">その他の攻略記事をもっと見る（全${videos.length}本）</summary>
-      <ul style="font-size:14px; color:var(--text-secondary); line-height:2; padding-left:20px; margin-top:8px;">
-${restArticles}
-      </ul>
-    </details>` : ""}
-    <h3 style="font-size:16px; margin-bottom:8px; color:var(--text-primary);">攻略ガイド</h3>
-    <ul style="font-size:14px; color:var(--text-secondary); line-height:2; padding-left:20px; margin-bottom:16px;">
-${guideLinks}
-    </ul>
-    <h3 style="font-size:16px; margin-bottom:8px; color:var(--text-primary);">このサイトについて</h3>
-    <p style="font-size:14px; color:var(--text-secondary); line-height:1.8;">
-      やまむー【yamamu】はイナイレV・マイクラ・ポケポケのゲーム攻略動画を配信するYouTubeチャンネルです。動画では伝えきれない詳細な攻略情報を、記事形式でまとめて公開しています。
-    </p>
-  </section>
+      <!-- ピックアップ -->
+      <section class="pickup-section" id="pickupSection">
+        <h2 class="section-title">注目の攻略記事</h2>
+        <div class="pickup-list" id="pickupList">
+          <!-- JS で生成 -->
+        </div>
+      </section>
+
+      <!-- 攻略ガイド -->
+      <section class="guide-section">
+        <h2 class="section-title">攻略ガイド</h2>
+        <div class="guide-grid">
+          <a href="guide-beginner.html" class="guide-card">
+            <div class="guide-card-icon">&#x1F4D6;</div>
+            <div class="guide-card-title">初心者攻略ガイド</div>
+            <div class="guide-card-desc">始めたらまずやるべきこと完全まとめ。テンション・フォーカス・育成の基礎知識</div>
+          </a>
+          <a href="guide-passive-build.html" class="guide-card">
+            <div class="guide-card-icon">&#x2699;&#xFE0F;</div>
+            <div class="guide-card-title">パッシブ・ビルド攻略</div>
+            <div class="guide-card-desc">正義ビルド最強構成・パッシブ継承のポジション別おすすめ</div>
+          </a>
+          <a href="guide-equipment.html" class="guide-card">
+            <div class="guide-card-icon">&#x1F6E1;&#xFE0F;</div>
+            <div class="guide-card-title">装備・ビーンズ攻略</div>
+            <div class="guide-card-desc">ポジション別最強装備とビーンズの付け方を完全解説</div>
+          </a>
+          <a href="guide-farming.html" class="guide-card">
+            <div class="guide-card-icon">&#x1F504;</div>
+            <div class="guide-card-title">周回・素材集め効率</div>
+            <div class="guide-card-desc">ビーンズ・HERO・クロニクルの効率的な周回方法</div>
+          </a>
+          <a href="guide-battle-tips.html" class="guide-card">
+            <div class="guide-card-icon">&#x2694;&#xFE0F;</div>
+            <div class="guide-card-title">対戦テクニック</div>
+            <div class="guide-card-desc">勝率を上げる戦い方・テンション管理・タクティクス選択</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- テーマ別動画セクション（JSで生成） -->
+      <div id="themeSections"></div>
+
+      <!-- ショート動画セクション -->
+      <section class="shorts-section" id="shortsSection">
+        <h2 class="section-title">サクッと見れるショート攻略</h2>
+        <p class="shorts-description">忙しい人向け！2分以内で分かるポイント解説</p>
+        <div class="shorts-grid" id="shortVideosGrid">
+          <!-- JS で生成 -->
+        </div>
+      </section>
+
+      <!-- SEO用テキストコンテンツ -->
+      <section class="seo-content">
+        <h2>イナイレV（イナズマイレブン英雄たちのヴィクトリーロード）攻略情報</h2>
+        <p>
+          当サイトでは、イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の対戦攻略を中心に、最新アップデート情報・最強装備考察・ビーンズの付け方・KP上昇戦術・テンション管理・シュートチェイン対策など、オンライン対戦で勝つための攻略情報を動画と記事で解説しています。
+        </p>
+        <h3>最新の攻略記事</h3>
+        <ul id="seoArticleList">
+          <!-- JS で生成 -->
+        </ul>
+        <details>
+          <summary>その他の攻略記事をもっと見る</summary>
+          <ul id="seoArticleListRest">
+            <!-- JS で生成 -->
+          </ul>
+        </details>
+        <h3>攻略ガイド</h3>
+        <ul>
+${guideLinksHtml}
+        </ul>
+        <h3>このサイトについて</h3>
+        <p>
+          やまむー【yamamu】はイナイレV・マイクラ・ポケポケのゲーム攻略動画を配信するYouTubeチャンネルです。動画では伝えきれない詳細な攻略情報を、記事形式でまとめて公開しています。
+        </p>
+      </section>
+    </main>
+
+    <!-- サイドバー -->
+    <aside class="wiki-sidebar">
+      <!-- カテゴリナビ -->
+      <div class="sidebar-box">
+        <h3 class="sidebar-title">カテゴリ</h3>
+        <a href="category-build.html" class="sidebar-link">ビルド・パッシブ攻略</a>
+        <a href="category-equipment.html" class="sidebar-link">装備・ビーンズ攻略</a>
+        <a href="category-battle.html" class="sidebar-link">対戦テクニック・立ち回り</a>
+        <a href="category-farming.html" class="sidebar-link">周回・効率プレイ</a>
+        <a href="category-update.html" class="sidebar-link">アップデート・環境考察</a>
+        <a href="category-beginner.html" class="sidebar-link">初心者向けガイド</a>
+      </div>
+
+      <!-- 人気の攻略記事 -->
+      <div class="sidebar-box">
+        <h3 class="sidebar-title">人気の攻略記事</h3>
+        <div id="popularArticles">
+          <!-- JS で生成 -->
+        </div>
+      </div>
+
+      <!-- 攻略ガイド -->
+      <div class="sidebar-box">
+        <h3 class="sidebar-title">攻略ガイド一覧</h3>
+        <a href="guide-beginner.html" class="sidebar-link">初心者攻略ガイド</a>
+        <a href="guide-passive-build.html" class="sidebar-link">パッシブ・ビルド攻略</a>
+        <a href="guide-equipment.html" class="sidebar-link">装備・ビーンズ攻略</a>
+        <a href="guide-farming.html" class="sidebar-link">周回・素材集め効率</a>
+        <a href="guide-battle-tips.html" class="sidebar-link">対戦テクニック</a>
+      </div>
+
+      <!-- SNS -->
+      <div class="sidebar-box">
+        <h3 class="sidebar-title">リンク</h3>
+        <div class="sidebar-social">
+          <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
+          <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
+        </div>
+      </div>
+    </aside>
+  </div>
 
   <!-- フッター -->
   <footer class="footer">
-    <nav aria-label="フッターナビゲーション" style="margin-bottom:8px;">
-      <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank" style="color:var(--text-secondary); margin:0 8px; text-decoration:none; font-size:13px;">YouTube</a>
-      <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank" style="color:var(--text-secondary); margin:0 8px; text-decoration:none; font-size:13px;">X (Twitter)</a>
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <a href="${ASSET_PREFIX}index.html">ポータル</a>
+      <a href="index.html">ホーム</a>
+      <a href="category-inazuma.html">イナイレV攻略まとめ</a>
+      <a href="guide-beginner.html">初心者ガイド</a>
+      <a href="guide-passive-build.html">パッシブ・ビルド攻略</a>
+      <a href="guide-equipment.html">装備・ビーンズ攻略</a>
+      <a href="guide-farming.html">周回効率ガイド</a>
+      <a href="guide-battle-tips.html">対戦テクニック</a>
+      <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
+      <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
     </nav>
     <p>&copy; 2026 やまむー【yamamu】. All rights reserved.</p>
   </footer>
@@ -1008,22 +1394,39 @@ ${guideLinks}
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>${SITE_URL}/${GAME_ID}/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
   </url>`;
 
       // カテゴリページ
       categories.forEach(cat => {
         urls += `\n  <url>
-    <loc>${SITE_URL}/category-${cat}.html</loc>
+    <loc>${SITE_URL}/${GAME_ID}/category-${cat}.html</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>`;
       });
 
+      // テーマ別個別ページ
+      const inazumaThemes = categoryConfig.inazuma ? Object.keys(categoryConfig.inazuma.themes) : [];
+      inazumaThemes.forEach(themeKey => {
+        urls += `\n  <url>
+    <loc>${SITE_URL}/${GAME_ID}/category-${themeKey}.html</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>`;
+      });
+
       // ガイドページ
       guidePages.forEach(g => {
         urls += `\n  <url>
-    <loc>${SITE_URL}/${g.url}</loc>
+    <loc>${SITE_URL}/${GAME_ID}/${g.url}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
@@ -1033,7 +1436,7 @@ ${guideLinks}
       // 動画ページ
       videos.forEach(v => {
         urls += `\n  <url>
-    <loc>${SITE_URL}/video-${v.category}-${v.id}.html</loc>
+    <loc>${SITE_URL}/${GAME_ID}/video-${v.category}-${v.id}.html</loc>
     <lastmod>${v.date}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1071,19 +1474,37 @@ ${urls}
 
       const zip = new JSZip();
       let fileCount = 0;
+      const redirectFiles = []; // リダイレクトスタブ用
+
+      // リダイレクトスタブ生成関数
+      function generateRedirectStub(oldFilename, newPath) {
+        return `<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=${newPath}">
+  <link rel="canonical" href="${SITE_URL}/${newPath}">
+  <title>リダイレクト中...</title>
+  <script>window.location.replace("${newPath}");<\/script>
+</head>
+<body>
+  <p><a href="${newPath}">こちらに移動しました</a></p>
+</body>
+</html>`;
+      }
 
       // 1. videos.js
       const videosJsContent = generateVideosJs();
-      zip.file("videos.js", videosJsContent);
+      zip.file(`${GAME_ID}/videos.js`, videosJsContent);
       fileCount++;
-      addLog("+ videos.js", "success");
+      addLog(`+ ${GAME_ID}/videos.js`, "success");
 
       // 2. index.html
       if (!newOnly || !existingSet.has("index.html")) {
         const indexHtml = generateIndexPage();
-        zip.file("index.html", indexHtml);
+        zip.file(`${GAME_ID}/index.html`, indexHtml);
         fileCount++;
-        addLog("+ index.html", "success");
+        addLog(`+ ${GAME_ID}/index.html`, "success");
       }
 
       // 3. カテゴリページ
@@ -1093,27 +1514,63 @@ ${urls}
         if (newOnly && existingSet.has(filename)) continue;
         const catVideos = videos.filter(v => v.category === cat);
         const catHtml = generateCategoryPage(cat, catVideos);
-        zip.file(filename, catHtml);
+        zip.file(`${GAME_ID}/${filename}`, catHtml);
+        redirectFiles.push(filename);
         fileCount++;
-        addLog(`+ ${filename} (${catVideos.length}本)`, "success");
+        addLog(`+ ${GAME_ID}/${filename} (${catVideos.length}本)`, "success");
       }
 
-      // 4. 動画ページ
+      // 4. テーマ別個別ページ（イナイレVのみ）
+      const inazumaConfig = categoryConfig.inazuma;
+      if (inazumaConfig && GAME_ID === "inazuma") {
+        const inazumaVideos = videos.filter(v => v.category === "inazuma");
+        const themeKeys = Object.keys(inazumaConfig.themes);
+        for (const themeKey of themeKeys) {
+          const filename = `category-${themeKey}.html`;
+          if (newOnly && existingSet.has(filename)) continue;
+          const themeVids = inazumaVideos.filter(v => getThemeCategory(v) === themeKey);
+          if (themeVids.length === 0) continue;
+          const themeHtml = generateThemePage("inazuma", themeKey, themeVids, inazumaVideos);
+          zip.file(`${GAME_ID}/${filename}`, themeHtml);
+          redirectFiles.push(filename);
+          fileCount++;
+          addLog(`+ ${GAME_ID}/${filename} (${themeVids.length}本)`, "success");
+        }
+      }
+
+      // 5. 動画ページ
       let videoCount = 0;
       for (const v of videos) {
         const filename = `video-${v.category}-${v.id}.html`;
         if (newOnly && existingSet.has(filename)) continue;
         const html = generateVideoPage(v);
-        zip.file(filename, html);
+        zip.file(`${GAME_ID}/${filename}`, html);
+        redirectFiles.push(filename);
         videoCount++;
       }
       addLog(`+ 動画ページ ${videoCount}件`, "success");
 
-      // 5. sitemap.xml
+      // 6. sitemap.xml（ルートに配置）
       const sitemapXml = generateSitemapXml();
       zip.file("sitemap.xml", sitemapXml);
       fileCount++;
       addLog("+ sitemap.xml", "success");
+
+      // 7. リダイレクトスタブ（ルートに配置）
+      let redirectCount = 0;
+      for (const filename of redirectFiles) {
+        const newPath = `${GAME_ID}/${filename}`;
+        zip.file(filename, generateRedirectStub(filename, newPath));
+        redirectCount++;
+      }
+      // ガイドページのリダイレクトスタブも追加
+      const gameGuides = guidePages.filter(g => g.category === GAME_ID);
+      for (const g of gameGuides) {
+        const newPath = `${GAME_ID}/${g.url}`;
+        zip.file(g.url, generateRedirectStub(g.url, newPath));
+        redirectCount++;
+      }
+      addLog(`+ リダイレクトスタブ ${redirectCount}件`, "success");
 
       addLog(`\n=== 生成完了: ${fileCount + videoCount} ファイル ===\n`, "success");
       addLog("ZIPを生成中...", "info");

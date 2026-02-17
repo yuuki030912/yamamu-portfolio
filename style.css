@@ -20,7 +20,7 @@
 
 :root {
   --bg-primary: #ffffff;
-  --bg-secondary: #f9f9f9;
+  --bg-secondary: #f5f6f8;
   --bg-card: #ffffff;
   --text-primary: #0f0f0f;
   --text-secondary: #606060;
@@ -31,7 +31,12 @@
   --header-bg: #ffffff;
   --shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
   --banner-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --accent: #ff0000;
+  --accent: #667eea;
+  --accent-hover: #5a6fd6;
+  --nav-bg: #2d2d3d;
+  --nav-text: #ffffff;
+  --pickup-badge: #ff6b35;
+  --section-heading: #667eea;
 }
 
 [data-theme="dark"] {
@@ -46,6 +51,8 @@
   --chip-active-text: #0f0f0f;
   --header-bg: #202020;
   --shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+  --nav-bg: #1a1a2e;
+  --section-heading: #8b9cf7;
 }
 
 body {
@@ -78,10 +85,12 @@ body {
   cursor: pointer;
   flex-shrink: 0;
   min-width: 0;
+  text-decoration: none;
+  color: inherit;
 }
 
 .logo-text {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text-primary);
   white-space: nowrap;
@@ -156,38 +165,6 @@ body {
   fill: var(--text-secondary);
 }
 
-/* ===== チャンネルバナー ===== */
-.channel-banner {
-  background: var(--banner-bg);
-  padding: 48px 24px 32px;
-}
-
-.banner-overlay {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.channel-info {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.channel-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  overflow: hidden;
-  flex-shrink: 0;
-  border: 3px solid rgba(255, 255, 255, 0.5);
-}
-
-.channel-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 .header-icon {
   width: 32px;
   height: 32px;
@@ -195,37 +172,555 @@ body {
   object-fit: cover;
 }
 
-.channel-details {
+/* ===== ナビゲーションバー（Wiki風） ===== */
+.wiki-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--nav-bg);
+  padding: 0 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 2px solid var(--accent);
+}
+
+.wiki-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.wiki-nav-link {
+  display: block;
+  padding: 10px 16px;
+  color: var(--nav-text);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+}
+
+.wiki-nav-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-bottom-color: var(--nav-text);
+}
+
+.wiki-nav-link.active {
+  border-bottom-color: var(--pickup-badge);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ===== コンパクトヒーローバナー ===== */
+.wiki-hero {
+  background: var(--banner-bg);
+  padding: 20px 24px;
+  text-align: center;
   color: #ffffff;
 }
 
-.channel-name {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 2px;
+.wiki-hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.channel-handle {
+.wiki-hero-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+.wiki-hero-subtitle {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+/* ===== 2カラムレイアウト ===== */
+.wiki-layout {
+  display: flex;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.wiki-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.wiki-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+}
+
+/* ===== ピックアップ（注目記事）===== */
+.pickup-section {
+  margin-bottom: 28px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  padding-left: 12px;
+  border-left: 4px solid var(--accent);
+}
+
+.pickup-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pickup-card {
+  display: flex;
+  gap: 14px;
+  background: var(--bg-card);
+  border-radius: 10px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s, transform 0.2s;
+  border: 1px solid var(--border-color);
+}
+
+.pickup-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+.pickup-thumb {
+  width: 200px;
+  flex-shrink: 0;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000;
+}
+
+.pickup-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pickup-body {
+  padding: 12px 14px 12px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.pickup-badge {
+  display: inline-block;
+  background: var(--pickup-badge);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-bottom: 6px;
+  width: fit-content;
+  letter-spacing: 0.5px;
+}
+
+.pickup-title {
   font-size: 14px;
-  opacity: 0.8;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   margin-bottom: 4px;
 }
 
-.channel-stats {
-  font-size: 13px;
-  opacity: 0.7;
+.pickup-meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* ===== 攻略ガイドカードグリッド ===== */
+.guide-section {
+  margin-bottom: 28px;
+}
+
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.guide-card {
+  display: block;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+}
+
+.guide-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+.guide-card-icon {
+  font-size: 22px;
   margin-bottom: 8px;
 }
 
-.channel-description {
+.guide-card-title {
   font-size: 14px;
-  opacity: 0.9;
-  max-width: 700px;
-  white-space: pre-wrap;
-  line-height: 1.7;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  line-height: 1.4;
 }
 
-/* ===== カテゴリバー ===== */
+.guide-card-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ===== ホームのテーマ別セクション ===== */
+.home-section {
+  margin-bottom: 28px;
+}
+
+.home-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.home-section-header .section-title {
+  margin-bottom: 0;
+}
+
+.home-section-more {
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 4px 0;
+}
+
+.home-section-more:hover {
+  text-decoration: underline;
+}
+
+.home-section-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+/* ===== 動画カード（共通） ===== */
+.video-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: var(--bg-card);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid var(--border-color);
+}
+
+.video-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+
+.video-thumbnail {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000;
+}
+
+.video-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.video-card:hover .video-thumbnail img {
+  transform: scale(1.05);
+}
+
+.video-duration {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+.video-info {
+  padding: 10px 12px;
+}
+
+.video-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
+}
+
+.video-meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.video-category-tag {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 2px 6px;
+  background: var(--chip-bg);
+  border-radius: 3px;
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+/* ===== サイドバー ===== */
+.sidebar-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.sidebar-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--accent);
+}
+
+.sidebar-link {
+  display: block;
+  padding: 7px 0;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border-color);
+  transition: color 0.2s;
+}
+
+.sidebar-link:last-child {
+  border-bottom: none;
+}
+
+.sidebar-link:hover {
+  color: var(--accent);
+}
+
+.popular-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color);
+  text-decoration: none;
+  color: inherit;
+}
+
+.popular-item:last-child {
+  border-bottom: none;
+}
+
+.popular-item:hover .popular-title {
+  color: var(--accent);
+}
+
+.popular-rank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.popular-rank.rank-1 { background: #f5a623; }
+.popular-rank.rank-2 { background: #9b9b9b; }
+.popular-rank.rank-3 { background: #c47b30; }
+.popular-rank.rank-other { background: var(--chip-bg); color: var(--text-secondary); }
+
+.popular-thumb {
+  width: 64px;
+  height: 36px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #000;
+}
+
+.popular-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.popular-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color 0.2s;
+}
+
+.sidebar-social {
+  display: flex;
+  gap: 8px;
+}
+
+.sidebar-social a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background: var(--chip-bg);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  flex: 1;
+  justify-content: center;
+}
+
+.sidebar-social a:hover {
+  background: var(--border-color);
+}
+
+/* ===== ショート動画セクション ===== */
+.shorts-section {
+  margin-bottom: 28px;
+}
+
+.shorts-description {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+  margin-top: -8px;
+}
+
+.shorts-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+/* ===== SEOコンテンツセクション ===== */
+.seo-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.seo-content h2 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.seo-content h3 {
+  font-size: 15px;
+  margin-bottom: 8px;
+  margin-top: 16px;
+  color: var(--text-primary);
+}
+
+.seo-content p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+
+.seo-content ul {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 2;
+  padding-left: 20px;
+  margin-bottom: 12px;
+}
+
+.seo-content a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.seo-content a:hover {
+  text-decoration: underline;
+}
+
+.seo-content details {
+  margin-bottom: 16px;
+}
+
+.seo-content summary {
+  font-size: 14px;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* 動画が見つからない場合 */
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 48px 16px;
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+
+/* ===== 旧カテゴリバー（後方互換） ===== */
 .category-bar {
   display: flex;
   gap: 8px;
@@ -262,7 +757,7 @@ body {
   color: var(--chip-active-text);
 }
 
-/* ===== 動画グリッド ===== */
+/* ===== 旧動画グリッド（後方互換） ===== */
 .video-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -272,91 +767,66 @@ body {
   margin: 0 auto;
 }
 
-.video-card {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-  background: var(--bg-card);
-  border-radius: 12px;
+/* ===== 旧チャンネルバナー（後方互換） ===== */
+.channel-banner {
+  background: var(--banner-bg);
+  padding: 48px 24px 32px;
+}
+
+.banner-overlay {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.channel-info {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.channel-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
   overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  flex-shrink: 0;
+  border: 3px solid rgba(255, 255, 255, 0.5);
 }
 
-.video-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow);
-}
-
-.video-thumbnail {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  background: #000;
-}
-
-.video-thumbnail img {
+.channel-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s;
 }
 
-.video-card:hover .video-thumbnail img {
-  transform: scale(1.05);
+.channel-details {
+  color: #ffffff;
 }
 
-.video-duration {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 500;
-  padding: 2px 6px;
-  border-radius: 4px;
+.channel-name {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 2px;
 }
 
-.video-info {
-  padding: 12px;
+.channel-handle {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 4px;
 }
 
-.video-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 6px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  line-height: 1.4;
-}
-
-.video-meta {
+.channel-stats {
   font-size: 13px;
-  color: var(--text-secondary);
+  opacity: 0.7;
+  margin-bottom: 8px;
 }
 
-.video-category-tag {
-  display: inline-block;
-  margin-top: 6px;
-  padding: 2px 8px;
-  background: var(--chip-bg);
-  border-radius: 4px;
-  font-size: 11px;
-  color: var(--text-secondary);
-}
-
-/* 動画が見つからない場合 */
-.no-results {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 48px 16px;
-  color: var(--text-secondary);
-  font-size: 16px;
+.channel-description {
+  font-size: 14px;
+  opacity: 0.9;
+  max-width: 700px;
+  white-space: pre-wrap;
+  line-height: 1.7;
 }
 
 /* ===== モーダル ===== */
@@ -456,10 +926,87 @@ body {
   margin-top: 40px;
 }
 
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 16px;
+  margin-bottom: 8px;
+}
+
+.footer-nav a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.footer-nav a:hover {
+  color: var(--accent);
+}
+
+/* ===== 検索結果（ホーム用）===== */
+.search-results-area {
+  display: none;
+  margin-bottom: 24px;
+}
+
+.search-results-area.active {
+  display: block;
+}
+
+.search-results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.search-results-count {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.search-results-close {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 4px 8px;
+}
+
+.search-results-close:hover {
+  color: var(--text-primary);
+}
+
+.search-results-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
 /* ===== レスポンシブ ===== */
+@media (max-width: 1024px) {
+  .wiki-sidebar {
+    display: none;
+  }
+
+  .home-section-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .search-results-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .shorts-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
   .logo-text {
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .header-icon {
@@ -471,13 +1018,33 @@ body {
     margin: 0 8px;
   }
 
-  .channel-info {
-    flex-direction: column;
-    text-align: center;
+  .wiki-layout {
+    padding: 16px;
   }
 
-  .channel-description {
-    max-width: 100%;
+  .guide-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .home-section-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .search-results-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .shorts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pickup-thumb {
+    width: 140px;
+  }
+
+  .pickup-title {
+    font-size: 13px;
   }
 
   .video-grid {
@@ -489,11 +1056,24 @@ body {
   .category-bar {
     padding: 12px 16px;
   }
+
+  .channel-info {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .channel-description {
+    max-width: 100%;
+  }
+
+  .wiki-hero-title {
+    font-size: 20px;
+  }
 }
 
 @media (max-width: 480px) {
   .logo-text {
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .header-icon {
@@ -505,11 +1085,192 @@ body {
     padding: 0 8px;
   }
 
+  .guide-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-section-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .search-results-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pickup-card {
+    flex-direction: column;
+  }
+
+  .pickup-thumb {
+    width: 100%;
+  }
+
+  .pickup-body {
+    padding: 10px 14px 14px;
+  }
+
   .video-grid {
     grid-template-columns: 1fr;
   }
 
   .channel-name {
+    font-size: 22px;
+  }
+
+  .wiki-hero-title {
+    font-size: 18px;
+  }
+
+  .wiki-nav-link {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
+/* ===== ゲーム切替ナビ ===== */
+.game-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #1a1a2e;
+  padding: 0 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.game-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.game-nav-link {
+  display: block;
+  padding: 8px 16px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color 0.2s, color 0.2s;
+  letter-spacing: 0.5px;
+}
+
+.game-nav-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.game-nav-link.active {
+  color: #fff;
+  border-bottom: 2px solid var(--accent);
+}
+
+/* ===== ポータルページ ===== */
+.portal-hero {
+  text-align: center;
+  padding: 48px 16px 32px;
+  background: var(--banner-bg);
+  color: #fff;
+}
+
+.portal-hero-title {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.portal-hero-sub {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.portal-section {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+.portal-section-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+  padding-left: 12px;
+  border-left: 4px solid var(--accent);
+}
+
+.portal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.portal-card {
+  display: block;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.portal-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+.portal-card-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--banner-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.portal-card-body {
+  padding: 20px;
+}
+
+.portal-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.portal-card-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.portal-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 12px;
+  font-size: 11px;
+  margin-top: 8px;
+}
+
+.portal-badge.coming-soon {
+  background: var(--text-secondary);
+}
+
+@media (max-width: 480px) {
+  .portal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .portal-hero-title {
     font-size: 22px;
   }
 }

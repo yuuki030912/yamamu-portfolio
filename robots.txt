@@ -5,5 +5,8 @@ Allow: /
 Sitemap: https://yamamu-youtube.jp/sitemap.xml
 
 # 管理ツールはクロールさせない
-Disallow: /generate.html
+Disallow: /inazuma/generate.html
+Disallow: /pokepoke/generate.html
 Disallow: /manager.html
+Disallow: /_write_gen.js
+Disallow: /_add_guide_links.js
