@@ -54,6 +54,56 @@
   }
   </script>
 
+  <!-- JSON-LD: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "正義ビルドとは？なぜ最強と言われていますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "正義ビルドはファウルを取られるまでチームのATDF（攻撃力・守備力）が常時上昇するビルドです。監督・マネージャーを統一すれば最大60%のバフが得られ、常時発動で安定性が高いため、現環境で最強のビルドとされています。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "おすすめのビルド組み合わせは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ver1.5.0以降は「正義×テンション」が最もおすすめです。正義で基礎ステータスを上げつつ、テンションで獲得TP量を増やす構成で、安定と火力を両立できます。他にも「正義×ラフプレー」「正義×カウンター」などが有効です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "パッシブ継承では何をつけるべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "FWは「敵陣での自身のシュートAT +8%」が最優先です。MF・DF・GKは「異属性フォーカスATDF」や「同属性フォーカスATDF」がおすすめです。レベル50でカスタムパッシブスロットが解放されると、さらにビルドの幅が広がります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ビルドタイプはいつ決まりますか？変更できますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "選手がスピリットから選手化する際にランダムでビルドタイプが決まります（キャラごとに出やすいタイプあり）。通常は変更できませんが、BASARA化するとビルドタイプの自由変更が可能になります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "BASARA化するとビルドはどうなりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "BASARA化するとビルドタイプを自由に変更できるようになり、「新たな可能性」による技の付け替えも可能です。ただしチーム編成はBASARAキャラ1人のみの制限があります。"
+        }
+      }
+    ]
+  }
+  </script>
+
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="../video.css">
   <style>
@@ -72,11 +122,18 @@
     .related-themes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
     .build-tab-bar { padding: 12px 0; }
     .build-tab-count { font-size: 13px; color: var(--text-secondary); padding: 4px 0 12px; }
+    .category-seo-text { background: var(--bg-card); border-radius: 12px; padding: 24px; margin-top: 40px; line-height: 1.9; }
+    .category-seo-text h2 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; }
+    .category-seo-text h3 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin: 20px 0 8px; }
+    .category-seo-text p { font-size: 14px; color: var(--text-secondary); margin-bottom: 12px; }
+    .faq-list dt { font-weight: 700; color: var(--text-primary); margin-top: 16px; }
+    .faq-list dd { color: var(--text-secondary); margin: 4px 0 0 0; font-size: 14px; line-height: 1.8; }
     @media (max-width: 768px) {
       .category-hero h1 { font-size: 22px; }
       .category-main { padding: 16px; }
       .theme-video-list { grid-template-columns: 1fr; }
       .related-themes-grid { grid-template-columns: repeat(2, 1fr); }
+      .category-seo-text { padding: 16px; }
     }
   </style>
 </head>
@@ -359,6 +416,35 @@
           </div>
         </a>
       </div>
+    </section>
+
+    <!-- SEOテキストコンテンツ -->
+    <section class="category-seo-text">
+      <h2>イナイレV ビルド・パッシブ攻略ガイド</h2>
+      <p>イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）において、ビルド（チームパッシブ）はチーム全体の性能を左右する最も重要な育成要素です。各選手が持つ「チームパッシブ」によりビルドタイプが決まり、チームメンバーの多数決でチーム全体のビルドが決定します。ここでは、おすすめのビルド構成やパッシブ継承の攻略情報をまとめています。</p>
+      <h3>おすすめビルドランキング</h3>
+      <p>現環境で最強のビルドは<strong>正義ビルド</strong>です。ファウルを取られるまでチームのATDFが常時上昇し、監督・マネージャー統一で最大60%のバフが得られます。常時発動で安定性が高く、初心者にもおすすめです。次点は<strong>テンションビルド</strong>で、フォーカス勝利時の獲得テンションが上昇し、テンション50%以上でフォーカスATDFが上昇する効果が有用です。<strong>カウンタービルド</strong>はボール奪還後のシュートATが上昇するため、ロングシュート戦術との相性が良いです。</p>
+      <h3>Ver1.5.0以降のビルド組み合わせ</h3>
+      <p>Ver1.5.0でチームパッシブに上限が設けられたことにより、単一ビルド特化よりも複数ビルドの組み合わせが主流になりました。<strong>正義×テンション</strong>は正義で基礎ステを上げつつテンション獲得量を増やす安定と火力のいいとこ取り構成です。<strong>正義×ラフプレー</strong>は正義のバフを維持しながらダッシュのファウル率を減らせます。<strong>正義×カウンター</strong>はボール奪取後のシュートATアップでロングシュートが強力になります。</p>
+      <h3>パッシブ継承のおすすめ</h3>
+      <p>パッシブ継承は他キャラのパッシブスキルを自キャラに付与するシステムです。FWは「敵陣での自身のシュートAT +8%」が最優先で、MF・DFは「異属性フォーカスATDF」や「同属性フォーカスATDF」がおすすめです。GKも同様にフォーカス系パッシブが有効です。レベル50でカスタムパッシブスロットが解放されるため、そこからさらにビルドの幅が広がります。</p>
+    </section>
+
+    <!-- よくある質問 -->
+    <section class="category-seo-text">
+      <h2>よくある質問</h2>
+      <dl class="faq-list">
+        <dt>Q. 正義ビルドとは？なぜ最強と言われていますか？</dt>
+        <dd>A. 正義ビルドはファウルを取られるまでチームのATDF（攻撃力・守備力）が常時上昇するビルドです。監督・マネージャーを統一すれば最大60%のバフが得られ、常時発動で安定性が高いため、現環境で最強のビルドとされています。</dd>
+        <dt>Q. おすすめのビルド組み合わせは何ですか？</dt>
+        <dd>A. Ver1.5.0以降は「正義×テンション」が最もおすすめです。正義で基礎ステータスを上げつつ、テンションで獲得TP量を増やす構成で、安定と火力を両立できます。他にも「正義×ラフプレー」「正義×カウンター」などが有効です。</dd>
+        <dt>Q. パッシブ継承では何をつけるべきですか？</dt>
+        <dd>A. FWは「敵陣での自身のシュートAT +8%」が最優先です。MF・DF・GKは「異属性フォーカスATDF」や「同属性フォーカスATDF」がおすすめです。レベル50でカスタムパッシブスロットが解放されると、さらにビルドの幅が広がります。</dd>
+        <dt>Q. ビルドタイプはいつ決まりますか？変更できますか？</dt>
+        <dd>A. 選手がスピリットから選手化する際にランダムでビルドタイプが決まります（キャラごとに出やすいタイプあり）。通常は変更できませんが、BASARA化するとビルドタイプの自由変更が可能になります。</dd>
+        <dt>Q. BASARA化するとビルドはどうなりますか？</dt>
+        <dd>A. BASARA化するとビルドタイプを自由に変更できるようになり、「新たな可能性」による技の付け替えも可能です。ただしチーム編成はBASARAキャラ1人のみの制限があります。</dd>
+      </dl>
     </section>
 
     <!-- 関連テーマ -->
