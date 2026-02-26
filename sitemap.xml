@@ -91,12 +91,6 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://yamamu-youtube.jp/inazuma/guide-tier-list.html</loc>
-    <lastmod>2026-02-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
-  </url>
-  <url>
     <loc>https://yamamu-youtube.jp/inazuma/guide-update-v401.html</loc>
     <lastmod>2026-02-26</lastmod>
     <changefreq>monthly</changefreq>
