@@ -54,6 +54,39 @@
   }
   </script>
 
+  <!-- JSON-LD: FAQPage -->
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "BASARA化に必要な条件は？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "マーケット「荒ぶる者たちの巣窟」でHEROスピリット8枚と交換するか、バサラシードを使用します。対象HEROのLv50以上が必要です。バサラシードはどのレアリティからでもBASARA化可能です。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "バサラシードの入手方法は？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ver3.0.1で1個配布されました。2個目以降の入手方法は現時点で不明で、公式は「かなり頑張る必要あり」としています。一度使うと消費されやり直し不可なので慎重に選びましょう。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Ver1.5.0の主な変更点は？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "チームパッシブに上限が設けられ、単一ビルド特化よりも複数ビルドの組み合わせ構成が主流になりました。正義×テンションなどのハイブリッド構成が環境のトップになっています。"
+      }
+    }
+  ]
+}
+  </script>
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="../video.css">
   <style>
@@ -70,11 +103,20 @@
     .related-themes { margin-top: 40px; }
     .related-themes h2 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
     .related-themes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .build-tab-bar { padding: 12px 0; }
+    .build-tab-count { font-size: 13px; color: var(--text-secondary); padding: 4px 0 12px; }
+    .category-seo-text { background: var(--bg-card); border-radius: 12px; padding: 24px; margin-top: 40px; line-height: 1.9; }
+    .category-seo-text h2 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; }
+    .category-seo-text h3 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin: 20px 0 8px; }
+    .category-seo-text p { font-size: 14px; color: var(--text-secondary); margin-bottom: 12px; }
+    .faq-list dt { font-weight: 700; color: var(--text-primary); margin-top: 16px; }
+    .faq-list dd { color: var(--text-secondary); margin: 4px 0 0 0; font-size: 14px; line-height: 1.8; }
     @media (max-width: 768px) {
       .category-hero h1 { font-size: 22px; }
       .category-main { padding: 16px; }
       .theme-video-list { grid-template-columns: 1fr; }
       .related-themes-grid { grid-template-columns: repeat(2, 1fr); }
+      .category-seo-text { padding: 16px; }
     }
   </style>
   <!-- Google AdSense -->
@@ -139,6 +181,7 @@
       <div class="theme-section-header">
         <h2>アップデート・環境考察</h2>
       </div>
+
       <div class="theme-video-list">
         <a href="video-inazuma-P6-ofFef4EM.html" class="video-card">
           <div class="video-thumbnail">
@@ -273,6 +316,28 @@
       </div>
     </section>
 
+    <!-- SEOテキストコンテンツ -->
+    <section class="category-seo-text">
+      <h2>イナイレV アップデート・環境考察ガイド</h2>
+      <p>イナイレVの最新アップデート情報や環境の変化をまとめています。BASARA化の仕様やバサラシードの入手方法、新キャラ・新装備の評価など、アプデ後の環境に対応するための情報を解説しています。</p>
+      <h3>BASARA化とバサラシード</h3>
+      <p>BASARA化はキャラクターを最上位レアリティに強化するシステムです。マーケット「荒ぶる者たちの巣窟」でHEROスピリット8枚と交換するか、バサラシードを使用して行えます。BASARA化するとビルドタイプの自由変更や技の付け替えが可能になります。</p>
+      <h3>環境の変化と今後の予想</h3>
+      <p>Ver1.5.0でのチームパッシブ上限追加やBASARA化の実装など、大型アプデごとの環境変化を分析。今後のアプデ予想も含めた考察を動画で発信しています。</p>
+    </section>
+
+    <!-- よくある質問 -->
+    <section class="category-seo-text">
+      <h2>よくある質問</h2>
+      <dl class="faq-list">
+        <dt>Q. BASARA化に必要な条件は？</dt>
+        <dd>A. マーケット「荒ぶる者たちの巣窟」でHEROスピリット8枚と交換するか、バサラシードを使用します。対象HEROのLv50以上が必要です。バサラシードはどのレアリティからでもBASARA化可能です。</dd>
+        <dt>Q. バサラシードの入手方法は？</dt>
+        <dd>A. Ver3.0.1で1個配布されました。2個目以降の入手方法は現時点で不明で、公式は「かなり頑張る必要あり」としています。一度使うと消費されやり直し不可なので慎重に選びましょう。</dd>
+        <dt>Q. Ver1.5.0の主な変更点は？</dt>
+        <dd>A. チームパッシブに上限が設けられ、単一ビルド特化よりも複数ビルドの組み合わせ構成が主流になりました。正義×テンションなどのハイブリッド構成が環境のトップになっています。</dd>
+      </dl>
+    </section>
     <!-- 関連テーマ -->
     <section class="related-themes">
       <h2>他のテーマで攻略動画を探す</h2>
@@ -280,7 +345,7 @@
         <a href="category-build.html" class="video-card" style="text-align:center; padding:20px;">
           <div class="video-info">
             <h3 class="video-title" style="font-size:15px;">ビルド・パッシブ攻略</h3>
-            <p class="video-meta">21本の攻略動画</p>
+            <p class="video-meta">22本の攻略動画</p>
           </div>
         </a>
         <a href="category-equipment.html" class="video-card" style="text-align:center; padding:20px;">
@@ -292,7 +357,7 @@
         <a href="category-battle.html" class="video-card" style="text-align:center; padding:20px;">
           <div class="video-info">
             <h3 class="video-title" style="font-size:15px;">対戦テクニック・立ち回り</h3>
-            <p class="video-meta">16本の攻略動画</p>
+            <p class="video-meta">8本の攻略動画</p>
           </div>
         </a>
         <a href="category-farming.html" class="video-card" style="text-align:center; padding:20px;">
@@ -307,6 +372,12 @@
             <p class="video-meta">7本の攻略動画</p>
           </div>
         </a>
+        <a href="category-fun.html" class="video-card" style="text-align:center; padding:20px;">
+          <div class="video-info">
+            <h3 class="video-title" style="font-size:15px;">面白企画</h3>
+            <p class="video-meta">8本の攻略動画</p>
+          </div>
+        </a>
       </div>
     </section>
 
@@ -315,6 +386,7 @@
   <!-- フッター -->
   <footer class="footer">
     <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <a href="../index.html">ポータル</a>
       <a href="index.html">ホーム</a>
       <a href="category-inazuma.html">イナイレV攻略まとめ</a>
       <a href="guide-beginner.html">初心者ガイド</a>
@@ -322,6 +394,7 @@
       <a href="guide-equipment.html">装備・ビーンズ攻略</a>
       <a href="guide-farming.html">周回効率ガイド</a>
       <a href="guide-battle-tips.html">対戦テクニック</a>
+      <a href="guide-basara.html">BASARA攻略</a>
       <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
       <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
     </nav>

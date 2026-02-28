@@ -54,6 +54,39 @@
   }
   </script>
 
+  <!-- JSON-LD: FAQPage -->
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "ポジション別のおすすめ装備は？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "FWは攻撃力特化、DFは守備力特化、GKはKP（キーパーポイント）重視の装備がおすすめです。MFはチームの戦術に合わせて攻守のバランスを調整します。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "ビーンズの効率的な集め方は？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "最高効率の周回方法では1時間で3000個以上のビーンズが集まります。おすすめの周回場所とチーム編成、監督AIの設定方法を動画で解説しています。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "ビーンズはどのように振り分けるべき？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ポジションの役割に合わせてビーンズを振り分けるのが基本です。FWはシュート系、DFはブロック系、GKはKP系のビーンズを優先的に付けましょう。"
+      }
+    }
+  ]
+}
+  </script>
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="../video.css">
   <style>
@@ -70,11 +103,20 @@
     .related-themes { margin-top: 40px; }
     .related-themes h2 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
     .related-themes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .build-tab-bar { padding: 12px 0; }
+    .build-tab-count { font-size: 13px; color: var(--text-secondary); padding: 4px 0 12px; }
+    .category-seo-text { background: var(--bg-card); border-radius: 12px; padding: 24px; margin-top: 40px; line-height: 1.9; }
+    .category-seo-text h2 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; }
+    .category-seo-text h3 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin: 20px 0 8px; }
+    .category-seo-text p { font-size: 14px; color: var(--text-secondary); margin-bottom: 12px; }
+    .faq-list dt { font-weight: 700; color: var(--text-primary); margin-top: 16px; }
+    .faq-list dd { color: var(--text-secondary); margin: 4px 0 0 0; font-size: 14px; line-height: 1.8; }
     @media (max-width: 768px) {
       .category-hero h1 { font-size: 22px; }
       .category-main { padding: 16px; }
       .theme-video-list { grid-template-columns: 1fr; }
       .related-themes-grid { grid-template-columns: repeat(2, 1fr); }
+      .category-seo-text { padding: 16px; }
     }
   </style>
   <!-- Google AdSense -->
@@ -139,6 +181,7 @@
       <div class="theme-section-header">
         <h2>装備・ビーンズ攻略</h2>
       </div>
+
       <div class="theme-video-list">
         <a href="video-inazuma-nwz__vTg06I.html" class="video-card">
           <div class="video-thumbnail">
@@ -193,6 +236,28 @@
       </div>
     </section>
 
+    <!-- SEOテキストコンテンツ -->
+    <section class="category-seo-text">
+      <h2>イナイレV 装備・ビーンズ攻略ガイド</h2>
+      <p>イナイレVの装備とビーンズは選手の能力を大きく底上げする重要な要素です。ポジション別に最適な装備構成が異なるため、FW・MF・DF・GKそれぞれに合った装備選びが勝利の鍵となります。アレス・バサラシードアプデ後の最新環境に対応した装備情報をまとめています。</p>
+      <h3>ポジション別おすすめ装備</h3>
+      <p>FWは攻撃力を最大化する装備、DFは守備力特化の装備、GKはKP（キーパーポイント）を重視した装備が基本です。MFはチームの戦術に合わせて攻守のバランスを調整します。最新アプデで追加された新装備も含めた最強構成を動画で解説しています。</p>
+      <h3>ビーンズの効率的な集め方・付け方</h3>
+      <p>ビーンズは選手の能力値を追加で強化できるアイテムです。1時間で3000個以上集まる効率的な周回方法や、ポジション別のおすすめビーンズ配分を紹介しています。</p>
+    </section>
+
+    <!-- よくある質問 -->
+    <section class="category-seo-text">
+      <h2>よくある質問</h2>
+      <dl class="faq-list">
+        <dt>Q. ポジション別のおすすめ装備は？</dt>
+        <dd>A. FWは攻撃力特化、DFは守備力特化、GKはKP（キーパーポイント）重視の装備がおすすめです。MFはチームの戦術に合わせて攻守のバランスを調整します。</dd>
+        <dt>Q. ビーンズの効率的な集め方は？</dt>
+        <dd>A. 最高効率の周回方法では1時間で3000個以上のビーンズが集まります。おすすめの周回場所とチーム編成、監督AIの設定方法を動画で解説しています。</dd>
+        <dt>Q. ビーンズはどのように振り分けるべき？</dt>
+        <dd>A. ポジションの役割に合わせてビーンズを振り分けるのが基本です。FWはシュート系、DFはブロック系、GKはKP系のビーンズを優先的に付けましょう。</dd>
+      </dl>
+    </section>
     <!-- 関連テーマ -->
     <section class="related-themes">
       <h2>他のテーマで攻略動画を探す</h2>
@@ -200,13 +265,13 @@
         <a href="category-build.html" class="video-card" style="text-align:center; padding:20px;">
           <div class="video-info">
             <h3 class="video-title" style="font-size:15px;">ビルド・パッシブ攻略</h3>
-            <p class="video-meta">21本の攻略動画</p>
+            <p class="video-meta">22本の攻略動画</p>
           </div>
         </a>
         <a href="category-battle.html" class="video-card" style="text-align:center; padding:20px;">
           <div class="video-info">
             <h3 class="video-title" style="font-size:15px;">対戦テクニック・立ち回り</h3>
-            <p class="video-meta">16本の攻略動画</p>
+            <p class="video-meta">8本の攻略動画</p>
           </div>
         </a>
         <a href="category-farming.html" class="video-card" style="text-align:center; padding:20px;">
@@ -227,6 +292,12 @@
             <p class="video-meta">7本の攻略動画</p>
           </div>
         </a>
+        <a href="category-fun.html" class="video-card" style="text-align:center; padding:20px;">
+          <div class="video-info">
+            <h3 class="video-title" style="font-size:15px;">面白企画</h3>
+            <p class="video-meta">8本の攻略動画</p>
+          </div>
+        </a>
       </div>
     </section>
 
@@ -235,6 +306,7 @@
   <!-- フッター -->
   <footer class="footer">
     <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <a href="../index.html">ポータル</a>
       <a href="index.html">ホーム</a>
       <a href="category-inazuma.html">イナイレV攻略まとめ</a>
       <a href="guide-beginner.html">初心者ガイド</a>
@@ -242,6 +314,7 @@
       <a href="guide-equipment.html">装備・ビーンズ攻略</a>
       <a href="guide-farming.html">周回効率ガイド</a>
       <a href="guide-battle-tips.html">対戦テクニック</a>
+      <a href="guide-basara.html">BASARA攻略</a>
       <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
       <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
     </nav>

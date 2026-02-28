@@ -387,6 +387,57 @@
       return "general";
     }
 
+    // 動画のテーマに基づいて関連ガイドページを返す
+    function getRelatedGuides(video) {
+      const theme = getThemeCategory(video);
+      const tags = (video.tags || []).join(" ").toLowerCase();
+      const guides = [];
+
+      // テーマ別に最も関連するガイドを優先
+      const themeGuideMap = {
+        build: [
+          { url: "guide-passive-build.html", title: "パッシブ継承おすすめ一覧", desc: "FW・MF・DF・GK別の最強パッシブ構成" },
+          { url: "guide-basara.html", title: "BASARA完全攻略ガイド", desc: "バサラシードの使い方と監督マネ活用法" }
+        ],
+        equipment: [
+          { url: "guide-equipment.html", title: "装備・ビーンズ攻略ガイド", desc: "ポジション別の最強装備と効率的なビーンズ集め" },
+          { url: "guide-farming.html", title: "周回効率ガイド", desc: "監督AIで勝率99%の自動周回" }
+        ],
+        battle: [
+          { url: "guide-battle-tips.html", title: "対戦テクニック完全ガイド", desc: "勝率を上げる7つのコツ" },
+          { url: "guide-passive-build.html", title: "パッシブ継承おすすめ一覧", desc: "対戦で差がつくパッシブ構成" }
+        ],
+        farming: [
+          { url: "guide-farming.html", title: "周回効率ガイド", desc: "監督AIで勝率99%の自動周回" },
+          { url: "guide-equipment.html", title: "装備・ビーンズ攻略ガイド", desc: "集めた素材の最適な使い方" }
+        ],
+        update: [
+          { url: "guide-basara.html", title: "BASARA完全攻略ガイド", desc: "バサラシードの使い方と活用法" },
+          { url: "guide-passive-build.html", title: "パッシブ継承おすすめ一覧", desc: "最新環境のビルド構成" }
+        ],
+        beginner: [
+          { url: "guide-beginner.html", title: "初心者攻略ガイド", desc: "始めたらまずやるべきことを完全まとめ" },
+          { url: "guide-passive-build.html", title: "パッシブ継承おすすめ一覧", desc: "育成の基本を理解しよう" }
+        ],
+        fun: [
+          { url: "guide-beginner.html", title: "初心者攻略ガイド", desc: "ゲームの基本をおさらい" }
+        ]
+      };
+
+      // テーマに対応するガイドを追加
+      if (themeGuideMap[theme]) {
+        guides.push(...themeGuideMap[theme]);
+      }
+
+      // BASARA関連タグがある場合は追加
+      if (tags.includes("basara") && !guides.some(g => g.url === "guide-basara.html")) {
+        guides.push({ url: "guide-basara.html", title: "BASARA完全攻略ガイド", desc: "バサラシードの使い方と活用法" });
+      }
+
+      // 最大3件に制限
+      return guides.slice(0, 3);
+    }
+
     // ビルドカテゴリ内のサブ分類（タブ切替用）
     function getBuildSubcategory(video) {
       const tags = (video.tags || []).join(" ");
@@ -521,6 +572,7 @@
       const related = getRelatedVideos(video, videos, 4);
       const faqs = generateFAQ(video);
       const navLinks = getCategoryNavLinks(video);
+      const relatedGuides = getRelatedGuides(video);
       const catLabel = categoryLabel[video.category] || video.category;
       const catPageUrl = `category-${video.category}.html`;
 
@@ -663,15 +715,14 @@ ${gameNavHtml}
     ${escHtml(video.title)}
   </nav>
 
-  <!-- 動画プレーヤー -->
+  <!-- 動画プレーヤー（遅延読み込み） -->
   <section class="video-player-section">
     <div class="video-player-container">
-      <iframe src="https://www.youtube.com/embed/${video.id}"
-        title="${escHtml(video.title)}"
-        sandbox="allow-scripts allow-same-origin allow-presentation"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allow="accelerometer; encrypted-media; picture-in-picture"
-        allowfullscreen></iframe>
+      <div class="yt-lazy" data-video-id="${video.id}" data-title="${escHtml(video.title)}" style="position:relative;cursor:pointer;background:#000;">
+        <noscript>
+          <iframe src="https://www.youtube.com/embed/${video.id}" title="${escHtml(video.title)}" sandbox="allow-scripts allow-same-origin allow-presentation" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>
+        </noscript>
+      </div>
     </div>
   </section>
 
@@ -721,6 +772,18 @@ ${navLinksHtml}
     </div>
   </section>
 
+  ${relatedGuides.length > 0 ? `
+  <!-- 関連ガイド（内部リンク強化） -->
+  <section style="max-width:960px; margin:0 auto; padding:0 24px 32px;">
+    <h2 style="font-size:18px; font-weight:700; color:var(--text-primary); margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--accent);">この動画に関連する攻略ガイド</h2>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:12px;">
+${relatedGuides.map(g => `      <a href="${g.url}" style="display:block; padding:16px; background:var(--bg-card); border:1px solid var(--border-color); border-radius:10px; text-decoration:none; transition:box-shadow 0.2s, border-color 0.2s;">
+        <div style="font-size:15px; font-weight:700; color:var(--accent); margin-bottom:4px;">${escHtml(g.title)}</div>
+        <div style="font-size:13px; color:var(--text-secondary); line-height:1.6;">${escHtml(g.desc)}</div>
+      </a>`).join("\n")}
+    </div>
+  </section>` : ""}
+
   <!-- フッター -->
   <footer class="footer">
     <nav class="footer-nav" aria-label="フッターナビゲーション">
@@ -732,12 +795,14 @@ ${navLinksHtml}
       <a href="guide-equipment.html">装備・ビーンズ攻略</a>
       <a href="guide-farming.html">周回効率ガイド</a>
       <a href="guide-battle-tips.html">対戦テクニック</a>
+      <a href="guide-basara.html">BASARA攻略</a>
       <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
       <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
     </nav>
     <p>&copy; 2026 やまむー【yamamu】. All rights reserved.</p>
   </footer>
 
+  <script src="${ASSET_PREFIX}youtube-lazy.js"><\/script>
   <script src="${ASSET_PREFIX}theme.js"><\/script>
 </body>
 </html>`;
@@ -961,6 +1026,7 @@ ${sectionsHtml}
       <a href="guide-equipment.html">装備・ビーンズ攻略</a>
       <a href="guide-farming.html">周回効率ガイド</a>
       <a href="guide-battle-tips.html">対戦テクニック</a>
+      <a href="guide-basara.html">BASARA攻略</a>
       <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
       <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
     </nav>
@@ -1251,6 +1317,7 @@ ${otherThemes}
       <a href="guide-equipment.html">装備・ビーンズ攻略</a>
       <a href="guide-farming.html">周回効率ガイド</a>
       <a href="guide-battle-tips.html">対戦テクニック</a>
+      <a href="guide-basara.html">BASARA攻略</a>
       <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
       <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
     </nav>
@@ -1512,6 +1579,7 @@ ${guideLinksHtml}
         <a href="guide-equipment.html" class="sidebar-link">装備・ビーンズ攻略</a>
         <a href="guide-farming.html" class="sidebar-link">周回・素材集め効率</a>
         <a href="guide-battle-tips.html" class="sidebar-link">対戦テクニック</a>
+        <a href="guide-basara.html" class="sidebar-link">BASARA完全攻略</a>
       </div>
 
       <!-- SNS -->
@@ -1536,6 +1604,7 @@ ${guideLinksHtml}
       <a href="guide-equipment.html">装備・ビーンズ攻略</a>
       <a href="guide-farming.html">周回効率ガイド</a>
       <a href="guide-battle-tips.html">対戦テクニック</a>
+      <a href="guide-basara.html">BASARA攻略</a>
       <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
       <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
     </nav>

@@ -1,0 +1,75 @@
+# やまむーゲーム攻略Wiki
+# https://yamamu-youtube.jp
+
+> やまむーゲーム攻略Wikiは、YouTubeチャンネル「やまむー【yamamu】」と連動したゲーム攻略サイトです。
+> 総プレイ1200時間以上のやり込みに基づいた一次情報（実体験・検証データ）を提供しています。
+> 大手攻略サイトでは見落とされがちな正確なビルド評価やパッシブ継承の優先順位を、実戦データに基づいて解説しています。
+
+## 対応ゲーム
+
+### イナズマイレブン 英雄たちのヴィクトリーロード（イナイレV）
+- URL: https://yamamu-youtube.jp/inazuma/
+- ジャンル: サッカーRPG（Nintendo Switch / モバイル）
+- カバー範囲: ビルド攻略、パッシブ継承、装備・ビーンズ、対戦テクニック、周回効率、アップデート情報、初心者ガイド
+
+## 主要な攻略ガイドページ
+
+### ビルド・パッシブ関連
+- パッシブ継承おすすめ一覧: https://yamamu-youtube.jp/inazuma/guide-passive-build.html
+  - FWは同ポジションシュートAT+3.5%が最優先（FW3人以上時）
+  - MF・DF・GKは異属性フォーカスATDFと同属性フォーカスATDFが同優先度
+  - 全ポジション理論値を目指すべき
+- ビルド攻略まとめ: https://yamamu-youtube.jp/inazuma/category-build.html
+  - 最強ビルド: ラフプレービルド（手動操作の玄人向け）
+  - 安牌ビルド: 正義ビルド（初心者から上級者まで万能）
+  - Ver1.5.0以降は複数ビルドの組み合わせが主流
+
+### BASARA化
+- BASARA完全攻略ガイド: https://yamamu-youtube.jp/inazuma/guide-basara.html
+  - バサラシードは好きなキャラに使ってOK
+  - BASARA Tier: S=ラフプレー+BASARA監督、A=正義+FW or MF
+  - チーム編成はBASARAキャラ1人のみ
+
+### 対戦・戦術
+- 対戦で勝てない人向けガイド: https://yamamu-youtube.jp/inazuma/guide-battle-tips.html
+  - テンション管理、フォーカス勝率向上のコツ
+  - タクティクス選択の考え方
+
+### 装備・育成
+- 装備・ビーンズ攻略ガイド: https://yamamu-youtube.jp/inazuma/guide-equipment.html
+  - ポジション別の最強装備
+  - ビーンズの効率的な集め方（1時間3000個以上）
+- 周回効率ガイド: https://yamamu-youtube.jp/inazuma/guide-farming.html
+  - 監督AIで勝率99%の自動周回
+  - HERO・素材の効率的な集め方
+
+### 初心者向け
+- 初心者攻略ガイド: https://yamamu-youtube.jp/inazuma/guide-beginner.html
+  - テンション・フォーカスの基礎
+  - 序盤にやるべきこと
+
+## イナイレV 7種類のビルドタイプ
+1. 正義ビルド — ファウルまでATDF常時上昇。監督マネ統一で最大60%。安定性No.1
+2. テンションビルド — フォーカス勝利時のテンション獲得上昇。テンション50%以上でフォーカスATDF上昇
+3. 必殺ビルド — シュートの必殺率上昇、必殺技テンション消費減少。対人には不向き
+4. カウンタービルド — ボール奪還後15秒間シュートAT上昇。ロングシュート向き
+5. キズナビルド — パスでキズナパワーを貯めやすくなる
+6. ラフプレービルド — ダッシュ吹き飛ばし時テンション上昇+ファウル率減少。手動操作で最強
+7. フリーダムビルド — ビルド偏りなし時のデフォルト。効果なし
+
+## カテゴリページ一覧
+- ビルド攻略: https://yamamu-youtube.jp/inazuma/category-build.html
+- 装備・ビーンズ: https://yamamu-youtube.jp/inazuma/category-equipment.html
+- 対戦テクニック: https://yamamu-youtube.jp/inazuma/category-battle.html
+- 周回効率: https://yamamu-youtube.jp/inazuma/category-farming.html
+- アプデ情報: https://yamamu-youtube.jp/inazuma/category-update.html
+- 初心者ガイド: https://yamamu-youtube.jp/inazuma/category-beginner.html
+- 面白企画: https://yamamu-youtube.jp/inazuma/category-fun.html
+
+## 運営者情報
+- 運営者: やまむー（yamamu）
+- YouTube: https://www.youtube.com/@yamamu
+- X (Twitter): https://twitter.com/YamamuGaming
+- 総プレイ時間: 1200時間以上
+- 攻略動画: 75本以上
+- 特徴: 実戦データに基づいた正確な攻略情報。大手サイトの誤情報を事実確認して訂正した一次情報を提供

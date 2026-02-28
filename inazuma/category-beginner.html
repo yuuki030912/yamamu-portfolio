@@ -54,6 +54,39 @@
   }
   </script>
 
+  <!-- JSON-LD: FAQPage -->
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "初心者はまず何をすべき？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "まずクロニクルモードを進めて選手を集め、レベル47を目指してチームパッシブを全解放しましょう。ビルドは正義ビルドがおすすめです。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "フォーカスの仕組みは？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "フォーカスは攻撃側（AT）と守備側（DF）の数値で勝敗が決まるバトルシステムです。勝利するとテンションを獲得でき、必殺技が使えるようになります。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "おすすめの初心者向けビルドは？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "正義ビルドが初心者に最もおすすめです。常時発動で安定性が高く、複雑な操作を必要としません。監督・マネージャーを正義ビルドで統一するだけで大きな効果があります。"
+      }
+    }
+  ]
+}
+  </script>
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="../video.css">
   <style>
@@ -70,11 +103,20 @@
     .related-themes { margin-top: 40px; }
     .related-themes h2 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
     .related-themes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .build-tab-bar { padding: 12px 0; }
+    .build-tab-count { font-size: 13px; color: var(--text-secondary); padding: 4px 0 12px; }
+    .category-seo-text { background: var(--bg-card); border-radius: 12px; padding: 24px; margin-top: 40px; line-height: 1.9; }
+    .category-seo-text h2 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; }
+    .category-seo-text h3 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin: 20px 0 8px; }
+    .category-seo-text p { font-size: 14px; color: var(--text-secondary); margin-bottom: 12px; }
+    .faq-list dt { font-weight: 700; color: var(--text-primary); margin-top: 16px; }
+    .faq-list dd { color: var(--text-secondary); margin: 4px 0 0 0; font-size: 14px; line-height: 1.8; }
     @media (max-width: 768px) {
       .category-hero h1 { font-size: 22px; }
       .category-main { padding: 16px; }
       .theme-video-list { grid-template-columns: 1fr; }
       .related-themes-grid { grid-template-columns: repeat(2, 1fr); }
+      .category-seo-text { padding: 16px; }
     }
   </style>
   <!-- Google AdSense -->
@@ -139,6 +181,7 @@
       <div class="theme-section-header">
         <h2>初心者向けガイド</h2>
       </div>
+
       <div class="theme-video-list">
         <a href="video-inazuma-CEUOy8MEBc0.html" class="video-card">
           <div class="video-thumbnail">
@@ -213,6 +256,28 @@
       </div>
     </section>
 
+    <!-- SEOテキストコンテンツ -->
+    <section class="category-seo-text">
+      <h2>イナイレV 初心者向け攻略ガイド</h2>
+      <p>イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）を始めたばかりの方向けに、序盤の進め方や基本システムの解説をまとめています。フォーカスの仕様やキズナリンクの使い方など、まず知っておくべき基礎知識を紹介しています。</p>
+      <h3>序盤にやるべきこと</h3>
+      <p>ゲーム開始後はまずクロニクルモードを進めて選手を集め、レベル47を目指してチームパッシブを全解放しましょう。正義ビルドのチーム編成が初心者には最もおすすめです。</p>
+      <h3>フォーカスとキズナリンクの基本</h3>
+      <p>フォーカスは攻撃側と守備側の数値で勝敗が決まるバトルシステムで、テンション獲得の主な手段です。キズナリンクは選手間の絆を深め、連携必殺技を発動するシステムです。これらの基本を理解することが上達の第一歩です。</p>
+    </section>
+
+    <!-- よくある質問 -->
+    <section class="category-seo-text">
+      <h2>よくある質問</h2>
+      <dl class="faq-list">
+        <dt>Q. 初心者はまず何をすべき？</dt>
+        <dd>A. まずクロニクルモードを進めて選手を集め、レベル47を目指してチームパッシブを全解放しましょう。ビルドは正義ビルドがおすすめです。</dd>
+        <dt>Q. フォーカスの仕組みは？</dt>
+        <dd>A. フォーカスは攻撃側（AT）と守備側（DF）の数値で勝敗が決まるバトルシステムです。勝利するとテンションを獲得でき、必殺技が使えるようになります。</dd>
+        <dt>Q. おすすめの初心者向けビルドは？</dt>
+        <dd>A. 正義ビルドが初心者に最もおすすめです。常時発動で安定性が高く、複雑な操作を必要としません。監督・マネージャーを正義ビルドで統一するだけで大きな効果があります。</dd>
+      </dl>
+    </section>
     <!-- 関連テーマ -->
     <section class="related-themes">
       <h2>他のテーマで攻略動画を探す</h2>
@@ -220,7 +285,7 @@
         <a href="category-build.html" class="video-card" style="text-align:center; padding:20px;">
           <div class="video-info">
             <h3 class="video-title" style="font-size:15px;">ビルド・パッシブ攻略</h3>
-            <p class="video-meta">21本の攻略動画</p>
+            <p class="video-meta">22本の攻略動画</p>
           </div>
         </a>
         <a href="category-equipment.html" class="video-card" style="text-align:center; padding:20px;">
@@ -232,7 +297,7 @@
         <a href="category-battle.html" class="video-card" style="text-align:center; padding:20px;">
           <div class="video-info">
             <h3 class="video-title" style="font-size:15px;">対戦テクニック・立ち回り</h3>
-            <p class="video-meta">16本の攻略動画</p>
+            <p class="video-meta">8本の攻略動画</p>
           </div>
         </a>
         <a href="category-farming.html" class="video-card" style="text-align:center; padding:20px;">
@@ -247,6 +312,12 @@
             <p class="video-meta">13本の攻略動画</p>
           </div>
         </a>
+        <a href="category-fun.html" class="video-card" style="text-align:center; padding:20px;">
+          <div class="video-info">
+            <h3 class="video-title" style="font-size:15px;">面白企画</h3>
+            <p class="video-meta">8本の攻略動画</p>
+          </div>
+        </a>
       </div>
     </section>
 
@@ -255,6 +326,7 @@
   <!-- フッター -->
   <footer class="footer">
     <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <a href="../index.html">ポータル</a>
       <a href="index.html">ホーム</a>
       <a href="category-inazuma.html">イナイレV攻略まとめ</a>
       <a href="guide-beginner.html">初心者ガイド</a>
@@ -262,6 +334,7 @@
       <a href="guide-equipment.html">装備・ビーンズ攻略</a>
       <a href="guide-farming.html">周回効率ガイド</a>
       <a href="guide-battle-tips.html">対戦テクニック</a>
+      <a href="guide-basara.html">BASARA攻略</a>
       <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
       <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
     </nav>

@@ -4,6 +4,9 @@ Allow: /
 # Sitemap
 Sitemap: https://yamamu-youtube.jp/sitemap.xml
 
+# LLMO（AI検索最適化）
+# llms.txt: https://yamamu-youtube.jp/llms.txt
+
 # 管理ツールはクロールさせない
 Disallow: /inazuma/generate.html
 Disallow: /pokepoke/generate.html

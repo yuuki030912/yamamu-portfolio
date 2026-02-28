@@ -36,7 +36,7 @@
     "name": "【イナイレV】これだけはしないで!!イナダンDLCまでにやるべきこととは？【イナズマイレブン英雄たちのヴィクトリーロード】",
     "description": "イナダンDLCリリース前にやっておくべきことと、絶対にやってはいけないNG行動を解説。効率よく準備を進めるためのガイド。\n\n## イナダンDLCまでに絶対やるべきこと\n- 素材の事前収集で差をつける準備\n- 主力キャラの育成を完了させておく\n- パッシブ厳選とパッシブ継承の最適化\n- ビーンズの備蓄と装備強化の優先順位\n\n## これだけはしないでほしいNG行動\n- 素材を無計画に消費してしまうこと\n- 環境が変わるのに厳選をやりすぎること\n- DLCで価値が下がる可能性のあるものへの過剰投資\n\n## DLCで何が変わるか予想\n- 新装備や新コンテンツへの期待\n- 環境変化に備えたチーム構成の柔軟性\n- イナダンで追加される報酬の活用計画",
     "thumbnailUrl": "https://img.youtube.com/vi/-QtG24qXv54/maxresdefault.jpg",
-    "uploadDate": "2025-12-19T00:00:00+09:00",
+    "uploadDate": "2025-12-19",
     "duration": "PT23M20S",
     "contentUrl": "https://www.youtube.com/watch?v=-QtG24qXv54",
     "embedUrl": "https://www.youtube.com/embed/-QtG24qXv54",
@@ -61,7 +61,7 @@
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://yamamu-youtube.jp/" },
-      { "@type": "ListItem", "position": 2, "name": "イナイレV", "item": "https://yamamu-youtube.jp/#inazuma" },
+      { "@type": "ListItem", "position": 2, "name": "イナイレV攻略", "item": "https://yamamu-youtube.jp/inazuma/category-inazuma.html" },
       { "@type": "ListItem", "position": 3, "name": "【イナイレV】これだけはしないで!!イナダンDLCまでにやるべきこととは？【イナズマイレブン英雄たちのヴィクトリーロード" }
     ]
   }
@@ -74,18 +74,10 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "イナダンアプデ後の最強装備は？",
+      "name": "この動画はどんな内容？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "イナズマダンジョンのアップデートで追加された新装備の性能と、各ポジションに最適な組み合わせを動画で解説しています。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "イナダンDLCまでにやるべきことは？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "DLCリリース前に準備しておくべきこと、やってはいけないことを動画で解説しています。効率的に進めるための事前準備ガイドです。"
+        "text": "イナダンDLCリリース前にやっておくべきことと、絶対にやってはいけないNG行動を解説。効率よく準備を進めるためのガイド。"
       }
     }
   ]
@@ -102,7 +94,7 @@
   <header class="header">
     <a href="index.html" class="header-left" style="text-decoration:none">
       <img src="../icon.png" alt="やまむー" class="header-icon" width="32" height="32">
-      <span class="logo-text">やまむー</span>
+      <span class="logo-text">イナイレV攻略Wiki</span>
     </a>
     <div class="header-right">
       <button class="theme-toggle" id="themeToggle" title="テーマ切替">
@@ -112,10 +104,21 @@
       </button>
     </div>
   </header>
+
   <nav class="game-nav" aria-label="ゲーム選択">
     <a href="../index.html" class="game-nav-link">トップ</a>
     <a href="../inazuma/" class="game-nav-link active">イナイレV</a>
     <a href="../pokepoke/" class="game-nav-link">ポケポケ</a>
+  </nav>
+  <nav class="wiki-nav" aria-label="メインナビゲーション">
+    <a href="index.html" class="wiki-nav-link">ホーム</a>
+    <a href="category-build.html" class="wiki-nav-link">ビルド攻略</a>
+    <a href="category-equipment.html" class="wiki-nav-link">装備・ビーンズ</a>
+    <a href="category-battle.html" class="wiki-nav-link">対戦テクニック</a>
+    <a href="category-farming.html" class="wiki-nav-link">周回効率</a>
+    <a href="guide-beginner.html" class="wiki-nav-link">初心者ガイド</a>
+    <a href="category-update.html" class="wiki-nav-link">アプデ情報</a>
+    <a href="category-fun.html" class="wiki-nav-link">面白企画</a>
   </nav>
 
   <!-- パンくずリスト (SEO用) -->
@@ -127,13 +130,14 @@
     【イナイレV】これだけはしないで!!イナダンDLCまでにやるべきこととは？【イナズマイレブン英雄たちのヴィクトリーロード】
   </nav>
 
-  <!-- 動画プレーヤー -->
+  <!-- 動画プレーヤー（遅延読み込み） -->
   <section class="video-player-section">
     <div class="video-player-container">
-      <iframe src="https://www.youtube.com/embed/-QtG24qXv54"
-        title="【イナイレV】これだけはしないで!!イナダンDLCまでにやるべきこととは？【イナズマイレブン英雄たちのヴィクトリーロード】"
-        sandbox="allow-scripts allow-same-origin allow-presentation" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; encrypted-media; picture-in-picture"
-        allowfullscreen></iframe>
+      <div class="yt-lazy" data-video-id="-QtG24qXv54" data-title="【イナイレV】これだけはしないで!!イナダンDLCまでにやるべきこととは？【イナズマイレブン英雄たちのヴィクトリーロード】" style="position:relative;cursor:pointer;background:#000;">
+        <noscript>
+          <iframe src="https://www.youtube.com/embed/-QtG24qXv54" title="【イナイレV】これだけはしないで!!イナダンDLCまでにやるべきこととは？【イナズマイレブン英雄たちのヴィクトリーロード】" sandbox="allow-scripts allow-same-origin allow-presentation" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>
+        </noscript>
+      </div>
     </div>
   </section>
 
@@ -165,8 +169,7 @@
   <!-- リッチコンテンツ（SEO用 記事本文） -->
   <section class="video-content-section">
     <h2 class="video-content-heading">動画の内容まとめ</h2>
-    <div class="video-content-body">
-      <p>イナダンDLCリリース前にやっておくべきことと、絶対にやってはいけないNG行動を解説。効率よく準備を進めるためのガイド。</p>
+    <div class="video-content-body"><p>イナダンDLCリリース前にやっておくべきことと、絶対にやってはいけないNG行動を解説。効率よく準備を進めるためのガイド。</p>
 <h3>イナダンDLCまでに絶対やるべきこと</h3>
 <ul>
 <li>素材の事前収集で差をつける準備</li>
@@ -186,32 +189,16 @@
 <li>環境変化に備えたチーム構成の柔軟性</li>
 <li>イナダンで追加される報酬の活用計画</li>
 </ul>
-
-    </div>
+</div>
   </section>
   
-
-  
-  <!-- 関連ガイド記事 -->
-  <section style="max-width:960px; margin:0 auto; padding:0 24px 24px;">
-    <div style="background:var(--chip-bg); border-radius:12px; padding:20px;">
-      <h3 style="font-size:16px; font-weight:700; color:var(--text-primary); margin-bottom:12px;">関連ガイド記事</h3>
-      <div style="display:flex; flex-direction:column; gap:6px;">
-        <a href="guide-battle-tips.html" style="display:block; padding:10px 14px; background:var(--bg-card); border:1px solid var(--border-color); border-radius:8px; color:var(--text-primary); text-decoration:none; font-size:14px; font-weight:600; transition:background 0.2s;">対戦テクニック完全ガイド</a>
-      </div>
-    </div>
-  </section>
 
   <!-- よくある質問 -->
   <section class="faq-section" style="max-width:960px; margin:0 auto; padding:0 24px 32px;">
     <h2 style="font-size:18px; font-weight:700; color:var(--text-primary); margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--accent);">よくある質問</h2>
     <details style="margin-bottom:12px; background:var(--bg-card); border:1px solid var(--border-color); border-radius:8px; overflow:hidden;">
-      <summary style="padding:12px 16px; font-size:15px; font-weight:600; color:var(--text-primary); cursor:pointer;">イナダンアプデ後の最強装備は？</summary>
-      <p style="padding:0 16px 12px; font-size:14px; color:var(--text-secondary); line-height:1.8;">イナズマダンジョンのアップデートで追加された新装備の性能と、各ポジションに最適な組み合わせを動画で解説しています。</p>
-    </details>
-    <details style="margin-bottom:12px; background:var(--bg-card); border:1px solid var(--border-color); border-radius:8px; overflow:hidden;">
-      <summary style="padding:12px 16px; font-size:15px; font-weight:600; color:var(--text-primary); cursor:pointer;">イナダンDLCまでにやるべきことは？</summary>
-      <p style="padding:0 16px 12px; font-size:14px; color:var(--text-secondary); line-height:1.8;">DLCリリース前に準備しておくべきこと、やってはいけないことを動画で解説しています。効率的に進めるための事前準備ガイドです。</p>
+      <summary style="padding:12px 16px; font-size:15px; font-weight:600; color:var(--text-primary); cursor:pointer;">この動画はどんな内容？</summary>
+      <p style="padding:0 16px 12px; font-size:14px; color:var(--text-secondary); line-height:1.8;">イナダンDLCリリース前にやっておくべきことと、絶対にやってはいけないNG行動を解説。効率よく準備を進めるためのガイド。</p>
     </details>
   </section>
 
@@ -219,7 +206,7 @@
   <section class="related-section">
     <h2 class="related-title">関連する攻略動画</h2>
     <div class="related-grid">
-
+      
         <a href="video-inazuma-AASbssjfxXQ.html" class="video-card">
           <div class="video-thumbnail">
             <img src="https://img.youtube.com/vi/AASbssjfxXQ/mqdefault.jpg" alt="【イナイレV】やらないと差が出ます。アレス・バサラシードDLCのアップデートまでに準備すること5選【イナズマイレブンヴィクトリーロード】" loading="lazy">
@@ -228,6 +215,17 @@
           <div class="video-info">
             <h3 class="video-title">【イナイレV】やらないと差が出ます。アレス・バサラシードDLCのアップデートまでに準備すること5選【イナズマイレブンヴィクトリーロード】</h3>
             <p class="video-meta">10,877回視聴</p>
+          </div>
+        </a>
+
+        <a href="video-inazuma-P6-ofFef4EM.html" class="video-card">
+          <div class="video-thumbnail">
+            <img src="https://img.youtube.com/vi/P6-ofFef4EM/mqdefault.jpg" alt="【イナイレV】バサラシードを使うおすすめキャラ構成ランキング #イナイレv 【イナズマイレブンヴィクトリーロード】" loading="lazy">
+            <span class="video-duration">0:49</span>
+          </div>
+          <div class="video-info">
+            <h3 class="video-title">【イナイレV】バサラシードを使うおすすめキャラ構成ランキング #イナイレv 【イナズマイレブンヴィクトリーロード】</h3>
+            <p class="video-meta">196,790回視聴</p>
           </div>
         </a>
 
@@ -252,17 +250,6 @@
             <p class="video-meta">30,785回視聴</p>
           </div>
         </a>
-
-        <a href="video-inazuma-4hl1Y9pXwgc.html" class="video-card">
-          <div class="video-thumbnail">
-            <img src="https://img.youtube.com/vi/4hl1Y9pXwgc/mqdefault.jpg" alt="【イナイレV】正義ビルドの最適解｜パッシブ構成を完全解説【イナズマイレブン英雄たちのヴィクトリーロード】" loading="lazy">
-            <span class="video-duration">19:04</span>
-          </div>
-          <div class="video-info">
-            <h3 class="video-title">【イナイレV】正義ビルドの最適解｜パッシブ構成を完全解説【イナズマイレブン英雄たちのヴィクトリーロード】</h3>
-            <p class="video-meta">14,811回視聴</p>
-          </div>
-        </a>
     </div>
   </section>
 
@@ -271,20 +258,47 @@
     <h2 style="font-size:16px; font-weight:700; color:var(--text-primary); margin-bottom:12px;">テーマ別に攻略動画を探す</h2>
     <div style="display:flex; flex-wrap:wrap; gap:8px;">
       <a href="category-inazuma.html" style="display:inline-block; padding:6px 14px; background:var(--chip-bg); color:var(--text-primary); border-radius:8px; font-size:13px; text-decoration:none; transition:background 0.2s;">イナイレV攻略まとめ</a>
-      <a href="category-inazuma.html#build" style="display:inline-block; padding:6px 14px; background:var(--chip-bg); color:var(--text-primary); border-radius:8px; font-size:13px; text-decoration:none; transition:background 0.2s;">ビルド・パッシブ攻略</a>
-      <a href="category-inazuma.html#equipment" style="display:inline-block; padding:6px 14px; background:var(--chip-bg); color:var(--text-primary); border-radius:8px; font-size:13px; text-decoration:none; transition:background 0.2s;">装備・ビーンズ攻略</a>
-      <a href="category-inazuma.html#battle" style="display:inline-block; padding:6px 14px; background:var(--chip-bg); color:var(--text-primary); border-radius:8px; font-size:13px; text-decoration:none; transition:background 0.2s;">対戦テクニック</a>
-      <a href="category-inazuma.html#farming" style="display:inline-block; padding:6px 14px; background:var(--chip-bg); color:var(--text-primary); border-radius:8px; font-size:13px; text-decoration:none; transition:background 0.2s;">周回・効率プレイ</a>
-      <a href="category-inazuma.html#update" style="display:inline-block; padding:6px 14px; background:var(--chip-bg); color:var(--text-primary); border-radius:8px; font-size:13px; text-decoration:none; transition:background 0.2s;">アプデ・環境考察</a>
-      <a href="category-inazuma.html#beginner" style="display:inline-block; padding:6px 14px; background:var(--chip-bg); color:var(--text-primary); border-radius:8px; font-size:13px; text-decoration:none; transition:background 0.2s;">初心者向けガイド</a>
+      <a href="category-build.html" style="display:inline-block; padding:6px 14px; background:var(--chip-bg); color:var(--text-primary); border-radius:8px; font-size:13px; text-decoration:none; transition:background 0.2s;">ビルド・パッシブ攻略</a>
+      <a href="category-equipment.html" style="display:inline-block; padding:6px 14px; background:var(--chip-bg); color:var(--text-primary); border-radius:8px; font-size:13px; text-decoration:none; transition:background 0.2s;">装備・ビーンズ攻略</a>
+      <a href="category-battle.html" style="display:inline-block; padding:6px 14px; background:var(--chip-bg); color:var(--text-primary); border-radius:8px; font-size:13px; text-decoration:none; transition:background 0.2s;">対戦テクニック</a>
+      <a href="category-farming.html" style="display:inline-block; padding:6px 14px; background:var(--chip-bg); color:var(--text-primary); border-radius:8px; font-size:13px; text-decoration:none; transition:background 0.2s;">周回・効率プレイ</a>
+      <a href="category-fun.html" style="display:inline-block; padding:6px 14px; background:var(--chip-bg); color:var(--text-primary); border-radius:8px; font-size:13px; text-decoration:none; transition:background 0.2s;">面白企画</a>
+      <a href="category-update.html" style="display:inline-block; padding:6px 14px; background:var(--chip-bg); color:var(--text-primary); border-radius:8px; font-size:13px; text-decoration:none; transition:background 0.2s;">アプデ・環境考察</a>
+      <a href="category-beginner.html" style="display:inline-block; padding:6px 14px; background:var(--chip-bg); color:var(--text-primary); border-radius:8px; font-size:13px; text-decoration:none; transition:background 0.2s;">初心者向けガイド</a>
+    </div>
+  </section>
+
+  
+  <!-- 関連ガイド（内部リンク強化） -->
+  <section style="max-width:960px; margin:0 auto; padding:0 24px 32px;">
+    <h2 style="font-size:18px; font-weight:700; color:var(--text-primary); margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--accent);">この動画に関連する攻略ガイド</h2>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:12px;">
+      <a href="guide-beginner.html" style="display:block; padding:16px; background:var(--bg-card); border:1px solid var(--border-color); border-radius:10px; text-decoration:none; transition:box-shadow 0.2s, border-color 0.2s;">
+        <div style="font-size:15px; font-weight:700; color:var(--accent); margin-bottom:4px;">初心者攻略ガイド</div>
+        <div style="font-size:13px; color:var(--text-secondary); line-height:1.6;">ゲームの基本をおさらい</div>
+      </a>
     </div>
   </section>
 
   <!-- フッター -->
   <footer class="footer">
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <a href="../index.html">ポータル</a>
+      <a href="index.html">ホーム</a>
+      <a href="category-inazuma.html">イナイレV攻略まとめ</a>
+      <a href="guide-beginner.html">初心者ガイド</a>
+      <a href="guide-passive-build.html">パッシブ・ビルド攻略</a>
+      <a href="guide-equipment.html">装備・ビーンズ攻略</a>
+      <a href="guide-farming.html">周回効率ガイド</a>
+      <a href="guide-battle-tips.html">対戦テクニック</a>
+      <a href="guide-basara.html">BASARA攻略</a>
+      <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
+      <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
+    </nav>
     <p>&copy; 2026 やまむー【yamamu】. All rights reserved.</p>
   </footer>
 
+  <script src="../youtube-lazy.js"></script>
   <script src="../theme.js"></script>
 </body>
 </html>
