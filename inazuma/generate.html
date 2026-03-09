@@ -96,6 +96,7 @@
     <a href="${ASSET_PREFIX}index.html" class="game-nav-link">トップ</a>
     <a href="${ASSET_PREFIX}inazuma/" class="game-nav-link${GAME_ID === 'inazuma' ? ' active' : ''}">イナイレV</a>
     <a href="${ASSET_PREFIX}pokepoke/" class="game-nav-link${GAME_ID === 'pokepoke' ? ' active' : ''}">ポケポケ</a>
+    <a href="${ASSET_PREFIX}pocoapokemon/" class="game-nav-link${GAME_ID === 'pocoapokemon' ? ' active' : ''}">ぽこポケ</a>
   </nav>`;
 
     // 現在のゲームのロゴテキスト
@@ -331,11 +332,12 @@
       const lines = text.split("\n");
       let html = "";
       let inList = false;
+      let headingIdx = 0;
       for (let i = 0; i < lines.length; i++) {
         let line = lines[i].trim();
         if (!line) { if (inList) { html += "</ul>\n"; inList = false; } continue; }
-        if (line.startsWith("### ")) { if (inList) { html += "</ul>\n"; inList = false; } html += `<h4>${escHtml(line.slice(4))}</h4>\n`; continue; }
-        if (line.startsWith("## ")) { if (inList) { html += "</ul>\n"; inList = false; } html += `<h3>${escHtml(line.slice(3))}</h3>\n`; continue; }
+        if (line.startsWith("### ")) { if (inList) { html += "</ul>\n"; inList = false; } html += `<h4 id="sec-${headingIdx++}">${escHtml(line.slice(4))}</h4>\n`; continue; }
+        if (line.startsWith("## ")) { if (inList) { html += "</ul>\n"; inList = false; } html += `<h3 id="sec-${headingIdx++}">${escHtml(line.slice(3))}</h3>\n`; continue; }
         if (/^\*\*(.+)\*\*$/.test(line)) { if (inList) { html += "</ul>\n"; inList = false; } html += `<h3>${escHtml(line.match(/^\*\*(.+)\*\*$/)[1])}</h3>\n`; continue; }
         if (/^[①②③④⑤⑥⑦⑧⑨⑩]\s/.test(line)) { if (inList) { html += "</ul>\n"; inList = false; } html += `<h4>${escHtml(line)}</h4>\n`; continue; }
         if (/^Q[\.\．]/.test(line)) {
@@ -448,8 +450,115 @@
       return "other";
     }
 
+    // ===== 攻略知識コラム =====
+    const knowledgeColumns = {
+      "正義ビルド": {
+        title: "正義ビルドの基礎知識",
+        body: "正義ビルドは、ファウルを取られるまでチーム全体のAT（攻撃力）とDF（守備力）が常時上昇するビルドタイプです。監督・マネージャーまで統一すれば最大60%の上昇率となり、現環境で最も安定した性能を誇ります。発動条件が「ファウルしないこと」だけなので、試合開始直後から効果が発揮される点が最大の強みです。弱点はファウルを取られるとバフが消滅する点ですが、ラフプレービルドと異なりファウル率が上がるデメリットもないため、初心者から上級者まで幅広くおすすめできます。ビルドに迷ったらまず正義を選べば間違いありません。"
+      },
+      "ラフプレー": {
+        title: "ラフプレービルドの基礎知識",
+        body: "ラフプレービルドは、ダッシュで相手を吹き飛ばした時にテンションが上昇（上限+50%）し、ダッシュでのファウル率が減少（上限-80%）するビルドタイプです。手動操作でダッシュを多用する玄人向けの性能で、上手く使いこなせれば正義ビルド以上の爆発力があります。ただし監督AI（自動操作）モードではダッシュを活かしきれないため、放置周回には不向きです。手動操作が得意なプレイヤーが対人戦で使うと真価を発揮します。ファウル率減少効果も大きく、積極的にダッシュで仕掛けていける攻撃的なプレイスタイルに最適です。"
+      },
+      "パッシブ継承": {
+        title: "パッシブ継承システムの解説",
+        body: "パッシブ継承は、他キャラクターのパッシブスキルを自分のキャラクターに付与できるシステムです。継承元のキャラは消滅するため、素材選びは慎重に行いましょう。継承には同キャラ・同ビルドの制限はなく、1キャラから1個だけ継承可能です。ポジション別の優先パッシブは、FWなら「敵陣での自身のシュートAT +8%」、MF・DF・GKなら「異属性フォーカスATDF」「同属性フォーカスATDF」が最優先です。アップデートにより理論値を目指しやすくなったため、全ポジションで最適なパッシブ構成を追求する価値があります。"
+      },
+      "装備": {
+        title: "装備システムの基礎知識",
+        body: "イナイレVの装備システムは、各キャラクターにアクセサリーやシューズなどを装着してステータスを強化する仕組みです。ポジションによって重視すべきステータスが異なり、FWはキック力・テクニック重視、MFはバランス型、DFはアジリティ・インテリジェンス重視、GKはKP（キーパーポイント）重視が基本です。装備にはビーンズを付与してさらにステータスを伸ばすことができます。特にフォーカス計算式（AT=テクニック+コントロール+キック÷2、DF=テクニック+インテリジェンス+アジリティ÷2）を理解した上で装備を選ぶと、対戦での勝率が大きく変わります。"
+      },
+      "ビーンズ": {
+        title: "ビーンズの基礎知識",
+        body: "ビーンズは装備に付与してステータスをさらに強化できるアイテムです。レアリティや種類によって上昇するステータスが異なり、目的に応じた使い分けが重要です。ビーンズの主な入手方法はクロニクルモードの周回報酬で、効率の良い周回場所を選べば1時間で3,000個以上集めることも可能です。ポジション別のおすすめビーンズは、FWならキック・テクニック系、GKならKP上昇系が最優先。ビーンズの付け替えにはコストがかかるため、計画的に付与しましょう。"
+      },
+      "BASARA": {
+        title: "BASARA化システムの解説",
+        body: "BASARA化はキャラクターを最上位レアリティに強化するシステムです。入手方法は2つあり、①マーケット「荒ぶる者たちの巣窟」でHEROスピリット8枚と交換する方法（対象HEROのLv50以上が必要）と、②バサラシードを使用する方法があります。チーム編成にはBASARAキャラは1人のみ配置可能で、理想的な編成はBASARA1人＋HERO2人＋レジェンダリーです。BASARA化するとビルドタイプを自由に変更でき、「新たな可能性」による技の付け替えも可能になります。バサラシードはVer3.0.1で1個配布されましたが、一度使うと消費されやり直しはできません。"
+      },
+      "フォーカス": {
+        title: "フォーカスシステムの解説",
+        body: "フォーカスはイナイレVの核となるバトルシステムで、攻撃側（ATフォーカス）と守備側（DFフォーカス）の数値で勝敗が決まります。ATフォーカスの計算式は「テクニック＋コントロール＋キック÷2」、DFフォーカスは「テクニック＋インテリジェンス＋アジリティ÷2」です。テクニックは攻守両方に影響する最重要ステータスなので、装備やビーンズで優先的に上げましょう。フォーカスで勝利するとテンションが+60（テンションビルドなら最大+150）獲得でき、必殺技の発動につながります。属性の相性も勝敗に影響するため、相手の属性に合わせたチーム編成が対戦では重要です。"
+      },
+      "テンション": {
+        title: "テンションシステムの基礎知識",
+        body: "テンションは必殺技を使うために必要なゲージ（エネルギー）です。フォーカス勝利で+60（テンションビルドなら最大+150）、フォーカス敗北でも+30獲得できます。テンション30%以上で特定のパッシブが発動し始め、50%以上で正義ビルドのフォーカスATDF上昇効果が追加発動、100%でシュートAT上昇効果が得られます。テンション管理のコツは、必殺技を打つタイミングを見極めることと、相手にテンションを溜めさせないプレッシャーをかけることです。強力な必殺技ほど消費テンションが多いため、リソース管理が勝敗を分けます。"
+      },
+      "周回": {
+        title: "効率的な周回のポイント",
+        body: "イナイレVでの周回は、キャラクター育成素材やビーンズ、HEROスピリットの収集に欠かせません。効率を最大化するには、監督AI設定を最適化して自動周回できる環境を整えることが第一歩です。勝率99%以上を安定させるには、正義ビルドで固めたチーム編成と適切な必殺技構成が重要です。周回場所によって獲得できる報酬が異なるため、目的に応じたステージ選びもポイントになります。クロニクルモードのアドバンスウィン条件を満たすと追加報酬が得られるので、編成を工夫する価値があります。"
+      },
+      "クロニクル": {
+        title: "クロニクルモードの攻略ポイント",
+        body: "クロニクルモードはイナイレVのメインストーリーモードで、ストーリーを進めながらキャラクターや報酬を獲得できます。各ステージにはアドバンスウィン条件が設定されており、条件を満たすと追加報酬が手に入ります。クロニクルモードは周回のメイン対象でもあり、効率の良いステージを選んで繰り返しプレイすることでHEROスピリットやビーンズを大量に獲得できます。アップデートにより報酬や難易度が変更されることがあるため、最新の効率周回情報をチェックしておくことが重要です。"
+      },
+      "キズナリンク": {
+        title: "キズナリンクの解説",
+        body: "キズナリンクは選手間の絆を深め、連携必殺技を発動するシステムです。キズナレベルを上げると連携技の威力が上昇し、試合での決定力が大幅にアップします。キズナリンクの強化にはキズナポイントが必要で、試合でのパス回数やチーム内での連携回数に応じて蓄積されます。キズナビルドを採用するとポイントの蓄積効率が上がりますが、現環境では正義ビルドの方が安定性が高いため、キズナリンクは副次的な要素として活用するのがおすすめです。"
+      },
+      "対戦": {
+        title: "対人戦の心得",
+        body: "イナイレVの対人戦で勝率を上げるには、まず環境メタを理解することが重要です。現環境では正義ビルドが安定性No.1で、ラフプレービルドが手動操作の上級者向けとして強力です。対戦で差がつくポイントは、テンション管理、フォーカスの勝ち方、必殺技の使いどころの3つです。序盤はテンションを溜める立ち回り、中盤は相手の弱点を突くフォーカス勝負、終盤は溜めたテンションで必殺シュートという流れを意識しましょう。負けた試合を振り返り、どこで差がついたかを分析する習慣をつけると上達が早くなります。"
+      },
+      "初心者": {
+        title: "初心者が最初にやるべきこと",
+        body: "イナイレVを始めたら、まずクロニクルモードを進めてキャラクターを集めましょう。序盤の育成優先度は①メインFW・GKのレベル上げ、②正義ビルドの統一、③パッシブ継承の基本理解、④装備の最適化の順番がおすすめです。レベル47でチームパッシブが全解放、レベル50でカスタムパッシブスロットが解放されるため、まずは主力キャラのレベル50を目指しましょう。対戦デビューはある程度チームが揃ってからで大丈夫です。焦らず基盤を固めることが結果的に上達の近道になります。"
+      },
+      "カウンター": {
+        title: "カウンタービルドの基礎知識",
+        body: "カウンタービルドは、キャッチ以外でボールを奪還した後15秒間、チーム全体のシュートAT（攻撃力）が上昇するビルドタイプです。ロングシュートとの相性が非常に良く、ボール奪取→即ロングシュートの流れが強力です。正義ビルドと比べると常時発動ではない分、瞬間的な火力では上回ることもあります。カウンタービルドを活かすには、DF陣でのボール奪取能力が高いキャラを配置し、奪取後すぐにシュートを打てる布陣を組むことがポイントです。正義ビルドとの組み合わせ（正義×カウンター）も環境で注目されています。"
+      },
+      "監督AI": {
+        title: "監督AI設定のポイント",
+        body: "監督AI（自動操作）モードは、周回効率を最大化するための重要な設定です。AI設定では戦術パターン、必殺技の使用タイミング、チームの動き方を細かく調整できます。勝率99%以上を安定させるコツは、正義ビルドで固めたチーム編成＋適切な必殺技構成＋戦術設定の3つを最適化することです。AI設定は一度決めれば放置周回が可能になるため、最初の設定に時間をかける価値があります。ただし、ラフプレービルドのようにダッシュ操作が重要なビルドはAIでは活かしきれないため注意が必要です。"
+      }
+    };
+
+    function getKnowledgeColumns(video) {
+      const tags = video.tags || [];
+      const content = video.content || "";
+      const columns = [];
+      const matched = new Set();
+
+      // タグ優先でマッチング
+      for (const tag of tags) {
+        for (const [key, col] of Object.entries(knowledgeColumns)) {
+          if (!matched.has(key) && tag.includes(key)) {
+            columns.push(col);
+            matched.add(key);
+          }
+        }
+      }
+      // コンテンツからもマッチング
+      for (const [key, col] of Object.entries(knowledgeColumns)) {
+        if (!matched.has(key) && content.includes(key)) {
+          columns.push(col);
+          matched.add(key);
+        }
+      }
+      // 最大3つに制限
+      return columns.slice(0, 3);
+    }
+
+    function generateContentTOC(content) {
+      if (!content) return [];
+      const headings = [];
+      for (const line of content.split("\n")) {
+        const trimmed = line.trim();
+        if (trimmed.startsWith("## ")) {
+          headings.push({ level: 2, text: trimmed.slice(3), id: "sec-" + headings.length });
+        } else if (trimmed.startsWith("### ")) {
+          headings.push({ level: 3, text: trimmed.slice(4), id: "sec-" + headings.length });
+        }
+      }
+      return headings;
+    }
+
+    // ===== FAQ生成 =====
     function generateFAQ(video) {
       const content = video.content || "";
+      const tags = (video.tags || []).join(" ");
+      const theme = getThemeCategory(video);
       const faqs = [];
 
       if (video.category !== "inazuma") {
@@ -460,106 +569,180 @@
         return faqs.length > 0 ? faqs : [{ q: "この動画はどんな内容？", a: video.description }];
       }
 
-      // イナイレV用キーワードFAQ
-      if (content.includes("KP上昇")) {
+      // イナイレV用キーワード/タグFAQ（content OR tags でトリガー）
+      const ct = content + " " + tags; // 統合テキストで判定
+
+      if (ct.includes("KP上昇")) {
         faqs.push({ q: "KP上昇はどれくらい効果がある？", a: "KP上昇は基本KP約3000から約4500へ50%増加し、実質1500分の耐久バフとなります。テンションが稼ぎやすい現環境と噛み合い、守備重視の構成で非常に強力です。" });
         faqs.push({ q: "KP上昇はどんな人におすすめ？", a: "守備重視の構成を使う人、シュートチェイン対策をしたい人、安定志向のプレイヤーにおすすめです。" });
       }
-      if (content.includes("アプデ") && content.includes("ラフ")) {
+      if (ct.includes("アプデ") && ct.includes("ラフ")) {
         faqs.push({ q: "最新アプデでラフプレイはどう変わった？", a: "ラフプレイのファール率が大幅に上昇し弱体化しました。以前のようなゴリ押し戦術は通用しにくくなっています。" });
         faqs.push({ q: "現環境で一番強い戦術は？", a: "正義ビルドを主軸にカウンター系を組み合わせた構成が環境トップです。ラフプレイ弱体化により、正義ビルドの安定性が際立っています。" });
       }
-      if (content.includes("テンション管理")) {
+      if (ct.includes("テンション管理")) {
         faqs.push({ q: "テンション管理で一番大事なことは？", a: "必殺技構成を覚えること、相手にテンションを溜めさせない動き、リソースを無駄使いしないことが重要です。" });
         faqs.push({ q: "テンション管理で差がつくポイントは？", a: "テンションの使いどころの判断力、相手のテンション状況の把握、勝てる試合を確実に勝ちきる管理力が差をつけます。" });
       }
-      if (content.includes("勝率") && content.includes("戦い方")) {
+      if (ct.includes("勝率") && ct.includes("戦い方")) {
         faqs.push({ q: "勝率を上げるために一番意識すべきことは？", a: "安定した立ち回り、無駄な技の使用を減らすこと、相手の戦術に合わせた柔軟な対応が重要です。序盤・中盤・終盤で戦い方を変えることも大切です。" });
       }
-      if (content.includes("タクティクス") && content.includes("正義")) {
+      if (ct.includes("タクティクス") && ct.includes("正義")) {
         faqs.push({ q: "正義ビルド環境の最強タクティクスは？", a: "現環境で最も勝率が高いのは正義ビルドの常時ATDFバフを活かした攻守両面の戦術です。カウンター主体の戦い方も有効です。" });
       }
-      if (content.includes("同属性パ")) {
+      if (ct.includes("同属性パ")) {
         faqs.push({ q: "同属性パとは何？", a: "チーム全員を同じ属性で統一するビルドです。属性ボーナスを最大限に活かせ、正義ビルドとの相性が抜群です。" });
         faqs.push({ q: "同属性パのメリットは？", a: "属性ボーナスの数値的メリットが大きく、高評価率98.5%の完成度を誇るビルドです。FW・MF・DF・GK全ポジションの構成を動画で公開しています。" });
       }
-      if (content.includes("最強装備") && content.includes("ビーンズ")) {
+      if (ct.includes("最強装備") && ct.includes("ビーンズ")) {
         faqs.push({ q: "ポジション別のおすすめ装備は？", a: "FWは攻撃力特化、ATDFフォーカス構成、カウンターロングシュート・城壁キャラ構成、GKはKP重視の装備がそれぞれおすすめです。" });
         faqs.push({ q: "ビーンズの付け方のコツは？", a: "アレス・バサラシードアプデ後の環境に対応した実用的なビーンズの付け方を動画で詳しく解説しています。" });
       }
-      if (content.includes("パッシブ") && content.includes("おすすめ") && content.includes("カウンター")) {
+      if (ct.includes("パッシブ") && ct.includes("おすすめ") && ct.includes("カウンター")) {
         faqs.push({ q: "カウンタービルド向けのパッシブの優先度は？", a: "必須級パッシブ、あると便利なパッシブ、妥協できるパッシブの3段階で優先度を解説しています。FW・MF・DF・GKそれぞれに最適な構成があります。" });
       }
-      if (content.includes("理論値")) {
+      if (ct.includes("理論値")) {
         faqs.push({ q: "パッシブ理論値を目指す価値はある？", a: "場面によります。理論値と妥協値の数値差は実戦で感じにくい場合もあるため、コスパの良い厳選ラインを把握することが重要です。" });
       }
-      if (content.includes("正義ビルド") && content.includes("最適解")) {
+      if (ct.includes("正義ビルド") && ct.includes("最適解")) {
         faqs.push({ q: "正義ビルドの最適解は？", a: "正義ビルドのATDF常時バフの仕組みを理解した上で、FW攻撃特化・MF攻守バランス・DF守備特化・GK最適パッシブのポジション別構成が最適解です。" });
       }
-      if (content.includes("パッシブ継承") && content.includes("仕様")) {
+      if (ct.includes("パッシブ継承") && ct.includes("仕様")) {
         faqs.push({ q: "パッシブ継承の仕組みは？", a: "パッシブ継承には条件と制限があり、成功率も定められています。継承の優先順位を理解し、効率的に素材キャラを集めることが重要です。" });
         faqs.push({ q: "パッシブ継承で最初にやるべきことは？", a: "まず各ポジションに必要なパッシブを把握し、優先度の高いパッシブから継承を進めましょう。FW向け・MF向け・DF向け・GK向けそれぞれのおすすめを動画で解説しています。" });
       }
-      if (content.includes("パッシブ継承元") && content.includes("おすすめキャラ")) {
+      if (ct.includes("パッシブ継承元") && ct.includes("おすすめキャラ")) {
         faqs.push({ q: "パッシブ継承元のおすすめキャラは？", a: "攻撃系・守備系・汎用パッシブそれぞれに継承元となるおすすめキャラがいます。効率的なキャラ入手方法と失敗しない継承手順を動画で解説しています。" });
       }
-      if (content.includes("ラフ") && content.includes("ポジション別パッシブ")) {
+      if (ct.includes("ラフ") && ct.includes("ポジション別パッシブ")) {
         faqs.push({ q: "現環境でラフビルドは使える？", a: "正義環境でもラフプレイは完全に死んだわけではありません。ラフの強みを活かしたポジション別パッシブと継承元キャラの選び方が重要です。" });
       }
-      if (content.includes("クロニクル") && content.includes("周回")) {
+      if (ct.includes("クロニクル") && ct.includes("周回")) {
         faqs.push({ q: "クロニクルのおすすめ周回場所は？", a: "アプデ後に効率が変わったステージがあります。初心者でも回りやすく、アドバンスウィンが取りやすい場所と編成を動画で紹介しています。" });
         faqs.push({ q: "アドバンスウィンの条件は？", a: "アドバンスウィンには特定の条件を満たす必要があります。簡単にアドバンスウィンが取れるチーム編成と必殺技構成を解説しています。" });
       }
-      if (content.includes("キズナリンク")) {
+      if (ct.includes("キズナリンク")) {
         faqs.push({ q: "キズナリンクの強化方法は？", a: "キズナリンクを上げる手順と効率的な強化の進め方、連携必殺技の相方設定方法を動画で解説しています。意外と知らない人が多いテクニックです。" });
       }
-      if (content.includes("ビーンズ") && content.includes("3000")) {
+      if (ct.includes("ビーンズ") && ct.includes("3000")) {
         faqs.push({ q: "ビーンズを効率よく集めるには？", a: "最高効率の周回方法なら1時間で3000個以上のビーンズが集まります。おすすめの周回場所とチーム編成を動画で紹介しています。" });
       }
-      if (content.includes("バサラシードなし") && content.includes("BASARA")) {
+      if (ct.includes("バサラシードなし") && ct.includes("BASARA")) {
         faqs.push({ q: "バサラシードなしでBASARA化できる？", a: "最新アプデにより、バサラシードなしでもBASARA化が可能になりました。対象キャラと条件は動画で詳しく解説しています。" });
       }
-      if (content.includes("フォーカス") && content.includes("勝ち方")) {
+      if (ct.includes("フォーカス") && ct.includes("勝ち方")) {
         faqs.push({ q: "フォーカスで勝つコツは？", a: "フォーカスで意識すべきポイント、初心者がやりがちなミス、勝率を上げるテクニックを動画で解説しています。フォーカスに強いチーム編成もおすすめです。" });
       }
-      if (content.includes("フォーカスATDF")) {
+      if (ct.includes("フォーカスATDF")) {
         faqs.push({ q: "フォーカスATDFとは？", a: "ATフォーカスとDFフォーカスの基本仕様と発動条件、効果を解説しています。多くの人がやっていない設定もあるので、初心者は必見です。" });
       }
-      if (content.includes("パッシブ厳選") && content.includes("緩和")) {
+      if (ct.includes("パッシブ厳選") && ct.includes("緩和")) {
         faqs.push({ q: "パッシブ厳選はどう緩和された？", a: "厳選の仕組みが調整され、プレイヤーへの負担が軽減されました。今後のアップデートへの期待も含めて考察しています。" });
       }
-      if (content.includes("準備") && content.includes("アレス")) {
+      if (ct.includes("準備") && ct.includes("アレス")) {
         faqs.push({ q: "アプデまでに何を準備すればいい？", a: "素材の事前収集、キャラ育成、パッシブ厳選、ビーンズ貯蓄、情報収集とチーム構成の5つが重要です。時間がない人向けの最低限の準備も解説しています。" });
       }
-      if (content.includes("HERO周回") && content.includes("検証")) {
+      if (ct.includes("HERO周回") && ct.includes("検証")) {
         faqs.push({ q: "話題のHERO周回方法は本当に効率的？", a: "実際に検証した結果、効率の数値と他の方法との比較を動画で公開しています。目的別のおすすめ周回方法もあります。" });
       }
-      if (content.includes("監督AI") && content.includes("99")) {
+      if (ct.includes("監督AI") && ct.includes("99")) {
         faqs.push({ q: "監督AIで勝率99%を出すには？", a: "特定のAI設定方法、チーム編成、必殺技構成が必要です。放置周回のやり方と1時間あたりの報酬量も動画で解説しています。" });
       }
-      if (content.includes("KP1万") && content.includes("円堂")) {
+      if (ct.includes("KP1万") && ct.includes("円堂")) {
         faqs.push({ q: "BASARA円堂守でKP1万超えは可能？", a: "可能です。装備とパッシブの構成、ビーンズの付け方を最適化することでKP1万を超えられます。育成手順と必要な素材を動画で解説しています。" });
       }
-      if (content.includes("円堂守BASARA") && content.includes("最強")) {
+      if (ct.includes("円堂守BASARA") && ct.includes("最強")) {
         faqs.push({ q: "BASARA円堂守はなぜ最強？", a: "他のGKと比較してステータスに圧倒的な差があり、専用必殺技の性能も非常に高いです。強力なシュートに対する耐性も高く、現環境で最強GKです。" });
       }
-      if (content.includes("技巧コンボ")) {
+      if (ct.includes("技巧コンボ")) {
         faqs.push({ q: "技巧コンボと神のアクアの違いは？", a: "技巧コンボのダメージ計算の仕組みを理解しないと、神のアクアの強さを勘違いしやすいです。正しい評価と有効な使い方を動画で解説しています。" });
       }
-      if (content.includes("大会") && content.includes("練習")) {
+      if (ct.includes("大会") && ct.includes("練習")) {
         faqs.push({ q: "オンライン大会で勝つためのコツは？", a: "対戦で意識すべきこと、強い相手との戦い方、メタ環境への対応を実戦形式の練習動画で解説しています。" });
       }
-      if (content.includes("コントローラー") && content.includes("キーボード")) {
+      if (ct.includes("コントローラー") && ct.includes("キーボード")) {
         faqs.push({ q: "コントローラー＋キーボードのメリットは？", a: "両方を併用することで、操作の割り振りが最適化され素早い入力が可能になります。手元動画付きで操作方法を解説しています。" });
       }
-      if (content.includes("バサラなし") && content.includes("ラフプレイ")) {
+      if (ct.includes("バサラなし") && ct.includes("ラフプレイ")) {
         faqs.push({ q: "バサラなしでもラフプレイは使える？", a: "バサラシードがなくてもラフプレイの基本的な使い方と効果的なタイミングを理解すれば、勝率を大きく上げることができます。" });
       }
 
+      // テーマ別汎用FAQ（キーワードFAQで不足分を補完）
+      const themeFaqs = {
+        build: [
+          { q: "ビルドとは何ですか？", a: "イナイレVでは各選手に「チームパッシブ（ビルドタイプ）」が設定されており、チームメンバーの多数決でチーム全体のビルドが決まります。正義・テンション・カウンター・ラフプレー・必殺・キズナ・フリーダムの7種類があり、それぞれ異なるバフ効果が適用されます。" },
+          { q: "初心者におすすめのビルドは？", a: "正義ビルドが最もおすすめです。ファウルを取られるまでチーム全体のATDFが常時上昇するため安定性が高く、初心者から上級者まで幅広く使えます。監督・マネージャーも正義で統一すると効果が最大60%になります。" },
+          { q: "ビルドはどうやって変更する？", a: "選手がスピリットから選手化する際にランダムでビルドタイプが決まります。BASARA化したキャラクターのみビルドタイプを自由に変更可能です。チームビルドを変えるにはメンバー構成を調整しましょう。" },
+          { q: "正義ビルドと他のビルドの違いは？", a: "正義ビルドは常時ATDF上昇で安定性が高く、テンションビルドはフォーカス勝利時のテンション獲得が増加、カウンターはボール奪取後のシュートATが上昇します。ラフプレーはダッシュ特化の玄人向けです。初心者は正義から始めるのがおすすめです。" },
+          { q: "ビルドの組み合わせはどうすべき？", a: "Ver1.5.0以降、単一ビルド特化よりも正義×テンション、正義×カウンターなどの組み合わせが主流です。正義で基礎ステを確保しつつ、サブビルドで追加効果を得る構成が安定して強いです。" },
+        ],
+        equipment: [
+          { q: "装備はいつ解放される？", a: "ストーリーを進めることで装備システムが解放されます。装備にはポジション適性があり、FW向け・MF向け・DF向け・GK向けの装備がそれぞれ用意されています。装備を変えるだけでステータスが大きく変わるので、育成の重要な要素です。" },
+          { q: "ビーンズとは何ですか？", a: "装備に付けるアイテムで、ステータスをさらに強化できます。ビーンズにも種類があり、攻撃系・守備系・汎用系のビーンズを装備に合わせて選ぶのが効率的です。周回で集める必要があるため、効率の良い集め方を知っておくと便利です。" },
+          { q: "装備の厳選は必要？", a: "対人戦で勝ちたいなら装備の厳選は重要です。ポジションに合ったステータスを持つ装備を選び、ビーンズで補強するのが基本です。ただし最初はストーリー進行を優先し、対人戦を始める段階で本格的に厳選しましょう。" },
+          { q: "装備のステータスはどう見ればいい？", a: "フォーカス計算式を理解することが重要です。ATフォーカス=テクニック+コントロール+キック÷2、DFフォーカス=テクニック+インテリジェンス+アジリティ÷2です。この計算式に基づいて、ポジションに合った装備を選びましょう。" },
+          { q: "ビーンズの効率的な集め方は？", a: "クロニクルモードの特定ステージを周回するのが最も効率的です。監督AI設定を最適化して放置周回すれば、1時間で3,000個以上集めることも可能です。目的のステータスに合ったビーンズが出やすいステージを選ぶのがコツです。" },
+        ],
+        battle: [
+          { q: "対人戦で勝てない原因は？", a: "よくある原因は、ビルドの理解不足、テンション管理のミス、フォーカス勝負での判断ミスの3つです。まずは正義ビルドでチームを統一し、フォーカスの基本を押さえるところから始めましょう。対戦経験を積むことも大切です。" },
+          { q: "フォーカスとは何ですか？", a: "フォーカスはイナイレVの対戦で最も重要なバトルシステムです。攻撃側（AT）と守備側（DF）の数値で勝敗が決まり、勝てばテンションを獲得できます。属性相性やパッシブスキルが勝敗に大きく影響します。" },
+          { q: "テンションはどうやって溜める？", a: "テンションはフォーカス勝負に勝つことで獲得できます。通常勝利で+60、テンションビルドなら最大+150まで獲得可能です。テンションを使って必殺技を発動でき、テンション30%以上で特定能力が発動するため、常に意識して管理しましょう。" },
+          { q: "対戦での属性相性は重要？", a: "非常に重要です。属性有利な状況ではフォーカス勝負で大きなアドバンテージが得られます。相手のチーム属性に合わせて自チームの属性を調整するか、同属性パーティで属性ボーナスを最大化する戦略が有効です。" },
+          { q: "必殺技はどのタイミングで使うべき？", a: "テンションが十分に溜まった状態で、得点チャンスが高い場面で使うのが基本です。序盤はテンションを温存し、中盤以降にフォーカス有利な場面で必殺シュートを打つのが効率的です。相手のGKの必殺技残量も意識しましょう。" },
+        ],
+        farming: [
+          { q: "効率の良い周回方法は？", a: "クロニクルモードでの周回が基本です。監督AI設定を最適化し、放置周回できる編成を組むのがおすすめです。アドバンスウィンを取れるチーム編成にすると報酬が増えるため、まずはアドバンスウィン条件を把握しましょう。" },
+          { q: "HEROスピリットの集め方は？", a: "クロニクルモードの周回ドロップが基本です。特定のステージで入手しやすいHEROスピリットがあるため、欲しいキャラに合わせてステージを選びましょう。BASARA化にはHEROスピリット8枚が必要なので、計画的に集めることが大切です。" },
+          { q: "放置周回のやり方は？", a: "監督AI設定でチームの行動パターンを設定し、自動で試合を繰り返す方法です。正義ビルドで安定勝利できるチーム編成を組み、AI設定を最適化することで効率的に素材やビーンズを集められます。" },
+          { q: "周回のおすすめチーム編成は？", a: "正義ビルドで統一し、勝率99%以上を安定させる編成がおすすめです。FWには必殺シュート持ちのエース、GKにはKPの高いキャラを配置し、全体のATDFバランスを取りましょう。具体的な編成は動画で解説しています。" },
+          { q: "素材集めの優先順位は？", a: "①主力キャラのレベル50達成 → ②パッシブ継承用の素材キャラ → ③装備用ビーンズ → ④BASARA化用HEROスピリットの順が効率的です。同時進行も可能ですが、まずはレベル上げを優先しましょう。" },
+        ],
+        update: [
+          { q: "最新アップデートの内容は？", a: "イナイレVでは定期的にバランス調整やコンテンツ追加のアップデートが行われます。ビルドの調整、新キャラ追加、新システム実装などが含まれ、環境が大きく変わることもあります。やまむーチャンネルで最新情報を解説しています。" },
+          { q: "アプデ後に何をすべき？", a: "まずはアップデート内容を確認し、ビルドやパッシブの調整があれば自分のチーム構成を見直しましょう。新キャラや新システムが追加された場合は、環境への影響を見極めてからチーム編成を調整するのがおすすめです。" },
+          { q: "BASARA化とは何ですか？", a: "キャラクターを最上位レアリティに強化するシステムです。HEROスピリット8枚との交換か、バサラシード使用の2つの方法があります。BASARA化するとビルドタイプの自由変更や技の付け替えが可能になります。チーム編成にはBASARAキャラは1人のみ入れられます。" },
+          { q: "環境が変わったらチームを作り直すべき？", a: "大型アプデ後は環境が大きく変わることがありますが、正義ビルド主軸のチームは安定性が高いため、微調整で対応できることが多いです。まずはアプデ内容を確認し、影響範囲を見極めてから判断しましょう。" },
+          { q: "過去のアプデ情報はどこで確認できる？", a: "やまむーチャンネルでは各アップデートの変更点を動画で詳しく解説しています。公式サイトのお知らせと合わせてチェックすることで、環境変化への対応が早くなります。当サイトのアプデ情報カテゴリもご活用ください。" },
+        ],
+        beginner: [
+          { q: "イナイレV初心者は何から始めるべき？", a: "まずはストーリーモードを進めて基本システムを理解しましょう。その後、選手の育成（レベル上げ→ビルド理解→パッシブ継承）と装備の厳選に取り組みます。正義ビルドでチームを統一するのが最初の目標です。" },
+          { q: "レベル上げの効率的な方法は？", a: "クロニクルモードの周回が最も効率的です。レベル47でチームパッシブが全解放、レベル50でカスタムパッシブスロットが解放されるので、まずはメインメンバーのレベル50を目指しましょう。" },
+          { q: "パッシブ継承とは何ですか？", a: "他のキャラクターのパッシブスキルを自分のキャラに付与するシステムです。継承元のキャラは消滅するため慎重に選ぶ必要があります。ポジションごとに最適なパッシブが異なるので、優先度を把握してから進めましょう。" },
+          { q: "対戦はいつから始めるべき？", a: "メインメンバーのレベルが50に達し、正義ビルドでチームを統一できた段階で対戦デビューするのがおすすめです。パッシブ継承や装備の厳選はある程度でOK。実戦で課題を見つけながら強化していくのが上達の近道です。" },
+          { q: "キャラの選び方のコツは？", a: "最初は好きなキャラでOKですが、対戦を意識するならビルドタイプとポジション適性が重要です。正義ビルドの選手を中心にチームを組み、各ポジションに適したステータスのキャラを配置しましょう。HERO以上のレアリティが基本です。" },
+        ],
+        fun: [
+          { q: "イナイレVの面白い遊び方は？", a: "対戦や周回以外にも、縛りプレイやチャレンジ企画など様々な楽しみ方があります。好きなキャラだけでチームを組んだり、特定のビルドに特化した編成を試したり、自分なりの目標を設定して遊ぶのもおすすめです。" },
+          { q: "やまむーチャンネルではどんな企画をやってる？", a: "攻略動画だけでなく、クイズ企画やおもしろチャレンジなど、エンタメ要素のある動画も投稿しています。イナイレVの知識を楽しく学べる内容になっているので、気軽にご覧ください。" },
+          { q: "ショート動画でも攻略情報は得られる？", a: "はい、ショート動画では重要なポイントを短時間で解説しています。通常の攻略動画の要点をまとめた内容や、知っておくと便利なテクニックを紹介しています。隙間時間に見られるのでおすすめです。" },
+          { q: "イナイレVのやり込み要素は？", a: "キャラクター育成、パッシブ継承の理論値追求、全ビルドの使いこなし、対戦ランキング上位を目指すなど、やり込み要素は豊富です。BASARA化やキズナリンクの完全強化も長期的な目標として楽しめます。" },
+          { q: "好きなキャラだけでチームを組んでも勝てる？", a: "カジュアルマッチやCPU戦なら好きなキャラでも十分楽しめます。対人ランクマッチでは最適化されたチームに不利になりますが、ビルドとパッシブを工夫すれば意外と戦えることもあります。好きなキャラで勝つのが一番楽しいですよね。" },
+        ],
+      };
+
+      // テーマ別汎用FAQで不足分を補う
+      const existingQs = new Set(faqs.map(f => f.q));
+      const genericFaqs = themeFaqs[theme] || themeFaqs.battle;
+      for (const gf of genericFaqs) {
+        if (!existingQs.has(gf.q)) {
+          faqs.push(gf);
+          existingQs.add(gf.q);
+        }
+      }
+
+      // デフォルトFAQ（まだ0問の場合）
       if (faqs.length === 0) {
         faqs.push({ q: "この動画はどんな内容？", a: content.split("\n")[0] || video.description });
       }
-      return faqs;
+
+      // 重複排除＆上限7問
+      const seen = new Set();
+      const uniqueFaqs = [];
+      for (const f of faqs) {
+        if (!seen.has(f.q)) { seen.add(f.q); uniqueFaqs.push(f); }
+        if (uniqueFaqs.length >= 7) break;
+      }
+      return uniqueFaqs;
     }
 
     function getCategoryNavLinks(video) {
@@ -575,6 +758,11 @@
       const relatedGuides = getRelatedGuides(video);
       const catLabel = categoryLabel[video.category] || video.category;
       const catPageUrl = `category-${video.category}.html`;
+
+      // 新セクション用データ
+      const columns = getKnowledgeColumns(video);
+      const toc = generateContentTOC(video.content || "");
+      const conclusionLine = (video.content || "").split("\n").find(l => l.trim() && !l.startsWith("#")) || video.description;
 
       const relatedCards = related.map(v => `
         <a href="video-${v.category}-${v.id}.html" class="video-card">
@@ -742,6 +930,25 @@ ${gameNavHtml}
     </div>` : ""}
   </article>
 
+  <!-- 結論ボックス -->
+  <section style="max-width:960px; margin:0 auto; padding:0 24px 16px;">
+    <div style="background:linear-gradient(135deg, var(--accent), #764ba2); border-radius:12px; padding:20px 24px; color:#fff;">
+      <div style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; opacity:0.9;">POINT</div>
+      <p style="font-size:15px; line-height:1.8; margin:0;">${escHtml(stripMarkdown(conclusionLine))}</p>
+    </div>
+  </section>
+
+  ${toc.length > 0 ? `
+  <!-- 目次 -->
+  <nav style="max-width:960px; margin:0 auto; padding:0 24px 16px;">
+    <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:10px; padding:16px 20px;">
+      <div style="font-size:15px; font-weight:700; color:var(--text-primary); margin-bottom:10px;">目次</div>
+      <ol style="margin:0; padding-left:20px; list-style:decimal;">
+        ${toc.map(h => `<li style="margin-bottom:4px;"><a href="#${h.id}" style="font-size:14px; color:var(--accent); text-decoration:none;${h.level === 3 ? ' padding-left:16px;' : ''}">${escHtml(h.text)}</a></li>`).join("\n        ")}
+      </ol>
+    </div>
+  </nav>` : ""}
+
   ${video.content ? `
   <!-- リッチコンテンツ（SEO用 記事本文） -->
   <section class="video-content-section">
@@ -749,6 +956,17 @@ ${gameNavHtml}
     <div class="video-content-body">${contentToHtml(video.content)}</div>
   </section>
   ` : ""}
+
+  ${columns.length > 0 ? `
+  <!-- 攻略知識コラム -->
+  <section style="max-width:960px; margin:0 auto; padding:0 24px 24px;">
+    <h2 style="font-size:18px; font-weight:700; color:var(--text-primary); margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--accent);">知っておきたい基礎知識</h2>
+    ${columns.map(col => `
+    <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:10px; padding:20px; margin-bottom:16px;">
+      <h3 style="font-size:16px; font-weight:700; color:var(--accent); margin-bottom:10px; padding-left:10px; border-left:3px solid var(--accent);">${escHtml(col.title)}</h3>
+      <p style="font-size:14px; color:var(--text-primary); line-height:1.9; margin:0;">${escHtml(col.body)}</p>
+    </div>`).join("\n")}
+  </section>` : ""}
 
   <!-- よくある質問 -->
   <section class="faq-section" style="max-width:960px; margin:0 auto; padding:0 24px 32px;">
@@ -796,6 +1014,9 @@ ${relatedGuides.map(g => `      <a href="${g.url}" style="display:block; padding
       <a href="guide-farming.html">周回効率ガイド</a>
       <a href="guide-battle-tips.html">対戦テクニック</a>
       <a href="guide-basara.html">BASARA攻略</a>
+      <a href="${ASSET_PREFIX}about.html">運営者情報</a>
+      <a href="${ASSET_PREFIX}privacy.html">プライバシーポリシー</a>
+      <a href="${ASSET_PREFIX}contact.html">お問い合わせ</a>
       <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
       <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
     </nav>
@@ -1027,6 +1248,9 @@ ${sectionsHtml}
       <a href="guide-farming.html">周回効率ガイド</a>
       <a href="guide-battle-tips.html">対戦テクニック</a>
       <a href="guide-basara.html">BASARA攻略</a>
+      <a href="${ASSET_PREFIX}about.html">運営者情報</a>
+      <a href="${ASSET_PREFIX}privacy.html">プライバシーポリシー</a>
+      <a href="${ASSET_PREFIX}contact.html">お問い合わせ</a>
       <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
       <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
     </nav>
@@ -1318,6 +1542,9 @@ ${otherThemes}
       <a href="guide-farming.html">周回効率ガイド</a>
       <a href="guide-battle-tips.html">対戦テクニック</a>
       <a href="guide-basara.html">BASARA攻略</a>
+      <a href="${ASSET_PREFIX}about.html">運営者情報</a>
+      <a href="${ASSET_PREFIX}privacy.html">プライバシーポリシー</a>
+      <a href="${ASSET_PREFIX}contact.html">お問い合わせ</a>
       <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
       <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
     </nav>
@@ -1605,6 +1832,9 @@ ${guideLinksHtml}
       <a href="guide-farming.html">周回効率ガイド</a>
       <a href="guide-battle-tips.html">対戦テクニック</a>
       <a href="guide-basara.html">BASARA攻略</a>
+      <a href="${ASSET_PREFIX}about.html">運営者情報</a>
+      <a href="${ASSET_PREFIX}privacy.html">プライバシーポリシー</a>
+      <a href="${ASSET_PREFIX}contact.html">お問い合わせ</a>
       <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
       <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
     </nav>
