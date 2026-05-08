@@ -1,362 +1,1257 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://tpc.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://img.youtube.com https://pagead2.googlesyndication.com https://www.google.com https://googleads.g.doubleclick.net data:; frame-src https://www.youtube.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://pagead2.googlesyndication.com https://adservice.google.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>イナイレV攻略Wiki｜やまむー【yamamu】</title>
-  <meta name="description" content="やまむー【yamamu】のゲーム攻略サイト。イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の最強装備・ビーンズ・アプデ情報・KP上昇など対戦攻略を動画と記事で解説。マイクラ・ポケポケの実況も公開中。">
-  <meta name="keywords" content="やまむー, yamamu, イナイレV, イナズマイレブン, イナイレ攻略, 英雄たちのヴィクトリーロード, 最強装備, ビーンズ, KP上昇, アプデ, ゲーム実況">
-  <link rel="canonical" href="https://yamamu-youtube.jp/inazuma/">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>イナイレV 攻略Wiki | やまむー OFFICIAL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800;1,900&family=JetBrains+Mono:wght@400;500;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+/* ============== TOKENS ============== */
+:root{
+  --bg:#050a1f;
+  --bg-2:#0a1530;
+  --bg-3:#0d1f3d;
+  --panel:rgba(10,21,48,0.65);
+  --panel-2:rgba(13,31,61,0.7);
+  --line:rgba(30,111,255,0.30);
+  --line-strong:rgba(30,111,255,0.55);
+  --blue:#1e6fff;
+  --blue-2:#0d4ad6;
+  --cyan:#00d4ff;
+  --yellow:#ffd60a;
+  --orange:#ff8c00;
+  --text:#ffffff;
+  --muted:#a8c0ff;
+  --dim:#6c83b8;
+  --grad-yellow:linear-gradient(135deg,#ffd60a 0%,#ff8c00 100%);
+  --grad-blue:linear-gradient(135deg,#1e6fff 0%,#00d4ff 100%);
+  --grad-tri:linear-gradient(120deg,#ffffff 0%,#ffd60a 50%,#ff8c00 100%);
+  --shadow-blue:0 0 0 1px rgba(30,111,255,0.25), 0 20px 60px -20px rgba(30,111,255,0.55);
+  --shadow-yellow:0 0 22px rgba(255,214,10,0.55);
+  --r-sm:6px; --r-md:12px; --r-lg:18px;
+}
 
-  <!-- OGP -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="イナイレV攻略Wiki｜やまむー【yamamu】">
-  <meta property="og:description" content="イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の最強装備・ビーンズ・アプデ情報・対戦攻略を動画と記事で解説。">
-  <meta property="og:url" content="https://yamamu-youtube.jp/inazuma/">
-  <meta property="og:site_name" content="やまむー【yamamu】">
-  <meta property="og:image" content="https://yamamu-youtube.jp/icon.png">
-  <meta property="og:locale" content="ja_JP">
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-feature-settings:"palt";
+  -webkit-font-smoothing:antialiased;
+  line-height:1.7;
+  overflow-x:hidden;
+}
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="イナイレV攻略Wiki｜やまむー【yamamu】">
-  <meta name="twitter:description" content="イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の攻略を動画と記事で解説。">
-  <meta name="twitter:image" content="https://yamamu-youtube.jp/icon.png">
+/* ============== BACKDROP / STADIUM ============== */
+.bg-fx{position:fixed;inset:0;pointer-events:none;z-index:0}
+.bg-fx::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 65% 50% at 18% 8%, rgba(30,111,255,0.30), transparent 60%),
+    radial-gradient(ellipse 55% 45% at 88% 14%, rgba(0,212,255,0.18), transparent 65%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(255,214,10,0.10), transparent 70%),
+    linear-gradient(180deg,#0a1530 0%,#0d1f3d 50%,#050a1f 100%);
+}
+/* pitch + grid */
+.bg-fx::after{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(30,111,255,0.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(30,111,255,0.07) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 30%, #000 30%, transparent 75%);
+}
+/* pitch lines (soccer field silhouette) */
+.pitch{position:fixed;left:50%;top:120px;transform:translateX(-50%);width:1600px;height:900px;border:2px solid rgba(30,111,255,0.07);border-radius:8px;pointer-events:none;z-index:0}
+.pitch::before{content:"";position:absolute;left:0;right:0;top:50%;height:0;border-top:2px solid rgba(30,111,255,0.07)}
+.pitch::after{content:"";position:absolute;left:50%;top:50%;width:200px;height:200px;border:2px solid rgba(30,111,255,0.07);border-radius:50%;transform:translate(-50%,-50%)}
+.pitch .ball{position:absolute;left:50%;top:50%;width:24px;height:24px;border-radius:50%;background:rgba(30,111,255,0.15);transform:translate(-50%,-50%);box-shadow:0 0 0 1px rgba(30,111,255,0.2)}
+.pitch .pen-l,.pitch .pen-r{position:absolute;top:50%;width:200px;height:380px;border:2px solid rgba(30,111,255,0.07);transform:translateY(-50%)}
+.pitch .pen-l{left:0;border-left:none}
+.pitch .pen-r{right:0;border-right:none}
 
-  <!-- JSON-LD: WebSite -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "イナイレV攻略Wiki｜やまむー【yamamu】",
-    "url": "https://yamamu-youtube.jp/inazuma/",
-    "description": "イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の最強装備・ビーンズ・アプデ情報・対戦攻略を動画と記事で解説するゲーム攻略サイト。",
-    "inLanguage": "ja",
-    "publisher": {
-      "@type": "Organization",
-      "name": "やまむー【yamamu】",
-      "url": "https://yamamu-youtube.jp",
-      "sameAs": [
-        "https://www.youtube.com/@yamamu",
-        "https://twitter.com/YamamuGaming"
-      ]
-    }
-  }
-  </script>
+/* lightning ripple - blue scan */
+.ripple{position:fixed;top:0;left:0;right:0;height:3px;z-index:60;overflow:hidden;pointer-events:none}
+.ripple::before{
+  content:"";position:absolute;top:0;left:-30%;width:30%;height:100%;
+  background:linear-gradient(90deg,transparent,#1e6fff 40%,#00d4ff 50%,#ffd60a 60%,transparent);
+  filter:drop-shadow(0 0 6px #00d4ff);
+  animation:scan 5s linear infinite;
+}
+@keyframes scan{ 0%{left:-30%} 100%{left:130%} }
 
-  <!-- JSON-LD: ItemList -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    "name": "攻略動画一覧",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-xximfRaV3kU.html", "name": "【イナイレV】異属性パと同属性パ結局どっちが最強か結論が出ました【イナズマイレブン英雄たちのヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 2, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-r5shzEtMMHM.html", "name": "【イナイレV】BASARAの全パッシブ早見表‼おすすめキャラはこれだ!!" },
-      { "@type": "ListItem", "position": 3, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-wT3wqekrR_w.html", "name": "【イナイレV】HERO乱獲ｗ30分で1体落ちるクロニクルモード周回場所教えます" },
-      { "@type": "ListItem", "position": 4, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-q1VVQtYFKCg.html", "name": "【イナイレV】プレイヤーズユニバースで好きなHEROを厳選できる裏技解説、BASARAを簡単にゲットする方法" },
-      { "@type": "ListItem", "position": 5, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-l73bEiL4R9U.html", "name": "【イナイレV】イナダンアプデ後最強装備はこれ‼正直今回のアプデどう？" },
-      { "@type": "ListItem", "position": 6, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-yUDn_T7YjPk.html", "name": "【イナイレV】山野バンと大空ヒロの入手方法解説‼ダンボール戦機ファン必見!!" },
-      { "@type": "ListItem", "position": 7, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-5VnoLqLduyo.html", "name": "【イナイレV】超次元すぎてチートかラグかわからないサッカー試合がこちら" },
-      { "@type": "ListItem", "position": 8, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-IGYda06sIXo.html", "name": "【イナイレV】カウンターシュート覚えたら勝率爆上がりしました" },
-      { "@type": "ListItem", "position": 9, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma--QtG24qXv54.html", "name": "【イナイレV】これだけはしないで!!イナダンDLCまでにやるべきこととは？【イナズマイレブン英雄たちのヴィクトリーロード" },
-      { "@type": "ListItem", "position": 10, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-ue4Cgad2gCA.html", "name": "【イナイレV】新レア「BASARA」で大炎上してるが個人的神アプデまとめ【イナズマイレブン英雄たちのヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 11, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-dM_4pxvBcws.html", "name": "【イナイレV】今流行りの同属性ビルドが最強すぎるｗｗ" },
-      { "@type": "ListItem", "position": 12, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-yK3mU3mFxTI.html", "name": "【イナイレV】700時間プレイ勢が教える監督AIを強く使う方法" },
-      { "@type": "ListItem", "position": 13, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-pjr1FqI1ez8.html", "name": "【イナイレV】必見！これゲットするだけで15％もステータス差がつくおすすめカスタムパッシブ" },
-      { "@type": "ListItem", "position": 14, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-7dESgLC7PyI.html", "name": "【イナイレV】選手厳選しても勝てません、プレイヤースキルがなければ" },
-      { "@type": "ListItem", "position": 15, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-4gVPLKWIkYc.html", "name": "【イナイレV】最強ビルド「正義テンション」の完成形でランクマいった結果…" },
-      { "@type": "ListItem", "position": 16, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-_VZMEJmk_dA.html", "name": "【イナイレV】キズナタウンでイナズマ度3000ポイント稼ぐ簡単な方法とは？" },
-      { "@type": "ListItem", "position": 17, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-mLXyq-eyFeM.html", "name": "【イナイレV】アプデ後最強ビルドはこれ？！正義ビルドの厳選しなおす箇所紹介します‼" },
-      { "@type": "ListItem", "position": 18, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-23LK-ExknQg.html", "name": "【イナイレV】BBスタジアムを超簡単に終わらせる裏技?!" },
-      { "@type": "ListItem", "position": 19, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-w7PADYRXXqQ.html", "name": "【イナイレV】たったこれだけでヴィクトリーボックスレジェンドを大量入手する方法3選‼" },
-      { "@type": "ListItem", "position": 20, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-wBNBs7UG8nM.html", "name": "【イナイレV】ロングシュートを高火力で撃ちまくれ‼ラフプレーテンションビルド" },
-      { "@type": "ListItem", "position": 21, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-c705YQt0yyw.html", "name": "【イナイレV】一つだけ変えるだけでオート勝率を爆上げする方法とは？" },
-      { "@type": "ListItem", "position": 22, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-_g6qEKsR9Yk.html", "name": "【イナイレV】今後のアップデート内容と、向き合い方とは？を解説‼" },
-      { "@type": "ListItem", "position": 23, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-8Nq0oy4qOBw.html", "name": "【イナイレV】アプデ後話題のKP上昇を使ったら強すぎた件ｗｗｗ【イナズマイレブン英雄たちのヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 24, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-384dA6UW7D0.html", "name": "【イナイレV】最新アプデ仕様まとめ！ラフ超弱体化で正義一強？！これからどうなる？！【イナズマイレブン英雄たちのヴィクトリ" },
-      { "@type": "ListItem", "position": 25, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-NNopNIWMqsg.html", "name": "【イナイレV】知らないと差が出るやり込み勢によるテンション管理の大事さ解説！【イナズマイレブン英雄たちのヴィクトリーロー" },
-      { "@type": "ListItem", "position": 26, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-LBRfFAvMdr4.html", "name": "【イナイレV】総プレイ1200時間が教える絶対勝率が上がる戦い方解説【イナズマイレブン英雄たちのヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 27, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-zb2SB9eoJZo.html", "name": "【イナイレV】正義テンションで流行ってる最強タクティクスはこれだ！【イナズマイレブン英雄たちのヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 28, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-wAQTK9wW43s.html", "name": "【イナイレV】正義テンションビルド「同属性パ」の完成形！ポジション別パッシブ＆装備＆必殺技構成を全公開?!【イナズマイレ" },
-      { "@type": "ListItem", "position": 29, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-KbPbGgBTkwQ.html", "name": "【イナイレV】ポジション別おすすめ最強装備＆ビーンズの付け方！アレスバサラシードアプデ後【イナズマイレブン英雄たちのヴィ" },
-      { "@type": "ListItem", "position": 30, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-AjEi0n-QyEA.html", "name": "【イナイレV】選手に付ける最強ビルドパッシブおすすめはこれ！正義テンションカウンタービルド向け【イナズマイレブン英雄たち" },
-      { "@type": "ListItem", "position": 31, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-NL49XdTH7jc.html", "name": "【イナイレV】パッシブ理論値は強い？弱い？総プレイ1200時間が真相を教えます【イナズマイレブン英雄たちのヴィクトリーロ" },
-      { "@type": "ListItem", "position": 32, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-4hl1Y9pXwgc.html", "name": "【イナイレV】正義ビルドの最適解｜パッシブ構成を完全解説【イナズマイレブン英雄たちのヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 33, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-UgsszCgRWiQ.html", "name": "【イナイレV】今最強のラフのポジション別おすすめパッシブとパッシブ継承元キャラまとめ【イナズマイレブン英雄たちのヴィクト" },
-      { "@type": "ListItem", "position": 34, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-Bo2ciwdMhkk.html", "name": "【イナイレV】アプデ後おすすめクロニクル周回場所はここ！アドバンスウィンも簡単に取れるチーム編成や必殺技構成も解説！【イ" },
-      { "@type": "ListItem", "position": 35, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-q_dy5jb_xFw.html", "name": "【イナイレV】パッシブ継承元おすすめキャラ！最強キャラに必要なパッシブはこれで完璧！【イナズマイレブン英雄たちのヴィクト" },
-      { "@type": "ListItem", "position": 36, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-Pixll0J9O7k.html", "name": "【イナイレV】パッシブ継承の仕様とポジション別おすすめパッシブまとめ!!【イナズマイレブン英雄たちのヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 37, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma--3ykkj6VhaM.html", "name": "【イナイレV】キズナリンクを強化して連携必殺技の相方を設定する方法！これ知ってた？【イナズマイレブン英雄たちのヴィクトリ" },
-      { "@type": "ListItem", "position": 38, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-JOeiDbr--rM.html", "name": "【イナイレV】1時間で3000個以上集まる最高効率ビーンズ周回方法がヤバすぎｗｗｗ【イナズマイレブン英雄たちのヴィクトリ" },
-      { "@type": "ListItem", "position": 39, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-NfrAvHoTSfI.html", "name": "【イナイレV】バサラシードなしで誰でもBASARA？！神アプデすぎだろｗｗｗ【イナズマイレブン英雄たちのヴィクトリーロー" },
-      { "@type": "ListItem", "position": 40, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-EV33jRq0GYs.html", "name": "【イナイレV】フォーカス勝てない人必見‼初心者向けおすすめフォーカス勝ち方解説‼【イナズマイレブン英雄たちのヴィクトリー" },
-      { "@type": "ListItem", "position": 41, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-_3BHVoXRyys.html", "name": "【イナイレV】初心者向けフォーカスATDFの仕様解説！これしてない人多い？！【イナズマイレブン英雄たちのヴィクトリーロー" },
-      { "@type": "ListItem", "position": 42, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-svsNx9wg8Mk.html", "name": "【イナイレV】パッシブ厳選緩和、パッシブ継承について考察‼みんなどう思う？【イナズマイレブンヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 43, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-AASbssjfxXQ.html", "name": "【イナイレV】やらないと差が出ます。アレス・バサラシードDLCのアップデートまでに準備すること5選【イナズマイレブンヴィ" },
-      { "@type": "ListItem", "position": 44, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-YhHgPS4xPRc.html", "name": "【イナイレV】○○のせいで格差すごくない？オンライン大会のためにガチ練習Part1【イナズマイレブンヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 45, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-OgtQ6tkyx7Y.html", "name": "【イナイレV】コントローラー＋キーボード勢の対戦動画、手元動画解説【イナズマイレブンヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 46, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-YkqGlxok9Fk.html", "name": "【イナイレV】バサラなしでもラフプレイ攻略法で勝率爆上がりｗｗ【イナズマイレブンヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 47, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-c-Ze9gtnn54.html", "name": "【イナイレV】技巧コンボ知らないと神のアクアだと勘違いして恥をかきますｗｗ【イナズマイレブン英雄たちのヴィクトリーロード" },
-      { "@type": "ListItem", "position": 48, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-2Cr5vSJD-AA.html", "name": "【イナイレV】Xで話題のクロニクルモードHERO周回方法って本当？結論は...【イナズマイレブン英雄たちのヴィクトリーロ" },
-      { "@type": "ListItem", "position": 49, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-zp8Nsf0n64w.html", "name": "【イナイレV】監督AIで勝率99％、アドバンスタイム以上率50％を超えるHEROバトル周回方法解説【イナズマイレブン英雄" },
-      { "@type": "ListItem", "position": 50, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-UzQ3Wv2VEMs.html", "name": "【イナイレV】前人未踏?!BASARA円堂守がKP1万を遥かに超えてしまったｗｗｗ【イナズマイレブン英雄たちのヴィクトリ" },
-      { "@type": "ListItem", "position": 51, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-nVuhPOw891A.html", "name": "【イナイレV】ガチ最強です。円堂守BASARAが超次元すぎる件ｗｗ【イナズマイレブン英雄たちのヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 52, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-m9htc5Yi_4k.html", "name": "【イナイレV】流行るな！今ランクマで増えてるロングシュート戦法がヤバい【イナズマイレブン英雄たちのヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 53, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-D_S7QziSAXo.html", "name": "【イナイレV】ラフ超弱体化されてもまだいける説【イナズマイレブン英雄たちのヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 54, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-ApGBU4mNRY4.html", "name": "同ATDFフォーカスに勝ちまくれるたった1つの行動とは？！#shorts #イナイレ #やまむー" },
-      { "@type": "ListItem", "position": 55, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-sUUxaoTYBVA.html", "name": "【イナイレV】今話題の対人最強タクティクスまとめ【イナズマイレブン英雄たちのヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 56, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-vfpN_MMezEc.html", "name": "【イナイレV】ポジション別最強装備まとめ！困ったらマネしてみて！【イナズマイレブン英雄たちのヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 57, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-0s1XI-y5d_s.html", "name": "99%が知らないイナイレモブキャラ名クイズ!! #イナイレv #shorts" },
-      { "@type": "ListItem", "position": 58, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-RRQ3OD_qOkI.html", "name": "勝 -イナイレ全く知らない友達に名前当てクイズ- #shorts #イナイレ" },
-      { "@type": "ListItem", "position": 59, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-hosm5yqftyA.html", "name": "【イナイレV】この3人当てれる人0人説。【イナズマイレブン英雄たちのヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 60, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-RbY4LMcWfEE.html", "name": "イナイレV全5400人の中から名前言える人0人説。【イナズマイレブン】" },
-      { "@type": "ListItem", "position": 61, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-REcOlP9rwq4.html", "name": "【イナイレV】この動画最後まで見て今すぐやってきてください。超致命的バグがヤバい【イナズマイレブン英雄たちのヴィクトリー" },
-      { "@type": "ListItem", "position": 62, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-ocNqvn5EdNI.html", "name": "【イナイレV】ポジション別最強おすすめパッシブまとめ（ラフビルド編）パッシブ継承ヤバいｗｗｗ【イナズマイレブン英雄たちの" },
-      { "@type": "ListItem", "position": 63, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-lGlFNt36ExU.html", "name": "【イナイレV】アプデ後おすすめクロニクル周回場所！好きなHERO1体狙いできちゃう？！【イナズマイレブン英雄たちのヴィク" },
-      { "@type": "ListItem", "position": 64, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-zwmCNI5-hfI.html", "name": "【イナイレV】ポジション別最強おすすめパッシブまとめ！パッシブ継承神過ぎｗ【イナズマイレブン英雄たちのヴィクトリーロード" },
-      { "@type": "ListItem", "position": 65, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-fCYa7_fAxd8.html", "name": "【イナイレV】アレスバサラシードアプデ後になにやる？楽しみすぎる!!【イナズマイレブン英雄たちのヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 66, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-CEUOy8MEBc0.html", "name": "【イナイレV】キズナリンク強化で連携必殺技の相方を設定する方法！楽しさ200倍でサッカーやろうぜ！【イナズマイレブン英雄" },
-      { "@type": "ListItem", "position": 67, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-nosCpg4ydKk.html", "name": "【イナイレV】連携必殺技の相方を設定する方法！楽しさ100倍でサッカーやろうぜ！【イナズマイレブン英雄たちのヴィクトリー" },
-      { "@type": "ListItem", "position": 68, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-YJFLWzc8bf8.html", "name": "【イナイレV】ヤバすぎｗｗバサラシードなしで全キャラBASARA化できる神アプデ？！【イナズマイレブン英雄たちのヴィクト" },
-      { "@type": "ListItem", "position": 69, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-nwz__vTg06I.html", "name": "【イナイレV】やらないと損‼1分で114個のビーンズをゲットする方法ｗｗｗ【イナズマイレブン英雄たちのヴィクトリーロード" },
-      { "@type": "ListItem", "position": 70, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-pmR5vSIv49M.html", "name": "【イナイレV】イナダイ神アプデ後に更に追加して欲しい事3選【イナズマイレブン英雄たちのヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 71, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-Gs1CHx3V8X4.html", "name": "忍原来夏が最強すぎて雷門中を1人でボコボコにしてしまったｗｗｗ【イナイレV】【イナズマイレブン英雄たちのヴィクトリーロー" },
-      { "@type": "ListItem", "position": 72, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-M3DmRd1u9tU.html", "name": "【イナイレV】クロニクルモード周回する意味なくね？ｗｗ【イナズマイレブン英雄たちのヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 73, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-RuoZ_pfCv-Q.html", "name": "【イナイレV】初心者向け、好きな化身を使って遊びたい！付け方解説【イナズマイレブンヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 74, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-odeuGgva9H8.html", "name": "【イナイレV】新たな可能性がアレスバサラシードアプデで無限入手可能に?!【イナズマイレブンヴィクトリーロード】" },
-      { "@type": "ListItem", "position": 75, "url": "https://yamamu-youtube.jp/inazuma/video-inazuma-P6-ofFef4EM.html", "name": "【イナイレV】バサラシードを使うおすすめキャラ構成ランキング #イナイレv 【イナズマイレブンヴィクトリーロード】" }
-    ]
-  }
-  </script>
+/* floating orbs */
+.orb{position:fixed;border-radius:50%;filter:blur(60px);opacity:.55;pointer-events:none;z-index:0;animation:float 14s ease-in-out infinite}
+.orb.b{width:380px;height:380px;background:radial-gradient(circle,#1e6fff 0%,transparent 70%);top:-80px;right:-60px}
+.orb.c{width:300px;height:300px;background:radial-gradient(circle,#00d4ff 0%,transparent 70%);top:340px;left:-120px;animation-delay:-4s}
+.orb.y{width:240px;height:240px;background:radial-gradient(circle,#ffd60a 0%,transparent 70%);top:780px;right:8%;animation-delay:-8s;opacity:.35}
+@keyframes float{
+  0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(20px,-30px) scale(1.08)}
+}
 
-  <link rel="stylesheet" href="../style.css">
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1697281908647985" crossorigin="anonymous"></script>
+.scanlines{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.25;mix-blend-mode:overlay;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,0.05) 0 1px,transparent 1px 3px);
+}
+
+/* ============== SCROLLBAR ============== */
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:#040814}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#1e6fff,#00d4ff,#ffd60a);border-radius:8px;border:2px solid #040814}
+::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#3b82f6,#22d3ee,#fcd34d)}
+
+/* ============== TOP STRIP ============== */
+.topstrip{
+  position:relative;z-index:55;
+  background:linear-gradient(90deg,#050a1f 0%,#0a1530 50%,#050a1f 100%);
+  border-bottom:1px solid rgba(30,111,255,0.25);
+  font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;
+}
+.topstrip-inner{max-width:1440px;margin:0 auto;padding:8px 28px;display:flex;justify-content:space-between;gap:20px;align-items:center}
+.topstrip .live{display:inline-flex;align-items:center;gap:8px;color:var(--yellow)}
+.topstrip .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--yellow);box-shadow:0 0 10px var(--yellow);animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.4;transform:scale(.8)}}
+.topstrip .links{display:flex;gap:18px}
+.topstrip a{color:var(--muted);text-decoration:none;transition:.2s}
+.topstrip a:hover{color:var(--cyan)}
+
+/* ============== HEADER ============== */
+.header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(5,10,31,0.85);
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  border-bottom:2px solid var(--line);
+  box-shadow:0 1px 0 rgba(0,212,255,0.15),0 8px 24px rgba(0,0,0,0.4);
+}
+.header-inner{
+  max-width:1440px;margin:0 auto;padding:16px 28px;
+  display:flex;align-items:center;gap:24px;
+}
+.brand{display:flex;align-items:center;gap:14px;flex-shrink:0;text-decoration:none}
+.brand-mark{
+  width:46px;height:46px;flex-shrink:0;position:relative;
+  background:linear-gradient(135deg,#1e6fff 0%,#0d4ad6 100%);
+  display:grid;place-items:center;
+  font-family:"Barlow Condensed",sans-serif;font-weight:900;color:#ffd60a;font-size:24px;font-style:italic;
+  clip-path:polygon(15% 0,100% 0,85% 100%,0 100%);
+  box-shadow:0 0 22px rgba(30,111,255,0.65);
+  letter-spacing:-.02em;
+}
+.brand-mark::before{
+  content:"";position:absolute;inset:2px;
+  background:linear-gradient(135deg,#1e6fff,#0d4ad6);
+  clip-path:polygon(15% 0,100% 0,85% 100%,0 100%);
+  z-index:-1;
+}
+.brand-mark::after{content:"";position:absolute;inset:-3px;background:linear-gradient(135deg,#1e6fff,#00d4ff);clip-path:polygon(15% 0,100% 0,85% 100%,0 100%);filter:blur(10px);z-index:-2;opacity:.6}
+.brand-text{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-style:italic;font-size:22px;letter-spacing:.02em;color:#fff;line-height:1;text-transform:uppercase}
+.brand-text .jp{font-family:"Noto Sans JP",sans-serif;font-style:normal;font-size:18px;letter-spacing:.04em;color:#fff}
+.brand-text .accent{color:var(--yellow);text-shadow:0 0 12px rgba(255,214,10,0.6)}
+.brand-sub{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--cyan);letter-spacing:.22em;text-transform:uppercase;display:block;margin-top:5px}
+
+.search{flex:1;max-width:520px;position:relative}
+.search input{
+  width:100%;background:rgba(30,111,255,0.08);
+  border:1px solid var(--line);
+  color:var(--text);padding:12px 16px 12px 42px;border-radius:6px;
+  font-family:inherit;font-size:14px;outline:none;transition:.2s;
+}
+.search input::placeholder{color:var(--dim)}
+.search input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,0.18), 0 0 20px rgba(0,212,255,0.3)}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--cyan);width:18px;height:18px}
+.search-key{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);background:rgba(30,111,255,0.12);border:1px solid var(--line);padding:3px 8px;border-radius:4px}
+
+.header-cta{display:flex;align-items:center;gap:10px}
+.icon-btn{
+  width:42px;height:42px;border-radius:8px;
+  background:rgba(30,111,255,0.08);border:1px solid var(--line);
+  color:var(--text);display:grid;place-items:center;cursor:pointer;transition:.2s;
+}
+.icon-btn:hover{border-color:var(--cyan);box-shadow:0 0 18px rgba(0,212,255,0.5);color:var(--cyan)}
+.icon-btn svg{width:18px;height:18px}
+.sub-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:11px 18px;border-radius:8px;text-decoration:none;
+  background:linear-gradient(135deg,#ffd60a,#ff8c00);
+  color:#050a1f;font-weight:900;font-size:13px;letter-spacing:.05em;
+  border:1px solid rgba(255,214,10,0.5);
+  box-shadow:0 0 18px rgba(255,214,10,0.4);
+  transition:.2s;text-transform:uppercase;
+  font-family:"Barlow Condensed",sans-serif;font-style:italic;
+}
+.sub-btn:hover{transform:translateY(-1px);box-shadow:0 0 26px rgba(255,214,10,0.7), 0 6px 18px rgba(255,140,0,0.5)}
+
+/* ============== TAB NAV (games) ============== */
+.tab-nav{
+  background:linear-gradient(90deg,rgba(30,111,255,0.08),rgba(0,212,255,0.04),rgba(30,111,255,0.08));
+  border-bottom:1px solid var(--line);
+  position:relative;z-index:5;
+}
+.tab-inner{max-width:1440px;margin:0 auto;padding:0 28px;display:flex;gap:4px;overflow-x:auto}
+.tab{
+  padding:14px 22px;font-size:13px;color:var(--muted);text-decoration:none;
+  border-bottom:3px solid transparent;font-weight:600;white-space:nowrap;transition:.2s;
+  display:flex;align-items:center;gap:8px;font-family:"Barlow Condensed",sans-serif;font-style:italic;text-transform:uppercase;letter-spacing:.05em;font-size:14px;
+}
+.tab:hover{color:var(--text);background:rgba(30,111,255,0.06)}
+.tab.active{color:#fff;border-bottom-color:var(--yellow);background:linear-gradient(180deg,transparent,rgba(255,214,10,0.08));text-shadow:0 0 10px rgba(255,214,10,0.5)}
+.tab .dot{width:6px;height:6px;border-radius:50%;background:var(--dim)}
+.tab.active .dot{background:var(--yellow);box-shadow:0 0 10px var(--yellow)}
+
+/* ============== MAIN NAV ============== */
+.main-nav{
+  position:sticky;top:0;z-index:40;
+  background:linear-gradient(180deg,rgba(5,10,31,0.95),rgba(10,21,48,0.92));
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+}
+.main-nav-inner{max-width:1440px;margin:0 auto;padding:0 28px;display:flex;gap:2px;overflow-x:auto}
+.mnav{
+  padding:18px 20px;font-size:14px;color:var(--muted);text-decoration:none;
+  font-weight:700;white-space:nowrap;position:relative;transition:.2s;letter-spacing:.02em;
+}
+.mnav:hover{color:#fff;background:rgba(30,111,255,0.06)}
+.mnav.active{color:#fff;font-weight:800}
+.mnav.active::after{
+  content:"";position:absolute;left:14px;right:14px;bottom:0;height:3px;
+  background:linear-gradient(90deg,#1e6fff 0%,#00d4ff 50%,#ffd60a 100%);
+  box-shadow:0 0 14px rgba(0,212,255,0.7),0 0 6px rgba(255,214,10,0.6);
+}
+.mnav.active::before{
+  content:"";position:absolute;top:8px;right:6px;width:6px;height:6px;border-radius:50%;
+  background:var(--yellow);box-shadow:0 0 10px var(--yellow);animation:pulse 1.6s ease-in-out infinite;
+}
+
+/* ============== BREAKING NEWS TICKER ============== */
+.ticker{
+  position:relative;z-index:30;
+  background:linear-gradient(90deg,#0a1530 0%,#0d1f3d 100%);
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:stretch;overflow:hidden;
+}
+.ticker-label{
+  background:linear-gradient(135deg,#ffd60a,#ff8c00);
+  color:#050a1f;
+  padding:10px 18px;
+  font-family:"Barlow Condensed",sans-serif;font-style:italic;font-weight:900;
+  letter-spacing:.08em;font-size:14px;display:flex;align-items:center;gap:8px;
+  clip-path:polygon(0 0,100% 0,calc(100% - 14px) 100%,0 100%);
+  padding-right:28px;flex-shrink:0;text-transform:uppercase;
+  box-shadow:0 0 16px rgba(255,214,10,0.5);
+}
+.ticker-label svg{width:14px;height:14px}
+.ticker-track{flex:1;overflow:hidden;position:relative;display:flex;align-items:center}
+.ticker-content{display:flex;gap:48px;white-space:nowrap;animation:tick 50s linear infinite;padding-left:24px;font-size:13px;font-weight:600}
+.ticker-content span{display:inline-flex;align-items:center;gap:10px}
+.ticker-content .pip{color:var(--cyan)}
+.ticker-content .y{color:var(--yellow)}
+@keyframes tick{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
+
+/* ============== LAYOUT ============== */
+.shell{position:relative;z-index:2}
+.container{max-width:1440px;margin:0 auto;padding:48px 28px;display:grid;grid-template-columns:1fr 320px;gap:40px}
+.main{min-width:0}
+
+/* ============== HERO ============== */
+.hero{
+  position:relative;
+  padding:64px 56px 64px;
+  border-radius:8px;
+  overflow:hidden;
+  background:
+    linear-gradient(135deg,rgba(30,111,255,0.18) 0%,rgba(0,212,255,0.10) 50%,rgba(255,214,10,0.06) 100%),
+    linear-gradient(180deg,#0a1530,#0d1f3d);
+  border:1px solid var(--line-strong);
+  margin-bottom:64px;
+  box-shadow:inset 0 1px 0 rgba(0,212,255,0.25), 0 30px 80px -30px rgba(30,111,255,0.6);
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(30,111,255,0.10) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(30,111,255,0.10) 1px,transparent 1px);
+  background-size:40px 40px;
+  mask-image:linear-gradient(180deg,#000 0%,transparent 95%);
+}
+/* Stadium spotlight */
+.hero::after{
+  content:"";position:absolute;top:-180px;left:-100px;width:520px;height:600px;
+  background:linear-gradient(180deg,rgba(0,212,255,0.5) 0%,rgba(0,212,255,0.0) 70%);
+  filter:blur(40px);transform:rotate(-12deg);
+  animation:beam 8s ease-in-out infinite alternate;
+}
+@keyframes beam{from{opacity:.4}to{opacity:.8}}
+.hero-orb-2{position:absolute;right:-80px;top:-80px;width:380px;height:380px;border-radius:50%;
+  background:radial-gradient(circle,rgba(30,111,255,0.5) 0%,transparent 65%);filter:blur(40px);animation:float 11s ease-in-out infinite}
+.hero-orb-3{position:absolute;right:8%;bottom:-100px;width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,214,10,0.35) 0%,transparent 70%);filter:blur(50px);animation:float 9s ease-in-out infinite reverse}
+
+.hero-content{position:relative;z-index:2;max-width:880px}
+.partner-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:8px 16px 8px 12px;border-radius:999px;
+  background:rgba(255,214,10,0.10);
+  border:1px solid rgba(255,214,10,0.45);
+  font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--yellow);
+  letter-spacing:.18em;text-transform:uppercase;font-weight:700;
+  box-shadow:0 0 16px rgba(255,214,10,0.25);margin-bottom:22px;
+}
+.partner-badge .bolt{
+  width:18px;height:18px;display:grid;place-items:center;
+  background:linear-gradient(135deg,#ffd60a,#ff8c00);
+  border-radius:50%;color:#050a1f;
+  box-shadow:0 0 10px rgba(255,214,10,0.7);
+}
+.partner-badge .bolt svg{width:11px;height:11px}
+.partner-badge .pip{width:6px;height:6px;border-radius:50%;background:var(--yellow);box-shadow:0 0 8px var(--yellow);animation:pulse 1.4s infinite}
+
+.hero h1{
+  font-family:"Barlow Condensed","Noto Sans JP",sans-serif;
+  font-weight:900;font-style:italic;
+  font-size:clamp(40px,7.4vw,108px);
+  line-height:.92;
+  margin:0 0 18px;
+  letter-spacing:-.01em;
+  text-transform:uppercase;
+}
+.hero h1 .jpn{
+  display:block;font-family:"Noto Sans JP",sans-serif;font-style:normal;font-weight:900;
+  font-size:.9em;color:#fff;letter-spacing:-.02em;
+  text-shadow:0 0 24px rgba(30,111,255,0.6),0 4px 0 rgba(0,212,255,0.25);
+}
+.hero h1 .yel{
+  background:linear-gradient(180deg,#ffffff 0%,#ffd60a 40%,#ff8c00 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 22px rgba(255,214,10,0.55)) drop-shadow(0 2px 0 rgba(255,140,0,0.4));
+  -webkit-text-stroke:1px rgba(30,111,255,0.4);
+}
+.hero h1 .strk{
+  -webkit-text-stroke:2px rgba(0,212,255,0.6);
+  color:transparent;
+  text-shadow:0 0 18px rgba(0,212,255,0.4);
+}
+
+.hero-sub{font-family:"Noto Sans JP",sans-serif;color:#cbdaff;font-size:16px;line-height:1.85;margin:22px 0 32px;max-width:660px;font-weight:500}
+.hero-sub b{color:var(--yellow);font-weight:900}
+.hero-sub .ic{color:var(--cyan);font-family:"JetBrains Mono",monospace;font-size:13px}
+
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 26px;border-radius:6px;
+  font-weight:900;font-size:14px;text-decoration:none;
+  border:1px solid var(--line-strong);
+  transition:.25s;cursor:pointer;letter-spacing:.04em;
+  font-family:"Barlow Condensed",sans-serif;font-style:italic;text-transform:uppercase;font-size:16px;
+  position:relative;overflow:hidden;
+}
+.btn-primary{
+  background:linear-gradient(135deg,#ffd60a,#ff8c00);
+  color:#050a1f;border:2px solid #1e6fff;
+  box-shadow:0 0 0 1px rgba(0,212,255,0.4), 0 12px 30px -8px rgba(255,214,10,0.6), inset 0 1px 0 rgba(255,255,255,.4);
+}
+.btn-primary::before{
+  content:"";position:absolute;top:0;left:-50%;width:30%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);
+  transform:skewX(-20deg);transition:.5s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 0 1px rgba(0,212,255,0.7),0 18px 40px -8px rgba(255,214,10,0.85),0 0 30px rgba(255,214,10,0.7)}
+.btn-primary:hover::before{left:130%}
+.btn-ghost{background:rgba(30,111,255,0.10);color:#fff;border-color:var(--line-strong)}
+.btn-ghost:hover{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 22px rgba(0,212,255,0.45);background:rgba(0,212,255,0.08)}
+
+.hero-stats{display:flex;gap:36px;margin-top:48px;padding-top:32px;border-top:1px solid var(--line);flex-wrap:wrap;align-items:flex-end}
+.stat .v{font-family:"Barlow Condensed",sans-serif;font-style:italic;font-weight:900;font-size:42px;color:#fff;line-height:1;letter-spacing:-.01em}
+.stat .v .yel{background:linear-gradient(135deg,#ffd60a,#ff8c00);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 8px rgba(255,214,10,.4))}
+.stat .l{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase;margin-top:8px;font-weight:600}
+
+/* ============== SECTION HEADING (numbered) ============== */
+.s-head{display:flex;align-items:flex-end;justify-content:space-between;margin:0 0 28px;gap:24px;flex-wrap:wrap}
+.s-title{display:flex;align-items:center;gap:18px;min-width:0}
+.s-num{
+  font-family:"Barlow Condensed",sans-serif;font-style:italic;font-weight:900;
+  font-size:54px;line-height:.85;
+  background:linear-gradient(135deg,#ffd60a,#ff8c00);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 14px rgba(255,214,10,.5));
+  letter-spacing:-.02em;flex-shrink:0;
+}
+.s-meta{display:flex;flex-direction:column;gap:2px;min-width:0}
+.s-lab{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--cyan);letter-spacing:.22em;text-transform:uppercase;text-shadow:0 0 8px rgba(0,212,255,0.4);font-weight:600}
+.s-h{font-family:"Barlow Condensed","Noto Sans JP",sans-serif;font-style:italic;font-size:32px;font-weight:900;letter-spacing:.01em;margin:0;color:#fff;text-transform:uppercase;line-height:1}
+.s-h .jp{font-family:"Noto Sans JP",sans-serif;font-style:normal;letter-spacing:-.01em}
+.s-deco{flex:1;min-width:60px;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan),transparent);max-width:240px;align-self:center;margin-left:8px;box-shadow:0 0 6px rgba(0,212,255,.5)}
+.s-link{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 18px;border-radius:6px;
+  font-family:"Barlow Condensed",sans-serif;font-style:italic;font-size:13px;font-weight:800;
+  color:var(--yellow);text-decoration:none;border:1px solid rgba(255,214,10,0.4);
+  background:rgba(255,214,10,0.06);transition:.2s;letter-spacing:.08em;text-transform:uppercase;
+}
+.s-link:hover{background:rgba(255,214,10,0.18);box-shadow:0 0 18px rgba(255,214,10,0.5);color:#fff;border-color:var(--yellow)}
+
+section.block{margin-bottom:80px}
+
+/* ============== PICKUP ============== */
+.pickup-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.pickup{
+  position:relative;border-radius:10px;overflow:hidden;
+  background:var(--panel);border:1px solid var(--line);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  text-decoration:none;color:inherit;
+  transition:.3s;display:flex;flex-direction:column;
+}
+.pickup::after{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#1e6fff,#00d4ff,#ffd60a);
+  opacity:0;transition:.3s;
+}
+.pickup:hover{transform:translateY(-6px);border-color:var(--cyan);box-shadow:0 30px 60px -20px rgba(30,111,255,0.6),0 0 0 1px rgba(0,212,255,0.5)}
+.pickup:hover::after{opacity:1;box-shadow:0 0 14px rgba(0,212,255,.6)}
+.pickup .thumb{aspect-ratio:16/9;position:relative;overflow:hidden;background:#0d1f3d}
+.pickup .thumb-fx{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(135deg,rgba(30,111,255,.5),rgba(0,212,255,.3),rgba(255,214,10,.3));
+  transition:.4s;
+}
+.pickup:hover .thumb-fx{filter:saturate(1.4) brightness(1.1);transform:scale(1.06)}
+.pickup .thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(5,10,31,.9));pointer-events:none}
+.pickup .badge-row{position:absolute;top:14px;left:14px;display:flex;gap:8px;z-index:2}
+.tag{
+  font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  padding:5px 10px;border-radius:4px;backdrop-filter:blur(6px);
+}
+.tag.blue{background:rgba(30,111,255,0.25);color:#bfdbfe;border:1px solid rgba(30,111,255,0.6);box-shadow:0 0 10px rgba(30,111,255,0.4)}
+.tag.cyan{background:rgba(0,212,255,0.18);color:#a5f3fc;border:1px solid rgba(0,212,255,0.55);box-shadow:0 0 10px rgba(0,212,255,0.4)}
+.tag.yellow{background:rgba(255,214,10,0.18);color:var(--yellow);border:1px solid rgba(255,214,10,0.55);box-shadow:0 0 10px rgba(255,214,10,0.4)}
+.tag.orange{background:rgba(255,140,0,0.18);color:#fdba74;border:1px solid rgba(255,140,0,0.5)}
+/* Official-style chip: blue border + yellow text */
+.tag.official{background:rgba(5,10,31,0.7);color:var(--yellow);border:1px solid var(--blue);box-shadow:0 0 10px rgba(30,111,255,0.45),inset 0 0 8px rgba(0,212,255,.15)}
+.pickup .dur{position:absolute;bottom:12px;right:12px;font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;background:rgba(5,10,31,0.9);color:var(--yellow);padding:4px 8px;border-radius:4px;border:1px solid var(--line)}
+.pickup .play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;background:rgba(5,10,31,.7);border:1px solid rgba(0,212,255,.6);display:grid;place-items:center;backdrop-filter:blur(6px);transition:.3s;z-index:2}
+.pickup:hover .play{transform:translate(-50%,-50%) scale(1.12);background:linear-gradient(135deg,#ffd60a,#ff8c00);border-color:transparent;box-shadow:0 0 28px rgba(255,214,10,.8)}
+.pickup .play svg{width:22px;height:22px;color:#fff;margin-left:3px}
+.pickup:hover .play svg{color:#050a1f}
+.pickup .body{padding:22px 24px;display:flex;flex-direction:column;flex:1}
+.pickup h3{font-size:17px;font-weight:800;line-height:1.5;margin:0 0 10px;color:#fff}
+.pickup:hover h3 .pf{color:var(--yellow)}
+.pickup p{margin:0 0 14px;font-size:13px;color:var(--muted);line-height:1.65}
+.pickup .meta-row{display:flex;align-items:center;gap:14px;margin-top:auto;padding-top:14px;border-top:1px solid var(--line);font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--dim)}
+.pickup .meta-row .v{color:var(--cyan)}
+.pickup .meta-row .y{color:var(--yellow)}
+
+/* ============== GUIDE GRID ============== */
+.guide-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.guide-card{
+  position:relative;
+  padding:28px 26px;
+  border-radius:10px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  text-decoration:none;color:inherit;
+  transition:.3s;overflow:hidden;
+  display:flex;flex-direction:column;gap:14px;
+}
+.guide-card::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:linear-gradient(180deg,#1e6fff,#00d4ff,#ffd60a);
+  opacity:0;transition:.3s;box-shadow:0 0 12px rgba(0,212,255,.5);
+}
+.guide-card:hover{transform:translateY(-4px);border-color:var(--cyan);box-shadow:0 24px 50px -16px rgba(30,111,255,.5),0 0 30px rgba(30,111,255,.18);background:var(--panel-2)}
+.guide-card:hover::before{opacity:1}
+.guide-icon{
+  width:58px;height:58px;border-radius:10px;
+  display:grid;place-items:center;font-size:28px;
+  background:linear-gradient(135deg,rgba(30,111,255,.25),rgba(0,212,255,.12));
+  border:1px solid var(--line);
+  box-shadow:inset 0 0 18px rgba(30,111,255,.25);
+  position:relative;transition:.3s;
+}
+.guide-card:hover .guide-icon{box-shadow:inset 0 0 18px rgba(0,212,255,.35),0 0 22px rgba(255,214,10,.4);border-color:var(--yellow)}
+.guide-card h3{margin:0;font-family:"Barlow Condensed","Noto Sans JP",sans-serif;font-style:italic;font-size:22px;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:.02em}
+.guide-card h3 .jp{font-family:"Noto Sans JP",sans-serif;font-style:normal;letter-spacing:-.01em}
+.guide-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.7}
+.guide-card .arrow{
+  position:absolute;right:24px;top:32px;
+  font-family:"Barlow Condensed",sans-serif;font-style:italic;font-weight:900;font-size:24px;color:var(--yellow);
+  opacity:0;transform:translateX(-8px);transition:.3s;
+}
+.guide-card:hover .arrow{opacity:1;transform:translateX(0);text-shadow:0 0 12px var(--yellow)}
+.guide-foot{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:8px}
+.chip{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--muted);background:rgba(30,111,255,.08);border:1px solid var(--line);padding:3px 8px;border-radius:4px;letter-spacing:.05em;font-weight:600}
+.chip.y{color:var(--yellow);border-color:rgba(255,214,10,.4);background:rgba(255,214,10,.06)}
+
+/* ============== VIDEO THEMES ============== */
+.theme-block{margin-bottom:56px}
+.theme-head{display:flex;align-items:center;justify-content:space-between;margin:0 0 18px;gap:16px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.theme-head .lt{display:flex;align-items:center;gap:14px}
+.theme-head .vbar{width:5px;height:30px;background:linear-gradient(180deg,#ffd60a,#ff8c00);border-radius:2px;box-shadow:0 0 12px rgba(255,214,10,.7)}
+.theme-head h3{margin:0;font-family:"Barlow Condensed","Noto Sans JP",sans-serif;font-style:italic;font-size:22px;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:.02em}
+.theme-head h3 .jp{font-family:"Noto Sans JP",sans-serif;font-style:normal;letter-spacing:-.01em}
+.theme-head h3 .ic{margin-right:8px}
+
+.video-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.vcard{
+  position:relative;border-radius:8px;overflow:hidden;
+  background:var(--panel);border:1px solid var(--line);
+  backdrop-filter:blur(10px);text-decoration:none;color:inherit;transition:.3s;
+  display:flex;flex-direction:column;
+}
+.vcard:hover{transform:translateY(-4px);border-color:var(--yellow);box-shadow:0 18px 40px -12px rgba(30,111,255,.5),0 0 16px rgba(255,214,10,.3)}
+.vcard .vthumb{aspect-ratio:16/9;position:relative;overflow:hidden}
+.vcard .vthumb .vfx{position:absolute;inset:0;transition:.4s}
+.vcard:hover .vthumb .vfx{transform:scale(1.07);filter:saturate(1.5) brightness(1.1)}
+.vcard .vthumb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(5,10,31,.85));pointer-events:none}
+.vcard .vplay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;border-radius:50%;background:rgba(5,10,31,.8);border:1px solid rgba(0,212,255,.6);display:grid;place-items:center;backdrop-filter:blur(6px);transition:.3s;z-index:2}
+.vcard:hover .vplay{background:linear-gradient(135deg,#ffd60a,#ff8c00);border-color:transparent;box-shadow:0 0 18px rgba(255,214,10,.7)}
+.vcard .vplay svg{width:14px;height:14px;color:#fff;margin-left:2px}
+.vcard:hover .vplay svg{color:#050a1f}
+.vcard .vdur{position:absolute;bottom:8px;right:8px;font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;background:rgba(5,10,31,.9);color:var(--yellow);padding:3px 6px;border-radius:3px;border:1px solid rgba(255,214,10,.3)}
+.vcard .vbody{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.vcard h4{margin:0;font-size:14px;font-weight:700;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:#fff}
+.vcard .vmeta{display:flex;gap:12px;font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--dim);margin-top:auto;letter-spacing:.04em}
+.vcard .vmeta .views{color:var(--cyan)}
+
+/* thumbnail color variants — all stadium-blue / yellow base */
+.thumb-a{background:linear-gradient(135deg,#1e6fff,#0d4ad6 55%,#050a1f);}
+.thumb-b{background:linear-gradient(135deg,#00d4ff,#0d4ad6 55%,#050a1f);}
+.thumb-c{background:linear-gradient(135deg,#ffd60a,#1e6fff 60%,#050a1f);}
+.thumb-d{background:linear-gradient(135deg,#ff8c00,#0d4ad6 55%,#050a1f);}
+.thumb-e{background:linear-gradient(135deg,#1e6fff,#00d4ff 50%,#050a1f);}
+.thumb-f{background:linear-gradient(135deg,#ffd60a,#ff8c00 50%,#0d1f3d);}
+.thumb-fx-pat{
+  position:absolute;inset:0;mix-blend-mode:overlay;opacity:.5;
+  background:
+    radial-gradient(circle at 30% 40%,rgba(255,255,255,.3),transparent 45%),
+    repeating-linear-gradient(60deg,rgba(255,255,255,.06) 0 2px,transparent 2px 14px);
+}
+/* lightning bolt shape behind thumbnail subjects */
+.thumb-bolt{
+  position:absolute;right:-20px;top:-20px;bottom:-20px;width:60%;
+  background:
+    linear-gradient(45deg,rgba(255,214,10,.15) 0%,transparent 70%);
+  clip-path:polygon(60% 0,100% 0,55% 50%,90% 50%,30% 100%,55% 55%,20% 55%);
+  filter:blur(2px);opacity:.6;
+}
+.thumb-title{
+  position:absolute;left:14px;right:14px;bottom:14px;z-index:1;
+  font-family:"Barlow Condensed","Noto Sans JP",sans-serif;font-style:italic;
+  font-weight:900;font-size:18px;line-height:1.15;color:#fff;
+  text-shadow:0 2px 12px rgba(0,0,0,.7),0 0 18px rgba(0,212,255,.4);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  letter-spacing:.01em;
+}
+.thumb-title .jp{font-family:"Noto Sans JP",sans-serif;font-style:normal}
+.thumb-title .y{color:var(--yellow);text-shadow:0 0 14px rgba(255,214,10,.6)}
+.thumb-tag{
+  position:absolute;top:12px;left:12px;z-index:1;
+  font-family:"Barlow Condensed",sans-serif;font-style:italic;font-weight:900;font-size:11px;letter-spacing:.16em;
+  color:#050a1f;background:linear-gradient(135deg,#ffd60a,#ff8c00);padding:4px 10px;border-radius:3px;
+  box-shadow:0 0 10px rgba(255,214,10,.4);text-transform:uppercase;
+}
+
+/* ============== SHORTS ============== */
+.shorts-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.short{
+  position:relative;border-radius:12px;overflow:hidden;
+  aspect-ratio:9/16;
+  border:1px solid var(--line);background:#0d1f3d;
+  text-decoration:none;color:inherit;transition:.3s;
+}
+.short:hover{transform:translateY(-4px) scale(1.02);border-color:var(--yellow);box-shadow:0 24px 50px -16px rgba(255,214,10,.5)}
+.short .sfx{position:absolute;inset:0;transition:.4s}
+.short:hover .sfx{filter:saturate(1.5) brightness(1.1)}
+.short::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(5,10,31,.95));pointer-events:none}
+.short .stitle{position:absolute;left:16px;right:16px;bottom:24px;font-family:"Barlow Condensed","Noto Sans JP",sans-serif;font-style:italic;font-weight:900;font-size:17px;line-height:1.25;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.8);z-index:1;text-transform:uppercase;letter-spacing:.01em}
+.short .stitle .jp{font-family:"Noto Sans JP",sans-serif;font-style:normal;letter-spacing:-.01em}
+.short .stag{position:absolute;top:14px;left:14px;z-index:1;font-family:"Barlow Condensed",sans-serif;font-style:italic;font-weight:900;font-size:11px;letter-spacing:.16em;color:#050a1f;background:linear-gradient(135deg,#ffd60a,#ff8c00);padding:4px 9px;border-radius:3px;box-shadow:0 0 10px rgba(255,214,10,.4)}
+.short .sviews{position:absolute;bottom:8px;left:14px;font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--cyan);z-index:2}
+
+/* ============== SEO BLOCK ============== */
+.seo{
+  padding:44px 48px;border-radius:12px;
+  background:linear-gradient(135deg,rgba(10,21,48,0.9),rgba(13,31,61,0.7));
+  border:1px solid var(--line);
+  backdrop-filter:blur(14px);
+  position:relative;overflow:hidden;
+}
+.seo::before{content:"";position:absolute;top:-100px;right:-80px;width:340px;height:340px;background:radial-gradient(circle,rgba(30,111,255,.35),transparent 70%);filter:blur(40px)}
+.seo::after{content:"";position:absolute;left:0;top:0;height:4px;width:100%;background:linear-gradient(90deg,#1e6fff,#00d4ff,#ffd60a,#ff8c00)}
+.seo h2{margin:0 0 18px;font-family:"Barlow Condensed","Noto Sans JP",sans-serif;font-style:italic;font-size:26px;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:.01em;position:relative}
+.seo h2 .jp{font-family:"Noto Sans JP",sans-serif;font-style:normal;letter-spacing:-.01em}
+.seo h2 .y{color:var(--yellow);text-shadow:0 0 12px rgba(255,214,10,.5)}
+.seo p{margin:0 0 14px;color:var(--muted);font-size:14px;line-height:1.95;position:relative}
+.seo .seo-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;position:relative}
+
+/* ============== SIDEBAR ============== */
+.sidebar{display:flex;flex-direction:column;gap:24px;position:sticky;top:90px;align-self:start;max-height:calc(100vh - 110px);overflow-y:auto;padding-right:4px}
+.side-card{
+  padding:22px;border-radius:10px;
+  background:var(--panel);border:1px solid var(--line);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  position:relative;overflow:hidden;
+}
+.side-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#1e6fff,#00d4ff,#ffd60a)}
+.side-head{display:flex;align-items:center;gap:10px;margin:0 0 16px}
+.side-head .b{width:5px;height:22px;background:linear-gradient(180deg,#ffd60a,#ff8c00);border-radius:2px;box-shadow:0 0 8px rgba(255,214,10,.7)}
+.side-head .l{font-family:"JetBrains Mono",monospace;font-size:9px;color:var(--cyan);letter-spacing:.22em;text-transform:uppercase;font-weight:600}
+.side-head h3{margin:0;font-family:"Barlow Condensed",sans-serif;font-style:italic;font-size:17px;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:.02em;line-height:1.1}
+
+.cat-list{display:flex;flex-direction:column;gap:2px}
+.cat-list a{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:11px 12px;text-decoration:none;color:var(--muted);
+  font-size:13px;font-weight:600;border-radius:6px;
+  position:relative;transition:.2s;
+}
+.cat-list a::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;background:linear-gradient(180deg,#1e6fff,#00d4ff);border-radius:2px;transform:scaleY(0);transition:.2s;box-shadow:0 0 8px rgba(0,212,255,.6)}
+.cat-list a:hover{color:#fff;background:rgba(30,111,255,.1);padding-left:18px}
+.cat-list a:hover::before{transform:scaleY(1)}
+.cat-list a .c{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--yellow);font-weight:700}
+
+.rank-list{display:flex;flex-direction:column;gap:14px}
+.rank{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;padding:6px;border-radius:8px;transition:.2s}
+.rank:hover{background:rgba(30,111,255,.08)}
+.rank .n{
+  width:30px;height:30px;border-radius:6px;flex-shrink:0;
+  display:grid;place-items:center;
+  font-family:"Barlow Condensed",sans-serif;font-style:italic;font-weight:900;font-size:15px;color:#050a1f;
+}
+.rank .n.gold{background:linear-gradient(135deg,#fde68a,#f59e0b);box-shadow:0 0 18px rgba(251,191,36,.8)}
+.rank .n.silver{background:linear-gradient(135deg,#e5e7eb,#9ca3af);box-shadow:0 0 14px rgba(229,231,235,.5)}
+.rank .n.bronze{background:linear-gradient(135deg,#fdba74,#c2410c);box-shadow:0 0 14px rgba(253,186,116,.5)}
+.rank .n.gray{background:rgba(30,111,255,.2);color:var(--cyan);box-shadow:none;border:1px solid var(--line)}
+.rank .info{min-width:0;flex:1}
+.rank .info .t{font-size:13px;font-weight:700;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:#fff}
+.rank:hover .info .t{color:var(--yellow)}
+.rank .info .m{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--dim);margin-top:3px}
+.rank .info .m .y{color:var(--cyan)}
+
+.update-list{display:flex;flex-direction:column;gap:14px}
+.update{display:flex;gap:12px;text-decoration:none;color:inherit;padding-bottom:14px;border-bottom:1px dashed var(--line);transition:.2s}
+.update:last-child{border-bottom:none;padding-bottom:0}
+.update .ud{flex-shrink:0;width:46px;text-align:center;font-family:"Barlow Condensed",sans-serif;font-style:italic}
+.update .ud .day{font-size:24px;font-weight:900;color:var(--yellow);line-height:1;text-shadow:0 0 8px rgba(255,214,10,.4)}
+.update .ud .mo{font-size:10px;color:var(--cyan);font-family:"JetBrains Mono",monospace;font-style:normal;letter-spacing:.1em;margin-top:4px}
+.update .info{min-width:0;flex:1}
+.update .info .t{font-size:13px;font-weight:700;line-height:1.45;color:#fff}
+.update:hover .info .t{color:var(--yellow)}
+.update .info .tag{display:inline-block;margin-top:6px}
+
+.sns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sns a{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:6px;text-decoration:none;font-size:12px;font-weight:900;border:1px solid var(--line);transition:.2s;font-family:"Barlow Condensed",sans-serif;font-style:italic;letter-spacing:.06em;text-transform:uppercase}
+.sns a.yt{color:#fda4af;background:rgba(244,63,94,.08)}
+.sns a.yt:hover{border-color:#f43f5e;box-shadow:0 0 16px rgba(244,63,94,.45);color:#fff}
+.sns a.x{color:#cbdaff;background:rgba(255,255,255,.04)}
+.sns a.x:hover{border-color:#fff;box-shadow:0 0 16px rgba(255,255,255,.3);color:#fff}
+.sns a svg{width:14px;height:14px}
+.sns-sub{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--yellow);text-align:center;margin-top:12px;letter-spacing:.12em;font-weight:600}
+.sns-sub .pip{color:var(--cyan)}
+
+/* ============== FOOTER ============== */
+.footer{
+  margin-top:80px;border-top:2px solid var(--line);
+  background:linear-gradient(180deg,transparent,rgba(10,21,48,.7));
+  position:relative;z-index:2;
+}
+.footer::before{content:"";position:absolute;top:-2px;left:0;right:0;height:2px;background:linear-gradient(90deg,#1e6fff,#00d4ff,#ffd60a,#ff8c00,#1e6fff);box-shadow:0 0 12px rgba(0,212,255,.5)}
+.footer-search{max-width:1440px;margin:0 auto;padding:36px 28px 24px}
+.footer-search-box{
+  position:relative;max-width:720px;margin:0 auto;
+}
+.footer-search-box input{
+  width:100%;background:rgba(10,21,48,0.7);
+  border:2px solid var(--line);
+  color:var(--text);padding:18px 24px 18px 60px;border-radius:8px;
+  font-family:inherit;font-size:16px;font-weight:500;outline:none;transition:.2s;
+}
+.footer-search-box input:focus{border-color:var(--yellow);box-shadow:0 0 0 3px rgba(255,214,10,0.18), 0 0 30px rgba(255,214,10,0.3)}
+.footer-search-box svg{position:absolute;left:22px;top:50%;transform:translateY(-50%);color:var(--yellow);width:22px;height:22px}
+.footer-search-box .lab{position:absolute;left:50%;top:-12px;transform:translateX(-50%);background:linear-gradient(135deg,#ffd60a,#ff8c00);color:#050a1f;padding:4px 16px;border-radius:4px;font-family:"Barlow Condensed",sans-serif;font-style:italic;font-weight:900;font-size:11px;letter-spacing:.16em;text-transform:uppercase;box-shadow:0 0 14px rgba(255,214,10,.45)}
+.footer-search-tags{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:18px}
+.footer-search-tags a{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);text-decoration:none;background:rgba(30,111,255,.06);border:1px solid var(--line);padding:5px 12px;border-radius:4px;transition:.2s;letter-spacing:.04em}
+.footer-search-tags a:hover{color:var(--yellow);border-color:var(--yellow);background:rgba(255,214,10,.06)}
+
+.footer-inner{max-width:1440px;margin:0 auto;padding:32px 28px 32px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;border-top:1px solid var(--line)}
+.f-brand .brand{margin-bottom:16px}
+.f-brand p{color:var(--muted);font-size:13px;line-height:1.75;margin:0 0 18px;max-width:340px}
+.f-brand .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:4px;background:rgba(255,214,10,.08);border:1px solid rgba(255,214,10,.4);font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--yellow);letter-spacing:.16em;text-transform:uppercase;font-weight:700}
+.f-col h4{margin:0 0 14px;font-family:"Barlow Condensed",sans-serif;font-style:italic;font-size:14px;color:var(--yellow);letter-spacing:.14em;text-transform:uppercase;font-weight:900}
+.f-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+.f-col a{color:var(--muted);text-decoration:none;font-size:13px;transition:.2s}
+.f-col a:hover{color:var(--cyan)}
+.copy{max-width:1440px;margin:0 auto;padding:24px 28px 36px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--dim);letter-spacing:.05em}
+.copy .pip{color:var(--yellow)}
+.copy .neon{color:var(--cyan)}
+.copy a{color:var(--dim);text-decoration:none}
+.copy a:hover{color:var(--cyan)}
+
+/* ============== RESPONSIVE ============== */
+@media (max-width:1180px){
+  .container{grid-template-columns:1fr 280px}
+}
+@media (max-width:1024px){
+  .container{grid-template-columns:1fr;gap:0}
+  .sidebar{display:none}
+  .pickup-grid{grid-template-columns:1fr 1fr}
+  .video-grid{grid-template-columns:repeat(3,1fr)}
+  .shorts-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:768px){
+  .container{padding:24px 16px}
+  .header-inner{padding:14px 16px;gap:10px}
+  .search,.header-cta .sub-btn{display:none}
+  .topstrip-inner{padding:8px 16px}
+  .topstrip .links{display:none}
+  .tab-inner,.main-nav-inner{padding:0 16px}
+  .ticker-label{padding:10px 12px 10px 12px;font-size:12px}
+  .hero{padding:40px 22px 44px;border-radius:8px;margin-bottom:48px}
+  .hero h1{font-size:36px}
+  .hero-stats{gap:18px}
+  .stat .v{font-size:28px}
+  .pickup-grid,.guide-grid{grid-template-columns:1fr 1fr;gap:14px}
+  .video-grid{grid-template-columns:1fr 1fr}
+  .shorts-grid{grid-template-columns:1fr 1fr}
+  .s-num{font-size:38px}
+  .s-h{font-size:22px}
+  .seo{padding:28px 22px}
+  .footer-inner{grid-template-columns:1fr 1fr;gap:28px;padding:30px 16px 24px}
+  .copy{padding:20px 16px 28px}
+}
+@media (max-width:480px){
+  .pickup-grid,.guide-grid,.video-grid,.shorts-grid{grid-template-columns:1fr}
+  .hero h1{font-size:28px}
+  .footer-inner{grid-template-columns:1fr}
+  .brand-text{font-size:16px}
+  .brand-text .jp{font-size:14px}
+}
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1697281908647985" crossorigin="anonymous"></script>
 </head>
 <body>
-  <!-- ヘッダー Row 1 -->
-  <header class="header">
-    <a href="index.html" class="header-left">
-      <img src="../icon.png" alt="やまむー" class="header-icon" width="32" height="32">
-      <span class="logo-text">イナイレV攻略Wiki</span>
-    </a>
-    <div class="header-center">
-      <div class="search-box">
-        <label for="searchInput" class="sr-only">記事を検索</label>
-        <input type="text" id="searchInput" placeholder="攻略記事を検索...">
-        <button id="searchBtn" class="search-btn" aria-label="検索">
-          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-            <path fill="#606060" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-          </svg>
-        </button>
+
+<div class="bg-fx" aria-hidden="true"></div>
+<div class="pitch" aria-hidden="true">
+  <div class="ball"></div>
+  <div class="pen-l"></div>
+  <div class="pen-r"></div>
+</div>
+<div class="scanlines" aria-hidden="true"></div>
+<div class="orb b" aria-hidden="true"></div>
+<div class="orb c" aria-hidden="true"></div>
+<div class="orb y" aria-hidden="true"></div>
+<div class="ripple" aria-hidden="true"></div>
+
+<!-- ===== TOP STRIP ===== -->
+<div class="topstrip">
+  <div class="topstrip-inner">
+    <span class="live">● LIVE — Ver.4.0.1 配信中 / SERVER STATUS: ONLINE</span>
+    <div class="links">
+      <a href="#">SITEMAP</a>
+      <a href="#">CONTACT</a>
+      <a href="#">JP / EN</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="header-inner">
+    <a class="brand" href="index.html">
+      <div class="brand-mark">Y</div>
+      <div>
+        <div class="brand-text"><span class="jp">イナイレV</span> <span class="accent">攻略Wiki</span></div>
+        <span class="brand-sub">YAMAMU OFFICIAL // STRATEGY HQ</span>
       </div>
+    </a>
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="searchInput" placeholder="ビルド・装備・選手名で検索..." />
+      <span class="search-key">⌘ K</span>
     </div>
-    <div class="header-right">
-      <button class="theme-toggle" id="themeToggle" title="テーマ切替" aria-label="ダークモード切替">
-        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-          <path id="themeIcon" fill="#606060" d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
-        </svg>
+    <div class="header-cta">
+      <button class="icon-btn" id="themeToggle" aria-label="theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
+      <a class="sub-btn" href="https://www.youtube.com/@yamamu_games" target="_blank" rel="noopener">⚡ 登録する</a>
     </div>
-  </header>
+  </div>
+</header>
 
+<!-- ===== TAB NAV (game switcher) ===== -->
+<div class="tab-nav">
+  <div class="tab-inner">
+    <a href="../index.html" class="tab"><span class="dot"></span>トップ</a>
+    <a href="index.html" class="tab active"><span class="dot"></span>イナイレV</a>
+    <a href="../pokepoke/" class="tab"><span class="dot"></span>ポケポケ</a>
+    <a href="../pocoapokemon/" class="tab"><span class="dot"></span>ぽこポケ</a>
+  </div>
+</div>
 
+<!-- ===== MAIN NAV ===== -->
+<nav class="main-nav">
+  <div class="main-nav-inner">
+    <a href="index.html" class="mnav active">ホーム</a>
+    <a href="category-build.html" class="mnav">ビルド攻略</a>
+    <a href="category-equipment.html" class="mnav">装備・ビーンズ</a>
+    <a href="category-battle.html" class="mnav">対戦テクニック</a>
+    <a href="category-farming.html" class="mnav">周回効率</a>
+    <a href="category-beginner.html" class="mnav">初心者ガイド</a>
+    <a href="category-update.html" class="mnav">アプデ情報</a>
+    <a href="category-fun.html" class="mnav">面白企画</a>
+  </div>
+</nav>
 
-  <nav class="game-nav" aria-label="ゲーム選択">
-    <a href="../index.html" class="game-nav-link">トップ</a>
-    <a href="../inazuma/" class="game-nav-link active">イナイレV</a>
-    <a href="../pokepoke/" class="game-nav-link">ポケポケ</a>
-    <a href="../pocoapokemon/" class="game-nav-link">ぽこポケ</a>
-  </nav>
-  <!-- ナビゲーションバー Row 2 -->
-  <nav class="wiki-nav" aria-label="メインナビゲーション">
-    <a href="index.html" class="wiki-nav-link active">ホーム</a>
-    <a href="category-build.html" class="wiki-nav-link">ビルド攻略</a>
-    <a href="category-equipment.html" class="wiki-nav-link">装備・ビーンズ</a>
-    <a href="category-battle.html" class="wiki-nav-link">対戦テクニック</a>
-    <a href="category-farming.html" class="wiki-nav-link">周回効率</a>
-    <a href="guide-beginner.html" class="wiki-nav-link">初心者ガイド</a>
-    <a href="category-update.html" class="wiki-nav-link">アプデ情報</a>
-    <a href="category-fun.html" class="wiki-nav-link">面白企画</a>
-  </nav>
+<!-- ===== BREAKING NEWS TICKER ===== -->
+<div class="ticker">
+  <div class="ticker-label">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>
+    Breaking News
+  </div>
+  <div class="ticker-track">
+    <div class="ticker-content">
+      <span><span class="pip">▸</span> Ver.4.0.1 アプデ配信中 / 環境が大きく変動中、ビルドTier表 緊急更新</span>
+      <span><span class="pip">▸</span> <span class="y">本日21:00</span> やまむー新作動画「BASARA帯 上位1%の立ち回り完全解説」公開予定</span>
+      <span><span class="pip">▸</span> 期間限定イベント「雷鳴祭」開催中 / 限定ビーンズ入手チャンス</span>
+      <span><span class="pip">▸</span> <span class="y">SP NEWS</span> 公式大会「INAZUMA CUP 2026」エントリー受付開始</span>
+      <span><span class="pip">▸</span> 装備Tier表を最新パッチに合わせて全面更新 (2026.05.09)</span>
+      <!-- duplicate for seamless loop -->
+      <span><span class="pip">▸</span> Ver.4.0.1 アプデ配信中 / 環境が大きく変動中、ビルドTier表 緊急更新</span>
+      <span><span class="pip">▸</span> <span class="y">本日21:00</span> やまむー新作動画「BASARA帯 上位1%の立ち回り完全解説」公開予定</span>
+      <span><span class="pip">▸</span> 期間限定イベント「雷鳴祭」開催中 / 限定ビーンズ入手チャンス</span>
+      <span><span class="pip">▸</span> <span class="y">SP NEWS</span> 公式大会「INAZUMA CUP 2026」エントリー受付開始</span>
+      <span><span class="pip">▸</span> 装備Tier表を最新パッチに合わせて全面更新 (2026.05.09)</span>
+    </div>
+  </div>
+</div>
 
-  <!-- コンパクトヒーロー -->
-  <section class="wiki-hero">
-    <div class="wiki-hero-inner">
-      <h1 class="wiki-hero-title">イナイレV 攻略Wiki</h1>
-      <p class="wiki-hero-subtitle">やまむー｜総プレイ1200時間超のやり込み攻略情報</p>
+<div class="shell">
+<div class="container">
+
+<!-- ===== MAIN ===== -->
+<div class="main">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-orb-2"></div>
+    <div class="hero-orb-3"></div>
+    <div class="hero-content">
+      <div class="partner-badge">
+        <span class="bolt">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>
+        </span>
+        <span class="pip"></span>
+        OFFICIAL PARTNER / YAMAMU OFFICIAL
+      </div>
+      <h1>
+        <span class="strk">INAZUMA V</span><br/>
+        <span class="jpn">イナイレV</span>
+        <span class="yel">攻略WIKI</span>
+      </h1>
+      <p class="hero-sub">
+        <span class="ic">[ STRATEGY HQ ]</span>　ゲーム実況YouTuber<b> やまむー </b>が運営する公式パートナー攻略サイト。<br/>
+        総プレイ<b>1,200時間超</b>のやり込みデータをもとに、ビルド・装備・対戦テク・周回効率まで、最前線の情報を毎日更新しています。
+      </p>
+      <div class="hero-cta">
+        <a href="#guide" class="btn btn-primary">
+          ⚡ 最新ビルド攻略を見る
+        </a>
+        <a href="#beginner" class="btn btn-ghost">
+          ▸ 初心者ガイド
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="v"><span class="yel">1,247</span>h</div><div class="l">// PLAY TIME</div></div>
+        <div class="stat"><div class="v">328<span class="yel">+</span></div><div class="l">// ARTICLES</div></div>
+        <div class="stat"><div class="v"><span class="yel">42.6</span>万</div><div class="l">// SUBSCRIBERS</div></div>
+        <div class="stat"><div class="v">v<span class="yel">4.0.1</span></div><div class="l">// CURRENT VER</div></div>
+      </div>
     </div>
   </section>
 
-  <!-- 2カラムレイアウト -->
-  <div class="wiki-layout">
-    <!-- メインエリア -->
-    <main class="wiki-main">
-
-      <!-- 検索結果エリア（検索時のみ表示） -->
-      <div class="search-results-area" id="searchResults">
-        <div class="search-results-header">
-          <span class="search-results-count" id="searchCount"></span>
-          <button class="search-results-close" id="searchClose">検索を閉じる</button>
+  <!-- PICKUP -->
+  <section class="block">
+    <div class="s-head">
+      <div class="s-title">
+        <span class="s-num">#01</span>
+        <div class="s-meta">
+          <span class="s-lab">// FEATURED</span>
+          <h2 class="s-h"><span class="jp">注目記事</span> PICK UP</h2>
         </div>
-        <div class="search-results-grid" id="searchResultsGrid"></div>
+        <span class="s-deco"></span>
       </div>
+      <a href="#" class="s-link">VIEW ALL ▸</a>
+    </div>
 
-      <!-- ピックアップ -->
-      <section class="pickup-section" id="pickupSection">
-        <h2 class="section-title">注目の攻略記事</h2>
-        <div class="pickup-list" id="pickupList">
-          <!-- JS で生成 -->
+    <div class="pickup-grid">
+
+      <a class="pickup" href="#">
+        <div class="thumb">
+          <div class="thumb-fx thumb-c">
+            <div class="thumb-bolt"></div>
+            <div class="thumb-fx-pat"></div>
+            <span class="thumb-tag">META BUILD</span>
+            <div class="thumb-title"><span class="jp">最強ビルド</span> <span class="y">TIER S</span><br/><span class="jp">Ver.4 環境完全解析</span></div>
+          </div>
+          <div class="badge-row"><span class="tag yellow">NEW</span><span class="tag official">META</span></div>
+          <div class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="dur">18:42</div>
         </div>
-      </section>
-
-      <!-- 攻略ガイド -->
-      <section class="guide-section">
-        <h2 class="section-title">攻略ガイド</h2>
-        <div class="guide-grid">
-          <a href="guide-beginner.html" class="guide-card">
-            <div class="guide-card-icon">&#x1F4D6;</div>
-            <div class="guide-card-title">初心者攻略ガイド</div>
-            <div class="guide-card-desc">始めたらまずやるべきこと完全まとめ。テンション・フォーカス・育成の基礎知識</div>
-          </a>
-          <a href="guide-passive-build.html" class="guide-card">
-            <div class="guide-card-icon">&#x2699;&#xFE0F;</div>
-            <div class="guide-card-title">パッシブ・ビルド攻略</div>
-            <div class="guide-card-desc">正義ビルド最強構成・パッシブ継承のポジション別おすすめ</div>
-          </a>
-          <a href="guide-equipment.html" class="guide-card">
-            <div class="guide-card-icon">&#x1F6E1;&#xFE0F;</div>
-            <div class="guide-card-title">装備・ビーンズ攻略</div>
-            <div class="guide-card-desc">ポジション別最強装備とビーンズの付け方を完全解説</div>
-          </a>
-          <a href="guide-farming.html" class="guide-card">
-            <div class="guide-card-icon">&#x1F504;</div>
-            <div class="guide-card-title">周回・素材集め効率</div>
-            <div class="guide-card-desc">ビーンズ・HERO・クロニクルの効率的な周回方法</div>
-          </a>
-          <a href="guide-battle-tips.html" class="guide-card">
-            <div class="guide-card-icon">&#x2694;&#xFE0F;</div>
-            <div class="guide-card-title">対戦テクニック</div>
-            <div class="guide-card-desc">勝率を上げる戦い方・テンション管理・タクティクス選択</div>
-          </a>
+        <div class="body">
+          <h3><span class="pf">Ver.4 環境を制圧する最強ビルドTier S</span> 徹底解説</h3>
+          <p>環境トップに立つビルド構成と、各装備のシナジーを実戦データから完全解析。</p>
+          <div class="meta-row">
+            <span class="v">▸ 12.4万 views</span>
+            <span class="y">2026.05.07</span>
+            <span>15min read</span>
+          </div>
         </div>
-      </section>
+      </a>
 
-      <!-- テーマ別動画セクション（JSで生成） -->
-      <div id="themeSections"></div>
-
-      <!-- ショート動画セクション -->
-      <section class="shorts-section" id="shortsSection">
-        <h2 class="section-title">サクッと見れるショート攻略</h2>
-        <p class="shorts-description">忙しい人向け！2分以内で分かるポイント解説</p>
-        <div class="shorts-grid" id="shortVideosGrid">
-          <!-- JS で生成 -->
+      <a class="pickup" href="#">
+        <div class="thumb">
+          <div class="thumb-fx thumb-a">
+            <div class="thumb-bolt"></div>
+            <div class="thumb-fx-pat"></div>
+            <span class="thumb-tag">PVP STRATEGY</span>
+            <div class="thumb-title"><span class="jp">対戦勢必見!</span><br/><span class="y">勝率80%</span><span class="jp">超のテクニック集</span></div>
+          </div>
+          <div class="badge-row"><span class="tag cyan">PVP</span><span class="tag yellow">HOT</span></div>
+          <div class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="dur">23:15</div>
         </div>
-      </section>
+        <div class="body">
+          <h3><span class="pf">勝率80%超のPvPテクニック集</span> / 立ち回り完全攻略</h3>
+          <p>BASARA帯到達者やまむーが、立ち回り・読み合い・サブテクまで全部見せる。</p>
+          <div class="meta-row">
+            <span class="v">▸ 8.7万 views</span>
+            <span class="y">2026.05.05</span>
+            <span>20min read</span>
+          </div>
+        </div>
+      </a>
 
-      <!-- SEO用テキストコンテンツ -->
-      <section class="seo-content">
-        <h2>イナイレV（イナズマイレブン英雄たちのヴィクトリーロード）攻略情報</h2>
-        <p>
-          当サイトでは、イナズマイレブン英雄たちのヴィクトリーロード（イナイレV）の対戦攻略を中心に、最新アップデート情報・最強装備考察・ビーンズの付け方・KP上昇戦術・テンション管理・シュートチェイン対策など、オンライン対戦で勝つための攻略情報を動画と記事で解説しています。
-        </p>
-        <h3>最新の攻略記事</h3>
-        <ul id="seoArticleList">
-          <!-- JS で生成 -->
-        </ul>
-        <details>
-          <summary>その他の攻略記事をもっと見る</summary>
-          <ul id="seoArticleListRest">
-            <!-- JS で生成 -->
-          </ul>
-        </details>
-        <h3>攻略ガイド</h3>
-        <ul>
-          <li><a href="category-inazuma.html">イナイレV攻略まとめ｜テーマ別に動画を探す</a></li>
-          <li><a href="guide-beginner.html">初心者攻略ガイド｜始めたらまずやるべきこと完全まとめ</a></li>
-          <li><a href="guide-passive-build.html">パッシブ継承・ビルド完全攻略ガイド｜正義ビルド最強構成</a></li>
-          <li><a href="guide-equipment.html">装備・ビーンズ完全攻略ガイド｜ポジション別最強装備とビーンズの付け方</a></li>
-          <li><a href="guide-farming.html">周回・素材集め効率ガイド｜ビーンズ・HERO・クロニクル</a></li>
-          <li><a href="guide-battle-tips.html">対戦テクニック完全ガイド｜勝率を上げる戦い方</a></li>
-          <li><a href="guide-basara.html">BASARA完全攻略｜バサラシードは誰に使う？監督・マネージャー活用法</a></li>
-          <li><a href="guide-update-v401.html">ver.4.0.1アップデートまとめ｜オリオンルート前編・アバターBASARA化・バランス調整</a></li>
-        </ul>
-        <h3>このサイトについて</h3>
-        <p>
-          やまむー【yamamu】はイナイレV・マイクラ・ポケポケのゲーム攻略動画を配信するYouTubeチャンネルです。動画では伝えきれない詳細な攻略情報を、記事形式でまとめて公開しています。
-        </p>
-      </section>
-    </main>
+      <a class="pickup" href="#">
+        <div class="thumb">
+          <div class="thumb-fx thumb-e">
+            <div class="thumb-bolt"></div>
+            <div class="thumb-fx-pat"></div>
+            <span class="thumb-tag">FARMING ROUTE</span>
+            <div class="thumb-title"><span class="y">周回効率2倍</span><br/><span class="jp">装備掘りルート最適化</span></div>
+          </div>
+          <div class="badge-row"><span class="tag blue">周回</span><span class="tag official">UPDATED</span></div>
+          <div class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="dur">14:08</div>
+        </div>
+        <div class="body">
+          <h3><span class="pf">装備掘り効率2倍の最適ルート</span> / 1時間でビーンズ300個</h3>
+          <p>時間効率を極限まで引き上げる周回ルートを実測値付きで完全公開。</p>
+          <div class="meta-row">
+            <span class="v">▸ 5.2万 views</span>
+            <span class="y">2026.05.03</span>
+            <span>10min read</span>
+          </div>
+        </div>
+      </a>
 
-    <!-- サイドバー -->
-    <aside class="wiki-sidebar">
-      <!-- カテゴリナビ -->
-      <div class="sidebar-box">
-        <h3 class="sidebar-title">カテゴリ</h3>
-        <a href="category-build.html" class="sidebar-link">ビルド・パッシブ攻略</a>
-        <a href="category-equipment.html" class="sidebar-link">装備・ビーンズ攻略</a>
-        <a href="category-battle.html" class="sidebar-link">対戦テクニック・立ち回り</a>
-        <a href="category-farming.html" class="sidebar-link">周回・効率プレイ</a>
-        <a href="category-update.html" class="sidebar-link">アップデート・環境考察</a>
-        <a href="category-beginner.html" class="sidebar-link">初心者向けガイド</a>
+    </div>
+  </section>
+
+  <!-- GUIDE GRID -->
+  <section class="block" id="guide">
+    <div class="s-head">
+      <div class="s-title">
+        <span class="s-num">#02</span>
+        <div class="s-meta">
+          <span class="s-lab">// STRATEGY HUB</span>
+          <h2 class="s-h"><span class="jp">攻略ガイド</span> GUIDES</h2>
+        </div>
+        <span class="s-deco"></span>
       </div>
+      <a href="#" class="s-link">ALL GUIDES ▸</a>
+    </div>
 
-      <!-- 人気の攻略記事 -->
-      <div class="sidebar-box">
-        <h3 class="sidebar-title">人気の攻略記事</h3>
-        <div id="popularArticles">
-          <!-- JS で生成 -->
+    <div class="guide-grid">
+      <a class="guide-card" href="guide-beginner.html"><div class="guide-icon">📖</div><h3><span class="jp">初心者ガイド</span></h3><p>始めたばかりの人でも迷わず最強を目指せる、序盤〜中盤の進め方完全マップ。</p><div class="arrow">▸</div><div class="guide-foot"><span class="chip">// 32 ARTICLES</span><span class="chip y">BEGINNER</span></div></a>
+      <a class="guide-card" href="guide-passive-build.html"><div class="guide-icon">⚙️</div><h3><span class="jp">パッシブ・ビルド</span></h3><p>環境最強構成、汎用ビルド、ニッチ構築まで全網羅。Tier表は毎週更新。</p><div class="arrow">▸</div><div class="guide-foot"><span class="chip">// 84 ARTICLES</span><span class="chip y">META</span></div></a>
+      <a class="guide-card" href="guide-equipment.html"><div class="guide-icon">🛡️</div><h3><span class="jp">装備・ビーンズ</span></h3><p>装備性能、入手方法、相性表、ビーンズ厳選優先度のすべて。</p><div class="arrow">▸</div><div class="guide-foot"><span class="chip">// 67 ARTICLES</span><span class="chip y">EQUIPMENT</span></div></a>
+      <a class="guide-card" href="guide-farming.html"><div class="guide-icon">🔄</div><h3><span class="jp">周回・効率</span></h3><p>金策、装備堀り、レベル上げの最適ルート。実測タイム付き。</p><div class="arrow">▸</div><div class="guide-foot"><span class="chip">// 41 ARTICLES</span><span class="chip y">FARMING</span></div></a>
+      <a class="guide-card" href="guide-battle-tips.html"><div class="guide-icon">⚔️</div><h3><span class="jp">対戦テクニック</span></h3><p>立ち回り・読み合い・サブテクまで、PvP上位帯の常識を全部公開。</p><div class="arrow">▸</div><div class="guide-foot"><span class="chip">// 58 ARTICLES</span><span class="chip y">PVP</span></div></a>
+      <a class="guide-card" href="guide-basara.html"><div class="guide-icon">🔥</div><h3><span class="jp">BASARA攻略</span></h3><p>最高ランク帯BASARAでの立ち回りと、勝率を上げる相手別対策集。</p><div class="arrow">▸</div><div class="guide-foot"><span class="chip">// 23 ARTICLES</span><span class="chip y">RANKED</span></div></a>
+    </div>
+  </section>
+
+  <!-- VIDEO THEMES -->
+  <section class="block" id="videos">
+    <div class="s-head">
+      <div class="s-title">
+        <span class="s-num">#03</span>
+        <div class="s-meta">
+          <span class="s-lab">// VIDEO ARCHIVE</span>
+          <h2 class="s-h"><span class="jp">動画ライブラリ</span> VIDEOS</h2>
         </div>
+        <span class="s-deco"></span>
       </div>
+    </div>
 
-      <!-- 攻略ガイド -->
-      <div class="sidebar-box">
-        <h3 class="sidebar-title">攻略ガイド一覧</h3>
-        <a href="guide-beginner.html" class="sidebar-link">初心者攻略ガイド</a>
-        <a href="guide-passive-build.html" class="sidebar-link">パッシブ・ビルド攻略</a>
-        <a href="guide-equipment.html" class="sidebar-link">装備・ビーンズ攻略</a>
-        <a href="guide-farming.html" class="sidebar-link">周回・素材集め効率</a>
-        <a href="guide-battle-tips.html" class="sidebar-link">対戦テクニック</a>
-        <a href="guide-basara.html" class="sidebar-link">BASARA完全攻略</a>
+    <!-- THEME 1: BUILD -->
+    <div class="theme-block">
+      <div class="theme-head">
+        <div class="lt"><span class="vbar"></span><h3><span class="ic">⚙️</span><span class="jp">ビルド攻略</span> / BUILD</h3></div>
+        <a href="#" class="s-link">VIEW ALL ▸</a>
       </div>
+      <div class="video-grid">
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-c"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">META v4.0</span><div class="thumb-title"><span class="y">爆速火力</span><span class="jp">ビルド完全解説</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">12:34</div></div><div class="vbody"><h4>Ver.4最強！爆速火力ビルド完全解説</h4><div class="vmeta"><span class="views">▸ 8.2万</span><span>3日前</span></div></div></a>
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-a"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">TANK BUILD</span><div class="thumb-title"><span class="jp">壊れない最強</span><span class="y">タンク</span><span class="jp">構築</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">15:22</div></div><div class="vbody"><h4>絶対に死なない最強タンクビルド構築術</h4><div class="vmeta"><span class="views">▸ 5.7万</span><span>1週間前</span></div></div></a>
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-e"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">SUPPORT</span><div class="thumb-title"><span class="jp">サポート型</span><span class="y">最適解</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">10:48</div></div><div class="vbody"><h4>パーティ崩壊を救うサポート型最適解</h4><div class="vmeta"><span class="views">▸ 3.4万</span><span>2週間前</span></div></div></a>
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-d"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">HYBRID</span><div class="thumb-title"><span class="y">万能</span><span class="jp">ハイブリッド型</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">17:55</div></div><div class="vbody"><h4>万能ハイブリッド型 / 攻守両立の決定版</h4><div class="vmeta"><span class="views">▸ 6.1万</span><span>3週間前</span></div></div></a>
+      </div>
+    </div>
 
-      <!-- SNS -->
-      <div class="sidebar-box">
-        <h3 class="sidebar-title">リンク</h3>
-        <div class="sidebar-social">
-          <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
-          <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
+    <!-- THEME 2: GEAR -->
+    <div class="theme-block">
+      <div class="theme-head">
+        <div class="lt"><span class="vbar"></span><h3><span class="ic">🛡️</span><span class="jp">装備・ビーンズ</span> / EQUIPMENT</h3></div>
+        <a href="#" class="s-link">VIEW ALL ▸</a>
+      </div>
+      <div class="video-grid">
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-d"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">GEAR TIER</span><div class="thumb-title"><span class="jp">装備</span><span class="y">Tier表</span><span class="jp"> 完全版</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">13:14</div></div><div class="vbody"><h4>装備Tier表 完全版 / 全部位の最適解</h4><div class="vmeta"><span class="views">▸ 7.8万</span><span>4日前</span></div></div></a>
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-c"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">BEANS</span><div class="thumb-title"><span class="jp">ビーンズ</span><span class="y">厳選優先度</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">11:02</div></div><div class="vbody"><h4>ビーンズ厳選 / 優先度ランキングTOP20</h4><div class="vmeta"><span class="views">▸ 4.3万</span><span>1週間前</span></div></div></a>
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-a"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">SET EFFECT</span><div class="thumb-title"><span class="jp">セット効果</span><span class="y">シナジー</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">09:38</div></div><div class="vbody"><h4>セット効果シナジー / 組み合わせ完全解析</h4><div class="vmeta"><span class="views">▸ 2.9万</span><span>2週間前</span></div></div></a>
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-f"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">RARE DROP</span><div class="thumb-title"><span class="y">レア装備</span><span class="jp">ドロップ場所</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">14:47</div></div><div class="vbody"><h4>レア装備のドロップ場所と確率を全公開</h4><div class="vmeta"><span class="views">▸ 5.5万</span><span>3週間前</span></div></div></a>
+      </div>
+    </div>
+
+    <!-- THEME 3: PVP -->
+    <div class="theme-block">
+      <div class="theme-head">
+        <div class="lt"><span class="vbar"></span><h3><span class="ic">⚔️</span><span class="jp">対戦テクニック</span> / PVP</h3></div>
+        <a href="#" class="s-link">VIEW ALL ▸</a>
+      </div>
+      <div class="video-grid">
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-a"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">RANKED #1</span><div class="thumb-title"><span class="y">BASARA帯</span><span class="jp"> 立ち回り</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">22:10</div></div><div class="vbody"><h4>BASARA帯 / 上位1%の立ち回り完全解説</h4><div class="vmeta"><span class="views">▸ 11.2万</span><span>2日前</span></div></div></a>
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-e"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">COUNTER</span><div class="thumb-title"><span class="jp">対面別</span><span class="y">カウンター</span><span class="jp">集</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">18:25</div></div><div class="vbody"><h4>対面別カウンター集 / これだけ覚えれば勝てる</h4><div class="vmeta"><span class="views">▸ 6.8万</span><span>5日前</span></div></div></a>
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-c"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">SUB-TECH</span><div class="thumb-title"><span class="jp">知らないと損する</span><span class="y">サブテク</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">12:54</div></div><div class="vbody"><h4>知らないと損するサブテク10選</h4><div class="vmeta"><span class="views">▸ 4.1万</span><span>1週間前</span></div></div></a>
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-b"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">MIND GAME</span><div class="thumb-title"><span class="jp">読み合いの</span><span class="y">極意</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">16:33</div></div><div class="vbody"><h4>読み合いの極意 / 思考プロセス完全公開</h4><div class="vmeta"><span class="views">▸ 5.9万</span><span>2週間前</span></div></div></a>
+      </div>
+    </div>
+
+    <!-- THEME 4: FARMING -->
+    <div class="theme-block">
+      <div class="theme-head">
+        <div class="lt"><span class="vbar"></span><h3><span class="ic">🔄</span><span class="jp">周回効率</span> / FARMING</h3></div>
+        <a href="#" class="s-link">VIEW ALL ▸</a>
+      </div>
+      <div class="video-grid">
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-e"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">ROUTE</span><div class="thumb-title"><span class="y">最速</span><span class="jp">周回ルート</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">10:05</div></div><div class="vbody"><h4>最速周回ルート / 1時間で報酬3倍</h4><div class="vmeta"><span class="views">▸ 4.7万</span><span>4日前</span></div></div></a>
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-d"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">GOLD</span><div class="thumb-title"><span class="y">金策</span><span class="jp">完全マニュアル</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">13:28</div></div><div class="vbody"><h4>金策完全マニュアル / 1日100万ゴールド</h4><div class="vmeta"><span class="views">▸ 6.3万</span><span>1週間前</span></div></div></a>
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-f"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">EXP</span><div class="thumb-title"><span class="jp">レベル上げ</span><span class="y">最速法</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">08:42</div></div><div class="vbody"><h4>レベル上げ最速法 / Lv1→Lv60を1日で</h4><div class="vmeta"><span class="views">▸ 3.8万</span><span>2週間前</span></div></div></a>
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-a"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">EVENT</span><div class="thumb-title"><span class="jp">イベント</span><span class="y">周回テクニック</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">11:51</div></div><div class="vbody"><h4>限定イベント / 報酬を取り切る周回テク</h4><div class="vmeta"><span class="views">▸ 2.2万</span><span>3週間前</span></div></div></a>
+      </div>
+    </div>
+
+    <!-- THEME 5: UPDATE -->
+    <div class="theme-block">
+      <div class="theme-head">
+        <div class="lt"><span class="vbar"></span><h3><span class="ic">📡</span><span class="jp">アプデ情報</span> / UPDATE</h3></div>
+        <a href="#" class="s-link">VIEW ALL ▸</a>
+      </div>
+      <div class="video-grid">
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-e"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">PATCH 4.0</span><div class="thumb-title"><span class="y">Ver.4</span><span class="jp">環境変化まとめ</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">19:14</div></div><div class="vbody"><h4>Ver.4 環境変化まとめ / 何が壊れたか</h4><div class="vmeta"><span class="views">▸ 9.5万</span><span>3日前</span></div></div></a>
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-a"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">NERF</span><div class="thumb-title"><span class="jp">調整内容</span><span class="y">実機検証</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">14:29</div></div><div class="vbody"><h4>調整内容を実機検証 / 数値で見る変更点</h4><div class="vmeta"><span class="views">▸ 4.6万</span><span>5日前</span></div></div></a>
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-b"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">LEAK</span><div class="thumb-title"><span class="jp">次期アプデ</span><span class="y">先読み考察</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">12:17</div></div><div class="vbody"><h4>次期アプデ先読み / データから推測</h4><div class="vmeta"><span class="views">▸ 3.3万</span><span>1週間前</span></div></div></a>
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-d"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">EVENT</span><div class="thumb-title"><span class="jp">期間限定</span><span class="y">イベント解説</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">10:33</div></div><div class="vbody"><h4>期間限定イベント / やるべきこと完全網羅</h4><div class="vmeta"><span class="views">▸ 5.1万</span><span>2週間前</span></div></div></a>
+      </div>
+    </div>
+
+    <!-- THEME 6: BEGINNER -->
+    <div class="theme-block" id="beginner">
+      <div class="theme-head">
+        <div class="lt"><span class="vbar"></span><h3><span class="ic">📖</span><span class="jp">初心者ガイド</span> / BEGINNER</h3></div>
+        <a href="#" class="s-link">VIEW ALL ▸</a>
+      </div>
+      <div class="video-grid">
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-c"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">START</span><div class="thumb-title"><span class="jp">序盤の進め方</span><span class="y">ロードマップ</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">15:08</div></div><div class="vbody"><h4>序盤の進め方ロードマップ / 1〜10時間目</h4><div class="vmeta"><span class="views">▸ 6.7万</span><span>4日前</span></div></div></a>
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-f"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">REROLL</span><div class="thumb-title"><span class="jp">リセマラ</span><span class="y">当たりランキング</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">11:24</div></div><div class="vbody"><h4>リセマラ当たりランキング / 厳選すべき選手</h4><div class="vmeta"><span class="views">▸ 5.4万</span><span>1週間前</span></div></div></a>
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-d"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">MISTAKE</span><div class="thumb-title"><span class="jp">初心者がやりがちな</span><span class="y">ミス</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">09:51</div></div><div class="vbody"><h4>初心者がやりがちなミス10選 / 避けるべき罠</h4><div class="vmeta"><span class="views">▸ 4.2万</span><span>2週間前</span></div></div></a>
+        <a class="vcard" href="#"><div class="vthumb"><div class="vfx thumb-a"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div><span class="thumb-tag">UI GUIDE</span><div class="thumb-title"><span class="y">UI完全</span><span class="jp">ガイド</span></div></div><div class="vplay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><div class="vdur">07:43</div></div><div class="vbody"><h4>UI完全ガイド / 隠れた便利機能まとめ</h4><div class="vmeta"><span class="views">▸ 2.8万</span><span>3週間前</span></div></div></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHORTS -->
+  <section class="block">
+    <div class="s-head">
+      <div class="s-title">
+        <span class="s-num">#04</span>
+        <div class="s-meta">
+          <span class="s-lab">// QUICK BITES</span>
+          <h2 class="s-h"><span class="jp">サクッと見れるショート攻略</span></h2>
         </div>
+        <span class="s-deco"></span>
       </div>
-    </aside>
+      <a href="#" class="s-link">VIEW ALL ▸</a>
+    </div>
+    <div class="shorts-grid">
+      <a class="short" href="#"><div class="sfx thumb-c"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div></div><span class="stag">⚡ 60秒</span><div class="stitle"><span class="jp">この装備、絶対に外すな</span></div><span class="sviews">▸ 18.4万</span></a>
+      <a class="short" href="#"><div class="sfx thumb-a"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div></div><span class="stag">⚡ 45秒</span><div class="stitle"><span class="jp">勝率が即上がる立ち回り</span> 3</div><span class="sviews">▸ 12.7万</span></a>
+      <a class="short" href="#"><div class="sfx thumb-e"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div></div><span class="stag">⚡ 30秒</span><div class="stitle"><span class="jp">知らないとヤバい仕様</span></div><span class="sviews">▸ 9.5万</span></a>
+      <a class="short" href="#"><div class="sfx thumb-d"><div class="thumb-bolt"></div><div class="thumb-fx-pat"></div></div><span class="stag">⚡ 50秒</span><div class="stitle"><span class="jp">最速ビーンズ厳選法</span></div><span class="sviews">▸ 7.2万</span></a>
+    </div>
+  </section>
+
+  <!-- SEO -->
+  <section class="block">
+    <div class="seo">
+      <h2><span class="y">イナイレV攻略Wiki</span> ｜ <span class="jp">やまむーが贈る最前線データベース</span></h2>
+      <p>「イナイレV攻略Wiki」は、ゲーム実況YouTuberやまむーが総プレイ1,200時間を超える実体験から、最前線の攻略情報を独自にまとめた個人運営の攻略Wikiです。最新パッチ環境のビルド構成、装備・ビーンズ厳選の優先度、対戦勢向けの立ち回りや読み合い、効率重視の周回ルートまで、現役プレイヤー目線で本当に知りたい情報だけを厳選して掲載しています。</p>
+      <p>Tier表は環境変化に合わせて毎週更新。アプデ直後の数値検証、上位帯BASARAでの実戦データ、初心者向けロードマップなど、レベルや目的に合わせて読み進められる構成にしました。動画とテキスト記事の両方で展開しているので、自分のスタイルに合った学び方が選べます。やまむーチャンネルと併せて、ぜひ攻略の相棒として活用してください。</p>
+      <div class="seo-tags">
+        <span class="chip">#イナイレV</span>
+        <span class="chip y">#最強ビルド</span>
+        <span class="chip">#対戦攻略</span>
+        <span class="chip y">#周回効率</span>
+        <span class="chip">#初心者ガイド</span>
+        <span class="chip y">#BASARA</span>
+        <span class="chip">#装備Tier</span>
+        <span class="chip y">#ビーンズ厳選</span>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /main -->
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar">
+
+  <div class="side-card">
+    <div class="side-head"><span class="b"></span><div><div class="l">// CATEGORY</div><h3>Official Staff Picks</h3></div></div>
+    <div class="cat-list">
+      <a href="#"><span>ビルド攻略</span><span class="c">84</span></a>
+      <a href="#"><span>装備・ビーンズ</span><span class="c">67</span></a>
+      <a href="#"><span>対戦テクニック</span><span class="c">58</span></a>
+      <a href="#"><span>周回・効率</span><span class="c">41</span></a>
+      <a href="#"><span>初心者ガイド</span><span class="c">32</span></a>
+      <a href="#"><span>アプデ情報</span><span class="c">28</span></a>
+      <a href="#"><span>BASARA攻略</span><span class="c">23</span></a>
+      <a href="#"><span>面白企画</span><span class="c">15</span></a>
+    </div>
   </div>
 
-  <!-- フッター -->
-  <footer class="footer">
-    <nav class="footer-nav" aria-label="フッターナビゲーション">
-      <a href="../index.html">ポータル</a>
-      <a href="index.html">ホーム</a>
-      <a href="category-inazuma.html">イナイレV攻略まとめ</a>
-      <a href="guide-beginner.html">初心者ガイド</a>
-      <a href="guide-passive-build.html">パッシブ・ビルド攻略</a>
-      <a href="guide-equipment.html">装備・ビーンズ攻略</a>
-      <a href="guide-farming.html">周回効率ガイド</a>
-      <a href="guide-battle-tips.html">対戦テクニック</a>
-      <a href="guide-basara.html">BASARA攻略</a>
-      <a href="../about.html">運営者情報</a>
-      <a href="../privacy.html">プライバシーポリシー</a>
-      <a href="../contact.html">お問い合わせ</a>
-      <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
-      <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
-    </nav>
-    <p>&copy; 2026 やまむー【yamamu】. All rights reserved.</p>
-  </footer>
+  <div class="side-card">
+    <div class="side-head"><span class="b"></span><div><div class="l">// TOP 5</div><h3>Yamamu's Top 5</h3></div></div>
+    <div class="rank-list">
+      <a class="rank" href="#"><span class="n gold">1</span><div class="info"><div class="t">Ver.4 環境最強ビルドTier S 完全解析</div><div class="m">▸ <span class="y">12.4万 views</span> · BUILD</div></div></a>
+      <a class="rank" href="#"><span class="n silver">2</span><div class="info"><div class="t">BASARA帯到達者の立ち回り完全解説</div><div class="m">▸ <span class="y">11.2万 views</span> · PVP</div></div></a>
+      <a class="rank" href="#"><span class="n bronze">3</span><div class="info"><div class="t">勝率80%超のPvPテクニック集</div><div class="m">▸ <span class="y">8.7万 views</span> · PVP</div></div></a>
+      <a class="rank" href="#"><span class="n gray">4</span><div class="info"><div class="t">装備Tier表 完全版 / 全部位の最適解</div><div class="m">▸ <span class="y">7.8万 views</span> · GEAR</div></div></a>
+      <a class="rank" href="#"><span class="n gray">5</span><div class="info"><div class="t">Ver.4 環境変化まとめ / 何が壊れたか</div><div class="m">▸ <span class="y">9.5万 views</span> · UPDATE</div></div></a>
+    </div>
+  </div>
 
-  <script src="videos.js"></script>
-  <script src="script.js"></script>
+  <div class="side-card">
+    <div class="side-head"><span class="b"></span><div><div class="l">// TIMELINE</div><h3>Latest Updates</h3></div></div>
+    <div class="update-list">
+      <a class="update" href="#"><div class="ud"><div class="day">09</div><div class="mo">MAY</div></div><div class="info"><div class="t">Ver.4.0.1 バランス調整まとめ</div><span class="tag official">UPDATE</span></div></a>
+      <a class="update" href="#"><div class="ud"><div class="day">07</div><div class="mo">MAY</div></div><div class="info"><div class="t">Tier S ビルド構成 緊急更新</div><span class="tag yellow">META</span></div></a>
+      <a class="update" href="#"><div class="ud"><div class="day">05</div><div class="mo">MAY</div></div><div class="info"><div class="t">勝率80%超のPvPテクニック</div><span class="tag cyan">PVP</span></div></a>
+      <a class="update" href="#"><div class="ud"><div class="day">03</div><div class="mo">MAY</div></div><div class="info"><div class="t">周回ルート最適化 ガイド公開</div><span class="tag blue">GUIDE</span></div></a>
+    </div>
+  </div>
+
+  <div class="side-card">
+    <div class="side-head"><span class="b"></span><div><div class="l">// FOLLOW</div><h3>SNSリンク</h3></div></div>
+    <div class="sns">
+      <a class="yt" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8A3 3 0 0 0 2.6 19.9c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>YouTube</a>
+      <a class="x" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.16 17.52h1.833L7.084 4.126H5.117z"/></svg>X (Twitter)</a>
+    </div>
+    <div class="sns-sub"><span class="pip">●</span> @yamamu_gaming · 42.6万 SUBS</div>
+  </div>
+
+</aside>
+
+</div><!-- /container -->
+</div><!-- /shell -->
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-search">
+    <div class="footer-search-box">
+      <span class="lab">⚡ Search Wiki</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" placeholder="記事・ビルド・選手・装備、すべて検索..." />
+    </div>
+    <div class="footer-search-tags">
+      <a href="#">#最強ビルド</a>
+      <a href="#">#BASARA</a>
+      <a href="#">#リセマラ</a>
+      <a href="#">#Tier表</a>
+      <a href="#">#周回ルート</a>
+      <a href="#">#Ver.4.0.1</a>
+      <a href="#">#初心者</a>
+      <a href="#">#雷鳴祭</a>
+    </div>
+  </div>
+
+  <div class="footer-inner">
+    <div class="f-brand">
+      <a class="brand" href="index.html">
+        <div class="brand-mark">Y</div>
+        <div>
+          <div class="brand-text"><span class="jp">イナイレV</span> <span class="accent">攻略Wiki</span></div>
+          <span class="brand-sub">YAMAMU OFFICIAL</span>
+        </div>
+      </a>
+      <p>ゲーム実況YouTuber「やまむー」が運営する公式パートナー攻略サイト。総プレイ1,200時間超のリアルな攻略情報を毎日更新。</p>
+      <span class="badge">⚡ OFFICIAL PARTNER SITE</span>
+    </div>
+    <div class="f-col">
+      <h4>// GUIDE</h4>
+      <ul>
+        <li><a href="#">初心者ガイド</a></li>
+        <li><a href="#">ビルド攻略</a></li>
+        <li><a href="#">装備・ビーンズ</a></li>
+        <li><a href="#">対戦テクニック</a></li>
+        <li><a href="#">周回・効率</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>// CONTENT</h4>
+      <ul>
+        <li><a href="#">最新動画</a></li>
+        <li><a href="#">ショート動画</a></li>
+        <li><a href="#">アプデ情報</a></li>
+        <li><a href="#">面白企画</a></li>
+        <li><a href="#">大会情報</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>// LINK</h4>
+      <ul>
+        <li><a href="#">YouTubeチャンネル</a></li>
+        <li><a href="#">X (Twitter)</a></li>
+        <li><a href="#">関連サイト</a></li>
+        <li><a href="#">お問い合わせ</a></li>
+        <li><a href="#">プライバシー</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="copy">
+    <span>© 2026 やまむー / YAMAMU GAMING — INAZUMA V STRATEGY WIKI / All rights reserved.</span>
+    <span><span class="pip">⚡</span> SYSTEM ONLINE  /  LAST UPDATE  <span class="neon">2026.05.09 21:00 JST</span></span>
+  </div>
+</footer>
+
 </body>
 </html>
+

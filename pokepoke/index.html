@@ -1,115 +1,2089 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://tpc.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://img.youtube.com https://pagead2.googlesyndication.com https://www.google.com https://googleads.g.doubleclick.net data:; frame-src https://www.youtube.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://pagead2.googlesyndication.com https://adservice.google.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ポケポケ攻略Wiki | yamamu official — TCG Pocket Strategy Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;500;700;800;900&family=Russo+One&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================
+   ポケポケ攻略Wiki — yamamu official
+   TCG fan wiki design tokens
+   ========================================================== */
 
-  <title>ポケポケ攻略Wiki｜やまむー【yamamu】</title>
-  <meta name="description" content="ポケポケの攻略情報を動画と記事で解説。デッキ構築・対戦テクニックなど攻略情報が満載。">
-  <meta name="keywords" content="ポケポケ, ポケモン, 攻略, デッキ, 対戦, やまむー">
-  <link rel="canonical" href="https://yamamu-youtube.jp/pokepoke/">
+:root {
+  /* Base canvas */
+  --bg-cream: #fdf6e3;
+  --bg-white: #ffffff;
+  --bg-blue:  #e0f2fe;
+  --bg-yellow:#fef9c3;
+  --bg-rose:  #ffe4e6;
 
-  <!-- OGP -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="ポケポケ攻略Wiki｜やまむー【yamamu】">
-  <meta property="og:description" content="ポケポケの攻略情報を動画と記事で解説。">
-  <meta property="og:url" content="https://yamamu-youtube.jp/pokepoke/">
-  <meta property="og:site_name" content="やまむー【yamamu】">
-  <meta property="og:image" content="https://yamamu-youtube.jp/icon.png">
-  <meta property="og:locale" content="ja_JP">
+  /* Brand */
+  --tcg-red:    #ee1515;
+  --tcg-red-2:  #c8102e;
+  --tcg-blue:   #2563eb;
+  --tcg-blue-2: #1e40af;
+  --tcg-yellow: #ffcc00;
+  --tcg-amber:  #f59e0b;
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="ポケポケ攻略Wiki">
-  <meta name="twitter:description" content="ポケポケの攻略情報を動画と記事で解説。">
-  <meta name="twitter:image" content="https://yamamu-youtube.jp/icon.png">
+  /* Gold frame */
+  --gold-1: #fde68a;
+  --gold-2: #f59e0b;
+  --gold-3: #b45309;
+  --gold-shine: linear-gradient(135deg, #fef3c7 0%, #fde68a 18%, #f59e0b 45%, #fde68a 72%, #fef3c7 100%);
 
-  <!-- JSON-LD: WebSite -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "ポケポケ攻略Wiki｜やまむー【yamamu】",
-    "url": "https://yamamu-youtube.jp/pokepoke/",
-    "description": "ポケポケの攻略情報を動画と記事で解説するゲーム攻略サイト。",
-    "inLanguage": "ja",
-    "publisher": {
-      "@type": "Organization",
-      "name": "やまむー【yamamu】",
-      "url": "https://yamamu-youtube.jp",
-      "sameAs": [
-        "https://www.youtube.com/@yamamu",
-        "https://twitter.com/YamamuGaming"
-      ]
-    }
-  }
-  </script>
+  /* Type colors (original system) */
+  --t-leaf:   #16a34a;
+  --t-flame:  #f97316;
+  --t-tide:   #38bdf8;
+  --t-bolt:   #facc15;
+  --t-void:   #a855f7;
+  --t-wild:   #92400e;
+  --t-shadow: #4c1d95;
+  --t-iron:   #94a3b8;
+  --t-dragon: #d4a017;
 
-  <link rel="stylesheet" href="../style.css">
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1697281908647985" crossorigin="anonymous"></script>
+  /* Text */
+  --ink-1:  #1f2937;
+  --ink-2:  #4b5563;
+  --ink-3:  #6b7280;
+  --ink-4:  #9ca3af;
+
+  /* UI */
+  --line:   rgba(0,0,0,.08);
+  --line-2: rgba(0,0,0,.14);
+
+  /* Shadows */
+  --shadow-card: 0 4px 12px rgba(15,23,42,.08), 0 1px 2px rgba(15,23,42,.06);
+  --shadow-pop:  0 18px 40px -16px rgba(15,23,42,.35), 0 6px 16px -8px rgba(15,23,42,.18);
+  --shadow-rainbow: 0 0 24px rgba(255,204,0,.45), 0 0 48px rgba(238,21,21,.18), 0 0 64px rgba(37,99,235,.14);
+
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 22px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", system-ui, sans-serif;
+  color: var(--ink-1);
+  background: var(--bg-cream);
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(255,204,0,.10), transparent 28%),
+    radial-gradient(circle at 88% 22%, rgba(37,99,235,.08), transparent 30%),
+    radial-gradient(circle at 22% 92%, rgba(238,21,21,.08), transparent 32%);
+  background-attachment: fixed;
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Card-back tile pattern (subtle) */
+.tile-bg {
+  position: fixed; inset: 0;
+  z-index: 0; pointer-events: none;
+  opacity: .14;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(37,99,235,.18) 0 1px, transparent 1px 14px),
+    repeating-linear-gradient(-45deg, rgba(238,21,21,.16) 0 1px, transparent 1px 14px);
+  mask-image: radial-gradient(ellipse at 50% 30%, #000 30%, transparent 78%);
+}
+
+/* Layout shell */
+.shell {
+  position: relative; z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+/* ================= HEADER ================= */
+.site-head {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(253, 246, 227, .92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 1px 0 rgba(255,255,255,.6) inset;
+}
+.site-head .row {
+  display: flex; align-items: center; gap: 18px;
+  padding: 12px 22px;
+  max-width: 1280px; margin: 0 auto;
+}
+.brand {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+.brand-mark {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--tcg-red) 0 50%, #fff 50% 100%);
+  border: 2px solid #1a1a1a;
+  position: relative;
+  flex: none;
+  box-shadow: 0 2px 0 #1a1a1a;
+}
+.brand-mark::after {
+  content: "";
+  position: absolute; left: 50%; top: 50%;
+  width: 11px; height: 11px;
+  background: #fff;
+  border: 2.5px solid #1a1a1a;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.brand-mark::before {
+  content: "";
+  position: absolute; left: 6%; right: 6%; top: 47%; height: 4px;
+  background: #1a1a1a;
+}
+.brand-name {
+  font-family: "Russo One", "Noto Sans JP", sans-serif;
+  font-size: 22px;
+  letter-spacing: .02em;
+  background: linear-gradient(90deg, var(--tcg-red) 0%, var(--tcg-red) 38%, var(--tcg-blue) 62%, var(--tcg-blue) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+  text-shadow: 0 1px 0 rgba(255,255,255,.6);
+}
+.brand-sub {
+  font-size: 11px; color: var(--ink-3);
+  font-weight: 700; letter-spacing: .14em;
+  margin-top: -2px;
+}
+
+.search-wrap {
+  flex: 1;
+  display: flex; align-items: center; gap: 8px;
+  background: #fff;
+  border: 2px solid #1a1a1a;
+  border-radius: 999px;
+  padding: 6px 14px 6px 14px;
+  max-width: 460px;
+  margin: 0 auto;
+  box-shadow: 0 3px 0 #1a1a1a;
+}
+.search-wrap svg { flex: none; opacity: .55; }
+.search-wrap input {
+  flex: 1; border: none; outline: none; background: transparent;
+  font: inherit; color: var(--ink-1);
+  font-size: 14px;
+}
+.search-wrap kbd {
+  font: 600 11px "Russo One", monospace;
+  background: var(--bg-yellow);
+  border: 1px solid var(--gold-2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--ink-1);
+}
+
+.head-actions { display: flex; align-items: center; gap: 8px; }
+.icon-btn {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #1a1a1a;
+  display: grid; place-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 0 #1a1a1a;
+  transition: transform .12s;
+}
+.icon-btn:hover { transform: translateY(-2px); }
+.icon-btn:active { transform: translateY(1px); box-shadow: 0 1px 0 #1a1a1a; }
+
+.yamamu-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px;
+  background: linear-gradient(90deg, #1a1a1a 0%, #2c2c2c 100%);
+  color: #ffcc00;
+  border-radius: 999px;
+  font-family: "Russo One", sans-serif;
+  font-size: 12px; letter-spacing: .08em;
+  border: 2px solid #ffcc00;
+}
+.yamamu-pill .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #22c55e; box-shadow: 0 0 6px #22c55e;
+}
+
+/* Game-switcher tabs */
+.game-tabs {
+  display: flex; gap: 0;
+  max-width: 1280px; margin: 0 auto;
+  padding: 0 22px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255,255,255,.5);
+}
+.game-tab {
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-3);
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: color .12s;
+  letter-spacing: .04em;
+}
+.game-tab:hover { color: var(--ink-1); }
+.game-tab.active {
+  color: var(--tcg-red);
+  border-bottom-color: var(--tcg-red);
+  background: linear-gradient(180deg, transparent 0%, rgba(238,21,21,.08) 100%);
+}
+.game-tab .new {
+  font-size: 9px;
+  background: var(--tcg-red);
+  color: #fff;
+  padding: 1px 4px;
+  border-radius: 3px;
+  margin-left: 4px;
+  font-family: "Russo One", sans-serif;
+  letter-spacing: .06em;
+  vertical-align: middle;
+}
+
+/* Main nav */
+.main-nav {
+  background: #fff;
+  border-bottom: 4px solid var(--tcg-yellow);
+  box-shadow: 0 1px 0 var(--gold-2);
+}
+.main-nav .row {
+  display: flex; gap: 4px; max-width: 1280px; margin: 0 auto;
+  padding: 0 22px;
+  overflow-x: auto;
+}
+.nav-link {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 18px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink-1);
+  text-decoration: none;
+  white-space: nowrap;
+  position: relative;
+  transition: color .12s;
+}
+.nav-link:hover { color: var(--tcg-red); }
+.nav-link.active { color: var(--tcg-red); }
+.nav-link.active::after {
+  content: ""; position: absolute;
+  left: 14px; right: 14px; bottom: -4px; height: 4px;
+  background: var(--tcg-red);
+  border-radius: 2px;
+}
+.nav-link .ic {
+  width: 20px; height: 20px;
+  display: grid; place-items: center;
+  font-size: 14px;
+}
+
+/* ================= LAYOUT ================= */
+.page {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 28px;
+  margin: 28px auto 80px;
+  max-width: 1280px;
+  padding: 0 22px;
+}
+.col-main { min-width: 0; }
+.col-aside { min-width: 0; }
+
+@media (max-width: 1024px) {
+  .page { grid-template-columns: 1fr; }
+  .col-aside { display: none; }
+}
+
+/* ================= HERO ================= */
+.hero {
+  position: relative;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255,204,0,.55), transparent 55%),
+    linear-gradient(135deg, #fef9c3 0%, #fef3c7 35%, #fde68a 70%, #ffedd5 100%);
+  border: 3px solid #1a1a1a;
+  box-shadow: 0 6px 0 #1a1a1a, 0 18px 36px -10px rgba(0,0,0,.25);
+  padding: 36px 32px 44px;
+  isolation: isolate;
+}
+.hero::before {
+  content: ""; position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 18% 30%, rgba(255,255,255,.9) 0 2px, transparent 3px),
+    radial-gradient(circle at 78% 22%, rgba(255,255,255,.8) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 32% 78%, rgba(255,255,255,.8) 0 2px, transparent 3px),
+    radial-gradient(circle at 88% 70%, rgba(255,255,255,.9) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 60% 88%, rgba(255,255,255,.8) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 8% 60%, rgba(255,255,255,.7) 0 1.5px, transparent 2.5px);
+  background-size: 220px 220px, 320px 320px, 280px 280px, 360px 360px, 240px 240px, 200px 200px;
+  background-position: 0 0, 100px 60px, 40px 180px, 200px 30px, 160px 140px, 60px 100px;
+  pointer-events: none;
+  animation: sparkle 7s linear infinite;
+  z-index: 0;
+}
+@keyframes sparkle {
+  0%   { opacity: .85; }
+  50%  { opacity: 1; }
+  100% { opacity: .85; }
+}
+
+.hero-grid {
+  position: relative; z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  text-align: center;
+  align-items: center;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  align-self: center; justify-self: center;
+  padding: 6px 16px;
+  background: #1a1a1a;
+  color: var(--tcg-yellow);
+  border-radius: 999px;
+  font-family: "Russo One", sans-serif;
+  font-size: 12px; letter-spacing: .14em;
+  border: 2px solid var(--tcg-yellow);
+  box-shadow: 0 0 0 3px rgba(255,204,0,.18), 0 4px 12px rgba(0,0,0,.2);
+}
+.hero-badge .bolt {
+  color: var(--tcg-yellow);
+  filter: drop-shadow(0 0 6px var(--tcg-yellow));
+}
+
+.hero-title {
+  font-family: "Russo One", "Noto Sans JP", sans-serif;
+  font-size: clamp(44px, 7vw, 96px);
+  line-height: 1;
+  margin: 6px 0 0;
+  letter-spacing: -.01em;
+  /* Skip pure-yellow middle stop; use saturated red→orange→blue→navy for contrast on yellow bg */
+  background:
+    linear-gradient(180deg, #ee1515 0%, #f97316 28%, #ee1515 48%, #2563eb 70%, #1e3a8a 100%);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 3px #1a1a1a;
+  paint-order: stroke fill;
+  position: relative;
+  filter: drop-shadow(4px 4px 0 #1a1a1a) drop-shadow(0 6px 14px rgba(238,21,21,.25));
+}
+.hero-title em {
+  font-style: normal;
+  background:
+    linear-gradient(180deg, #38bdf8 0%, #2563eb 50%, #1e3a8a 100%);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 3px #1a1a1a;
+  paint-order: stroke fill;
+}
+.hero-shine {
+  position: relative;
+  display: inline-block;
+}
+.hero-shine::after {
+  content: "";
+  position: absolute; inset: -4px;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.6) 45%, transparent 60%);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  animation: shine 3.5s ease-in-out infinite;
+}
+@keyframes shine {
+  0%, 100% { transform: translateX(-30%); opacity: 0; }
+  50%      { transform: translateX(30%);  opacity: 1; }
+}
+
+.hero-sub {
+  font-family: "Bebas Neue", "Russo One", sans-serif;
+  font-size: clamp(18px, 2.4vw, 28px);
+  letter-spacing: .14em;
+  color: var(--tcg-blue-2);
+  margin: 4px 0 0;
+}
+
+.hero-cta {
+  display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+/* Floating placeholder cards */
+.hero-cards {
+  position: relative;
+  height: 280px;
+  margin-top: 14px;
+  perspective: 1200px;
+}
+.hero-cards .placeholder-card {
+  position: absolute;
+  width: 168px; height: 232px;
+  transform-origin: center;
+  transition: transform .6s cubic-bezier(.2,.9,.3,1);
+}
+.hero-cards .placeholder-card.c1 { left: calc(50% - 280px); top: 20px; transform: rotate(-12deg); }
+.hero-cards .placeholder-card.c2 { left: calc(50% - 84px);  top: 0;     transform: rotate(2deg);  z-index: 2; }
+.hero-cards .placeholder-card.c3 { left: calc(50% + 110px); top: 28px;  transform: rotate(10deg); }
+.hero-cards .placeholder-card.c0 { left: calc(50% - 440px); top: 52px;  transform: rotate(-22deg); display: none; }
+.hero-cards .placeholder-card.c4 { left: calc(50% + 270px); top: 60px;  transform: rotate(20deg);  display: none; }
+@media (min-width: 1100px) {
+  .hero-cards .placeholder-card.c0,
+  .hero-cards .placeholder-card.c4 { display: block; }
+}
+.hero-cards .placeholder-card:hover {
+  transform: rotate(0) translateY(-12px) scale(1.06);
+  z-index: 5;
+}
+
+/* ================= PLACEHOLDER CARD ================= */
+.placeholder-card {
+  --type-color: #1a1a1a;
+  border-radius: 12px;
+  background: #1a1a1a;
+  padding: 5px;
+  position: relative;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.6),
+    0 12px 24px -6px rgba(15,23,42,.45),
+    inset 0 0 0 1px rgba(255,255,255,.06);
+}
+.placeholder-card::before {
+  /* gold inner frame */
+  content: "";
+  position: absolute; inset: 5px;
+  border-radius: 9px;
+  background: var(--gold-shine);
+  z-index: 0;
+}
+.placeholder-card .pc-inner {
+  position: relative; z-index: 1;
+  margin: 4px;
+  border-radius: 7px;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--type-color) 12%, #fff) 0%, #fff 60%);
+  height: calc(100% - 8px);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+}
+.placeholder-card .pc-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 8px 4px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+  background: linear-gradient(180deg, rgba(255,255,255,.7), transparent);
+}
+.placeholder-card .pc-name {
+  font-family: "Russo One", sans-serif;
+  font-size: 13px; letter-spacing: .04em;
+  color: var(--ink-1);
+}
+.placeholder-card .pc-hp {
+  font-family: "Russo One", sans-serif;
+  font-size: 11px;
+  color: var(--tcg-red);
+}
+.placeholder-card .pc-hp b {
+  font-size: 14px;
+}
+.placeholder-card .pc-art {
+  position: relative;
+  margin: 6px;
+  border: 1.5px solid rgba(0,0,0,.5);
+  border-radius: 6px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--type-color) 28%, #fff) 0%, color-mix(in srgb, var(--type-color) 8%, #fff) 60%, #fff 100%),
+    repeating-linear-gradient(45deg, rgba(255,255,255,.4) 0 6px, rgba(0,0,0,.04) 6px 12px);
+}
+.placeholder-card .pc-art::before {
+  content: "?";
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  font-family: "Russo One", sans-serif;
+  font-size: 64px;
+  color: rgba(0,0,0,.18);
+  text-shadow: 0 2px 0 rgba(255,255,255,.4);
+}
+.placeholder-card .pc-art::after {
+  /* holo shine */
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(115deg,
+    transparent 30%,
+    rgba(255,0,150,.18) 40%,
+    rgba(0,200,255,.18) 50%,
+    rgba(255,255,0,.18) 60%,
+    transparent 70%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  background-size: 200% 200%;
+  animation: holo 4s linear infinite;
+}
+@keyframes holo {
+  0% { background-position: 0 0; }
+  100% { background-position: 200% 200%; }
+}
+.placeholder-card .pc-foot {
+  padding: 5px 8px;
+  background: var(--gold-shine);
+  font-family: "Russo One", sans-serif;
+  font-size: 9px; letter-spacing: .14em;
+  color: var(--gold-3);
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1.5px solid var(--gold-3);
+}
+
+/* type chip */
+.type-chip {
+  --tc: #777;
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px 2px 4px;
+  background: #fff;
+  border: 1.5px solid var(--tc);
+  border-radius: 999px;
+  font-family: "Russo One", sans-serif;
+  font-size: 9px; letter-spacing: .12em;
+  color: var(--tc);
+}
+.type-chip .dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--tc);
+  box-shadow: 0 0 4px color-mix(in srgb, var(--tc) 80%, transparent);
+}
+.type-chip.lg { font-size: 11px; padding: 4px 12px 4px 6px; }
+.type-chip.lg .dot { width: 12px; height: 12px; }
+
+.t-leaf  { --tc: var(--t-leaf); }
+.t-flame { --tc: var(--t-flame); }
+.t-tide  { --tc: var(--t-tide); }
+.t-bolt  { --tc: var(--t-bolt); color: #946800; border-color: #f59e0b; }
+.t-bolt .dot { background: var(--t-bolt); }
+.t-void  { --tc: var(--t-void); }
+.t-wild  { --tc: var(--t-wild); }
+.t-shadow{ --tc: var(--t-shadow); }
+.t-iron  { --tc: var(--t-iron); }
+.t-dragon{ --tc: var(--t-dragon); }
+.t-dragon .dot {
+  background: linear-gradient(135deg, #fde68a, #f59e0b 50%, #b45309);
+}
+
+/* ================= GOLD BUTTON ================= */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px;
+  background: var(--gold-shine);
+  border: 2px solid #1a1a1a;
+  color: var(--ink-1);
+  border-radius: 999px;
+  font-family: "Russo One", sans-serif;
+  font-size: 13px; letter-spacing: .08em;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 4px 0 #1a1a1a;
+  transition: transform .12s, box-shadow .12s, filter .2s;
+  overflow: hidden;
+}
+.btn::after {
+  content: "";
+  position: absolute; top: 0; left: -120%;
+  width: 60%; height: 100%;
+  background: linear-gradient(110deg, transparent, rgba(255,255,255,.7), transparent);
+  transition: left .6s;
+}
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #1a1a1a, var(--shadow-rainbow);
+  filter: brightness(1.05);
+}
+.btn:hover::after { left: 120%; }
+.btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #1a1a1a; }
+
+.btn.red {
+  background: linear-gradient(180deg, #f87171 0%, #ee1515 40%, #c8102e 100%);
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0,0,0,.3);
+}
+.btn.blue {
+  background: linear-gradient(180deg, #60a5fa 0%, #2563eb 40%, #1e40af 100%);
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0,0,0,.3);
+}
+.btn.ghost {
+  background: #fff;
+  color: var(--ink-1);
+}
+.btn.sm { padding: 6px 14px; font-size: 11px; }
+
+/* ================= TICKER ================= */
+.ticker {
+  margin: 24px 0 0;
+  display: flex; align-items: stretch;
+  background: #fff;
+  border: 3px solid #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 0 #1a1a1a;
+}
+.ticker-tag {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 16px;
+  background: linear-gradient(180deg, #ee1515, #c8102e);
+  color: #fff;
+  font-family: "Russo One", sans-serif;
+  font-size: 13px; letter-spacing: .14em;
+  flex: none;
+  position: relative;
+}
+.ticker-tag::after {
+  content: ""; position: absolute;
+  right: -14px; top: 0; bottom: 0;
+  width: 14px;
+  background: linear-gradient(180deg, #ee1515, #c8102e);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.ticker-tag .pulse {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #fff;
+  animation: pulse 1.2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .3; }
+}
+.ticker-stream {
+  flex: 1; overflow: hidden;
+  position: relative;
+  padding-left: 20px;
+  display: flex; align-items: center;
+}
+.ticker-track {
+  display: flex; gap: 60px;
+  white-space: nowrap;
+  animation: scroll 38s linear infinite;
+  font-weight: 700;
+  font-size: 14px;
+  padding-left: 100%;
+}
+.ticker-track span {
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.ticker-track .tag {
+  padding: 2px 8px;
+  font-family: "Russo One", sans-serif;
+  font-size: 10px;
+  background: var(--tcg-yellow);
+  border-radius: 4px;
+  letter-spacing: .08em;
+  color: var(--ink-1);
+}
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+
+/* ================= SECTION HEADER ================= */
+.section { margin-top: 48px; }
+.section-head {
+  display: flex; align-items: end; gap: 14px;
+  margin-bottom: 22px;
+  position: relative;
+}
+.section-num {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 56px;
+  line-height: .85;
+  color: var(--tcg-red);
+  letter-spacing: -.02em;
+  -webkit-text-stroke: 2px #1a1a1a;
+  text-shadow: 4px 4px 0 #1a1a1a;
+}
+.section-num em {
+  font-style: normal;
+  -webkit-text-stroke: 2px #1a1a1a;
+  color: #fff;
+  text-shadow: 4px 4px 0 #1a1a1a;
+  font-size: 32px;
+  margin-right: 6px;
+}
+.section-title {
+  font-family: "Russo One", "Noto Sans JP", sans-serif;
+  font-size: 32px;
+  line-height: 1;
+  color: var(--ink-1);
+  letter-spacing: .02em;
+  position: relative;
+  padding-bottom: 6px;
+}
+.section-title::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: -2px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--tcg-red) 0%, var(--tcg-red) 60%, var(--tcg-yellow) 60%, var(--tcg-yellow) 100%);
+  border-radius: 2px;
+}
+.section-jp {
+  font-size: 13px; color: var(--ink-3); font-weight: 700;
+  letter-spacing: .04em;
+  margin-left: auto;
+  padding-bottom: 6px;
+}
+.section-jp a {
+  color: var(--tcg-blue);
+  text-decoration: none;
+  border-bottom: 1px dashed currentColor;
+}
+
+/* Section panels (alternating bg) */
+.panel {
+  border-radius: var(--r-lg);
+  padding: 28px;
+  border: 2px solid var(--line-2);
+}
+.panel.blue   { background: linear-gradient(180deg, var(--bg-blue) 0%, #fff 100%); }
+.panel.yellow { background: linear-gradient(180deg, var(--bg-yellow) 0%, #fff 100%); }
+.panel.rose   { background: linear-gradient(180deg, var(--bg-rose) 0%, #fff 100%); }
+
+/* ================= NEWS ================= */
+.news-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 760px) { .news-grid { grid-template-columns: 1fr; } }
+.news-card {
+  background: #fff;
+  border: 2px solid #1a1a1a;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 0 #1a1a1a;
+  transition: transform .14s;
+  cursor: pointer;
+  display: flex; flex-direction: column;
+}
+.news-card:hover { transform: translateY(-3px); }
+.news-thumb {
+  aspect-ratio: 16/9;
+  background:
+    linear-gradient(135deg, rgba(238,21,21,.85), rgba(37,99,235,.85)),
+    repeating-linear-gradient(45deg, rgba(255,255,255,.18) 0 6px, transparent 6px 14px);
+  position: relative;
+  display: grid; place-items: center;
+  color: #fff;
+  font-family: "Russo One", sans-serif;
+  font-size: 12px; letter-spacing: .14em;
+  border-bottom: 3px solid var(--tcg-yellow);
+}
+.news-thumb.t2 {
+  background:
+    linear-gradient(135deg, rgba(255,204,0,.9), rgba(238,21,21,.85)),
+    repeating-linear-gradient(-45deg, rgba(255,255,255,.18) 0 6px, transparent 6px 14px);
+}
+.news-thumb.t3 {
+  background:
+    linear-gradient(135deg, rgba(37,99,235,.9), rgba(168,85,247,.85)),
+    repeating-linear-gradient(45deg, rgba(255,255,255,.18) 0 6px, transparent 6px 14px);
+}
+.news-thumb .ribbon {
+  position: absolute; top: 10px; left: -6px;
+  background: var(--tcg-red);
+  color: #fff;
+  padding: 4px 12px;
+  font-family: "Russo One", sans-serif;
+  font-size: 11px; letter-spacing: .12em;
+  border: 2px solid #1a1a1a;
+  box-shadow: 4px 4px 0 #1a1a1a;
+  z-index: 2;
+}
+.news-thumb.featured {
+  aspect-ratio: 16/9;
+}
+.news-card.featured .news-thumb {
+  aspect-ratio: 16/10;
+}
+.news-thumb-tag {
+  position: absolute; bottom: 10px; right: 10px;
+  background: rgba(0,0,0,.7);
+  color: #fff;
+  padding: 4px 8px;
+  font-size: 10px; font-family: "Russo One", sans-serif;
+  border-radius: 4px;
+}
+.news-body {
+  padding: 14px 16px 16px;
+  display: flex; flex-direction: column; gap: 8px;
+  flex: 1;
+}
+.news-meta {
+  display: flex; gap: 8px; align-items: center;
+  font-size: 11px;
+  font-family: "Russo One", sans-serif;
+  color: var(--ink-3);
+  letter-spacing: .08em;
+}
+.news-meta .cat {
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--tcg-blue);
+  color: #fff;
+}
+.news-meta .cat.red { background: var(--tcg-red); }
+.news-meta .cat.amber { background: var(--tcg-amber); color: #1a1a1a; }
+.news-title {
+  font-size: 17px;
+  line-height: 1.4;
+  font-weight: 800;
+  color: var(--ink-1);
+  margin: 0;
+}
+.news-card.featured .news-title { font-size: 22px; }
+.news-excerpt {
+  font-size: 13px; color: var(--ink-3);
+  margin: 0;
+}
+.news-foot {
+  margin-top: auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px dashed var(--line-2);
+}
+.news-foot .author {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+.news-foot .av {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--tcg-red), var(--tcg-yellow));
+  border: 1.5px solid #1a1a1a;
+  display: grid; place-items: center;
+  font-size: 10px;
+  color: #fff;
+  font-family: "Russo One", sans-serif;
+}
+
+/* ================= GUIDES ================= */
+.guides-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+@media (max-width: 880px) { .guides-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .guides-grid { grid-template-columns: 1fr; } }
+
+.guide {
+  position: relative;
+  border-radius: 18px;
+  background: #fff;
+  border: 2px solid #1a1a1a;
+  padding: 4px;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform .3s cubic-bezier(.2,.9,.3,1), box-shadow .3s;
+  box-shadow: 0 4px 0 #1a1a1a;
+}
+.guide:hover {
+  transform: translateY(-4px) rotate(-1deg);
+  box-shadow: 0 10px 0 #1a1a1a, var(--shadow-rainbow);
+}
+.guide-frame {
+  border-radius: 14px;
+  background: var(--gold-shine);
+  padding: 3px;
+  position: relative;
+  overflow: hidden;
+}
+.guide-inner {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.guide-art {
+  height: 130px;
+  position: relative;
+  display: grid; place-items: center;
+  color: #fff;
+  font-family: "Russo One", sans-serif;
+  font-size: 50px;
+  border-bottom: 2px solid var(--gold-2);
+}
+.guide-art .badge {
+  position: absolute; top: 8px; left: 8px;
+  background: #1a1a1a;
+  color: var(--tcg-yellow);
+  padding: 3px 8px;
+  font-size: 10px;
+  letter-spacing: .12em;
+  border-radius: 4px;
+  font-family: "Russo One", sans-serif;
+}
+.guide-art .num {
+  position: absolute; top: 8px; right: 10px;
+  font-family: "Russo One", sans-serif;
+  font-size: 22px;
+  color: rgba(255,255,255,.7);
+}
+.guide.g1 .guide-art { background: linear-gradient(135deg, #ee1515, #f97316); }
+.guide.g2 .guide-art { background: linear-gradient(135deg, #2563eb, #38bdf8); }
+.guide.g3 .guide-art { background: linear-gradient(135deg, #16a34a, #84cc16); }
+.guide.g4 .guide-art { background: linear-gradient(135deg, #a855f7, #ee1515); }
+.guide.g5 .guide-art { background: linear-gradient(135deg, #f59e0b, #ee1515); }
+.guide.g6 .guide-art { background: linear-gradient(135deg, #1e40af, #4c1d95); }
+.guide-art::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.5) 50%, transparent 70%);
+  background-size: 300% 100%;
+  background-position: -100% 0;
+  transition: background-position .8s;
+}
+.guide:hover .guide-art::after { background-position: 200% 0; }
+
+.guide-body {
+  padding: 14px 16px 16px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.guide-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ink-1);
+  line-height: 1.35;
+  margin: 0;
+}
+.guide-desc {
+  font-size: 12px; color: var(--ink-3); margin: 0;
+}
+.guide-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--ink-3);
+  font-family: "Russo One", sans-serif;
+  letter-spacing: .06em;
+}
+.guide-meta .arrow {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--tcg-red);
+  color: #fff;
+  display: grid; place-items: center;
+  font-weight: 700;
+  transition: transform .2s;
+}
+.guide:hover .guide-meta .arrow { transform: translateX(3px) rotate(-8deg); }
+
+/* ================= TIER ================= */
+.tier-board {
+  display: grid;
+  gap: 14px;
+}
+.tier-row {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 14px;
+  background: #fff;
+  border: 2px solid #1a1a1a;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 0 #1a1a1a;
+}
+.tier-label {
+  display: grid; place-items: center;
+  font-family: "Russo One", sans-serif;
+  font-size: 56px;
+  color: #fff;
+  text-shadow: 0 3px 0 rgba(0,0,0,.25);
+  position: relative;
+}
+.tier-label::after {
+  content: attr(data-name);
+  position: absolute; bottom: 8px; left: 0; right: 0;
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-align: center;
+  opacity: .85;
+}
+.tier-row.s .tier-label { background: linear-gradient(180deg, #ffd700 0%, #f59e0b 60%, #b45309 100%); }
+.tier-row.a .tier-label { background: linear-gradient(180deg, #c0c0c0 0%, #94a3b8 60%, #475569 100%); }
+.tier-row.b .tier-label { background: linear-gradient(180deg, #fb923c 0%, #c2410c 100%); color: #fff; }
+
+.tier-list {
+  display: flex; gap: 10px;
+  padding: 14px 14px;
+  overflow-x: auto;
+  align-items: center;
+}
+.tier-deck {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px 8px 8px;
+  background: var(--bg-cream);
+  border: 1.5px solid var(--line-2);
+  border-radius: 12px;
+  flex: none;
+  transition: transform .15s, box-shadow .15s;
+  cursor: pointer;
+}
+.tier-deck:hover {
+  transform: translateY(-2px);
+  border-color: #1a1a1a;
+  box-shadow: 0 4px 0 #1a1a1a;
+}
+.tier-deck .mini {
+  width: 38px; height: 52px;
+  border-radius: 5px;
+  background: var(--gold-shine);
+  border: 2px solid #1a1a1a;
+  position: relative;
+  flex: none;
+}
+.tier-deck .mini::after {
+  content: "?";
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  color: #fff;
+  font-family: "Russo One", sans-serif;
+  font-size: 22px;
+  text-shadow: 0 2px 0 rgba(0,0,0,.35);
+}
+.tier-deck.leaf  .mini { background: linear-gradient(180deg, #86efac, #16a34a); }
+.tier-deck.flame .mini { background: linear-gradient(180deg, #fdba74, #ea580c); }
+.tier-deck.tide  .mini { background: linear-gradient(180deg, #93c5fd, #2563eb); }
+.tier-deck.bolt  .mini { background: linear-gradient(180deg, #fde047, #ca8a04); }
+.tier-deck.void  .mini { background: linear-gradient(180deg, #d8b4fe, #9333ea); }
+.tier-deck.dragon .mini { background: var(--gold-shine); }
+.tier-deck.shadow .mini { background: linear-gradient(180deg, #6b21a8, #1e1b4b); }
+.tier-deck.iron  .mini { background: linear-gradient(180deg, #e2e8f0, #64748b); }
+.tier-deck .meta {
+  display: flex; flex-direction: column; gap: 2px;
+}
+.tier-deck .name {
+  font-weight: 800;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.tier-deck .pct {
+  font-family: "Russo One", sans-serif;
+  font-size: 10px;
+  color: var(--ink-3);
+  letter-spacing: .08em;
+}
+
+/* ================= VIDEOS ================= */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+@media (max-width: 880px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .video-grid { grid-template-columns: 1fr; } }
+
+.video {
+  background: #fff;
+  border-radius: 14px;
+  border: 2px solid #1a1a1a;
+  overflow: hidden;
+  box-shadow: 0 4px 0 #1a1a1a;
+  cursor: pointer;
+  transition: transform .15s;
+}
+.video:hover { transform: translateY(-3px); }
+.video-thumb {
+  aspect-ratio: 16/9;
+  position: relative;
+  background: linear-gradient(135deg, var(--tcg-red) 0%, var(--tcg-blue) 100%);
+  display: grid; place-items: center;
+  border-bottom: 3px solid var(--tcg-yellow);
+}
+.video-thumb.v1 { background: linear-gradient(135deg, #ee1515, #f97316 70%, #ffcc00); }
+.video-thumb.v2 { background: linear-gradient(135deg, #2563eb, #38bdf8); }
+.video-thumb.v3 { background: linear-gradient(135deg, #16a34a, #facc15); }
+.video-thumb.v4 { background: linear-gradient(135deg, #a855f7, #ee1515); }
+.video-thumb.v5 { background: linear-gradient(135deg, #1e40af, #ee1515); }
+.video-thumb.v6 { background: linear-gradient(135deg, #f59e0b, #c2410c); }
+
+.video-thumb::before {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(45deg, rgba(255,255,255,.12) 0 8px, transparent 8px 16px);
+}
+.video-play {
+  position: relative;
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.95);
+  border: 3px solid #1a1a1a;
+  display: grid; place-items: center;
+  box-shadow: 0 4px 0 #1a1a1a;
+}
+.video-play::after {
+  content: "";
+  width: 0; height: 0;
+  border-left: 14px solid var(--tcg-red);
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  margin-left: 4px;
+}
+.video-dur {
+  position: absolute; bottom: 8px; right: 8px;
+  background: rgba(0,0,0,.8);
+  color: #fff;
+  font-family: "Russo One", sans-serif;
+  font-size: 11px;
+  padding: 3px 7px;
+  border-radius: 3px;
+  letter-spacing: .04em;
+}
+.video-tag {
+  position: absolute; top: 8px; left: 8px;
+  background: var(--tcg-yellow);
+  border: 2px solid #1a1a1a;
+  font-family: "Russo One", sans-serif;
+  font-size: 10px;
+  letter-spacing: .14em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: #1a1a1a;
+}
+.video-body {
+  padding: 12px 14px 14px;
+}
+.video-title {
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--ink-1);
+  margin: 0 0 8px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.video-meta {
+  display: flex; gap: 10px; align-items: center;
+  font-size: 11px; color: var(--ink-3);
+}
+.video-meta .ic {
+  display: inline-flex; align-items: center; gap: 3px;
+}
+
+/* ================= SIDEBAR ================= */
+.aside-card {
+  background: #fff;
+  border: 2px solid #1a1a1a;
+  border-radius: 16px;
+  margin-bottom: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 0 #1a1a1a;
+}
+.aside-head {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 8px;
+  font-family: "Russo One", sans-serif;
+  font-size: 13px; letter-spacing: .1em;
+  border-bottom: 3px solid var(--tcg-yellow);
+}
+.aside-head .ic { color: var(--tcg-yellow); }
+.aside-body { padding: 12px 14px; }
+
+.aside-card.gold { border: 3px solid var(--gold-2); }
+.aside-card.gold .aside-head {
+  background: var(--gold-shine);
+  color: #1a1a1a;
+  border-bottom: 3px solid var(--gold-3);
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+.aside-card.gold .aside-head .ic { color: var(--tcg-red); }
+
+.cat-list { list-style: none; margin: 0; padding: 0; }
+.cat-list li {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--line);
+  font-size: 13px;
+  cursor: pointer;
+}
+.cat-list li:last-child { border-bottom: 0; }
+.cat-list li:hover { color: var(--tcg-red); }
+.cat-list .left { display: flex; align-items: center; gap: 10px; }
+.cat-list .count {
+  font-family: "Russo One", sans-serif;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+.pick-row {
+  display: flex; gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--line);
+  cursor: pointer;
+}
+.pick-row:last-child { border-bottom: 0; }
+.pick-row:hover .pick-title { color: var(--tcg-red); }
+.pick-rank {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  background: var(--gold-shine);
+  border: 2px solid #1a1a1a;
+  display: grid; place-items: center;
+  font-family: "Russo One", sans-serif;
+  font-size: 14px;
+  flex: none;
+  color: var(--gold-3);
+}
+.pick-row:nth-child(2) .pick-rank { background: linear-gradient(180deg, #e5e7eb, #94a3b8); color: #1f2937; }
+.pick-row:nth-child(3) .pick-rank { background: linear-gradient(180deg, #fdba74, #c2410c); color: #fff; }
+.pick-row:nth-child(n+4) .pick-rank { background: #fff; color: var(--ink-2); }
+.pick-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pick-title { font-size: 13px; font-weight: 700; color: var(--ink-1); line-height: 1.4; }
+.pick-meta {
+  font-family: "Russo One", sans-serif;
+  font-size: 10px;
+  color: var(--ink-3);
+  letter-spacing: .06em;
+}
+
+.pack-row {
+  display: flex; gap: 12px; align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--line);
+}
+.pack-row:last-child { border-bottom: 0; }
+.pack-mini {
+  width: 40px; height: 56px;
+  flex: none;
+  border-radius: 6px;
+  border: 2px solid #1a1a1a;
+  background: linear-gradient(135deg, #2563eb, #ee1515);
+  position: relative;
+  overflow: hidden;
+}
+.pack-mini::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.4) 50%, transparent 70%);
+}
+.pack-mini.b { background: linear-gradient(135deg, #ee1515, #f97316); }
+.pack-mini.c { background: linear-gradient(135deg, #16a34a, #facc15); }
+.pack-mini.d { background: linear-gradient(135deg, #a855f7, #ec4899); }
+.pack-info { display: flex; flex-direction: column; min-width: 0; }
+.pack-title { font-weight: 800; font-size: 13px; }
+.pack-date {
+  font-family: "Russo One", sans-serif;
+  font-size: 10px;
+  color: var(--ink-3); letter-spacing: .06em;
+}
+
+.link-list { display: grid; gap: 6px; }
+.link-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--ink-1);
+  font-weight: 700;
+  font-size: 13px;
+  border: 1.5px solid var(--line-2);
+  background: var(--bg-cream);
+  transition: transform .12s, border-color .12s;
+}
+.link-row:hover { transform: translateX(2px); border-color: #1a1a1a; }
+.link-row .ic {
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  display: grid; place-items: center;
+  color: #fff;
+  font-family: "Russo One", sans-serif;
+  font-size: 11px;
+}
+.link-row.yt .ic { background: #FF0000; }
+.link-row.x  .ic { background: #1a1a1a; }
+.link-row.dc .ic { background: #5865F2; }
+.link-row .arrow { margin-left: auto; opacity: .5; }
+
+/* ================= SEO ================= */
+.seo-block {
+  margin-top: 56px;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  padding: 24px 28px;
+}
+.seo-block h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ink-1);
+  border-left: 4px solid var(--tcg-red);
+  padding-left: 10px;
+}
+.seo-block p {
+  margin: 0 0 8px;
+  font-size: 13px; color: var(--ink-2); line-height: 1.85;
+}
+
+/* ================= FOOTER ================= */
+.foot {
+  margin-top: 60px;
+  background: linear-gradient(180deg, #1a1a1a, #0a0a0a);
+  color: #fff;
+  position: relative;
+  border-top: 6px solid var(--tcg-yellow);
+}
+.foot::before {
+  content: "";
+  position: absolute; left: 0; right: 0; top: -6px; height: 6px;
+  background: linear-gradient(90deg, #ee1515 0 33%, #ffcc00 33% 66%, #2563eb 66% 100%);
+}
+.foot .row {
+  max-width: 1280px; margin: 0 auto;
+  padding: 38px 22px 22px;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 28px;
+}
+@media (max-width: 760px) { .foot .row { grid-template-columns: 1fr 1fr; } }
+.foot h4 {
+  font-family: "Russo One", sans-serif;
+  font-size: 12px; letter-spacing: .14em;
+  color: var(--tcg-yellow);
+  margin: 0 0 10px;
+}
+.foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.foot a { color: rgba(255,255,255,.75); text-decoration: none; font-size: 13px; }
+.foot a:hover { color: var(--tcg-yellow); }
+.foot-brand { font-size: 13px; color: rgba(255,255,255,.6); }
+.foot-bottom {
+  border-top: 1px solid rgba(255,255,255,.1);
+  text-align: center;
+  padding: 14px;
+  font-size: 11px;
+  color: rgba(255,255,255,.45);
+  font-family: "Russo One", sans-serif;
+  letter-spacing: .14em;
+}
+
+/* utilities */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-2), transparent);
+  margin: 28px 0;
+}
+
+/* Tilt support */
+.tilt {
+  transform-style: preserve-3d;
+  transition: transform .25s cubic-bezier(.2,.9,.3,1);
+}
+
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1697281908647985" crossorigin="anonymous"></script>
 </head>
 <body>
-  <!-- ヘッダー -->
-  <header class="header">
-    <a href="index.html" class="header-left" style="text-decoration:none">
-      <img src="../icon.png" alt="やまむー" class="header-icon" width="32" height="32">
-      <span class="logo-text">ポケポケ攻略Wiki</span>
+<div class="tile-bg" aria-hidden="true"></div>
+
+<!-- ========================================================
+     HEADER
+     ======================================================== -->
+<header class="site-head" data-screen-label="01 Header">
+  <div class="row">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span>
+        <div class="brand-name">ポケポケ攻略Wiki</div>
+        <div class="brand-sub">YAMAMU OFFICIAL · TCG POCKET STRATEGY</div>
+      </span>
     </a>
-    <div class="header-right">
-      <button class="theme-toggle" id="themeToggle" title="テーマ切替" aria-label="ダークモード切替">
-        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-          <path fill="#606060" d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
-        </svg>
+
+    <label class="search-wrap" aria-label="検索">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" placeholder="カード名・デッキ・記事を検索 (例: 環境メタ, スターター)" />
+      <kbd>⌘K</kbd>
+    </label>
+
+    <div class="head-actions">
+      <span class="yamamu-pill"><span class="dot"></span>⚡ yamamu LIVE</span>
+      <button class="icon-btn" aria-label="テーマ切替" title="テーマ切替">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
       </button>
-    </div>
-  </header>
-
-  <nav class="game-nav" aria-label="ゲーム選択">
-    <a href="../index.html" class="game-nav-link">トップ</a>
-    <a href="../inazuma/" class="game-nav-link">イナイレV</a>
-    <a href="../pokepoke/" class="game-nav-link active">ポケポケ</a>
-    <a href="../pocoapokemon/" class="game-nav-link">ぽこポケ</a>
-  </nav>
-
-  <!-- ヒーロー -->
-  <section class="wiki-hero">
-    <div class="wiki-hero-inner">
-      <h1 class="wiki-hero-title">ポケポケ 攻略Wiki</h1>
-      <p class="wiki-hero-subtitle">やまむー｜攻略情報を準備中です</p>
-    </div>
-  </section>
-
-  <!-- メインコンテンツ -->
-  <div style="max-width:800px; margin:0 auto; padding:40px 24px; text-align:center;">
-    <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:40px 24px;">
-      <p style="font-size:48px; margin-bottom:16px;">&#x1F6A7;</p>
-      <h2 style="font-size:20px; font-weight:700; color:var(--text-primary); margin-bottom:12px;">コンテンツ準備中</h2>
-      <p style="font-size:14px; color:var(--text-secondary); line-height:1.8;">
-        ポケポケの攻略コンテンツは現在準備中です。<br>
-        動画が公開され次第、攻略情報を追加していきます。
-      </p>
-      <a href="../index.html" style="display:inline-block; margin-top:20px; padding:10px 24px; background:var(--accent); color:#fff; border-radius:8px; text-decoration:none; font-size:14px; font-weight:600;">トップページに戻る</a>
+      <button class="icon-btn" aria-label="メニュー" title="メニュー">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
     </div>
   </div>
 
-  <!-- フッター -->
-  <footer class="footer">
-    <nav class="footer-nav" aria-label="フッターナビゲーション">
-      <a href="../index.html">ポータル</a>
-      <a href="../inazuma/">イナイレV攻略</a>
-      <a href="../about.html">運営者情報</a>
-      <a href="../privacy.html">プライバシーポリシー</a>
-      <a href="../contact.html">お問い合わせ</a>
-      <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
-      <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
+  <!-- Game-switcher tabs -->
+  <nav class="game-tabs" aria-label="ゲーム切替">
+    <a class="game-tab" href="../index.html">トップ</a>
+    <a class="game-tab" href="../inazuma/">イナイレV</a>
+    <a class="game-tab active" href="index.html">ポケポケ <span class="new">NEW</span></a>
+    <a class="game-tab" href="../pocoapokemon/">ぽこポケ</a>
     </nav>
-    <p>&copy; 2026 やまむー【yamamu】. All rights reserved.</p>
-  </footer>
 
-  <script src="../theme.js"></script>
+  <!-- Main nav -->
+  <nav class="main-nav" aria-label="メインメニュー">
+    <div class="row">
+      <a class="nav-link active" href="#"><span class="ic">🏠</span>ホーム</a>
+      <a class="nav-link" href="#"><span class="ic">⚔️</span>環境デッキ</a>
+      <a class="nav-link" href="#"><span class="ic">🎴</span>汎用カード</a>
+      <a class="nav-link" href="#"><span class="ic">✨</span>レア度・厳選</a>
+      <a class="nav-link" href="#"><span class="ic">📖</span>初心者ガイド</a>
+      <a class="nav-link" href="#"><span class="ic">🏆</span>イベント</a>
+      <a class="nav-link" href="#"><span class="ic">🛒</span>ショップ</a>
+      <a class="nav-link" href="#"><span class="ic">🎬</span>動画一覧</a>
+      <a class="nav-link" href="#"><span class="ic">💬</span>コミュニティ</a>
+    </div>
+  </nav>
+</header>
+
+<!-- ========================================================
+     PAGE
+     ======================================================== -->
+<main class="page">
+  <!-- ============================ MAIN COL ============================ -->
+  <div class="col-main">
+
+    <!-- HERO ======================================================== -->
+    <section class="hero" data-screen-label="02 Hero">
+      <div class="hero-grid">
+        <span class="hero-badge"><span class="bolt">⚡</span>YAMAMU OFFICIAL · POCKET WIKI</span>
+        <h1 class="hero-title">
+          <span class="hero-shine">ポケポケ</span><br>
+          <em>攻略 Wiki</em>
+        </h1>
+        <p class="hero-sub">★ TCG POCKET · STRATEGY DATABASE 2026 ★</p>
+        <div class="hero-cta">
+          <a class="btn red" href="#">▶ 環境Tierを見る</a>
+          <a class="btn" href="#">★ スターター厳選ガイド</a>
+          <a class="btn ghost" href="https://www.youtube.com/@yamamu_games" target="_blank">📺 yamamu YouTube</a>
+        </div>
+
+        <!-- Floating placeholder cards -->
+        <div class="hero-cards" id="heroCards">
+          <!-- Card 0 (extra wide screens) -->
+          <div class="placeholder-card tilt c0" style="--type-color: var(--t-leaf);">
+            <div class="pc-inner">
+              <div class="pc-head">
+                <span class="pc-name">???</span>
+                <span class="pc-hp">HP <b>??</b></span>
+              </div>
+              <div class="pc-art">
+                <span class="type-chip t-leaf" style="position:absolute;top:6px;right:6px;"><span class="dot"></span>LEAF</span>
+              </div>
+              <div class="pc-foot"><span>NO. ???</span><span>★ ★ ★</span></div>
+            </div>
+          </div>
+
+          <div class="placeholder-card tilt c1" style="--type-color: var(--t-flame);">
+            <div class="pc-inner">
+              <div class="pc-head">
+                <span class="pc-name">???</span>
+                <span class="pc-hp">HP <b>??</b></span>
+              </div>
+              <div class="pc-art">
+                <span class="type-chip t-flame" style="position:absolute;top:6px;right:6px;"><span class="dot"></span>FLAME</span>
+              </div>
+              <div class="pc-foot"><span>NO. ???</span><span>★ ★ ★ ★</span></div>
+            </div>
+          </div>
+
+          <div class="placeholder-card tilt c2" style="--type-color: var(--t-bolt);">
+            <div class="pc-inner">
+              <div class="pc-head">
+                <span class="pc-name">???</span>
+                <span class="pc-hp">HP <b>???</b></span>
+              </div>
+              <div class="pc-art">
+                <span class="type-chip t-bolt" style="position:absolute;top:6px;right:6px;"><span class="dot"></span>BOLT</span>
+              </div>
+              <div class="pc-foot"><span>NO. ???</span><span>★ ★ ★ ★ ★</span></div>
+            </div>
+          </div>
+
+          <div class="placeholder-card tilt c3" style="--type-color: var(--t-tide);">
+            <div class="pc-inner">
+              <div class="pc-head">
+                <span class="pc-name">???</span>
+                <span class="pc-hp">HP <b>??</b></span>
+              </div>
+              <div class="pc-art">
+                <span class="type-chip t-tide" style="position:absolute;top:6px;right:6px;"><span class="dot"></span>TIDE</span>
+              </div>
+              <div class="pc-foot"><span>NO. ???</span><span>★ ★ ★ ★</span></div>
+            </div>
+          </div>
+
+          <div class="placeholder-card tilt c4" style="--type-color: var(--t-dragon);">
+            <div class="pc-inner">
+              <div class="pc-head">
+                <span class="pc-name">???</span>
+                <span class="pc-hp">HP <b>???</b></span>
+              </div>
+              <div class="pc-art">
+                <span class="type-chip t-dragon" style="position:absolute;top:6px;right:6px;"><span class="dot"></span>DRAGON</span>
+              </div>
+              <div class="pc-foot"><span>NO. ???</span><span>★ ★ ★ ★ ★</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BREAKING TICKER -->
+    <div class="ticker" data-screen-label="03 Breaking">
+      <div class="ticker-tag"><span class="pulse"></span>BREAKING</div>
+      <div class="ticker-stream">
+        <div class="ticker-track">
+          <span><span class="tag">NEW</span>最新パック「STAR DECK ARCANA」配信中 ─ 引換コード公開！</span>
+          <span><span class="tag">EVENT</span>週末ランクマッチ報酬 2倍キャンペーン開催中</span>
+          <span><span class="tag">UPDATE</span>v3.4.0 環境調整：BOLTタイプ全体強化／DRAGON弱体化</span>
+          <span><span class="tag">YAMAMU</span>本日21:00〜 yamamuチャンネルで生配信「Tier 1 全制覇チャレンジ」</span>
+          <span><span class="tag">SHOP</span>限定スリーブ「金色のキラ」販売開始</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION No.01 NEWS ============================================ -->
+    <section class="section" data-screen-label="04 News">
+      <div class="section-head">
+        <div class="section-num"><em>No.</em>01</div>
+        <h2 class="section-title">NEWS<br><span style="font-size:13px;color:var(--ink-3);font-family:'Noto Sans JP',sans-serif;letter-spacing:0;">最新ニュース</span></h2>
+        <span class="section-jp"><a href="#">すべて見る →</a></span>
+      </div>
+
+      <div class="news-grid">
+        <article class="news-card featured">
+          <div class="news-thumb">
+            <span class="ribbon">★ FEATURED</span>
+            <span style="font-size:18px;letter-spacing:.18em;">— ARTICLE COVER —</span>
+            <span class="news-thumb-tag">2026.05.08</span>
+          </div>
+          <div class="news-body">
+            <div class="news-meta">
+              <span class="cat red">ENVIRONMENT</span>
+              <span>2026.05.08</span>
+              <span>· 8分で読める</span>
+            </div>
+            <h3 class="news-title">現状最強デッキ徹底解剖 ─ 5月環境を制すTier S構築まとめ</h3>
+            <p class="news-excerpt">v3.4.0アップデート後の環境を、勝率データと採用率からまるごと解説。BOLT軸の高速ビートと、TIDE軸のロックコントロールが現状ツートップ。</p>
+            <div class="news-foot">
+              <div class="author"><span class="av">Y</span>by yamamu</div>
+              <a class="btn sm red" href="#">読む →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="news-card">
+          <div class="news-thumb t2">
+            <span style="font-size:14px;letter-spacing:.18em;">— COVER —</span>
+            <span class="news-thumb-tag">2026.05.07</span>
+          </div>
+          <div class="news-body">
+            <div class="news-meta">
+              <span class="cat amber">EVENT</span>
+              <span>2026.05.07</span>
+            </div>
+            <h3 class="news-title">金友ちゃんトレード伝説 ─ 限定★5を3日で集める方法</h3>
+            <p class="news-excerpt">トレード機能の仕様を徹底活用したコツを公開。</p>
+            <div class="news-foot">
+              <div class="author"><span class="av">Y</span>yamamu</div>
+              <a class="btn sm" href="#">読む →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="news-card">
+          <div class="news-thumb t3">
+            <span style="font-size:14px;letter-spacing:.18em;">— COVER —</span>
+            <span class="news-thumb-tag">2026.05.06</span>
+          </div>
+          <div class="news-body">
+            <div class="news-meta">
+              <span class="cat">META</span>
+              <span>2026.05.06</span>
+            </div>
+            <h3 class="news-title">環境メタ予想 ─ 次パック「STAR DECK」で覇権を取るのはどのタイプか</h3>
+            <p class="news-excerpt">公開済みの新カード20枚から逆算する次環境シミュレーション。</p>
+            <div class="news-foot">
+              <div class="author"><span class="av">Y</span>yamamu</div>
+              <a class="btn sm" href="#">読む →</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SECTION No.02 GUIDES ========================================== -->
+    <section class="section" data-screen-label="05 Guides">
+      <div class="section-head">
+        <div class="section-num"><em>No.</em>02</div>
+        <h2 class="section-title">GUIDES<br><span style="font-size:13px;color:var(--ink-3);font-family:'Noto Sans JP',sans-serif;letter-spacing:0;">攻略ガイド・徹底解説</span></h2>
+        <span class="section-jp"><a href="#">すべての記事 →</a></span>
+      </div>
+
+      <div class="guides-grid">
+        <article class="guide g1 tilt">
+          <div class="guide-frame"><div class="guide-inner">
+            <div class="guide-art">
+              <span class="badge">BEGINNER</span><span class="num">01</span>
+              <span style="filter:drop-shadow(0 2px 0 rgba(0,0,0,.3));">⚔</span>
+            </div>
+            <div class="guide-body">
+              <h3 class="guide-title">デッキビルダー入門 ─ 初手60分でTierBに到達するコツ</h3>
+              <p class="guide-desc">序盤に組むべき汎用カードと、エネルギー配分の黄金比を図解。</p>
+              <div class="guide-meta"><span>読了 12 MIN</span><span class="arrow">→</span></div>
+            </div>
+          </div></div>
+        </article>
+
+        <article class="guide g2 tilt">
+          <div class="guide-frame"><div class="guide-inner">
+            <div class="guide-art">
+              <span class="badge">META</span><span class="num">02</span>
+              <span style="filter:drop-shadow(0 2px 0 rgba(0,0,0,.3));">📊</span>
+            </div>
+            <div class="guide-body">
+              <h3 class="guide-title">環境メタを完全把握 ─ Tier別デッキ採用率と勝率データ</h3>
+              <p class="guide-desc">直近1週間の対戦データから抽出した、本物のメタ把握記事。</p>
+              <div class="guide-meta"><span>読了 18 MIN</span><span class="arrow">→</span></div>
+            </div>
+          </div></div>
+        </article>
+
+        <article class="guide g3 tilt">
+          <div class="guide-frame"><div class="guide-inner">
+            <div class="guide-art">
+              <span class="badge">RARITY</span><span class="num">03</span>
+              <span style="filter:drop-shadow(0 2px 0 rgba(0,0,0,.3));">✦</span>
+            </div>
+            <div class="guide-body">
+              <h3 class="guide-title">レアリティ完全一覧 ─ ★1〜★5・キラ・金・虹箔の見分け方</h3>
+              <p class="guide-desc">画像付きで全レアリティを比較。狙うべき順位もランキング形式で。</p>
+              <div class="guide-meta"><span>読了 9 MIN</span><span class="arrow">→</span></div>
+            </div>
+          </div></div>
+        </article>
+
+        <article class="guide g4 tilt">
+          <div class="guide-frame"><div class="guide-inner">
+            <div class="guide-art">
+              <span class="badge">STARTER</span><span class="num">04</span>
+              <span style="filter:drop-shadow(0 2px 0 rgba(0,0,0,.3));">🎁</span>
+            </div>
+            <div class="guide-body">
+              <h3 class="guide-title">スターターデッキ厳選 ─ 初心者が選ぶべきは結局どれ？</h3>
+              <p class="guide-desc">5種類のスターターを徹底比較。長期的な伸びしろも考慮した推奨順。</p>
+              <div class="guide-meta"><span>読了 7 MIN</span><span class="arrow">→</span></div>
+            </div>
+          </div></div>
+        </article>
+
+        <article class="guide g5 tilt">
+          <div class="guide-frame"><div class="guide-inner">
+            <div class="guide-art">
+              <span class="badge">SHOP</span><span class="num">05</span>
+              <span style="filter:drop-shadow(0 2px 0 rgba(0,0,0,.3));">🛒</span>
+            </div>
+            <div class="guide-body">
+              <h3 class="guide-title">ショップ柄まとめ ─ 課金すべきタイミングと狙い目セール</h3>
+              <p class="guide-desc">過去のセール履歴から導く、本当に得な課金スケジュール。</p>
+              <div class="guide-meta"><span>読了 6 MIN</span><span class="arrow">→</span></div>
+            </div>
+          </div></div>
+        </article>
+
+        <article class="guide g6 tilt">
+          <div class="guide-frame"><div class="guide-inner">
+            <div class="guide-art">
+              <span class="badge">UPCOMING</span><span class="num">06</span>
+              <span style="filter:drop-shadow(0 2px 0 rgba(0,0,0,.3));">🔮</span>
+            </div>
+            <div class="guide-body">
+              <h3 class="guide-title">アップデート予想 ─ 次環境を支配するカード5選</h3>
+              <p class="guide-desc">リーク情報と公式の伏線を読み解く、独自視点の未来予測。</p>
+              <div class="guide-meta"><span>読了 11 MIN</span><span class="arrow">→</span></div>
+            </div>
+          </div></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SECTION TIER ================================================== -->
+    <section class="section" data-screen-label="06 Tier">
+      <div class="section-head">
+        <div class="section-num" style="color:var(--tcg-blue);"><em>No.</em>03</div>
+        <h2 class="section-title">ENVIRONMENT TIER<br><span style="font-size:13px;color:var(--ink-3);font-family:'Noto Sans JP',sans-serif;letter-spacing:0;">現環境Tierリスト ─ 2026年5月版</span></h2>
+        <span class="section-jp">勝率データ提供:<a href="#">yamamu lab</a></span>
+      </div>
+
+      <div class="panel yellow">
+        <div class="tier-board">
+          <!-- TIER S -->
+          <div class="tier-row s">
+            <div class="tier-label" data-name="LEGENDARY">S</div>
+            <div class="tier-list">
+              <div class="tier-deck bolt">
+                <div class="mini"></div>
+                <div class="meta"><div class="name">超速BOLTビート</div><div class="pct">勝率 64.2% · 採用 22.1%</div></div>
+              </div>
+              <div class="tier-deck tide">
+                <div class="mini"></div>
+                <div class="meta"><div class="name">TIDEロックコントロール</div><div class="pct">勝率 61.8% · 採用 18.4%</div></div>
+              </div>
+              <div class="tier-deck dragon">
+                <div class="mini"></div>
+                <div class="meta"><div class="name">金枠DRAGONフィニッシャー</div><div class="pct">勝率 60.1% · 採用 9.2%</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TIER A -->
+          <div class="tier-row a">
+            <div class="tier-label" data-name="STRONG">A</div>
+            <div class="tier-list">
+              <div class="tier-deck flame">
+                <div class="mini"></div>
+                <div class="meta"><div class="name">FLAMEブースト</div><div class="pct">勝率 56.3% · 採用 14.8%</div></div>
+              </div>
+              <div class="tier-deck leaf">
+                <div class="mini"></div>
+                <div class="meta"><div class="name">LEAFヒーラー</div><div class="pct">勝率 54.7% · 採用 11.6%</div></div>
+              </div>
+              <div class="tier-deck void">
+                <div class="mini"></div>
+                <div class="meta"><div class="name">VOID 山札破壊</div><div class="pct">勝率 53.4% · 採用 8.9%</div></div>
+              </div>
+              <div class="tier-deck shadow">
+                <div class="mini"></div>
+                <div class="meta"><div class="name">SHADOW 妨害</div><div class="pct">勝率 52.0% · 採用 7.4%</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TIER B -->
+          <div class="tier-row b">
+            <div class="tier-label" data-name="VIABLE">B</div>
+            <div class="tier-list">
+              <div class="tier-deck iron">
+                <div class="mini"></div>
+                <div class="meta"><div class="name">IRON耐久</div><div class="pct">勝率 49.8% · 採用 6.1%</div></div>
+              </div>
+              <div class="tier-deck flame">
+                <div class="mini"></div>
+                <div class="meta"><div class="name">FLAME特攻型</div><div class="pct">勝率 48.4% · 採用 5.2%</div></div>
+              </div>
+              <div class="tier-deck leaf">
+                <div class="mini"></div>
+                <div class="meta"><div class="name">LEAFミルアウト</div><div class="pct">勝率 47.9% · 採用 4.8%</div></div>
+              </div>
+              <div class="tier-deck void">
+                <div class="mini"></div>
+                <div class="meta"><div class="name">VOIDコンボ</div><div class="pct">勝率 46.5% · 採用 3.9%</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION VIDEOS ================================================ -->
+    <section class="section" data-screen-label="07 Videos">
+      <div class="section-head">
+        <div class="section-num" style="color:var(--tcg-amber);"><em>No.</em>04</div>
+        <h2 class="section-title">VIDEO LIBRARY<br><span style="font-size:13px;color:var(--ink-3);font-family:'Noto Sans JP',sans-serif;letter-spacing:0;">yamamuチャンネル動画ライブラリ</span></h2>
+        <span class="section-jp"><a href="#">YouTubeで全部見る →</a></span>
+      </div>
+
+      <div class="video-grid">
+        <article class="video">
+          <div class="video-thumb v1">
+            <span class="video-tag">★ NEW</span>
+            <div class="video-play"></div>
+            <span class="video-dur">14:22</span>
+          </div>
+          <div class="video-body">
+            <h3 class="video-title">【最強デッキ】超速BOLTで連勝してみたら止まらなかった件</h3>
+            <div class="video-meta"><span class="ic">👁 128K</span><span class="ic">💬 1.2K</span><span class="ic">📅 1日前</span></div>
+          </div>
+        </article>
+
+        <article class="video">
+          <div class="video-thumb v2">
+            <span class="video-tag">RANKED</span>
+            <div class="video-play"></div>
+            <span class="video-dur">22:08</span>
+          </div>
+          <div class="video-body">
+            <h3 class="video-title">TIDEロックコントロール解説 ─ 上位1%の立ち回りを完全再現</h3>
+            <div class="video-meta"><span class="ic">👁 84K</span><span class="ic">💬 942</span><span class="ic">📅 3日前</span></div>
+          </div>
+        </article>
+
+        <article class="video">
+          <div class="video-thumb v3">
+            <span class="video-tag">PACK</span>
+            <div class="video-play"></div>
+            <span class="video-dur">18:55</span>
+          </div>
+          <div class="video-body">
+            <h3 class="video-title">新パック開封100連 ─ 金枠は出るのか！？神引き運命の一発</h3>
+            <div class="video-meta"><span class="ic">👁 215K</span><span class="ic">💬 3.4K</span><span class="ic">📅 5日前</span></div>
+          </div>
+        </article>
+
+        <article class="video">
+          <div class="video-thumb v4">
+            <span class="video-tag">META</span>
+            <div class="video-play"></div>
+            <span class="video-dur">11:42</span>
+          </div>
+          <div class="video-body">
+            <h3 class="video-title">環境メタ予想Live ─ 次に流行るタイプはこれだ！視聴者投票結果</h3>
+            <div class="video-meta"><span class="ic">👁 64K</span><span class="ic">💬 588</span><span class="ic">📅 1週間前</span></div>
+          </div>
+        </article>
+
+        <article class="video">
+          <div class="video-thumb v5">
+            <span class="video-tag">VS</span>
+            <div class="video-play"></div>
+            <span class="video-dur">31:16</span>
+          </div>
+          <div class="video-body">
+            <h3 class="video-title">対戦企画 ─ 視聴者ガチデッキ vs yamamuの即興デッキでガチバトル</h3>
+            <div class="video-meta"><span class="ic">👁 102K</span><span class="ic">💬 2.1K</span><span class="ic">📅 1週間前</span></div>
+          </div>
+        </article>
+
+        <article class="video">
+          <div class="video-thumb v6">
+            <span class="video-tag">GUIDE</span>
+            <div class="video-play"></div>
+            <span class="video-dur">9:34</span>
+          </div>
+          <div class="video-body">
+            <h3 class="video-title">初心者必見！3分でわかるレアリティ完全解説 ─ ★1から金枠まで</h3>
+            <div class="video-meta"><span class="ic">👁 55K</span><span class="ic">💬 421</span><span class="ic">📅 2週間前</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SEO BLOCK ===================================================== -->
+    <section class="seo-block" data-screen-label="08 SEO">
+      <h3>ポケポケ攻略Wiki について</h3>
+      <p>「ポケポケ攻略Wiki」は、ゲーム実況YouTuber <strong>yamamu</strong> が運営するTCG Pocket向けの非公式攻略コミュニティです。最新の環境Tier、勝率データに基づいたデッキ評価、レアリティ別の厳選ガイド、新パック情報、初心者向けの手取り足取り解説まで、ライト層からガチ勢まで役立つ情報を毎日更新しています。</p>
+      <p>環境メタの動向は常に変化するため、Tierリストは <strong>毎週月曜日</strong> に更新。デッキ別勝率は直近7日間の対戦データを集計しています。記事内のデッキ構築や運用方法は、yamamuチャンネルの動画と連動しており、動画と合わせて読むことでより深く理解できます。</p>
+      <p>当Wikiの内容に関するご意見・誤情報のご指摘は、コミュニティDiscordまたはX(旧Twitter)までご連絡ください。コミュニティの力で、日本一信頼されるTCG Pocket攻略Wikiを目指しています。</p>
+    </section>
+
+  </div>
+
+  <!-- ============================ ASIDE ============================ -->
+  <aside class="col-aside" data-screen-label="09 Sidebar">
+
+    <div class="aside-card">
+      <div class="aside-head"><span class="ic">▤</span>CATEGORIES</div>
+      <div class="aside-body">
+        <ul class="cat-list">
+          <li><span class="left"><span class="type-chip t-leaf"><span class="dot"></span>LEAF</span> 草タイプデッキ</span><span class="count">42</span></li>
+          <li><span class="left"><span class="type-chip t-flame"><span class="dot"></span>FLAME</span> 火タイプデッキ</span><span class="count">38</span></li>
+          <li><span class="left"><span class="type-chip t-tide"><span class="dot"></span>TIDE</span> 水タイプデッキ</span><span class="count">51</span></li>
+          <li><span class="left"><span class="type-chip t-bolt"><span class="dot"></span>BOLT</span> 雷タイプデッキ</span><span class="count">47</span></li>
+          <li><span class="left"><span class="type-chip t-void"><span class="dot"></span>VOID</span> 超タイプデッキ</span><span class="count">29</span></li>
+          <li><span class="left"><span class="type-chip t-wild"><span class="dot"></span>WILD</span> 闘タイプデッキ</span><span class="count">22</span></li>
+          <li><span class="left"><span class="type-chip t-shadow"><span class="dot"></span>SHADOW</span> 悪タイプデッキ</span><span class="count">18</span></li>
+          <li><span class="left"><span class="type-chip t-iron"><span class="dot"></span>IRON</span> 鋼タイプデッキ</span><span class="count">14</span></li>
+          <li><span class="left"><span class="type-chip t-dragon"><span class="dot"></span>DRAGON</span> ドラゴン</span><span class="count">9</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="aside-card gold">
+      <div class="aside-head"><span class="ic">★</span>YAMAMU'S TOP PICKS</div>
+      <div class="aside-body">
+        <div class="pick-row">
+          <div class="pick-rank">1</div>
+          <div class="pick-body">
+            <div class="pick-title">超速BOLTビート完全マニュアル</div>
+            <div class="pick-meta">★★★★★ · 14分</div>
+          </div>
+        </div>
+        <div class="pick-row">
+          <div class="pick-rank">2</div>
+          <div class="pick-body">
+            <div class="pick-title">TIDEロックの強すぎる立ち回り</div>
+            <div class="pick-meta">★★★★★ · 18分</div>
+          </div>
+        </div>
+        <div class="pick-row">
+          <div class="pick-rank">3</div>
+          <div class="pick-body">
+            <div class="pick-title">金枠DRAGONを引く確率と狙い目</div>
+            <div class="pick-meta">★★★★ · 9分</div>
+          </div>
+        </div>
+        <div class="pick-row">
+          <div class="pick-rank">4</div>
+          <div class="pick-body">
+            <div class="pick-title">トレード機能の最適解 ─ 損しないコツ</div>
+            <div class="pick-meta">★★★★ · 11分</div>
+          </div>
+        </div>
+        <div class="pick-row">
+          <div class="pick-rank">5</div>
+          <div class="pick-body">
+            <div class="pick-title">無課金でTier S到達ロードマップ</div>
+            <div class="pick-meta">★★★★ · 16分</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="aside-card">
+      <div class="aside-head"><span class="ic">📦</span>LATEST PACK</div>
+      <div class="aside-body">
+        <div class="pack-row">
+          <div class="pack-mini"></div>
+          <div class="pack-info">
+            <div class="pack-title">STAR DECK ARCANA</div>
+            <div class="pack-date">2026.05.01 · 配信中</div>
+          </div>
+        </div>
+        <div class="pack-row">
+          <div class="pack-mini b"></div>
+          <div class="pack-info">
+            <div class="pack-title">CRIMSON STORM</div>
+            <div class="pack-date">2026.03.20</div>
+          </div>
+        </div>
+        <div class="pack-row">
+          <div class="pack-mini c"></div>
+          <div class="pack-info">
+            <div class="pack-title">EMERALD GROVE</div>
+            <div class="pack-date">2026.02.05</div>
+          </div>
+        </div>
+        <div class="pack-row">
+          <div class="pack-mini d"></div>
+          <div class="pack-info">
+            <div class="pack-title">VOID GENESIS</div>
+            <div class="pack-date">2025.12.18</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="aside-card">
+      <div class="aside-head"><span class="ic">🔗</span>OFFICIAL LINKS</div>
+      <div class="aside-body">
+        <div class="link-list">
+          <a class="link-row yt" href="#"><span class="ic">▶</span>yamamu YouTube<span class="arrow">↗</span></a>
+          <a class="link-row x"  href="#"><span class="ic">𝕏</span>@yamamu_official<span class="arrow">↗</span></a>
+          <a class="link-row dc" href="#"><span class="ic">DC</span>yamamu Discord<span class="arrow">↗</span></a>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+</main>
+
+<!-- FOOTER -->
+<footer class="foot" data-screen-label="10 Footer">
+  <div class="row">
+    <div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <span class="brand-mark" style="filter:none;"></span>
+        <strong style="font-family:'Russo One',sans-serif;font-size:18px;letter-spacing:.04em;">ポケポケ攻略Wiki</strong>
+      </div>
+      <p class="foot-brand">YAMAMU OFFICIAL · ファン運営の非公式TCG Pocket攻略コミュニティ。最新環境Tier・デッキ構築・レアリティ厳選・初心者ガイドを毎日更新。</p>
+    </div>
+    <div>
+      <h4>WIKI</h4>
+      <ul>
+        <li><a href="#">ホーム</a></li>
+        <li><a href="#">環境デッキ</a></li>
+        <li><a href="#">汎用カード</a></li>
+        <li><a href="#">レアリティ</a></li>
+        <li><a href="#">初心者ガイド</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>YAMAMU</h4>
+      <ul>
+        <li><a href="#">YouTube</a></li>
+        <li><a href="#">X (Twitter)</a></li>
+        <li><a href="#">Discord</a></li>
+        <li><a href="#">配信スケジュール</a></li>
+        <li><a href="#">お問い合わせ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>COMMUNITY</h4>
+      <ul>
+        <li><a href="#">記事を投稿</a></li>
+        <li><a href="#">Tierへ意見</a></li>
+        <li><a href="#">誤情報報告</a></li>
+        <li><a href="#">ライセンス</a></li>
+        <li><a href="#">プライバシー</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">© 2026 YAMAMU OFFICIAL · POCKET WIKI · ALL CARDS ARE PLACEHOLDERS — FAN COMMUNITY SITE</div>
+</footer>
+
+<!-- ========================================================
+     INTERACTIONS
+     ======================================================== -->
+<script>
+  // 3D mouse tilt for any .tilt element
+  document.querySelectorAll('.tilt').forEach(el => {
+    let raf = null;
+    el.addEventListener('mousemove', (e) => {
+      const r = el.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width;
+      const py = (e.clientY - r.top) / r.height;
+      const rx = (py - 0.5) * -10;
+      const ry = (px - 0.5) *  12;
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
+      });
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.transform = '';
+    });
+  });
+
+  // Hero cards: re-apply original rotations on mouseleave (preserve fan layout)
+  const heroCards = document.querySelectorAll('#heroCards .placeholder-card');
+  heroCards.forEach(card => {
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+
+  // Pause ticker on hover
+  const tickerTrack = document.querySelector('.ticker-track');
+  const tickerStream = document.querySelector('.ticker-stream');
+  if (tickerStream && tickerTrack) {
+    tickerStream.addEventListener('mouseenter', () => tickerTrack.style.animationPlayState = 'paused');
+    tickerStream.addEventListener('mouseleave', () => tickerTrack.style.animationPlayState = 'running');
+  }
+</script>
 </body>
 </html>
+

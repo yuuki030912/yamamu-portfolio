@@ -1,248 +1,1472 @@
-<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://tpc.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://img.youtube.com https://pagead2.googlesyndication.com https://www.google.com https://googleads.g.doubleclick.net data:; frame-src https://www.youtube.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://pagead2.googlesyndication.com https://adservice.google.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ぽこポケ 攻略Wiki | やまむーofficial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&family=Mochiy+Pop+One&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- TOKENS ---------- */
+:root{
+  --cream:#fff8ed;
+  --rose-cream:#fff5f7;
+  --mint:#ecfccb;
+  --pink-bg:#fce7f3;
+  --sky-bg:#e0f2fe;
+  --pink:#ec4899;
+  --pink-deep:#db2777;
+  --lime:#84cc16;
+  --lime-deep:#65a30d;
+  --sun:#fde047;
+  --orange:#fb923c;
+  --sky:#38bdf8;
+  --grape:#c084fc;
+  --ink:#4a3a2c;
+  --ink-2:#8a7765;
+  --ink-3:#b8a899;
+  --line:#fbcfe8;
+  --line-soft:#fde9f3;
+  --paper:#ffffff;
+  --shadow-sm:0 2px 0 rgba(74,58,44,.06), 0 4px 16px rgba(236,72,153,.06);
+  --shadow:0 4px 0 rgba(74,58,44,.06), 0 14px 32px rgba(236,72,153,.10);
+  --shadow-lg:0 6px 0 rgba(74,58,44,.07), 0 30px 60px rgba(236,72,153,.16);
+  --r-sm:14px; --r:18px; --r-md:22px; --r-lg:28px; --r-xl:36px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"M PLUS Rounded 1c","Quicksand",system-ui,sans-serif;
+  color:var(--ink);
+  background:var(--cream);
+  font-weight:500;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.mono{font-family:"JetBrains Mono",monospace;letter-spacing:.04em}
+.pop{font-family:"Mochiy Pop One","M PLUS Rounded 1c",sans-serif;font-weight:400}
 
-  <title>ぽこポケ攻略Wiki｜ぽこ あ ポケモン攻略｜やまむー【yamamu】</title>
-  <meta name="description" content="ぽこ あ ポケモン（ぽこポケ）の攻略情報まとめ。序盤の効率的な進め方・ポケモンと仲良くなる方法・街づくりのコツ・素材集めなど初心者に役立つ攻略ガイドを掲載。">
-  <meta name="keywords" content="ぽこあポケモン, ぽこポケ, 攻略, 初心者, 序盤, 街づくり, ポケモン, Switch2, やまむー">
-  <link rel="canonical" href="https://yamamu-youtube.jp/pocoapokemon/">
+/* ---------- BG TEXTURE ---------- */
+.bg-art{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bg-art svg{position:absolute}
+.cloud{opacity:.55}
+.dots{position:absolute;inset:0;background-image:
+  radial-gradient(circle at 8% 12%, rgba(236,72,153,.08) 0 2px, transparent 3px),
+  radial-gradient(circle at 32% 48%, rgba(132,204,22,.08) 0 2px, transparent 3px),
+  radial-gradient(circle at 78% 22%, rgba(56,189,248,.08) 0 2px, transparent 3px),
+  radial-gradient(circle at 60% 80%, rgba(253,224,71,.10) 0 2px, transparent 3px),
+  radial-gradient(circle at 90% 65%, rgba(236,72,153,.08) 0 2px, transparent 3px);
+  background-size:600px 540px;
+}
+.paw{opacity:.18}
 
-  <!-- OGP -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="ぽこポケ攻略Wiki｜やまむー【yamamu】">
-  <meta property="og:description" content="ぽこ あ ポケモン（ぽこポケ）の攻略情報を記事で解説するゲーム攻略サイト。">
-  <meta property="og:url" content="https://yamamu-youtube.jp/pocoapokemon/">
-  <meta property="og:site_name" content="やまむー【yamamu】">
-  <meta property="og:image" content="https://yamamu-youtube.jp/icon.png">
-  <meta property="og:locale" content="ja_JP">
+/* ---------- LAYOUT ---------- */
+.shell{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:0 28px}
+@media (max-width:600px){.shell{padding:0 14px}}
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="ぽこポケ攻略Wiki">
-  <meta name="twitter:description" content="ぽこ あ ポケモンの攻略情報を記事で解説。">
-  <meta name="twitter:image" content="https://yamamu-youtube.jp/icon.png">
+/* ---------- HEADER ---------- */
+.top-bar{
+  background:linear-gradient(90deg,#fde9f3,#ecfccb 50%,#e0f2fe);
+  border-bottom:1px solid var(--line);
+  font-size:12.5px;color:var(--ink-2);
+}
+.top-bar-inner{display:flex;align-items:center;justify-content:space-between;height:32px}
+.top-bar .pill{display:inline-flex;gap:6px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--pink-deep);font-weight:700}
+.top-bar .links{display:flex;gap:16px}
+.top-bar .links a{display:inline-flex;gap:5px;align-items:center}
+.top-bar .links a:hover{color:var(--pink-deep)}
 
-  <!-- JSON-LD: WebSite -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "ぽこポケ攻略Wiki｜やまむー【yamamu】",
-    "url": "https://yamamu-youtube.jp/pocoapokemon/",
-    "description": "ぽこ あ ポケモン（ぽこポケ）の攻略情報を記事で解説するゲーム攻略サイト。",
-    "inLanguage": "ja",
-    "publisher": {
-      "@type": "Organization",
-      "name": "やまむー【yamamu】",
-      "url": "https://yamamu-youtube.jp",
-      "sameAs": [
-        "https://www.youtube.com/@yamamu",
-        "https://twitter.com/YamamuGaming"
-      ]
-    }
-  }
-  </script>
+header.site{
+  position:sticky;top:0;z-index:50;
+  background:rgba(255,248,237,.86);
+  backdrop-filter:blur(14px) saturate(1.1);
+  -webkit-backdrop-filter:blur(14px) saturate(1.1);
+  border-bottom:1px solid var(--line-soft);
+}
+.header-row{display:flex;align-items:center;gap:22px;height:78px}
+.brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.brand-mark{
+  width:46px;height:46px;border-radius:16px;
+  background:radial-gradient(120% 120% at 30% 25%,#ffd5e8,#ec4899 70%);
+  display:grid;place-items:center;
+  box-shadow:0 4px 0 #db2777, 0 10px 24px rgba(236,72,153,.35);
+  position:relative;
+}
+.brand-mark::before{content:"";position:absolute;left:9px;top:8px;width:14px;height:10px;border-radius:50%;background:rgba(255,255,255,.7);transform:rotate(-20deg)}
+.brand-mark svg{width:30px;height:30px;color:#fff}
+.brand-name{line-height:1}
+.brand-name .lg{
+  font-family:"Mochiy Pop One",sans-serif;font-size:22px;letter-spacing:.02em;
+  background:linear-gradient(90deg,#ec4899,#84cc16 70%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.brand-name .sm{font-size:11px;color:var(--ink-2);font-weight:700;letter-spacing:.18em;margin-top:4px}
 
-  <link rel="stylesheet" href="../style.css">
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1697281908647985" crossorigin="anonymous"></script>
+.search{
+  flex:1;max-width:560px;position:relative;
+  background:#fff;border:1.5px solid var(--line);
+  border-radius:24px;height:48px;display:flex;align-items:center;padding:0 16px 0 50px;
+  box-shadow:inset 0 2px 0 rgba(251,207,232,.4);
+  transition:.2s;
+}
+.search:focus-within{border-color:var(--pink);box-shadow:0 0 0 4px rgba(236,72,153,.12)}
+.search svg{position:absolute;left:18px;width:20px;height:20px;color:var(--pink)}
+.search input{flex:1;border:0;outline:none;background:none;font-family:inherit;font-size:14.5px;color:var(--ink);font-weight:500}
+.search input::placeholder{color:var(--ink-3)}
+.search kbd{font-family:"JetBrains Mono",monospace;font-size:11px;background:#fdf2f8;color:var(--pink-deep);border:1px solid var(--line);border-radius:8px;padding:2px 7px;font-weight:700}
+
+.head-actions{display:flex;align-items:center;gap:10px}
+.icon-btn{
+  width:44px;height:44px;border-radius:14px;
+  background:#fff;border:1.5px solid var(--line);
+  display:grid;place-items:center;color:var(--ink);
+  transition:.2s;
+}
+.icon-btn:hover{transform:translateY(-2px);border-color:var(--pink);color:var(--pink-deep);box-shadow:0 6px 0 rgba(251,207,232,.5)}
+.icon-btn svg{width:20px;height:20px}
+.btn-yt{
+  background:linear-gradient(180deg,#ec4899,#db2777);color:#fff;border:0;
+  height:44px;padding:0 18px;border-radius:14px;font-weight:800;font-size:13.5px;
+  letter-spacing:.04em;display:inline-flex;align-items:center;gap:8px;
+  box-shadow:0 4px 0 #be185d, 0 10px 24px rgba(236,72,153,.35);
+  transition:.18s;
+}
+.btn-yt:hover{transform:translateY(-2px);box-shadow:0 6px 0 #be185d, 0 14px 28px rgba(236,72,153,.45)}
+
+/* ---------- GAME SWITCHER ---------- */
+.game-tabs{display:flex;gap:6px;overflow-x:auto;padding:14px 0 16px;border-bottom:1px dashed var(--line)}
+.game-tabs::-webkit-scrollbar{display:none}
+.game-tab{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#fff;border:1.5px solid var(--line-soft);
+  padding:8px 14px;border-radius:999px;
+  font-size:13px;font-weight:700;color:var(--ink-2);white-space:nowrap;
+  transition:.18s;
+}
+.game-tab .dot{width:10px;height:10px;border-radius:50%;background:var(--ink-3)}
+.game-tab:hover{border-color:var(--line);color:var(--ink);transform:translateY(-1px)}
+.game-tab.active{
+  background:linear-gradient(180deg,#fff,#fde9f3);
+  color:var(--pink-deep);border-color:var(--pink);
+  box-shadow:0 3px 0 var(--line);
+}
+.game-tab.active .dot{background:var(--pink);box-shadow:0 0 0 3px rgba(236,72,153,.2)}
+.game-tab .badge{font-size:10px;background:var(--lime);color:#3f5c0c;padding:1px 6px;border-radius:6px;font-weight:800;letter-spacing:.05em}
+
+/* ---------- MAIN NAV ---------- */
+.main-nav{
+  display:flex;gap:4px;align-items:flex-end;
+  padding:10px 0 0;
+  position:relative;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.main-nav::-webkit-scrollbar{display:none}
+.nav-item{
+  position:relative;
+  padding:14px 18px 16px;
+  font-size:14.5px;font-weight:700;color:var(--ink-2);
+  white-space:nowrap;display:inline-flex;align-items:center;gap:7px;
+  transition:.18s;
+}
+.nav-item:hover{color:var(--pink-deep)}
+.nav-item.active{color:var(--pink-deep)}
+.nav-item.active::after{
+  content:"";position:absolute;left:14px;right:14px;bottom:-1px;
+  height:4px;background:var(--pink);border-radius:4px 4px 0 0;
+  box-shadow:0 -2px 0 #fff inset, 0 0 12px rgba(236,72,153,.4);
+}
+.nav-item svg{width:18px;height:18px}
+
+/* ---------- LAYOUT GRID ---------- */
+.body-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:38px;padding:32px 0 80px}
+.body-grid > main{min-width:0}
+@media (max-width:1180px){.body-grid{grid-template-columns:minmax(0,1fr) 290px;gap:28px}}
+@media (max-width:1024px){.body-grid{grid-template-columns:1fr}.sidebar{display:none}}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative;
+  background:
+    radial-gradient(70% 80% at 50% 0%, rgba(253,224,71,.30), transparent 60%),
+    radial-gradient(60% 60% at 85% 90%, rgba(132,204,22,.20), transparent 70%),
+    radial-gradient(60% 60% at 12% 90%, rgba(236,72,153,.18), transparent 70%),
+    linear-gradient(180deg,#fff5f7,#fff8ed 50%,#ecfccb);
+  border:1.5px solid #fff;
+  border-radius:var(--r-xl);
+  padding:54px 40px 56px;
+  box-shadow:var(--shadow-lg), inset 0 0 0 1px rgba(251,207,232,.4);
+  overflow:hidden;
+  text-align:center;
+}
+.hero::before{
+  /* sun */
+  content:"";position:absolute;top:-110px;left:50%;transform:translateX(-50%);
+  width:340px;height:340px;border-radius:50%;
+  background:radial-gradient(circle,#fde047,#fbbf24 60%,transparent 70%);
+  opacity:.38;filter:blur(8px);
+}
+.hero .yamamu-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#fff;border:2px solid var(--pink);
+  padding:7px 16px;border-radius:999px;
+  font-weight:800;font-size:12.5px;letter-spacing:.05em;color:var(--pink-deep);
+  box-shadow:0 4px 0 var(--line);
+  position:relative;z-index:2;
+}
+.hero .yamamu-badge .bolt{
+  width:18px;height:18px;background:var(--sun);border-radius:50%;
+  display:grid;place-items:center;font-size:11px;
+  box-shadow:0 0 0 3px rgba(253,224,71,.4);
+}
+.hero h1{
+  position:relative;z-index:2;
+  font-family:"Mochiy Pop One",sans-serif;font-weight:400;
+  font-size:clamp(38px,6.4vw,82px);
+  line-height:1.06;letter-spacing:.01em;
+  margin:18px 0 14px;
+  background:linear-gradient(180deg,#ec4899 0%,#db2777 40%,#84cc16 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 4px 0 rgba(255,255,255,.85)) drop-shadow(0 8px 14px rgba(236,72,153,.18));
+}
+.hero h1 .dotty{position:relative;display:inline-block}
+.hero h1 .dotty::after{content:"";position:absolute;left:50%;bottom:-6px;width:14px;height:14px;border-radius:50%;background:#ec4899;transform:translateX(-50%);box-shadow:0 0 0 4px #fff}
+.hero p.tag{
+  position:relative;z-index:2;
+  font-size:clamp(15px,1.4vw,18px);font-weight:700;color:var(--ink);
+  margin:0 auto 4px;max-width:640px;
+}
+.hero .meta-row{
+  position:relative;z-index:2;
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
+  margin-top:22px;
+}
+.hero .meta-pill{
+  background:#fff;border:1.5px solid var(--line);
+  padding:8px 14px;border-radius:999px;font-size:12.5px;font-weight:700;color:var(--ink);
+  display:inline-flex;align-items:center;gap:8px;
+  box-shadow:0 3px 0 rgba(251,207,232,.5);
+}
+.hero .meta-pill b{color:var(--pink-deep)}
+.hero .meta-pill .sw{display:inline-block;width:10px;height:10px;border-radius:3px}
+
+.hero-cta{
+  position:relative;z-index:2;
+  display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:28px;
+}
+.cta{
+  height:54px;padding:0 26px;border-radius:18px;
+  font-weight:800;font-size:15px;letter-spacing:.02em;
+  display:inline-flex;align-items:center;gap:10px;transition:.2s;
+}
+.cta-pink{
+  background:linear-gradient(180deg,#ec4899,#db2777);color:#fff;
+  box-shadow:0 5px 0 #be185d, 0 14px 28px rgba(236,72,153,.35);
+}
+.cta-pink:hover{transform:translateY(-3px);box-shadow:0 8px 0 #be185d, 0 18px 32px rgba(236,72,153,.5)}
+.cta-lime{
+  background:linear-gradient(180deg,#a3e635,#65a30d);color:#1a2c00;
+  box-shadow:0 5px 0 #4d7c0f, 0 14px 24px rgba(132,204,22,.35);
+}
+.cta-lime:hover{transform:translateY(-3px);box-shadow:0 8px 0 #4d7c0f, 0 18px 32px rgba(132,204,22,.45)}
+
+/* floating mascot */
+.mascot{
+  position:absolute;width:140px;height:140px;
+  border-radius:50% 50% 48% 48%;
+  background:radial-gradient(120% 120% at 30% 25%,#ffd5e8,#ec4899 70%);
+  box-shadow:0 18px 30px rgba(236,72,153,.3), inset -12px -16px 0 rgba(190,24,93,.18);
+  animation:bob 4.5s ease-in-out infinite;
+  z-index:1;
+}
+.mascot::before{content:"";position:absolute;left:24%;top:30%;width:18px;height:22px;background:#3a1a26;border-radius:50%}
+.mascot::after{content:"";position:absolute;right:24%;top:30%;width:18px;height:22px;background:#3a1a26;border-radius:50%}
+.mascot .smile{position:absolute;left:50%;top:54%;transform:translateX(-50%);width:32px;height:18px;border:3px solid #3a1a26;border-top:0;border-radius:0 0 28px 28px}
+.mascot .blush-l, .mascot .blush-r{position:absolute;top:48%;width:18px;height:10px;border-radius:50%;background:#f472b6;opacity:.7}
+.mascot .blush-l{left:14%}.mascot .blush-r{right:14%}
+.mascot.left{left:3%;top:38%;width:96px;height:96px;animation-delay:-1.2s;transform:rotate(-6deg)}
+.mascot.right{right:3%;top:18%;width:120px;height:120px;animation-delay:-2.4s;transform:rotate(8deg)}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-14px) rotate(var(--r,0deg))}}
+
+/* hero cloud bumps */
+.hero .cloudie{position:absolute;background:#fff;border-radius:999px;opacity:.85;filter:drop-shadow(0 4px 0 rgba(251,207,232,.3))}
+.hero .c1{top:30px;left:8%;width:90px;height:34px}
+.hero .c2{top:80px;right:14%;width:72px;height:28px}
+
+/* ---------- NEWS TICKER ---------- */
+.ticker{
+  margin-top:22px;
+  background:#fff;border:1.5px solid var(--line);
+  border-radius:18px;height:54px;
+  display:flex;align-items:center;gap:14px;padding:0 0 0 18px;overflow:hidden;
+  box-shadow:var(--shadow-sm);
+}
+.ticker-label{
+  background:linear-gradient(180deg,#ec4899,#db2777);color:#fff;
+  height:36px;padding:0 14px;border-radius:12px;font-weight:800;font-size:12px;letter-spacing:.1em;
+  display:inline-flex;align-items:center;gap:6px;flex-shrink:0;
+}
+.ticker-track{flex:1;min-width:0;overflow:hidden;position:relative;mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.ticker-track ul{display:flex;gap:34px;list-style:none;margin:0;padding:0;animation:ticker 38s linear infinite;white-space:nowrap}
+.ticker-track li{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:var(--ink)}
+.ticker-track li b{color:var(--pink-deep)}
+.ticker-track li .tag{font-size:10.5px;background:var(--mint);color:#3f5c0c;padding:2px 8px;border-radius:6px;font-weight:800;letter-spacing:.04em}
+.ticker-track li .tag.new{background:#fef3c7;color:#92400e}
+.ticker-track li .tag.up{background:var(--pink-bg);color:var(--pink-deep)}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ---------- SECTIONS ---------- */
+section{margin-top:54px}
+.section-head{display:flex;align-items:flex-end;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+.sec-no{
+  font-family:"JetBrains Mono",monospace;
+  font-size:12px;font-weight:700;color:var(--pink-deep);
+  background:#fff;border:1.5px dashed var(--line);
+  padding:6px 12px;border-radius:10px;letter-spacing:.08em;
+}
+.sec-title{
+  font-family:"Mochiy Pop One",sans-serif;
+  font-size:clamp(26px,3.2vw,38px);font-weight:400;line-height:1.05;letter-spacing:.01em;
+  color:var(--ink);position:relative;display:inline-block;
+}
+.sec-title em{font-style:normal;color:var(--pink-deep)}
+.sec-title::after{
+  content:"";position:absolute;left:-4px;right:-4px;bottom:2px;height:10px;
+  background:var(--line);border-radius:6px;z-index:-1;opacity:.85;
+}
+.sec-sub{font-size:13px;color:var(--ink-2);margin-left:auto;font-weight:500}
+.sec-sub a{color:var(--pink-deep);font-weight:800;display:inline-flex;align-items:center;gap:4px;border-bottom:2px solid var(--line);padding-bottom:1px}
+.sec-sub a:hover{color:var(--pink);border-color:var(--pink)}
+
+/* ---------- FEATURED ---------- */
+.featured{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:18px;grid-template-rows:auto}
+@media (max-width:920px){.featured{grid-template-columns:1fr 1fr}.featured > .feat-card:first-child{grid-column:1/-1}}
+@media (max-width:560px){.featured{grid-template-columns:1fr}.featured > .feat-card:first-child{grid-column:auto}}
+.feat-card{
+  position:relative;background:#fff;border:1.5px solid var(--line);
+  border-radius:var(--r-lg);overflow:hidden;
+  box-shadow:var(--shadow);transition:.25s;
+  display:flex;flex-direction:column;
+}
+.feat-card:hover{transform:translateY(-6px);box-shadow:0 14px 0 rgba(251,207,232,.25), 0 28px 50px rgba(236,72,153,.22);border-color:var(--pink)}
+.feat-thumb{aspect-ratio:16/10;position:relative;overflow:hidden}
+.feat-card:first-child .feat-thumb{aspect-ratio:16/11}
+.feat-thumb .ribbon{
+  position:absolute;top:14px;left:14px;z-index:2;
+  background:#fff;color:var(--pink-deep);
+  padding:6px 12px;border-radius:999px;font-weight:800;font-size:11px;letter-spacing:.08em;
+  border:1.5px solid var(--pink);box-shadow:0 3px 0 rgba(251,207,232,.5);
+}
+.feat-thumb .play{
+  position:absolute;right:14px;bottom:14px;width:48px;height:48px;border-radius:50%;
+  background:#fff;display:grid;place-items:center;color:var(--pink-deep);
+  box-shadow:0 6px 16px rgba(0,0,0,.18);z-index:2;
+}
+.feat-body{padding:20px 22px 24px;display:flex;flex-direction:column;gap:10px;flex:1}
+.feat-cat{font-size:11px;color:var(--pink-deep);font-weight:800;letter-spacing:.1em;display:flex;align-items:center;gap:8px}
+.feat-cat::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--pink)}
+.feat-title{font-size:18px;font-weight:800;color:var(--ink);line-height:1.4;text-wrap:pretty}
+.feat-card:first-child .feat-title{font-size:24px}
+.feat-meta{display:flex;align-items:center;gap:10px;color:var(--ink-2);font-size:12.5px;font-weight:600;margin-top:auto}
+.feat-meta .dot{width:4px;height:4px;border-radius:50%;background:var(--ink-3)}
+.feat-readbtn{
+  align-self:flex-start;margin-top:6px;
+  background:linear-gradient(180deg,#fff5f7,#fde9f3);
+  border:1.5px solid var(--pink);color:var(--pink-deep);
+  padding:8px 16px;border-radius:999px;font-weight:800;font-size:12.5px;
+  display:inline-flex;align-items:center;gap:6px;transition:.18s;
+}
+.feat-readbtn:hover{background:var(--pink);color:#fff;transform:translateX(3px)}
+
+/* art-thumb generators */
+.art-thumb{position:absolute;inset:0;overflow:hidden}
+.at-1{background:linear-gradient(135deg,#fce7f3,#fbcfe8 50%,#fde047)}
+.at-2{background:linear-gradient(135deg,#ecfccb,#a3e635 70%,#65a30d)}
+.at-3{background:linear-gradient(135deg,#e0f2fe,#bae6fd 70%,#38bdf8)}
+.at-4{background:linear-gradient(135deg,#fff5f7,#fbcfe8 50%,#c084fc)}
+.at-5{background:linear-gradient(135deg,#fef3c7,#fde047 60%,#fb923c)}
+.at-6{background:linear-gradient(135deg,#ddd6fe,#c4b5fd 60%,#a78bfa)}
+
+.art-thumb .sun{position:absolute;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#fde047,#fbbf24);opacity:.65;top:-30px;right:-30px;filter:blur(2px)}
+.art-thumb .hill-a{position:absolute;left:-10%;right:-10%;bottom:-30%;height:70%;background:#bef264;border-radius:50%}
+.art-thumb .hill-b{position:absolute;left:-20%;right:-20%;bottom:-45%;height:80%;background:#a3e635;border-radius:50%;opacity:.85}
+.art-thumb .blob{position:absolute;border-radius:50% 50% 48% 48%;background:radial-gradient(120% 120% at 30% 25%,#ffd5e8,#ec4899 75%);box-shadow:inset -10px -12px 0 rgba(190,24,93,.22)}
+.art-thumb .cloud-mini{position:absolute;background:#fff;border-radius:999px;opacity:.8}
+.art-thumb .label-mono{position:absolute;left:18px;bottom:14px;font-family:"JetBrains Mono",monospace;font-size:10.5px;color:rgba(74,58,44,.55);font-weight:600;letter-spacing:.08em;background:rgba(255,255,255,.8);padding:3px 8px;border-radius:6px}
+
+/* feat 1 — village + metamon */
+.f-village .blob{width:90px;height:90px;left:50%;top:42%;transform:translateX(-50%)}
+.f-village .blob::before{content:"";position:absolute;left:26%;top:32%;width:10px;height:14px;background:#3a1a26;border-radius:50%}
+.f-village .blob::after{content:"";position:absolute;right:26%;top:32%;width:10px;height:14px;background:#3a1a26;border-radius:50%}
+.f-village .house{position:absolute;width:50px;height:50px;left:18%;bottom:32%;background:#fff5f7;border:2px solid var(--pink);border-radius:8px}
+.f-village .house::before{content:"";position:absolute;left:-8px;right:-8px;top:-22px;height:24px;background:#ec4899;clip-path:polygon(0 100%,50% 0,100% 100%)}
+.f-village .house2{position:absolute;width:42px;height:38px;right:14%;bottom:28%;background:#ecfccb;border:2px solid var(--lime);border-radius:6px}
+.f-village .house2::before{content:"";position:absolute;left:-7px;right:-7px;top:-18px;height:20px;background:#84cc16;clip-path:polygon(0 100%,50% 0,100% 100%)}
+
+/* feat 2 — fishing */
+.f-fish .pond{position:absolute;left:-10%;right:-10%;bottom:-15%;height:55%;background:radial-gradient(60% 60% at 50% 30%,#bae6fd,#7dd3fc);border-radius:50%}
+.f-fish .pond::after{content:"";position:absolute;inset:18% 30%;border:2px solid #fff;border-radius:50%;opacity:.7;border-top-color:transparent;border-left-color:transparent}
+.f-fish .rod{position:absolute;width:4px;height:60%;background:linear-gradient(180deg,#92400e,#78350f);right:34%;top:14%;transform:rotate(20deg);border-radius:4px}
+.f-fish .fish{position:absolute;width:36px;height:22px;background:#fb923c;border-radius:50% 30% 30% 50%;right:20%;bottom:25%;box-shadow:inset -6px -4px 0 #ea580c}
+.f-fish .fish::before{content:"";position:absolute;right:-8px;top:4px;width:12px;height:14px;background:#fb923c;clip-path:polygon(0 50%,100% 0,100% 100%)}
+
+/* feat 3 — cooking */
+.f-cook .table{position:absolute;left:0;right:0;bottom:0;height:38%;background:linear-gradient(180deg,#d97706,#92400e)}
+.f-cook .plate{position:absolute;left:50%;bottom:24%;transform:translateX(-50%);width:140px;height:18px;background:#fff;border-radius:50%;box-shadow:0 4px 0 #e5d5c0}
+.f-cook .pie{position:absolute;left:50%;bottom:30%;transform:translateX(-50%);width:90px;height:42px;background:radial-gradient(60% 60% at 50% 30%,#fde68a,#f59e0b);border-radius:50% 50% 40% 40%;box-shadow:inset 0 -4px 0 #d97706}
+.f-cook .berry{position:absolute;width:14px;height:14px;border-radius:50%;background:#ec4899;box-shadow:inset -3px -3px 0 #be185d}
+.f-cook .b1{left:42%;bottom:54%}
+.f-cook .b2{left:54%;bottom:58%}
+.f-cook .steam{position:absolute;width:6px;height:24px;background:rgba(255,255,255,.65);border-radius:6px;top:18%}
+.f-cook .s1{left:44%;animation:steam 2s ease-in-out infinite}
+.f-cook .s2{left:52%;animation:steam 2s ease-in-out infinite .4s}
+.f-cook .s3{left:48%;top:8%;animation:steam 2s ease-in-out infinite .8s}
+@keyframes steam{0%,100%{opacity:.4;transform:translateY(0) scale(1)}50%{opacity:.85;transform:translateY(-10px) scale(1.1)}}
+
+/* ---------- GUIDES ---------- */
+.guides{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media (max-width:900px){.guides{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.guides{grid-template-columns:1fr}}
+.guide{
+  position:relative;border-radius:var(--r-lg);
+  padding:24px 22px 22px;min-height:200px;
+  border:1.5px solid #fff;
+  box-shadow:var(--shadow);
+  transition:.22s;overflow:hidden;
+  display:flex;flex-direction:column;gap:12px;
+}
+.guide:hover{transform:translateY(-6px);box-shadow:0 14px 0 rgba(251,207,232,.3), 0 30px 50px rgba(236,72,153,.22)}
+.guide.g1{background:linear-gradient(160deg,#fff5f7,#fce7f3 60%,#fbcfe8)}
+.guide.g2{background:linear-gradient(160deg,#fff8ed,#fef3c7 60%,#fde047)}
+.guide.g3{background:linear-gradient(160deg,#e0f2fe,#bae6fd 60%,#7dd3fc)}
+.guide.g4{background:linear-gradient(160deg,#fef3c7,#fed7aa 60%,#fb923c)}
+.guide.g5{background:linear-gradient(160deg,#ecfccb,#d9f99d 60%,#a3e635)}
+.guide.g6{background:linear-gradient(160deg,#f3e8ff,#e9d5ff 60%,#c084fc)}
+.guide-icon{
+  width:64px;height:64px;border-radius:20px;
+  background:#fff;display:grid;place-items:center;color:var(--pink-deep);
+  box-shadow:0 4px 0 rgba(0,0,0,.06);
+  position:relative;
+}
+.guide-icon svg{width:34px;height:34px}
+.guide-no{position:absolute;top:18px;right:20px;font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;color:rgba(74,58,44,.4);letter-spacing:.08em}
+.guide h3{font-size:20px;font-weight:800;color:var(--ink);margin:6px 0 0;letter-spacing:.01em;line-height:1.2}
+.guide p{font-size:13px;color:var(--ink-2);line-height:1.6;margin:0;flex:1}
+.guide .gtags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.guide .gtag{font-size:11px;font-weight:700;background:rgba(255,255,255,.7);color:var(--ink);padding:4px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.9)}
+.guide .gmeta{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--ink-2);font-weight:700}
+.guide .gmeta .arrow{
+  width:32px;height:32px;border-radius:50%;background:#fff;
+  display:grid;place-items:center;color:var(--pink-deep);
+  box-shadow:0 3px 0 rgba(0,0,0,.06);transition:.18s;
+}
+.guide:hover .gmeta .arrow{transform:translateX(4px) rotate(-8deg);background:var(--pink);color:#fff}
+.guide-deco{position:absolute;right:-30px;bottom:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.4);pointer-events:none}
+
+/* ---------- DEX ---------- */
+.dex{
+  background:#fff;border:1.5px solid var(--line);border-radius:var(--r-lg);
+  padding:30px;box-shadow:var(--shadow);
+  display:grid;grid-template-columns:1.05fr 1.4fr;gap:30px;
+}
+@media (max-width:780px){.dex{grid-template-columns:1fr}}
+.dex-stats h3{font-family:"Mochiy Pop One",sans-serif;font-weight:400;font-size:24px;margin:0 0 6px;color:var(--ink)}
+.dex-stats .lead{font-size:13px;color:var(--ink-2);margin:0 0 22px;line-height:1.6}
+.bigcount{display:flex;align-items:baseline;gap:6px;margin-bottom:14px}
+.bigcount .num{font-family:"Mochiy Pop One",sans-serif;font-size:62px;line-height:1;color:var(--pink-deep)}
+.bigcount .of{font-family:"Mochiy Pop One",sans-serif;font-size:22px;color:var(--ink-2)}
+.bigcount .lbl{font-size:12px;color:var(--ink-2);font-weight:700;margin-left:8px;letter-spacing:.08em}
+.dex-bar{
+  height:18px;background:var(--pink-bg);border-radius:999px;overflow:hidden;
+  position:relative;border:1.5px solid #fff;box-shadow:inset 0 2px 0 rgba(251,207,232,.6);
+}
+.dex-bar::after{
+  content:"";position:absolute;left:0;top:0;height:100%;width:64.5%;
+  background:linear-gradient(90deg,#fde047,#84cc16 50%,#ec4899);
+  border-radius:999px;
+  box-shadow:inset 0 -3px 0 rgba(0,0,0,.06);
+}
+.dex-stats .barmeta{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-2);font-weight:700;margin-top:8px;font-family:"JetBrains Mono",monospace;letter-spacing:.04em}
+.dex-types{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:22px}
+.type-pill{padding:9px 8px;border-radius:12px;font-size:11.5px;font-weight:800;text-align:center;color:#fff;letter-spacing:.04em}
+.t-grass{background:#84cc16}.t-fire{background:#fb923c}.t-water{background:#38bdf8}
+.t-pink{background:#ec4899}.t-elec{background:#fbbf24;color:#5b3a00}.t-bug{background:#a3e635;color:#3f5c0c}
+
+.dex-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.crit-card{
+  background:linear-gradient(170deg,#fff5f7,#fff);
+  border:1.5px solid var(--line);border-radius:18px;
+  padding:14px 12px 12px;text-align:center;position:relative;
+  transition:.22s;
+}
+.crit-card:nth-child(2){background:linear-gradient(170deg,#ecfccb,#fff)}
+.crit-card:nth-child(3){background:linear-gradient(170deg,#e0f2fe,#fff)}
+.crit-card:hover{transform:translateY(-4px) rotate(-1deg);box-shadow:0 10px 24px rgba(236,72,153,.18);border-color:var(--pink)}
+.crit-card .num{position:absolute;top:8px;left:10px;font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;color:var(--ink-3);letter-spacing:.08em}
+.crit-card .heart{position:absolute;top:8px;right:10px;color:#ec4899;font-size:14px}
+.crit-card .figure{
+  margin:14px auto 8px;width:84px;height:84px;border-radius:50%;
+  display:grid;place-items:center;
+  background:radial-gradient(circle at 30% 30%,#fff,rgba(255,255,255,0));
+  position:relative;
+}
+.crit-card .figure svg{width:80px;height:80px;filter:drop-shadow(0 4px 6px rgba(0,0,0,.08))}
+.crit-card h4{font-size:14px;font-weight:800;color:var(--ink);margin:0;letter-spacing:.02em}
+.crit-card .crit-meta{display:flex;justify-content:center;gap:5px;margin-top:4px}
+.crit-card .crit-meta span{font-size:10px;font-weight:800;padding:2px 7px;border-radius:6px;color:#fff}
+
+/* ---------- BUILDER BANNER ---------- */
+.builder{
+  position:relative;
+  background:
+    radial-gradient(60% 100% at 18% 50%,rgba(192,132,252,.4),transparent 70%),
+    radial-gradient(60% 100% at 82% 30%,rgba(56,189,248,.4),transparent 70%),
+    linear-gradient(135deg,#fde047 0%,#fbbf24 30%,#fb923c 100%);
+  border-radius:var(--r-lg);padding:34px 38px;
+  border:1.5px solid #fff;box-shadow:var(--shadow);
+  display:grid;grid-template-columns:1.3fr 1fr;align-items:center;gap:30px;
+  overflow:hidden;
+}
+@media (max-width:780px){.builder{grid-template-columns:1fr}}
+.builder::before{
+  content:"";position:absolute;left:-50px;bottom:-50px;width:200px;height:200px;border-radius:50%;
+  background:#fff;opacity:.18;
+}
+.builder-tag{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--pink-deep);padding:6px 14px;border-radius:999px;font-weight:800;font-size:12px;letter-spacing:.06em;width:fit-content}
+.builder h3{font-family:"Mochiy Pop One",sans-serif;font-weight:400;font-size:clamp(24px,3vw,34px);line-height:1.15;color:#3a2a08;margin:14px 0 10px}
+.builder p{font-size:14px;color:#5b4514;font-weight:700;line-height:1.7;margin:0 0 18px;max-width:480px}
+.builder-cta{display:flex;gap:10px;flex-wrap:wrap}
+.builder-cta .b1{background:#3a2a08;color:#fde047;height:50px;padding:0 22px;border-radius:14px;font-weight:800;font-size:14px;display:inline-flex;align-items:center;gap:8px;box-shadow:0 5px 0 #1a1500;transition:.18s}
+.builder-cta .b1:hover{transform:translateY(-3px);box-shadow:0 8px 0 #1a1500}
+.builder-cta .b2{background:#fff;color:#3a2a08;height:50px;padding:0 22px;border-radius:14px;font-weight:800;font-size:14px;display:inline-flex;align-items:center;gap:8px;box-shadow:0 5px 0 rgba(58,42,8,.2)}
+.builder-cta .b2:hover{transform:translateY(-3px);box-shadow:0 8px 0 rgba(58,42,8,.2)}
+
+.iso{position:relative;height:240px}
+.iso .block{
+  position:absolute;width:80px;height:80px;
+  background:linear-gradient(135deg,#fff,#fde047);
+  transform-style:preserve-3d;
+  border-radius:8px;
+  box-shadow:0 8px 0 #d97706, 0 14px 28px rgba(0,0,0,.18);
+  border:2px solid #fff;
+}
+.iso .b1{top:80px;left:60px;background:linear-gradient(135deg,#fce7f3,#ec4899);box-shadow:0 8px 0 #be185d, 0 14px 28px rgba(236,72,153,.4)}
+.iso .b2{top:60px;left:140px;background:linear-gradient(135deg,#bae6fd,#38bdf8);box-shadow:0 8px 0 #0369a1, 0 14px 28px rgba(56,189,248,.4)}
+.iso .b3{top:130px;left:110px;background:linear-gradient(135deg,#d9f99d,#84cc16);box-shadow:0 8px 0 #4d7c0f, 0 14px 28px rgba(132,204,22,.4)}
+.iso .b4{top:30px;left:200px;background:linear-gradient(135deg,#fff,#fde047);box-shadow:0 8px 0 #d97706, 0 14px 28px rgba(253,224,71,.4);width:60px;height:60px;animation:floaty 3s ease-in-out infinite}
+.iso .b5{top:160px;left:200px;background:linear-gradient(135deg,#f3e8ff,#c084fc);box-shadow:0 8px 0 #7e22ce, 0 14px 28px rgba(192,132,252,.4);width:60px;height:60px}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(2deg)}50%{transform:translateY(-12px) rotate(-2deg)}}
+
+/* ---------- VIDEO LIBRARY ---------- */
+.videos{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:880px){.videos{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.videos{grid-template-columns:1fr}}
+.vid{
+  background:#fff;border:1.5px solid var(--line);
+  border-radius:20px;overflow:hidden;
+  box-shadow:var(--shadow-sm);transition:.22s;
+}
+.vid:hover{transform:translateY(-5px);box-shadow:0 12px 0 rgba(251,207,232,.25), 0 22px 40px rgba(236,72,153,.18);border-color:var(--pink)}
+.vid-thumb{aspect-ratio:16/9;position:relative;overflow:hidden}
+.vid-thumb .duration{position:absolute;right:10px;bottom:10px;background:rgba(58,28,38,.85);color:#fff;font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;padding:4px 8px;border-radius:8px;z-index:2}
+.vid-thumb .play2{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;background:rgba(236,72,153,.95);color:#fff;display:grid;place-items:center;box-shadow:0 8px 24px rgba(236,72,153,.5);z-index:2;transition:.2s}
+.vid:hover .play2{transform:translate(-50%,-50%) scale(1.1)}
+.vid-body{padding:14px 16px 16px}
+.vid-cat{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--lime-deep);margin-bottom:6px}
+.vid h4{font-size:14.5px;font-weight:800;color:var(--ink);line-height:1.45;margin:0 0 8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.vid-meta{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--ink-2);font-weight:600}
+.vid-meta .views{display:inline-flex;align-items:center;gap:4px}
+
+/* ---------- SIDEBAR ---------- */
+.sidebar{display:flex;flex-direction:column;gap:22px}
+.side-card{
+  background:#fff;border:1.5px solid var(--line);border-radius:var(--r-lg);
+  padding:22px 22px 24px;box-shadow:var(--shadow-sm);position:relative;
+}
+.side-card.cream{background:linear-gradient(180deg,#fff5f7,#fff)}
+.side-card.mint{background:linear-gradient(180deg,#ecfccb,#fff)}
+.side-title{font-family:"Mochiy Pop One",sans-serif;font-weight:400;font-size:18px;color:var(--ink);margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.side-title .b{display:inline-block;width:8px;height:8px;border-radius:3px;background:var(--pink)}
+.side-sub{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--ink-2);font-weight:700;letter-spacing:.1em;margin-bottom:14px}
+
+.cat-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.cat-list a{
+  display:flex;align-items:center;gap:11px;
+  padding:10px 12px;border-radius:14px;font-size:13.5px;font-weight:700;color:var(--ink);
+  transition:.16s;
+}
+.cat-list a:hover{background:var(--pink-bg);color:var(--pink-deep);transform:translateX(4px)}
+.cat-list a .ic{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;color:#fff;flex-shrink:0}
+.cat-list a .ic svg{width:16px;height:16px}
+.cat-list a .ct{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-3);font-weight:700}
+.cat-list .i1{background:var(--pink)}.cat-list .i2{background:var(--lime)}
+.cat-list .i3{background:var(--sky)}.cat-list .i4{background:var(--orange)}
+.cat-list .i5{background:var(--grape)}.cat-list .i6{background:var(--pink-deep)}
+.cat-list .i7{background:#fbbf24;color:#5b3a00}.cat-list .i8{background:#10b981}
+
+.pick{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.pick:last-child{border-bottom:0}
+.pick-num{font-family:"Mochiy Pop One",sans-serif;font-size:24px;color:var(--pink);width:30px;flex-shrink:0;line-height:1}
+.pick h5{font-size:13px;font-weight:800;color:var(--ink);margin:0 0 4px;line-height:1.4;text-wrap:pretty}
+.pick .pmeta{font-size:11px;color:var(--ink-2);font-weight:700;display:flex;align-items:center;gap:8px}
+.pick .pmeta .pin{color:var(--pink-deep)}
+
+.daily-card{padding:18px}
+.daily-fig{
+  background:radial-gradient(circle at 30% 30%,#fff5f7,#fce7f3);
+  border-radius:18px;padding:18px;display:grid;place-items:center;
+  position:relative;margin-bottom:12px;
+}
+.daily-fig::before{content:"#048";position:absolute;top:10px;left:14px;font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;color:rgba(74,58,44,.4);letter-spacing:.08em}
+.daily-fig::after{content:"";position:absolute;inset:0;border-radius:18px;background-image:radial-gradient(circle,rgba(236,72,153,.12) 1px,transparent 1.5px);background-size:14px 14px;opacity:.6;pointer-events:none}
+.daily-name{font-size:18px;font-weight:800;color:var(--ink);text-align:center;margin:0 0 6px}
+.daily-tag{font-size:11px;font-weight:700;color:var(--ink-2);text-align:center;letter-spacing:.05em}
+.daily-tag b{color:var(--pink-deep)}
+.daily-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:14px}
+.daily-stats div{background:var(--cream);border-radius:10px;padding:8px 4px;text-align:center}
+.daily-stats span{display:block}
+.daily-stats .lab{font-size:9.5px;font-weight:800;color:var(--ink-2);letter-spacing:.08em}
+.daily-stats .val{font-family:"Mochiy Pop One",sans-serif;font-size:16px;color:var(--ink);margin-top:2px}
+
+.links-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lk{
+  background:var(--cream);border:1.5px solid var(--line);border-radius:14px;
+  padding:14px 12px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;
+  transition:.18s;
+}
+.lk:hover{transform:translateY(-2px);border-color:var(--pink);background:#fff}
+.lk .ic{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;color:#fff}
+.lk .ic.yt{background:#dc2626}.lk .ic.x{background:#0f172a}.lk .ic.web{background:var(--lime)}.lk .ic.dc{background:#5865f2}
+.lk .name{font-size:11.5px;font-weight:800;color:var(--ink)}
+.lk .sub{font-size:10px;color:var(--ink-2);font-weight:700}
+.lk.full{grid-column:span 2}
+
+/* ---------- SEO BLOCK ---------- */
+.seo-block{
+  margin-top:60px;background:linear-gradient(180deg,#fff,#fff5f7);
+  border:1.5px solid var(--line);border-radius:var(--r-lg);
+  padding:34px 38px;box-shadow:var(--shadow-sm);
+}
+.seo-block h2{font-family:"Mochiy Pop One",sans-serif;font-weight:400;font-size:24px;color:var(--ink);margin:0 0 14px}
+.seo-block p{font-size:13.5px;color:var(--ink-2);line-height:1.85;margin:0 0 14px}
+.seo-block .keys{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.seo-block .keys span{font-size:11px;font-weight:700;background:var(--pink-bg);color:var(--pink-deep);padding:5px 10px;border-radius:999px;border:1px solid var(--line)}
+
+/* ---------- FOOTER ---------- */
+footer{
+  margin-top:60px;background:linear-gradient(180deg,#fff5f7,#fce7f3 50%,#fbcfe8);
+  border-top:1.5px solid var(--line);
+  padding:40px 0 24px;
+  position:relative;z-index:1;
+}
+.foot-grid{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:30px}
+@media (max-width:780px){.foot-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.foot-grid{grid-template-columns:1fr}}
+.foot-brand p{font-size:12.5px;color:var(--ink-2);line-height:1.7;margin:14px 0 0}
+.foot-col h5{font-family:"Mochiy Pop One",sans-serif;font-weight:400;font-size:14px;color:var(--ink);margin:0 0 12px}
+.foot-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.foot-col a{font-size:12.5px;color:var(--ink-2);font-weight:600}
+.foot-col a:hover{color:var(--pink-deep)}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:30px;padding-top:20px;border-top:1px dashed rgba(190,24,93,.3);font-size:11.5px;color:var(--ink-2);font-weight:600;flex-wrap:wrap;gap:10px}
+.foot-bottom .legal{display:flex;gap:14px}
+
+/* ---------- TINY UTIL ---------- */
+.scroll-top{
+  position:fixed;right:24px;bottom:24px;width:54px;height:54px;border-radius:50%;
+  background:linear-gradient(180deg,#ec4899,#db2777);color:#fff;
+  display:grid;place-items:center;box-shadow:0 8px 0 #be185d, 0 14px 30px rgba(236,72,153,.4);
+  z-index:40;transition:.2s;
+}
+.scroll-top:hover{transform:translateY(-4px) rotate(-8deg)}
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1697281908647985" crossorigin="anonymous"></script>
 </head>
 <body>
-  <!-- ヘッダー -->
-  <header class="header">
-    <a href="index.html" class="header-left" style="text-decoration:none">
-      <img src="../icon.png" alt="やまむー" class="header-icon" width="32" height="32">
-      <span class="logo-text">ぽこポケ攻略Wiki</span>
-    </a>
-    <div class="header-right">
-      <button class="theme-toggle" id="themeToggle" title="テーマ切替" aria-label="ダークモード切替">
-        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-          <path fill="#606060" d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
-        </svg>
-      </button>
-    </div>
-  </header>
 
-  <nav class="game-nav" aria-label="ゲーム選択">
-    <a href="../index.html" class="game-nav-link">トップ</a>
-    <a href="../inazuma/" class="game-nav-link">イナイレV</a>
-    <a href="../pokepoke/" class="game-nav-link">ポケポケ</a>
-    <a href="../pocoapokemon/" class="game-nav-link active">ぽこポケ</a>
-  </nav>
+<!-- ===== BACKGROUND TEXTURE ===== -->
+<div class="bg-art" aria-hidden="true">
+  <div class="dots"></div>
+  <!-- clouds -->
+  <svg class="cloud" style="top:140px;left:-40px;width:220px" viewBox="0 0 200 80"><ellipse cx="50" cy="50" rx="50" ry="22" fill="#fff"/><ellipse cx="100" cy="38" rx="38" ry="28" fill="#fff"/><ellipse cx="150" cy="50" rx="42" ry="24" fill="#fff"/></svg>
+  <svg class="cloud" style="top:380px;right:-40px;width:260px" viewBox="0 0 200 80"><ellipse cx="50" cy="50" rx="50" ry="22" fill="#fff"/><ellipse cx="100" cy="38" rx="44" ry="30" fill="#fff"/><ellipse cx="150" cy="50" rx="42" ry="24" fill="#fff"/></svg>
+  <svg class="cloud" style="top:920px;left:8%;width:180px" viewBox="0 0 200 80"><ellipse cx="50" cy="50" rx="50" ry="20" fill="#fff"/><ellipse cx="100" cy="38" rx="38" ry="28" fill="#fff"/><ellipse cx="150" cy="50" rx="42" ry="24" fill="#fff"/></svg>
+  <!-- paws -->
+  <svg class="paw" style="top:480px;left:5%;width:46px" viewBox="0 0 60 60" fill="#ec4899"><circle cx="14" cy="20" r="6"/><circle cx="30" cy="12" r="6.5"/><circle cx="46" cy="20" r="6"/><ellipse cx="30" cy="40" rx="14" ry="11"/></svg>
+  <svg class="paw" style="top:1240px;right:6%;width:54px" viewBox="0 0 60 60" fill="#84cc16"><circle cx="14" cy="20" r="6"/><circle cx="30" cy="12" r="6.5"/><circle cx="46" cy="20" r="6"/><ellipse cx="30" cy="40" rx="14" ry="11"/></svg>
+  <svg class="paw" style="top:2200px;left:4%;width:40px;transform:rotate(20deg)" viewBox="0 0 60 60" fill="#38bdf8"><circle cx="14" cy="20" r="6"/><circle cx="30" cy="12" r="6.5"/><circle cx="46" cy="20" r="6"/><ellipse cx="30" cy="40" rx="14" ry="11"/></svg>
+  <!-- butterfly -->
+  <svg style="top:760px;right:14%;width:50px;opacity:.5" viewBox="0 0 60 60"><ellipse cx="20" cy="22" rx="14" ry="18" fill="#c084fc"/><ellipse cx="40" cy="22" rx="14" ry="18" fill="#c084fc"/><ellipse cx="20" cy="42" rx="10" ry="14" fill="#f0abfc"/><ellipse cx="40" cy="42" rx="10" ry="14" fill="#f0abfc"/><circle cx="30" cy="30" r="4" fill="#4a3a2c"/></svg>
+</div>
 
-  <!-- ヒーロー -->
-  <section class="wiki-hero">
-    <div class="wiki-hero-inner">
-      <h1 class="wiki-hero-title">ぽこ あ ポケモン 攻略Wiki</h1>
-      <p class="wiki-hero-subtitle">やまむー｜スローライフ・サンドボックス攻略</p>
-    </div>
-  </section>
-
-  <!-- メインコンテンツ -->
-  <div style="max-width:800px; margin:0 auto; padding:40px 24px;">
-
-    <!-- ゲーム紹介 -->
-    <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:24px; margin-bottom:24px;">
-      <h2 style="font-size:18px; font-weight:700; color:var(--text-primary); margin-bottom:12px;">ぽこ あ ポケモンとは？</h2>
-      <p style="font-size:14px; color:var(--text-secondary); line-height:1.8; margin-bottom:0;">
-        2026年3月5日発売のNintendo Switch 2専用ソフト。ポケモンシリーズ初のスローライフ・サンドボックスゲームです。人間に変身したメタモンとなり、ポケモンたちと協力して荒れ果てた街を復興させていきます。バトル要素はなく、街づくり・クラフト・料理・探索をのんびり楽しむゲームです。
-      </p>
-    </div>
-
-    <!-- 基本攻略 -->
-    <h2 style="font-size:18px; font-weight:700; color:var(--text-primary); margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--accent);">基本攻略</h2>
-
-    <a href="guide-beginner.html" style="display:block; background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:16px 20px; text-decoration:none; transition:background 0.2s; margin-bottom:10px;">
-      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-        <span style="font-size:15px; font-weight:700; color:var(--text-primary);">初心者攻略ガイド｜序盤の効率的な進め方</span>
+<!-- ===== TOP BAR ===== -->
+<div class="top-bar">
+  <div class="shell">
+    <div class="top-bar-inner">
+      <span class="pill">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8 5.8 21.3l2.4-7.4L2 9.4h7.6z"/></svg>
+        やまむーofficial 公認Wiki
+      </span>
+      <div class="links">
+        <a href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 6.6a4 4 0 0 0-2.8-2.8C16.4 3.2 12 3.2 12 3.2s-4.4 0-6.8.6A4 4 0 0 0 2.4 6.6C1.8 9 1.8 12 1.8 12s0 3 .6 5.4a4 4 0 0 0 2.8 2.8c2.4.6 6.8.6 6.8.6s4.4 0 6.8-.6a4 4 0 0 0 2.8-2.8c.6-2.4.6-5.4.6-5.4s0-3-.6-5.4zM10 15.5v-7l6 3.5z"/></svg> YouTube</a>
+        <a href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 3h3l-7 8 8 10h-6l-5-6-5 6H3l7-9-8-9h6l5 6z"/></svg> X</a>
+        <a href="#">📮 お問合せ</a>
+        <a href="#">🛠 編集に参加</a>
       </div>
-      <p style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin:0;">序盤にやるべきこと・ポケモンと仲良くなる方法・街づくりの基本を完全網羅。</p>
-    </a>
-
-    <a href="guide-money.html" style="display:block; background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:16px 20px; text-decoration:none; transition:background 0.2s; margin-bottom:10px;">
-      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-        <span style="background:var(--accent); color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px;">NEW</span>
-        <span style="font-size:15px; font-weight:700; color:var(--text-primary);">金策ガイド｜ライフコインの効率的な稼ぎ方</span>
-      </div>
-      <p style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin:0;">日がわりチャレンジ・スタンプ集め・時間操作テクニックでコインを効率よく稼ぐ方法。</p>
-    </a>
-
-    <a href="guide-shop.html" style="display:block; background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:16px 20px; text-decoration:none; transition:background 0.2s; margin-bottom:10px;">
-      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-        <span style="background:var(--accent); color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px;">NEW</span>
-        <span style="font-size:15px; font-weight:700; color:var(--text-primary);">ショップおすすめ｜優先購入アイテム一覧</span>
-      </div>
-      <p style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin:0;">バッグ整理のコツ最優先！序盤に買うべきアイテムを優先度順に解説。</p>
-    </a>
-
-    <a href="guide-missable.html" style="display:block; background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:16px 20px; text-decoration:none; transition:background 0.2s; margin-bottom:24px;">
-      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-        <span style="background:var(--accent); color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px;">NEW</span>
-        <span style="font-size:15px; font-weight:700; color:var(--text-primary);">取り返しのつかない要素まとめ</span>
-      </div>
-      <p style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin:0;">にじいろのはね・ぎんいろのはねは5枚残せ！後悔しないための注意点。</p>
-    </a>
-
-    <!-- わざ・ポケモン -->
-    <h2 style="font-size:18px; font-weight:700; color:var(--text-primary); margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--accent);">わざ・ポケモン</h2>
-
-    <a href="guide-moves.html" style="display:block; background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:16px 20px; text-decoration:none; transition:background 0.2s; margin-bottom:10px;">
-      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-        <span style="background:var(--accent); color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px;">NEW</span>
-        <span style="font-size:15px; font-weight:700; color:var(--text-primary);">メタモンのわざ一覧｜覚え方と使い方</span>
-      </div>
-      <p style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin:0;">全わざの効果・教えてくれるポケモン・序盤おすすめ取得順を完全網羅。</p>
-    </a>
-
-    <a href="guide-pp.html" style="display:block; background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:16px 20px; text-decoration:none; transition:background 0.2s; margin-bottom:10px;">
-      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-        <span style="background:var(--accent); color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px;">NEW</span>
-        <span style="font-size:15px; font-weight:700; color:var(--text-primary);">PP回復方法とわざ強化｜料理で技を強くするコツ</span>
-      </div>
-      <p style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin:0;">PP回復アイテム・ポイントアップ・料理によるわざ強化の仕組みを解説。</p>
-    </a>
-
-    <a href="guide-habitat.html" style="display:block; background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:16px 20px; text-decoration:none; transition:background 0.2s; margin-bottom:10px;">
-      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-        <span style="background:var(--accent); color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px;">NEW</span>
-        <span style="font-size:15px; font-weight:700; color:var(--text-primary);">生息地づくりガイド｜ポケモンと友達になる方法</span>
-      </div>
-      <p style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin:0;">キラキラ探し→生息地図鑑→素材配置でポケモンを呼ぶ方法を解説。</p>
-    </a>
-
-    <a href="guide-legendary.html" style="display:block; background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:16px 20px; text-decoration:none; transition:background 0.2s; margin-bottom:24px;">
-      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-        <span style="background:var(--accent); color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px;">NEW</span>
-        <span style="font-size:15px; font-weight:700; color:var(--text-primary);">伝説ポケモンの入手方法｜出現条件とリセマラ</span>
-      </div>
-      <p style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin:0;">ゆめしまの地下に出現する伝説ポケモンの見つけ方・ミュウの入手方法を解説。</p>
-    </a>
-
-    <!-- 生活・建築 -->
-    <h2 style="font-size:18px; font-weight:700; color:var(--text-primary); margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--accent);">生活・建築</h2>
-
-    <a href="guide-cooking.html" style="display:block; background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:16px 20px; text-decoration:none; transition:background 0.2s; margin-bottom:10px;">
-      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-        <span style="background:var(--accent); color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px;">NEW</span>
-        <span style="font-size:15px; font-weight:700; color:var(--text-primary);">料理ガイド｜作り方とおすすめレシピ</span>
-      </div>
-      <p style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin:0;">ゴツゴツ山で解放。きのみジュース大量生産が序盤の鉄板。</p>
-    </a>
-
-    <a href="guide-craft.html" style="display:block; background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:16px 20px; text-decoration:none; transition:background 0.2s; margin-bottom:10px;">
-      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-        <span style="background:var(--accent); color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px;">NEW</span>
-        <span style="font-size:15px; font-weight:700; color:var(--text-primary);">クラフト攻略｜レシピ入手方法と素材集め</span>
-      </div>
-      <p style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin:0;">黄色いモンスターボールでレシピ入手。ストライクでざいもく大量生産。</p>
-    </a>
-
-    <a href="guide-building.html" style="display:block; background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:16px 20px; text-decoration:none; transition:background 0.2s; margin-bottom:10px;">
-      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-        <span style="background:var(--accent); color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px;">NEW</span>
-        <span style="font-size:15px; font-weight:700; color:var(--text-primary);">建築ガイド｜おしゃれな街づくりのコツ</span>
-      </div>
-      <p style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin:0;">けんちくキットで簡単＆おしゃれ。ブロック積みで自由設計も可能。</p>
-    </a>
-
-    <a href="guide-environment.html" style="display:block; background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:16px 20px; text-decoration:none; transition:background 0.2s; margin-bottom:24px;">
-      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-        <span style="background:var(--accent); color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px;">NEW</span>
-        <span style="font-size:15px; font-weight:700; color:var(--text-primary);">環境レベルの上げ方｜すみごこち改善ガイド</span>
-      </div>
-      <p style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin:0;">温度・水・明るさの3要素を管理してショップ品揃え＆チャレンジを解放。</p>
-    </a>
-
-    <!-- 冒険 -->
-    <h2 style="font-size:18px; font-weight:700; color:var(--text-primary); margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--accent);">冒険</h2>
-
-    <a href="guide-dreamisland.html" style="display:block; background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:16px 20px; text-decoration:none; transition:background 0.2s; margin-bottom:24px;">
-      <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-        <span style="background:var(--accent); color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:4px;">NEW</span>
-        <span style="font-size:15px; font-weight:700; color:var(--text-primary);">ゆめしま攻略｜行き方・やるべきこと・周回方法</span>
-      </div>
-      <p style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin:0;">フワンテのおねがいクリアで解放。毎日1回、ほしのすな集め＆伝説探しへ。</p>
-    </a>
-
-    <!-- リクエスト -->
-    <div style="background:var(--chip-bg); border-radius:8px; padding:16px; margin-top:8px; font-size:13px; color:var(--text-secondary); line-height:1.8;">
-      攻略記事のリクエストは <a href="https://twitter.com/YamamuGaming" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">X (Twitter)</a> でお気軽にどうぞ。
     </div>
   </div>
+</div>
 
-  <!-- フッター -->
-  <footer class="footer">
-    <nav class="footer-nav" aria-label="フッターナビゲーション">
-      <a href="../index.html">ポータル</a>
-      <a href="../inazuma/">イナイレV攻略</a>
-      <a href="../pokepoke/">ポケポケ攻略</a>
-      <a href="guide-beginner.html">初心者ガイド</a>
-      <a href="guide-money.html">金策ガイド</a>
-      <a href="guide-shop.html">ショップ</a>
-      <a href="guide-moves.html">わざ一覧</a>
-      <a href="guide-pp.html">PP回復</a>
-      <a href="guide-cooking.html">料理</a>
-      <a href="guide-craft.html">クラフト</a>
-      <a href="guide-building.html">建築</a>
-      <a href="guide-environment.html">環境レベル</a>
-      <a href="guide-habitat.html">生息地</a>
-      <a href="guide-dreamisland.html">ゆめしま</a>
-      <a href="guide-legendary.html">伝説ポケモン</a>
-      <a href="guide-missable.html">注意点</a>
-      <a href="../about.html">運営者情報</a>
-      <a href="../privacy.html">プライバシーポリシー</a>
-      <a href="../contact.html">お問い合わせ</a>
-      <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
-      <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
+<!-- ===== HEADER ===== -->
+<header class="site">
+  <div class="shell">
+    <div class="header-row">
+      <a class="brand" href="index.html">
+        <div class="brand-mark">
+          <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 4c-7 0-12 5-12 11 0 4 2 7 5 9-1 1-1 2-1 3l1 1c2 0 4-1 5-2 0 0 1 0 2 0s2 0 2 0c1 1 3 2 5 2l1-1c0-1 0-2-1-3 3-2 5-5 5-9 0-6-5-11-12-11z"/></svg>
+        </div>
+        <div class="brand-name">
+          <div class="lg">ぽこポケ攻略Wiki</div>
+          <div class="sm">POCOAPOKEMON · GUIDE WIKI</div>
+        </div>
+      </a>
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input placeholder="ポケモン・レシピ・建築アイテムを検索…" />
+        <kbd>⌘K</kbd>
+      </div>
+      <div class="head-actions">
+        <button class="icon-btn" aria-label="テーマ切替" title="テーマ切替">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="ブックマーク" title="ブックマーク">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></svg>
+        </button>
+        <a class="btn-yt" href="https://www.youtube.com/@yamamu_games" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 6.6a4 4 0 0 0-2.8-2.8C16.4 3.2 12 3.2 12 3.2s-4.4 0-6.8.6A4 4 0 0 0 2.4 6.6C1.8 9 1.8 12 1.8 12s0 3 .6 5.4a4 4 0 0 0 2.8 2.8c2.4.6 6.8.6 6.8.6s4.4 0 6.8-.6a4 4 0 0 0 2.8-2.8c.6-2.4.6-5.4.6-5.4s0-3-.6-5.4zM10 15.5v-7l6 3.5z"/></svg>
+          チャンネル登録
+        </a>
+      </div>
+    </div>
+
+    <!-- game switcher -->
+    <div class="game-tabs">
+      <a class="game-tab" href="../index.html"><span class="dot"></span>トップ</a>
+      <a class="game-tab" href="../inazuma/"><span class="dot" style="background:#fb923c"></span>イナイレV</a>
+      <a class="game-tab" href="../pokepoke/"><span class="dot" style="background:#fbbf24"></span>ポケポケ</a>
+      <a class="game-tab active" href="index.html"><span class="dot"></span>ぽこポケ <span class="badge">NEW</span></a>
+      </div>
+
+    <!-- main nav -->
+    <nav class="main-nav">
+      <a class="nav-item active" href="index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z"/></svg>
+        ホーム
+      </a>
+      <a class="nav-item" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2l9 4v12l-9 4-9-4V6z"/></svg>
+        初心者ガイド
+      </a>
+      <a class="nav-item" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        チズ作り
+      </a>
+      <a class="nav-item" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 18c4 0 6-2 6-6s-2-6-6-6"/><circle cx="18" cy="12" r="2"/></svg>
+        釣り
+      </a>
+      <a class="nav-item" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 3v6c0 4 3 6 7 6s7-2 7-6V3M12 15v6"/></svg>
+        料理
+      </a>
+      <a class="nav-item" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-7h6v7"/></svg>
+        街づくり
+      </a>
+      <a class="nav-item" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16v16H4z"/><circle cx="12" cy="12" r="4"/></svg>
+        ポケモン図鑑
+      </a>
+      <a class="nav-item" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12l9-5 9 5-9 5z M3 17l9 5 9-5"/></svg>
+        建築シミ
+      </a>
+      <a class="nav-item" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2c3 4 3 16 0 20M12 2c-3 4-3 16 0 20"/></svg>
+        マルチ
+      </a>
     </nav>
-    <p>&copy; 2026 やまむー【yamamu】. All rights reserved.</p>
-  </footer>
+  </div>
+</header>
 
-  <script src="../theme.js"></script>
+<!-- ===== BODY ===== -->
+<div class="shell body-grid">
+  <main>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="cloudie c1"></div>
+      <div class="cloudie c2"></div>
+      <div class="mascot left"></div>
+      <div class="mascot right"></div>
+      <span class="yamamu-badge"><span class="bolt">⚡</span> やまむーofficial · POWERED BY 視聴者の愛</span>
+      <h1>
+        ぽこ<span class="dotty">ポケ</span><br/>
+        攻略Wiki
+      </h1>
+      <p class="tag">ポケモンとつくる、メタモンのスローライフ。<br/>毎日コツコツ、やまむーと一緒に世界を耕そう。</p>
+      <div class="meta-row">
+        <span class="meta-pill"><span class="sw" style="background:#ec4899"></span>Switch 2 専用 · <b>2026.03.05 発売</b></span>
+        <span class="meta-pill"><span class="sw" style="background:#fbbf24"></span>Metacritic <b>89</b></span>
+        <span class="meta-pill"><span class="sw" style="background:#84cc16"></span>バトルなし · <b>ファミリー向け</b></span>
+        <span class="meta-pill"><span class="sw" style="background:#38bdf8"></span>サンドボックス・スローライフ</span>
+      </div>
+      <div class="hero-cta">
+        <a class="cta cta-pink" href="#">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3v18l15-9z"/></svg>
+          初心者ガイドを見る
+        </a>
+        <a class="cta cta-lime" href="#">
+          🌱 街づくり攻略を始める
+        </a>
+      </div>
+    </div>
+
+    <!-- TICKER -->
+    <div class="ticker">
+      <span class="ticker-label">📣 NEWS</span>
+      <div class="ticker-track">
+        <ul>
+          <li><span class="tag new">UPDATE</span> Ver.<b>1.4.0</b> 春の大型アップデート配信開始 · 新ポケモン<b>23匹</b>追加</li>
+          <li><span class="tag">DEX</span> ポケモン図鑑 <b>97 / 151</b> 達成 · 残りはレア5匹</li>
+          <li><span class="tag up">EVENT</span> 期間限定「<b>柿豊豊り会</b>」開催中 · 〜04/30</li>
+          <li><span class="tag new">VIDEO</span> やまむー新作「<b>メタモンで300人街つくってみた</b>」公開</li>
+          <li><span class="tag">GUIDE</span> <b>釣り神</b>になるための7つのコツを更新</li>
+          <li><span class="tag up">COMMUNITY</span> 視聴者の街自慢コンテスト 結果発表</li>
+        </ul>
+        <ul aria-hidden="true">
+          <li><span class="tag new">UPDATE</span> Ver.<b>1.4.0</b> 春の大型アップデート配信開始 · 新ポケモン<b>23匹</b>追加</li>
+          <li><span class="tag">DEX</span> ポケモン図鑑 <b>97 / 151</b> 達成 · 残りはレア5匹</li>
+          <li><span class="tag up">EVENT</span> 期間限定「<b>柿豊豊り会</b>」開催中 · 〜04/30</li>
+          <li><span class="tag new">VIDEO</span> やまむー新作「<b>メタモンで300人街つくってみた</b>」公開</li>
+          <li><span class="tag">GUIDE</span> <b>釣り神</b>になるための7つのコツを更新</li>
+          <li><span class="tag up">COMMUNITY</span> 視聴者の街自慢コンテスト 結果発表</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FEATURED -->
+    <section>
+      <div class="section-head">
+        <span class="sec-no">No.01 / FEATURED</span>
+        <h2 class="sec-title">いま注目の <em>記事</em></h2>
+        <span class="sec-sub"><a href="#">記事一覧 →</a></span>
+      </div>
+      <div class="featured">
+        <article class="feat-card">
+          <div class="feat-thumb">
+            <span class="ribbon">⭐ EDITOR'S PICK</span>
+            <div class="art-thumb at-1 f-village">
+              <div class="sun"></div>
+              <div class="cloud-mini" style="top:18%;left:14%;width:60px;height:18px"></div>
+              <div class="cloud-mini" style="top:26%;right:10%;width:46px;height:16px"></div>
+              <div class="hill-b"></div>
+              <div class="hill-a"></div>
+              <div class="house"></div>
+              <div class="house2"></div>
+              <div class="blob"></div>
+              <span class="label-mono">// hero village shot</span>
+            </div>
+            <button class="play"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3v18l15-9z"/></svg></button>
+          </div>
+          <div class="feat-body">
+            <span class="feat-cat">街づくりガイド · BEGINNER</span>
+            <h3 class="feat-title">最初の3日でやるべき7つのこと —— メタモンの拠点作り完全ロードマップ</h3>
+            <div class="feat-meta">
+              <span>👤 やまむー</span><span class="dot"></span>
+              <span>🕒 12分</span><span class="dot"></span>
+              <span>👁 24,387 views</span>
+            </div>
+            <a class="feat-readbtn" href="#">読む →</a>
+          </div>
+        </article>
+
+        <article class="feat-card">
+          <div class="feat-thumb">
+            <div class="art-thumb at-3 f-fish">
+              <div class="cloud-mini" style="top:14%;left:18%;width:50px;height:16px"></div>
+              <div class="pond"></div>
+              <div class="rod"></div>
+              <div class="fish"></div>
+              <span class="label-mono">// fishing scene</span>
+            </div>
+          </div>
+          <div class="feat-body">
+            <span class="feat-cat">釣りガイド</span>
+            <h3 class="feat-title">伝説のポケモン「キンギョン」が釣れる時間と場所まとめ</h3>
+            <div class="feat-meta">
+              <span>🕒 8分</span><span class="dot"></span>
+              <span>👁 18.2k</span>
+            </div>
+            <a class="feat-readbtn" href="#">読む →</a>
+          </div>
+        </article>
+
+        <article class="feat-card">
+          <div class="feat-thumb">
+            <div class="art-thumb at-5 f-cook">
+              <div class="cloud-mini" style="top:8%;right:14%;width:46px;height:14px"></div>
+              <div class="steam s1"></div><div class="steam s2"></div><div class="steam s3"></div>
+              <div class="table"></div>
+              <div class="plate"></div>
+              <div class="pie"></div>
+              <div class="berry b1"></div><div class="berry b2"></div>
+              <span class="label-mono">// cooking still</span>
+            </div>
+          </div>
+          <div class="feat-body">
+            <span class="feat-cat">料理レシピ</span>
+            <h3 class="feat-title">ポケモンが大喜びする「ふわふわベリーパイ」の作り方</h3>
+            <div class="feat-meta">
+              <span>🕒 6分</span><span class="dot"></span>
+              <span>👁 11.7k</span>
+            </div>
+            <a class="feat-readbtn" href="#">読む →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- GUIDES -->
+    <section>
+      <div class="section-head">
+        <span class="sec-no">No.02 / GUIDES</span>
+        <h2 class="sec-title">攻略 <em>ガイド</em></h2>
+        <span class="sec-sub"><a href="#">全カテゴリ →</a></span>
+      </div>
+      <div class="guides">
+
+        <a class="guide g1" href="#">
+          <span class="guide-no">01</span>
+          <div class="guide-icon" style="color:#db2777">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 26L16 6l12 20z"/><path d="M10 26v-6h12v6"/></svg>
+          </div>
+          <h3>初心者ガイド</h3>
+          <p>始めたばかりのトレーナー必見。最初の1週間でやるべきこと、変身の使い方、お金稼ぎの基本までやさしく解説。</p>
+          <div class="gtags">
+            <span class="gtag">入門</span><span class="gtag">基本操作</span><span class="gtag">変身</span>
+          </div>
+          <div class="gmeta">
+            <span>📚 24記事</span>
+            <span class="arrow">→</span>
+          </div>
+          <div class="guide-deco"></div>
+        </a>
+
+        <a class="guide g2" href="#">
+          <span class="guide-no">02</span>
+          <div class="guide-icon" style="color:#a16207">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="22" height="22" rx="2"/><path d="M5 12h22M12 5v22"/></svg>
+          </div>
+          <h3>チズ作り</h3>
+          <p>島全体のレイアウト計画から、川と道のひき方、おしゃれな配置パターンまで。実例マップ20点を公開中。</p>
+          <div class="gtags">
+            <span class="gtag">設計図</span><span class="gtag">レイアウト</span>
+          </div>
+          <div class="gmeta">
+            <span>📚 18記事</span>
+            <span class="arrow">→</span>
+          </div>
+          <div class="guide-deco"></div>
+        </a>
+
+        <a class="guide g3" href="#">
+          <span class="guide-no">03</span>
+          <div class="guide-icon" style="color:#0369a1">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22c4 0 6-3 6-6s-2-6-6-6"/><circle cx="22" cy="14" r="3"/><path d="M10 16h12"/></svg>
+          </div>
+          <h3>釣りガイド</h3>
+          <p>季節と時間帯ごとに釣れるポケモンが変わる。レアポケモンの釣り場、おすすめエサ、コツを完全網羅。</p>
+          <div class="gtags">
+            <span class="gtag">レア魚</span><span class="gtag">時間帯</span><span class="gtag">エサ</span>
+          </div>
+          <div class="gmeta">
+            <span>📚 14記事</span>
+            <span class="arrow">→</span>
+          </div>
+          <div class="guide-deco"></div>
+        </a>
+
+        <a class="guide g4" href="#">
+          <span class="guide-no">04</span>
+          <div class="guide-icon" style="color:#c2410c">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6v8c0 4 3 6 8 6s8-2 8-6V6"/><path d="M16 20v6"/></svg>
+          </div>
+          <h3>料理レシピ</h3>
+          <p>ポケモンの好物をマスターしよう。120種以上のレシピ、効率の良い素材集め、料理コンテスト攻略まで。</p>
+          <div class="gtags">
+            <span class="gtag">レシピ</span><span class="gtag">好物</span>
+          </div>
+          <div class="gmeta">
+            <span>📚 32記事</span>
+            <span class="arrow">→</span>
+          </div>
+          <div class="guide-deco"></div>
+        </a>
+
+        <a class="guide g5" href="#">
+          <span class="guide-no">05</span>
+          <div class="guide-icon" style="color:#4d7c0f">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 28h24M6 28V12l10-7 10 7v16M12 28v-9h8v9"/></svg>
+          </div>
+          <h3>街づくり</h3>
+          <p>住人が増える条件、建物のアンロック、人気の街レイアウト。やまむー流「ポケモンが集まる街」の作り方。</p>
+          <div class="gtags">
+            <span class="gtag">建物</span><span class="gtag">住人</span><span class="gtag">レイアウト</span>
+          </div>
+          <div class="gmeta">
+            <span>📚 28記事</span>
+            <span class="arrow">→</span>
+          </div>
+          <div class="guide-deco"></div>
+        </a>
+
+        <a class="guide g6" href="#">
+          <span class="guide-no">06</span>
+          <div class="guide-icon" style="color:#7e22ce">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="20" height="20" rx="2"/><circle cx="16" cy="16" r="5"/><circle cx="16" cy="16" r="2" fill="currentColor"/></svg>
+          </div>
+          <h3>ポケモン図鑑</h3>
+          <p>全151種の出現場所、好物、なつき度の上げ方。レアポケモンの呼び寄せ条件と進化チャートも完備。</p>
+          <div class="gtags">
+            <span class="gtag">151種</span><span class="gtag">出現条件</span>
+          </div>
+          <div class="gmeta">
+            <span>📚 151記事</span>
+            <span class="arrow">→</span>
+          </div>
+          <div class="guide-deco"></div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- DEX PROGRESS -->
+    <section>
+      <div class="section-head">
+        <span class="sec-no">No.03 / POKE-DEX</span>
+        <h2 class="sec-title">ポケモン <em>図鑑</em></h2>
+        <span class="sec-sub"><a href="#">図鑑トップ →</a></span>
+      </div>
+      <div class="dex">
+        <div class="dex-stats">
+          <h3>みんなの登録進捗</h3>
+          <p class="lead">やまむー視聴者全体の図鑑コンプ進捗。残り54匹はレア・季節限定が中心です。</p>
+          <div class="bigcount">
+            <span class="num">97</span><span class="of">/ 151</span>
+            <span class="lbl mono">DEX-COMPLETION</span>
+          </div>
+          <div class="dex-bar"></div>
+          <div class="barmeta">
+            <span>dex001 - dex097 ✓</span>
+            <span>残り54匹</span>
+          </div>
+          <div class="dex-types">
+            <span class="type-pill t-grass">くさ 18</span>
+            <span class="type-pill t-fire">ほのお 12</span>
+            <span class="type-pill t-water">みず 22</span>
+            <span class="type-pill t-pink">ピンク 8</span>
+            <span class="type-pill t-elec">でんき 9</span>
+            <span class="type-pill t-bug">むし 14</span>
+          </div>
+        </div>
+        <div>
+          <div class="dex-grid">
+            <!-- creature 1 — leaf-blob -->
+            <div class="crit-card">
+              <span class="num">No.001</span><span class="heart">♥</span>
+              <div class="figure">
+                <svg viewBox="0 0 100 100">
+                  <ellipse cx="50" cy="62" rx="34" ry="30" fill="#a3e635" stroke="#65a30d" stroke-width="3"/>
+                  <ellipse cx="50" cy="60" rx="34" ry="30" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-dasharray="3 5"/>
+                  <path d="M30 36c4-14 16-18 22-12-2 0-6 4-6 12" fill="#65a30d"/>
+                  <path d="M58 28c8-6 16-2 16 4-4-2-10 0-12 6" fill="#65a30d"/>
+                  <circle cx="40" cy="58" r="4" fill="#3a1a26"/>
+                  <circle cx="60" cy="58" r="4" fill="#3a1a26"/>
+                  <circle cx="41" cy="56" r="1.4" fill="#fff"/>
+                  <circle cx="61" cy="56" r="1.4" fill="#fff"/>
+                  <ellipse cx="34" cy="68" rx="5" ry="3" fill="#f472b6" opacity=".7"/>
+                  <ellipse cx="66" cy="68" rx="5" ry="3" fill="#f472b6" opacity=".7"/>
+                  <path d="M44 70q6 6 12 0" fill="none" stroke="#3a1a26" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <h4>リーフィン</h4>
+              <div class="crit-meta"><span class="t-grass">くさ</span></div>
+            </div>
+
+            <!-- creature 2 — water bubble -->
+            <div class="crit-card">
+              <span class="num">No.007</span><span class="heart">♥</span>
+              <div class="figure">
+                <svg viewBox="0 0 100 100">
+                  <ellipse cx="50" cy="58" rx="32" ry="32" fill="#7dd3fc" stroke="#0284c7" stroke-width="3"/>
+                  <ellipse cx="40" cy="46" rx="10" ry="6" fill="rgba(255,255,255,.6)"/>
+                  <circle cx="40" cy="60" r="4" fill="#0c4a6e"/>
+                  <circle cx="60" cy="60" r="4" fill="#0c4a6e"/>
+                  <circle cx="41" cy="58" r="1.4" fill="#fff"/>
+                  <circle cx="61" cy="58" r="1.4" fill="#fff"/>
+                  <path d="M42 72q8 6 16 0" fill="none" stroke="#0c4a6e" stroke-width="2.5" stroke-linecap="round"/>
+                  <ellipse cx="34" cy="68" rx="5" ry="3" fill="#fb7185" opacity=".55"/>
+                  <ellipse cx="66" cy="68" rx="5" ry="3" fill="#fb7185" opacity=".55"/>
+                  <path d="M22 38c-4 0-6-4-2-6 0-4 6-4 6 0 4 0 4 6 0 6z" fill="#bae6fd"/>
+                </svg>
+              </div>
+              <h4>アクアプル</h4>
+              <div class="crit-meta"><span class="t-water">みず</span></div>
+            </div>
+
+            <!-- creature 3 — sun-chick -->
+            <div class="crit-card">
+              <span class="num">No.025</span><span class="heart">♥</span>
+              <div class="figure">
+                <svg viewBox="0 0 100 100">
+                  <circle cx="50" cy="56" r="32" fill="#fde047" stroke="#d97706" stroke-width="3"/>
+                  <path d="M50 22l-4 -10M70 30l8-6M30 30l-8-6" stroke="#d97706" stroke-width="3" stroke-linecap="round"/>
+                  <ellipse cx="40" cy="58" rx="6" ry="7" fill="#3a1a26"/>
+                  <ellipse cx="60" cy="58" rx="6" ry="7" fill="#3a1a26"/>
+                  <circle cx="42" cy="56" r="2" fill="#fff"/>
+                  <circle cx="62" cy="56" r="2" fill="#fff"/>
+                  <path d="M44 72q6 5 12 0" fill="none" stroke="#3a1a26" stroke-width="2.5" stroke-linecap="round"/>
+                  <ellipse cx="32" cy="66" rx="5" ry="3" fill="#fb923c" opacity=".7"/>
+                  <ellipse cx="68" cy="66" rx="5" ry="3" fill="#fb923c" opacity=".7"/>
+                </svg>
+              </div>
+              <h4>ヒヨマル</h4>
+              <div class="crit-meta"><span class="t-elec">でんき</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUILDER BANNER -->
+    <section>
+      <div class="builder">
+        <div>
+          <span class="builder-tag">🛠 WIKI限定ツール</span>
+          <h3>3D建築シミュレーター<br/>ベータ版、公開中</h3>
+          <p>本編に行く前に、ブラウザで街のレイアウトを試せる。マウスでブロックを置いて、家・畑・道を自由に設計できます。保存・共有OK。</p>
+          <div class="builder-cta">
+            <a class="b1" href="#">▶ 試してみる</a>
+            <a class="b2" href="#">使い方を見る</a>
+          </div>
+        </div>
+        <div class="iso">
+          <div class="block b1"></div>
+          <div class="block b2"></div>
+          <div class="block b3"></div>
+          <div class="block b4"></div>
+          <div class="block b5"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEOS -->
+    <section>
+      <div class="section-head">
+        <span class="sec-no">No.04 / VIDEO LIBRARY</span>
+        <h2 class="sec-title">動画 <em>コーナー</em></h2>
+        <span class="sec-sub"><a href="#">全動画 →</a></span>
+      </div>
+      <div class="videos">
+        <article class="vid">
+          <div class="vid-thumb">
+            <div class="art-thumb at-1">
+              <div class="sun"></div><div class="hill-b"></div><div class="hill-a"></div>
+              <div class="cloud-mini" style="top:18%;left:14%;width:50px;height:16px"></div>
+              <span class="label-mono">// village ep01</span>
+            </div>
+            <span class="duration">28:14</span>
+            <button class="play2"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3v18l15-9z"/></svg></button>
+          </div>
+          <div class="vid-body">
+            <div class="vid-cat">街づくり実況</div>
+            <h4>【ぽこポケ#01】メタモンで300人街つくってみた、初日の拠点づくり</h4>
+            <div class="vid-meta"><span class="views">👁 124k</span> · <span>3日前</span></div>
+          </div>
+        </article>
+
+        <article class="vid">
+          <div class="vid-thumb">
+            <div class="art-thumb at-3">
+              <div class="cloud-mini" style="top:14%;left:18%;width:50px;height:16px"></div>
+              <div class="hill-b" style="background:#7dd3fc"></div>
+              <div class="hill-a" style="background:#bae6fd"></div>
+              <span class="label-mono">// fishing river</span>
+            </div>
+            <span class="duration">19:42</span>
+            <button class="play2"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3v18l15-9z"/></svg></button>
+          </div>
+          <div class="vid-body">
+            <div class="vid-cat">釣り</div>
+            <h4>朝5時の川で「キンギョン」を狙う · 静かな釣り回</h4>
+            <div class="vid-meta"><span class="views">👁 78k</span> · <span>1週間前</span></div>
+          </div>
+        </article>
+
+        <article class="vid">
+          <div class="vid-thumb">
+            <div class="art-thumb at-5">
+              <div class="hill-b" style="background:#fbbf24"></div>
+              <div class="hill-a" style="background:#fde047"></div>
+              <div class="steam s1" style="left:50%"></div>
+              <span class="label-mono">// cook special</span>
+            </div>
+            <span class="duration">15:08</span>
+            <button class="play2"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3v18l15-9z"/></svg></button>
+          </div>
+          <div class="vid-body">
+            <div class="vid-cat">料理</div>
+            <h4>ポケモンが大喜び!? ふわふわベリーパイの作り方</h4>
+            <div class="vid-meta"><span class="views">👁 92k</span> · <span>5日前</span></div>
+          </div>
+        </article>
+
+        <article class="vid">
+          <div class="vid-thumb">
+            <div class="art-thumb at-2">
+              <div class="hill-b"></div><div class="hill-a"></div>
+              <div class="cloud-mini" style="top:14%;left:18%;width:50px;height:16px"></div>
+              <span class="label-mono">// dex hunt</span>
+            </div>
+            <span class="duration">42:30</span>
+            <button class="play2"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3v18l15-9z"/></svg></button>
+          </div>
+          <div class="vid-body">
+            <div class="vid-cat">図鑑コンプ</div>
+            <h4>図鑑残り5匹! 真夜中の森で限定ポケモンを探す</h4>
+            <div class="vid-meta"><span class="views">👁 156k</span> · <span>2週間前</span></div>
+          </div>
+        </article>
+
+        <article class="vid">
+          <div class="vid-thumb">
+            <div class="art-thumb at-4">
+              <div class="sun" style="background:radial-gradient(circle,#c084fc,#a78bfa)"></div>
+              <div class="hill-b" style="background:#c4b5fd"></div>
+              <div class="hill-a" style="background:#ddd6fe"></div>
+              <span class="label-mono">// festival night</span>
+            </div>
+            <span class="duration">22:55</span>
+            <button class="play2"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3v18l15-9z"/></svg></button>
+          </div>
+          <div class="vid-body">
+            <div class="vid-cat">イベント</div>
+            <h4>柿豊豊り会の夜、ポケモンと一緒に花火を打ち上げる</h4>
+            <div class="vid-meta"><span class="views">👁 64k</span> · <span>4日前</span></div>
+          </div>
+        </article>
+
+        <article class="vid">
+          <div class="vid-thumb">
+            <div class="art-thumb at-6">
+              <div class="hill-b" style="background:#a78bfa"></div>
+              <div class="hill-a" style="background:#c4b5fd"></div>
+              <span class="label-mono">// build tour</span>
+            </div>
+            <span class="duration">31:17</span>
+            <button class="play2"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3v18l15-9z"/></svg></button>
+          </div>
+          <div class="vid-body">
+            <div class="vid-cat">建築</div>
+            <h4>視聴者の街自慢ツアー · トップ10レイアウト紹介</h4>
+            <div class="vid-meta"><span class="views">👁 87k</span> · <span>10日前</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SEO BLOCK -->
+    <div class="seo-block">
+      <h2>『ぽこポケ』ぽこあポケモン とは?</h2>
+      <p>『ぽこポケ（ポケットモンスター ぽこあポケモン）』は、2026年3月5日にNintendo Switch 2専用タイトルとして発売されたスローライフ・サンドボックス。バトル要素はなく、ポケモンと一緒に街をつくり、釣り・料理・建築を楽しむファミリー向けの作品です。Metacriticスコア89点、世界中で「やさしい時間が流れる」と話題に。</p>
+      <p>本Wiki『ぽこポケ攻略Wiki』は、ゲーム実況YouTuber<b>「やまむー」</b>のofficial攻略コミュニティ。視聴者と一緒に図鑑をコンプし、街の設計図を共有し、レシピを探し、ポケモンとのスローライフを丁寧に記録しています。初心者ガイドから上級者向けの効率Tipsまで、毎週更新中。</p>
+      <div class="keys">
+        <span>ぽこポケ 攻略</span><span>ポケットモンスター ぽこあポケモン</span><span>Switch 2</span><span>スローライフ</span><span>サンドボックス</span><span>メタモン</span><span>街づくり</span><span>釣り</span><span>料理</span><span>ポケモン図鑑</span><span>やまむー</span><span>建築シミュレーター</span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ============== SIDEBAR ============== -->
+  <aside class="sidebar">
+
+    <div class="side-card cream">
+      <h3 class="side-title"><span class="b"></span> カテゴリ</h3>
+      <div class="side-sub">CATEGORIES · 8 SECTIONS</div>
+      <ul class="cat-list">
+        <li><a href="#"><span class="ic i1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M12 2l9 4v12l-9 4-9-4V6z"/></svg></span>初心者ガイド<span class="ct">24</span></a></li>
+        <li><a href="#"><span class="ic i2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 4v16"/></svg></span>チズ作り<span class="ct">18</span></a></li>
+        <li><a href="#"><span class="ic i3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M4 18c4 0 6-2 6-6s-2-6-6-6"/><circle cx="18" cy="12" r="2"/></svg></span>釣り<span class="ct">14</span></a></li>
+        <li><a href="#"><span class="ic i4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 4v8c0 4 3 6 7 6s7-2 7-6V4M12 18v3"/></svg></span>料理<span class="ct">32</span></a></li>
+        <li><a href="#"><span class="ic i5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13"/></svg></span>街づくり<span class="ct">28</span></a></li>
+        <li><a href="#"><span class="ic i6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="12" cy="12" r="4"/></svg></span>ポケモン図鑑<span class="ct">151</span></a></li>
+        <li><a href="#"><span class="ic i7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M3 12l9-5 9 5-9 5z"/></svg></span>建築シミ<span class="ct">9</span></a></li>
+        <li><a href="#"><span class="ic i8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M2 12h20"/></svg></span>マルチプレイ<span class="ct">11</span></a></li>
+      </ul>
+    </div>
+
+    <div class="side-card">
+      <h3 class="side-title"><span class="b" style="background:#fbbf24"></span> YAMAMU'S TOP PICKS</h3>
+      <div class="side-sub">スタッフ推薦 · WEEKLY</div>
+      <div class="pick">
+        <span class="pick-num">01</span>
+        <div>
+          <h5>変身を活かしたお金稼ぎ術 — 1日30万コイン</h5>
+          <div class="pmeta"><span class="pin">📌 PINNED</span><span>· 12k views</span></div>
+        </div>
+      </div>
+      <div class="pick">
+        <span class="pick-num">02</span>
+        <div>
+          <h5>住人が増える街レイアウトの3原則</h5>
+          <div class="pmeta"><span>街づくり</span><span>· 8.4k</span></div>
+        </div>
+      </div>
+      <div class="pick">
+        <span class="pick-num">03</span>
+        <div>
+          <h5>ポケモンの好物まとめ —— なつき度MAX早見表</h5>
+          <div class="pmeta"><span>図鑑</span><span>· 18.2k</span></div>
+        </div>
+      </div>
+      <div class="pick">
+        <span class="pick-num">04</span>
+        <div>
+          <h5>春限定イベント「柿豊豊り」攻略チェックリスト</h5>
+          <div class="pmeta"><span class="pin">🎉 EVENT</span><span>· 6.1k</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-card mint daily-card">
+      <h3 class="side-title"><span class="b" style="background:#84cc16"></span> 今日のポケモン</h3>
+      <div class="side-sub">DAILY MON · 04 / 18 / 2026</div>
+      <div class="daily-fig">
+        <svg viewBox="0 0 140 120" width="100%" style="max-width:160px">
+          <ellipse cx="70" cy="76" rx="44" ry="38" fill="#fbcfe8" stroke="#ec4899" stroke-width="3"/>
+          <path d="M40 50c4-18 20-22 30-14-2 0-8 4-8 14" fill="#ec4899"/>
+          <ellipse cx="56" cy="74" rx="6" ry="8" fill="#3a1a26"/>
+          <ellipse cx="84" cy="74" rx="6" ry="8" fill="#3a1a26"/>
+          <circle cx="58" cy="72" r="2" fill="#fff"/>
+          <circle cx="86" cy="72" r="2" fill="#fff"/>
+          <path d="M60 90q10 8 20 0" fill="none" stroke="#3a1a26" stroke-width="3" stroke-linecap="round"/>
+          <ellipse cx="44" cy="84" rx="6" ry="3.5" fill="#f472b6"/>
+          <ellipse cx="96" cy="84" rx="6" ry="3.5" fill="#f472b6"/>
+        </svg>
+      </div>
+      <h4 class="daily-name">ピンクスライミ</h4>
+      <p class="daily-tag"><b>ピンク</b> · なつきタイプ · 出現:朝の草原</p>
+      <div class="daily-stats">
+        <div><span class="lab">RARE</span><span class="val">★★★</span></div>
+        <div><span class="lab">なつき</span><span class="val">42</span></div>
+        <div><span class="lab">好物</span><span class="val">🍓</span></div>
+      </div>
+    </div>
+
+    <div class="side-card">
+      <h3 class="side-title"><span class="b" style="background:#38bdf8"></span> OFFICIAL LINKS</h3>
+      <div class="side-sub">公式リンク</div>
+      <div class="links-grid">
+        <a class="lk" href="#">
+          <span class="ic yt"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 6.6a4 4 0 0 0-2.8-2.8C16.4 3.2 12 3.2 12 3.2s-4.4 0-6.8.6A4 4 0 0 0 2.4 6.6C1.8 9 1.8 12 1.8 12s0 3 .6 5.4a4 4 0 0 0 2.8 2.8c2.4.6 6.8.6 6.8.6s4.4 0 6.8-.6a4 4 0 0 0 2.8-2.8c.6-2.4.6-5.4.6-5.4s0-3-.6-5.4zM10 15.5v-7l6 3.5z"/></svg></span>
+          <span class="name">YouTube</span>
+          <span class="sub">@yamamu · 184万人</span>
+        </a>
+        <a class="lk" href="#">
+          <span class="ic x"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 3h3l-7 8 8 10h-6l-5-6-5 6H3l7-9-8-9h6l5 6z"/></svg></span>
+          <span class="name">X (Twitter)</span>
+          <span class="sub">@yamamu_official</span>
+        </a>
+        <a class="lk full" href="#">
+          <span class="ic web"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2c3 4 3 16 0 20"/></svg></span>
+          <span class="name">やまむー Official Site</span>
+          <span class="sub">プロフィール · お仕事のご依頼</span>
+        </a>
+        <a class="lk full" href="#">
+          <span class="ic dc"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4c-2-1-4-1-6-1l-1 1c2 0 3 1 4 1-2-1-4-1-6-1S7 3 5 4c0 0-3 5-3 12 2 1 4 2 5 2l1-2c-1 0-2-1-3-1 3 1 5 2 7 2s4-1 7-2c-1 0-2 1-3 1l1 2c1 0 3-1 5-2 0-7-3-12-3-12zM9 14c-1 0-2-1-2-2s1-2 2-2 2 1 2 2-1 2-2 2zm6 0c-1 0-2-1-2-2s1-2 2-2 2 1 2 2-1 2-2 2z"/></svg></span>
+          <span class="name">Discordコミュニティ</span>
+          <span class="sub">12,400人 · 攻略相談所</span>
+        </a>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="shell">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand">
+          <div class="brand-mark">
+            <svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 4c-7 0-12 5-12 11 0 4 2 7 5 9-1 1-1 2-1 3l1 1c2 0 4-1 5-2 0 0 1 0 2 0s2 0 2 0c1 1 3 2 5 2l1-1c0-1 0-2-1-3 3-2 5-5 5-9 0-6-5-11-12-11z"/></svg>
+          </div>
+          <div class="brand-name">
+            <div class="lg">ぽこポケ攻略Wiki</div>
+            <div class="sm">YAMAMU OFFICIAL · EST. 2026</div>
+          </div>
+        </div>
+        <p>ファンによる、ファンのためのスローライフ攻略Wiki。<br/>毎日コツコツ、やまむー視聴者と一緒に育てています。</p>
+      </div>
+      <div class="foot-col">
+        <h5>攻略</h5>
+        <ul>
+          <li><a href="#">初心者ガイド</a></li>
+          <li><a href="#">街づくり</a></li>
+          <li><a href="#">釣り・料理</a></li>
+          <li><a href="#">ポケモン図鑑</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>ツール</h5>
+        <ul>
+          <li><a href="#">建築シミュレーター</a></li>
+          <li><a href="#">なつき度計算機</a></li>
+          <li><a href="#">図鑑チェックリスト</a></li>
+          <li><a href="#">レシピ検索</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>コミュニティ</h5>
+        <ul>
+          <li><a href="#">YouTube</a></li>
+          <li><a href="#">X (Twitter)</a></li>
+          <li><a href="#">Discord</a></li>
+          <li><a href="#">編集に参加</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 ぽこポケ攻略Wiki — Powered by やまむーofficial &amp; 視聴者の愛 🌱</span>
+      <div class="legal">
+        <a href="#">プライバシーポリシー</a>
+        <a href="#">免責事項</a>
+        <a href="#">運営情報</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<a class="scroll-top" href="#" aria-label="トップへ戻る">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</a>
+
 </body>
 </html>
+
