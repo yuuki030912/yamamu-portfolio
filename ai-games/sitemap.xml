@@ -5,7 +5,7 @@
   <!-- ポータルトップ -->
   <url>
     <loc>https://yamamu-youtube.jp/ai-games/</loc>
-    <lastmod>2026-05-27</lastmod>
+    <lastmod>2026-06-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -71,6 +71,30 @@
     <image:image>
       <image:loc>https://yamamu-youtube.jp/ai-games/assets/ogp-guild-master-tactics.png</image:loc>
       <image:title>ギルドマスター・タクティクス v0.6β</image:title>
+    </image:image>
+  </url>
+
+  <!-- ORBIT DASH -->
+  <url>
+    <loc>https://yamamu-youtube.jp/ai-games/play/orbit-dash.html</loc>
+    <lastmod>2026-06-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://yamamu-youtube.jp/ai-games/assets/ogp-orbit-dash.png</image:loc>
+      <image:title>ORBIT DASH</image:title>
+    </image:image>
+  </url>
+
+  <!-- NEON DRIFTER -->
+  <url>
+    <loc>https://yamamu-youtube.jp/ai-games/play/neon-drifter.html</loc>
+    <lastmod>2026-06-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://yamamu-youtube.jp/ai-games/assets/ogp-neon-drifter.png</image:loc>
+      <image:title>NEON DRIFTER</image:title>
     </image:image>
   </url>
 
