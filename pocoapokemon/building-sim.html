@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://pagead2.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://tpc.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://img.youtube.com https://pagead2.googlesyndication.com https://www.google.com https://googleads.g.doubleclick.net data:; frame-src https://www.youtube.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://pagead2.googlesyndication.com https://adservice.google.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <title>【ぽこポケ】建築シミュレーター｜街づくり＆室内レイアウトツール | やまむー</title>
+  <meta name="description" content="ぽこ あ ポケモン（ぽこポケ）の建築シミュレーター。グリッド上で建物・家具をドラッグ＆ドロップで配置して、街づくりや室内インテリアのレイアウトを事前にシミュレーションできる無料ツール。">
+  <meta name="keywords" content="ぽこあポケモン, ぽこポケ, 建築シミュレーター, 街づくり, レイアウト, 家具配置, やまむー">
+  <link rel="canonical" href="https://yamamu-youtube.jp/pocoapokemon/building-sim.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="【ぽこポケ】建築シミュレーター｜街づくり＆室内レイアウトツール">
+  <meta property="og:description" content="建物・家具をグリッドに配置して街づくり・インテリアを事前にシミュレーション。">
+  <meta property="og:url" content="https://yamamu-youtube.jp/pocoapokemon/building-sim.html">
+  <meta property="og:site_name" content="やまむー【yamamu】">
+  <meta property="og:image" content="https://yamamu-youtube.jp/icon.png">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="【ぽこポケ】建築シミュレーター">
+  <meta name="twitter:description" content="街づくり＆室内レイアウトを事前にシミュレーション。">
+  <meta name="twitter:image" content="https://yamamu-youtube.jp/icon.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "【ぽこポケ】建築シミュレーター｜街づくり＆室内レイアウトツール",
+    "description": "ぽこ あ ポケモンの建築シミュレーター。グリッド上でレイアウトを計画できる無料ツール。",
+    "author": { "@type": "Person", "name": "やまむー" },
+    "publisher": { "@type": "Organization", "name": "やまむー【yamamu】", "url": "https://yamamu-youtube.jp" },
+    "datePublished": "2026-03-26",
+    "dateModified": "2026-03-26",
+    "mainEntityOfPage": "https://yamamu-youtube.jp/pocoapokemon/building-sim.html"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://yamamu-youtube.jp/" },
+      { "@type": "ListItem", "position": 2, "name": "ぽこポケ攻略", "item": "https://yamamu-youtube.jp/pocoapokemon/" },
+      { "@type": "ListItem", "position": 3, "name": "建築シミュレーター" }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "建築シミュレーターの使い方は？",
+        "acceptedAnswer": { "@type": "Answer", "text": "左のパレットからアイテムを選び、右のグリッド上でクリックして配置します。Rキーで回転、右クリックで削除できます。保存ボタンでレイアウトをブラウザに保存できます。" }
+      },
+      {
+        "@type": "Question",
+        "name": "街レイアウトモードと室内モードの違いは？",
+        "acceptedAnswer": { "@type": "Answer", "text": "街レイアウトモードは最大30×30マスの大きなグリッドで建物や施設を配置して街全体を計画します。室内モードは2×2〜10×9マスの小さなグリッドで家具を配置してインテリアを計画します。" }
+      },
+      {
+        "@type": "Question",
+        "name": "レイアウトは保存できる？",
+        "acceptedAnswer": { "@type": "Answer", "text": "はい。保存ボタンを押すとブラウザのローカルストレージに保存されます。同じブラウザであれば次回アクセス時に読み込みボタンで復元できます。" }
+      },
+      {
+        "@type": "Question",
+        "name": "家具を3つ以上置くとどうなる？",
+        "acceptedAnswer": { "@type": "Answer", "text": "ぽこポケでは家に家具を3つ以上置くとポケモンが住めるようになります。室内モードでは家具数が3つ以上になると「ポケモンが住めるよ！」と表示されます。" }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../video.css">
+  <style>
+    .sim-page { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
+    .sim-page h1 { font-size: 24px; font-weight: 700; color: var(--text-primary); line-height: 1.4; margin-bottom: 8px; }
+    .sim-meta { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; display: flex; gap: 12px; }
+    .sim-desc { background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1)); border: 2px solid var(--accent); border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; font-size: 14px; line-height: 1.7; color: var(--text-primary); }
+    .sim-desc strong { color: var(--accent); }
+
+    /* モード切替 */
+    .sim-mode-bar { display: flex; gap: 8px; margin-bottom: 12px; }
+    .sim-mode-btn { padding: 10px 20px; border: 2px solid var(--border-color); border-radius: 8px; background: var(--bg-card); color: var(--text-primary); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .sim-mode-btn.active { border-color: var(--accent); background: var(--accent); color: #fff; }
+    .sim-mode-btn:hover:not(.active) { border-color: var(--accent); }
+
+    /* コントロール */
+    .sim-controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; padding: 12px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; }
+    .sim-controls label { font-size: 13px; color: var(--text-secondary); font-weight: 600; }
+    .sim-controls select, .sim-controls input[type="number"] { padding: 6px 8px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-primary); color: var(--text-primary); font-size: 13px; width: 60px; }
+    .sim-btn { padding: 6px 14px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-card); color: var(--text-primary); font-size: 13px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .sim-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .sim-btn.danger:hover { border-color: #e74c3c; color: #e74c3c; }
+    .sim-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .sim-stats { font-size: 12px; color: var(--text-secondary); margin-left: auto; }
+    .sim-stats span { font-weight: 700; color: var(--accent); }
+    .sim-stats .furniture-ok { color: #27ae60; font-weight: 700; }
+    .sim-controls-sep { width: 1px; height: 24px; background: var(--border-color); }
+
+    /* メインコンテナ */
+    .sim-container { display: flex; gap: 12px; height: 70vh; min-height: 400px; max-height: 1200px; }
+
+    /* パレット */
+    .sim-palette { width: 220px; min-width: 140px; max-width: 450px; flex-shrink: 0; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; height: 100%; }
+    .sim-resize-handle { width: 6px; flex-shrink: 0; cursor: col-resize; background: transparent; position: relative; display: flex; align-items: center; justify-content: center; touch-action: none; }
+    .sim-resize-handle::after { content: ''; width: 3px; height: 32px; border-radius: 2px; background: var(--border-color); transition: background 0.2s; }
+    .sim-resize-handle:hover::after, .sim-resize-handle.active::after { background: var(--accent); width: 4px; }
+    .sim-palette-tabs { display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 8px 4px; border-bottom: 1px solid var(--border-color); }
+    .sim-palette-tab { padding: 4px 10px; border: 1px solid var(--border-color); border-radius: 6px; background: transparent; color: var(--text-secondary); font-size: 12px; cursor: pointer; transition: all 0.2s; }
+    .sim-palette-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .sim-palette-search { padding: 8px; border-bottom: 1px solid var(--border-color); }
+    .sim-palette-search input { width: 100%; padding: 6px 8px; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-primary); color: var(--text-primary); font-size: 12px; box-sizing: border-box; }
+    .sim-palette-list { flex: 1; overflow-y: auto; padding: 4px; }
+    .sim-palette-item { display: flex; align-items: center; gap: 8px; padding: 8px; margin-bottom: 2px; border-radius: 6px; cursor: pointer; transition: all 0.15s; border: 2px solid transparent; }
+    .sim-palette-item:hover { background: var(--chip-bg); }
+    .sim-palette-item.selected { border-color: var(--accent); background: rgba(102,126,234,0.1); }
+    .sim-palette-swatch { width: 28px; height: 28px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .sim-palette-info { flex: 1; min-width: 0; }
+    .sim-palette-name { font-size: 12px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sim-palette-size { font-size: 10px; color: var(--text-secondary); }
+    .sim-palette-group { font-size: 11px; font-weight: 700; color: var(--text-secondary); padding: 6px 8px 2px; text-transform: uppercase; }
+
+    /* グリッド */
+    .sim-grid-wrapper { flex: 1; overflow: auto; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; position: relative; }
+    .sim-grid { display: inline-grid; gap: 1px; background: var(--border-color); border: 1px solid var(--border-color); }
+    .sim-cell { width: 40px; height: 40px; background: var(--bg-primary); cursor: pointer; position: relative; transition: background 0.1s; user-select: none; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .sim-cell:hover { outline: 2px solid var(--accent); outline-offset: -2px; z-index: 1; }
+    .sim-cell.preview-valid { background: rgba(46, 204, 113, 0.25); }
+    .sim-cell.preview-invalid { background: rgba(231, 76, 60, 0.25); }
+    .sim-cell.occupied { cursor: default; }
+    .sim-cell .item-label { position: absolute; bottom: 1px; left: 1px; right: 1px; font-size: 8px; color: #fff; text-align: center; line-height: 1; text-shadow: 0 1px 2px rgba(0,0,0,0.5); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .sim-grid-empty { display: flex; align-items: center; justify-content: center; height: 300px; color: var(--text-secondary); font-size: 14px; }
+
+    /* noscript */
+    .sim-noscript { padding: 40px; text-align: center; color: var(--text-secondary); }
+
+    /* SEOテキスト */
+    .sim-seo { margin-top: 40px; }
+    .sim-seo h2 { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
+    .sim-seo h3 { font-size: 17px; font-weight: 700; color: var(--text-primary); margin: 20px 0 8px; padding-left: 10px; border-left: 3px solid var(--accent); }
+    .sim-seo p { font-size: 15px; color: var(--text-primary); line-height: 1.9; margin-bottom: 12px; }
+    .sim-seo ul { padding-left: 24px; margin-bottom: 12px; }
+    .sim-seo li { font-size: 15px; color: var(--text-primary); line-height: 1.8; margin-bottom: 4px; }
+    .sim-seo strong { color: var(--accent); }
+
+    /* FAQ */
+    .sim-faq { margin-top: 24px; }
+    .sim-faq .faq-item { background: var(--chip-bg); border-radius: 8px; padding: 16px; margin-bottom: 8px; font-size: 14px; line-height: 1.8; }
+    .sim-faq .faq-item strong { color: var(--text-primary); }
+
+    /* 関連ガイド */
+    .related-guides { margin-top: 32px; }
+    .related-guides h2 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; }
+    .related-guides-list { display: flex; flex-direction: column; gap: 8px; }
+    .related-guides-list a { display: block; padding: 12px 16px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); text-decoration: none; font-size: 14px; transition: background 0.2s; }
+    .related-guides-list a:hover { background: var(--chip-bg); }
+
+    /* テクスチャはThree.jsマテリアルで処理 */
+
+    /* === Three.js 3Dブロック建築 === */
+    .sim-iso-view {
+      flex: 1; overflow: hidden; background: var(--bg-card); border: 1px solid var(--border-color);
+      border-radius: 8px; position: relative; min-height: 500px; height: 75vh;
+    }
+    .sim-iso-view canvas { display: block; }
+
+    .sim-layer-bar { display: flex; gap: 4px; flex-wrap: wrap; padding: 8px 0; }
+    .sim-layer-btn {
+      padding: 4px 10px; border: 1px solid var(--border-color); border-radius: 4px;
+      background: var(--bg-card); color: var(--text-primary); font-size: 12px; cursor: pointer; transition: all 0.2s;
+    }
+    .sim-layer-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .sim-layer-btn:hover:not(.active) { border-color: var(--accent); }
+
+    /* レスポンシブ */
+    @media (max-width: 768px) {
+      .sim-container { flex-direction: column; }
+      .sim-palette { width: 100%; max-height: 200px; flex-direction: row; }
+      .sim-palette-tabs { flex-direction: column; border-bottom: none; border-right: 1px solid var(--border-color); padding: 4px; gap: 2px; min-width: 70px; }
+      .sim-palette-list { overflow-y: auto; }
+      .sim-palette-search { border-bottom: none; border-right: 1px solid var(--border-color); display: none; }
+      .sim-cell { width: 32px; height: 32px; font-size: 14px; }
+      .sim-cell .item-label { display: none; }
+      .sim-page h1 { font-size: 20px; }
+      .sim-controls { gap: 6px; padding: 8px; }
+      .sim-stats { margin-left: 0; width: 100%; }
+    }
+    @media (max-width: 480px) {
+      .sim-cell { width: 28px; height: 28px; font-size: 12px; }
+      .sim-mode-btn { padding: 8px 12px; font-size: 12px; }
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1697281908647985" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header class="header">
+    <a href="index.html" class="header-left" style="text-decoration:none">
+      <img src="../icon.png" alt="やまむー" class="header-icon" width="32" height="32">
+      <span class="logo-text">ぽこポケ攻略Wiki</span>
+    </a>
+    <div class="header-right">
+      <button class="theme-toggle" id="themeToggle" title="テーマ切替" aria-label="ダークモード切替">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="#606060" d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <nav class="game-nav" aria-label="ゲーム選択">
+    <a href="../index.html" class="game-nav-link">トップ</a>
+    <a href="../inazuma/" class="game-nav-link">イナイレV</a>
+    <a href="../pokepoke/" class="game-nav-link">ポケポケ</a>
+    <a href="../pocoapokemon/" class="game-nav-link active">ぽこポケ</a>
+  </nav>
+
+  <nav class="breadcrumb" aria-label="パンくずリスト">
+    <a href="../index.html">ホーム</a><span>›</span>
+    <a href="index.html">ぽこポケ攻略</a><span>›</span>
+    建築シミュレーター
+  </nav>
+
+  <main class="sim-page">
+    <h1>【ぽこポケ】建築シミュレーター</h1>
+    <div class="sim-meta">
+      <span>やまむー</span>
+      <span>2026年3月26日</span>
+    </div>
+
+    <div class="sim-desc">
+      <strong>街づくり</strong>や<strong>室内インテリア</strong>のレイアウトを事前にシミュレーションできるツールです。パレットからアイテムを選んでグリッドに配置しましょう。<strong>R</strong>キーで回転、<strong>右クリック</strong>で削除、<strong>Ctrl+Z</strong>で元に戻せます。
+    </div>
+
+    <noscript>
+      <div class="sim-noscript">
+        <p>建築シミュレーターを使うにはJavaScriptを有効にしてください。</p>
+      </div>
+    </noscript>
+
+    <!-- モード切替 -->
+    <div class="sim-mode-bar" id="simModeBar">
+      <button class="sim-mode-btn active" data-mode="town">🏘️ 街レイアウト</button>
+      <button class="sim-mode-btn" data-mode="room">🏠 室内モード</button>
+      <button class="sim-mode-btn" data-mode="block">🧱 ブロック建築</button>
+    </div>
+
+    <!-- コントロール -->
+    <div class="sim-controls" id="simControls">
+      <label>サイズ:</label>
+      <select id="simGridSize">
+        <option value="10">10×10</option>
+        <option value="15" selected>15×15</option>
+        <option value="20">20×20</option>
+        <option value="25">25×25</option>
+        <option value="30">30×30</option>
+      </select>
+      <!-- 室内モード用の幅・高さ（初期非表示） -->
+      <label id="simRoomWLabel" style="display:none">幅:</label>
+      <input type="number" id="simRoomW" min="2" max="10" value="5" style="display:none">
+      <label id="simRoomHLabel" style="display:none">高さ:</label>
+      <input type="number" id="simRoomH" min="2" max="9" value="5" style="display:none">
+      <!-- ブロック建築用 -->
+      <label id="simBlockWLabel" style="display:none">幅:</label>
+      <input type="number" id="simBlockW" min="2" max="20" value="5" style="display:none">
+      <label id="simBlockDLabel" style="display:none">奥行:</label>
+      <input type="number" id="simBlockD" min="2" max="20" value="5" style="display:none">
+      <div class="sim-controls-sep"></div>
+      <button class="sim-btn" id="simRotate" title="回転 (R)">🔄 回転</button>
+      <button class="sim-btn" id="simMirror" title="ミラーモード切替 (M)" style="display:none">🪞 OFF</button>
+      <button class="sim-btn" id="simViewRotL" title="視点を左に回転 (Q)" style="display:none">⟲ 左回転</button>
+      <button class="sim-btn" id="simViewRotR" title="視点を右に回転 (E)" style="display:none">⟳ 右回転</button>
+      <button class="sim-btn" id="simBlueprint" title="ブループリント（設計図）を読み込む" style="display:none">📐 設計図</button>
+      <button class="sim-btn" id="simUndo" title="元に戻す (Ctrl+Z)">↩ 戻す</button>
+      <button class="sim-btn" id="simDeleteMode" title="削除モード (D)">🗑️ 削除</button>
+      <button class="sim-btn danger" id="simClear" title="全消去">🧹 クリア</button>
+      <div class="sim-controls-sep"></div>
+      <button class="sim-btn" id="simSave" title="保存">💾 保存</button>
+      <button class="sim-btn" id="simLoad" title="読込">📂 読込</button>
+      <div class="sim-stats" id="simStats">
+        <span id="simStatsLabel">アイテム</span>: <span id="simItemCount">0</span><span id="simStatsUnit">個 | 使用率: </span><span id="simUsage">0</span><span id="simStatsUnit2">%</span>
+        <span id="simFurnitureStatus" style="display:none"></span>
+      </div>
+    </div>
+
+    <!-- レイヤーバー（ブロックモード用） -->
+    <div class="sim-layer-bar" id="simLayerBar" style="display:none"></div>
+
+    <!-- メインエリア -->
+    <div class="sim-container" id="simContainer">
+      <!-- パレット -->
+      <div class="sim-palette" id="simPalette">
+        <div class="sim-palette-tabs" id="simPaletteTabs"></div>
+        <div class="sim-palette-search">
+          <input type="text" id="simSearch" placeholder="アイテムを検索...">
+        </div>
+        <div class="sim-palette-list" id="simPaletteList"></div>
+      </div>
+      <!-- リサイズハンドル -->
+      <div class="sim-resize-handle" id="simResizeHandle"></div>
+      <!-- グリッド（街/室内モード） -->
+      <div class="sim-grid-wrapper" id="simGridWrapper">
+        <div class="sim-grid" id="simGrid"></div>
+      </div>
+      <!-- アイソメビュー（ブロックモード） -->
+      <div class="sim-iso-view" id="simIsoView" style="display:none"></div>
+    </div>
+
+    <!-- SEOテキスト -->
+    <div class="sim-seo">
+      <h2 id="about">建築シミュレーターの使い方</h2>
+      <p>ぽこ あ ポケモン（ぽこポケ）の建築シミュレーターは、ゲーム内の<strong>街づくり</strong>や<strong>室内インテリア</strong>のレイアウトを事前に計画できる無料のWebツールです。</p>
+
+      <h3>2つのモード</h3>
+      <ul>
+        <li><strong>街レイアウトモード</strong> — 最大30×30マスのグリッドに、建築キット（おへや・こや・いえ）、施設（ポケモンセンター・カフェ等）、自然物（木・池・花壇）を配置して街全体のレイアウトを計画</li>
+        <li><strong>室内モード</strong> — 2×2〜10×9マスのグリッドに家具（テーブル・椅子・ベッド等）を配置してインテリアを計画。家具を3つ以上置くとポケモンが住める家になります</li>
+      </ul>
+
+      <h3>基本操作</h3>
+      <ul>
+        <li>左のパレットからアイテムを選択 → グリッド上でクリックして配置</li>
+        <li><strong>R</strong>キー or 回転ボタン — アイテムを90°回転</li>
+        <li><strong>右クリック</strong> or 削除モード — 配置済みアイテムを削除</li>
+        <li><strong>Ctrl+Z</strong> or 戻すボタン — 直前の操作を取り消し</li>
+        <li><strong>保存</strong>ボタン — レイアウトをブラウザに保存</li>
+        <li><strong>読込</strong>ボタン — 保存したレイアウトを復元</li>
+      </ul>
+
+      <h3>建築のコツ</h3>
+      <p>各エリアに最低1つは家を建てると<strong>ファストトラベル</strong>が解放されて移動が快適になります。まずはけんちくキットで各エリアに拠点を確保し、慣れたらブロック建築で自由なレイアウトに挑戦しましょう。詳しくは<a href="guide-building.html">建築ガイド</a>もご覧ください。</p>
+
+      <div class="sim-faq">
+        <h2 id="faq">よくある質問（FAQ）</h2>
+        <div class="faq-item">
+          <p><strong>Q. シミュレーターの操作方法は？</strong></p>
+          <p>A. パレットからアイテムを選んでグリッドをクリックで配置。Rで回転、右クリックで削除、Ctrl+Zで元に戻せます。</p>
+        </div>
+        <div class="faq-item">
+          <p><strong>Q. 保存したデータはどこに保存される？</strong></p>
+          <p>A. ブラウザのローカルストレージに保存されます。同じブラウザ・同じデバイスでのみ読み込めます。</p>
+        </div>
+        <div class="faq-item">
+          <p><strong>Q. 建築キットのサイズは正確？</strong></p>
+          <p>A. 推定サイズです。ゲーム内の実際のサイズとは異なる場合があります。レイアウトの大まかな計画用としてご利用ください。</p>
+        </div>
+        <div class="faq-item">
+          <p><strong>Q. スマホでも使える？</strong></p>
+          <p>A. はい。タップで配置、長押しで削除できます。ただし画面が大きいほど操作しやすいので、タブレットやPCでの利用がおすすめです。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="related-guides">
+      <h2>関連する攻略ガイド</h2>
+      <div class="related-guides-list">
+        <a href="guide-building.html">【ぽこポケ】建築ガイド｜おしゃれな街づくりのコツ</a>
+        <a href="guide-craft.html">【ぽこポケ】クラフト攻略｜レシピ入手方法と素材集め</a>
+        <a href="guide-environment.html">【ぽこポケ】環境レベルの上げ方｜すみごこち改善ガイド</a>
+        <a href="index.html">ぽこポケ攻略トップへ戻る</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <nav aria-label="フッターナビゲーション" style="margin-bottom:8px;">
+      <a href="index.html" style="color:var(--text-secondary); margin:0 8px; text-decoration:none; font-size:13px;">ぽこポケ攻略トップ</a>
+      <a href="../index.html" style="color:var(--text-secondary); margin:0 8px; text-decoration:none; font-size:13px;">ポータル</a>
+      <a href="../about.html" style="color:var(--text-secondary); margin:0 8px; text-decoration:none; font-size:13px;">運営者情報</a>
+      <a href="../privacy.html" style="color:var(--text-secondary); margin:0 8px; text-decoration:none; font-size:13px;">プライバシーポリシー</a>
+      <a href="../contact.html" style="color:var(--text-secondary); margin:0 8px; text-decoration:none; font-size:13px;">お問い合わせ</a>
+      <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank" style="color:var(--text-secondary); margin:0 8px; text-decoration:none; font-size:13px;">YouTube</a>
+      <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank" style="color:var(--text-secondary); margin:0 8px; text-decoration:none; font-size:13px;">X (Twitter)</a>
+    </nav>
+    <p>&copy; 2026 やまむー【yamamu】. All rights reserved.</p>
+  </footer>
+
+  <script src="../theme.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="building-sim-data.js?v=4"></script>
+  <script src="building-sim.js"></script>
+</body>
+</html>

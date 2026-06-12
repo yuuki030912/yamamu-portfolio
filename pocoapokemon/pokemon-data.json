@@ -1,0 +1,9267 @@
+{
+  "meta": {
+    "totalPokemon": 300,
+    "totalEntries": 310,
+    "totalHabitats": 212,
+    "totalSkills": 31,
+    "lastUpdated": "2026-03-21",
+    "version": "1.0"
+  },
+  "areas": [
+    {
+      "id": "massara",
+      "areaNum": 1,
+      "name": "まっさらな街",
+      "description": "マルチプレイで訪れることができるエリア。イーブイの進化系やカビゴンなど特別なポケモンが多い。"
+    },
+    {
+      "id": "pasapasa",
+      "areaNum": 2,
+      "name": "パサパサこうやの街",
+      "description": "最初に訪れる街。緑の草むらや花畑など基本的な生息地が多く、御三家ポケモンやピカチュウなど人気ポケモンが出現する。"
+    },
+    {
+      "id": "gotsugotsu",
+      "areaNum": 3,
+      "name": "ゴツゴツやまの街",
+      "description": "トレーナーランク昇格後に行ける山岳エリア。温泉やマグマなど特殊な生息地があり、かくとう・いわ・ほのおタイプが多い。"
+    },
+    {
+      "id": "donyori",
+      "areaNum": 4,
+      "name": "ドンヨリうみべの街",
+      "description": "海辺のリゾートエリア。ビーチやゴミ捨て場など多彩な生息地があり、みず・どく・でんきタイプが豊富。"
+    },
+    {
+      "id": "kirakira",
+      "areaNum": 5,
+      "name": "キラキラうきしまの街",
+      "description": "終盤に解放される空の浮島。ピンクの草むらやフワフワな花畑など幻想的な生息地が広がり、ドラゴン・エスパー・フェアリータイプが出現。"
+    },
+    {
+      "id": "challenge",
+      "areaNum": 6,
+      "name": "入団チャレンジ",
+      "description": "特殊なチャレンジエリア。"
+    },
+    {
+      "id": "cloud",
+      "areaNum": 7,
+      "name": "クラウド島",
+      "description": "クラウド上の特別なエリア。"
+    }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "name": "うるおす",
+      "description": "みずおけの水を草木や畑などにかけてくれる"
+    },
+    {
+      "id": 2,
+      "name": "さいばい",
+      "description": "植物の成長を早めてくれる"
+    },
+    {
+      "id": 3,
+      "name": "もやす",
+      "description": "燃えるものに火をつけてくれる"
+    },
+    {
+      "id": 4,
+      "name": "けんちく",
+      "description": "けんちくするときにリーダーになってくれる"
+    },
+    {
+      "id": 5,
+      "name": "とりひき",
+      "description": "レジでアイテムをこうかんしてくれる"
+    },
+    {
+      "id": 6,
+      "name": "かんてい",
+      "description": "おとしものを見せるとかんていしてくれる"
+    },
+    {
+      "id": 7,
+      "name": "きをきる",
+      "description": "ちいさなまるたをざいもくに加工してくれる"
+    },
+    {
+      "id": 8,
+      "name": "そらをとぶ",
+      "description": "さがし中のポケモンのところに飛んで連れて行ってくれる"
+    },
+    {
+      "id": 9,
+      "name": "ゆめしま",
+      "description": "ゆめしまに連れて行ってくれる"
+    },
+    {
+      "id": 10,
+      "name": "ちらかす",
+      "description": "すみかの周りに素材を落としてくれる"
+    },
+    {
+      "id": 11,
+      "name": "はつでん",
+      "description": "キカイに電気を流すことができる"
+    },
+    {
+      "id": 12,
+      "name": "しわける",
+      "description": "落ちているものをみんなのボックスに入れてくれる"
+    },
+    {
+      "id": 13,
+      "name": "さがしもの",
+      "description": "埋まったものを探してくれる"
+    },
+    {
+      "id": 14,
+      "name": "もりあげる",
+      "description": "音楽が流れていると踊ってムードを高めてくれる"
+    },
+    {
+      "id": 15,
+      "name": "つぶす",
+      "description": "コンクリートミキサーの起動"
+    },
+    {
+      "id": 16,
+      "name": "あくび",
+      "description": "うるおいの度合いを知ることができる"
+    },
+    {
+      "id": 17,
+      "name": "じならし",
+      "description": "ポケセンの建て直しやかいたいとひっこしでリーダーになる"
+    },
+    {
+      "id": 18,
+      "name": "ミツあつめ",
+      "description": "あまいミツを特別な家具と交換してくれる"
+    },
+    {
+      "id": 19,
+      "name": "テレポート",
+      "description": "さがし中のポケモンのところに瞬時に連れて行ってくれる"
+    },
+    {
+      "id": 20,
+      "name": "リサイクル",
+      "description": "もえないゴミをてつにつくりかえてくれる"
+    },
+    {
+      "id": 21,
+      "name": "コレクター",
+      "description": "めずらしいものとアイテムを交換してくれる"
+    },
+    {
+      "id": 22,
+      "name": "しゅうのう",
+      "description": "アイテムをあずかってくれる"
+    },
+    {
+      "id": 23,
+      "name": "ばくはつ",
+      "description": "うちあげづつで跳んでいくと爆発して辺りを壊してくれる"
+    },
+    {
+      "id": 24,
+      "name": "パーティー",
+      "description": "パーティー料理を作ることができる（確率で2倍）"
+    },
+    {
+      "id": 25,
+      "name": "はっこう",
+      "description": "夜でもポケモンが元気に活動するようになる"
+    },
+    {
+      "id": 26,
+      "name": "くいしんぼ",
+      "description": "おそなえだいに食べ物を置くと良いことが起こる"
+    },
+    {
+      "id": 27,
+      "name": "DJ",
+      "description": "CDを渡すと音楽を再生してくれる"
+    },
+    {
+      "id": 28,
+      "name": "ペイント",
+      "description": "家具などの色を変えられる"
+    },
+    {
+      "id": 29,
+      "name": "へんしん",
+      "description": "ニンゲンやポケモンに変身してさまざまなわざを使える"
+    },
+    {
+      "id": 30,
+      "name": "しょくにん",
+      "description": "巨大な建物のけんちくでリーダーになれる"
+    },
+    {
+      "id": 31,
+      "name": "レアもの",
+      "description": "ほしのかけらを渡すとレアポケメタルに変えてくれる"
+    }
+  ],
+  "habitats": [
+    {
+      "id": 1,
+      "name": "緑の草むら",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 2,
+      "name": "木かげの草むら",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 3,
+      "name": "岩かげの草むら",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 4,
+      "name": "うるおう草むら",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 5,
+      "name": "波打ちぎわの草むら",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 6,
+      "name": "高台の草むら",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 7,
+      "name": "照らされた草むら",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 8,
+      "name": "きれいな花畑",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 9,
+      "name": "木かげの花畑",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 10,
+      "name": "うるおう花畑",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 11,
+      "name": "花いっぱいの景色",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 12,
+      "name": "高台の花畑",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 13,
+      "name": "花に囲まれたお墓",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 14,
+      "name": "フラワーガーデン",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 15,
+      "name": "フレッシュ野菜畑",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 16,
+      "name": "あたたかな風に乗って",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 17,
+      "name": "キャンプセット",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 18,
+      "name": "修行の滝",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 19,
+      "name": "腹ペコダイニング",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 20,
+      "name": "ピクニックな食卓",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 21,
+      "name": "はなやかな机",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 22,
+      "name": "緑のベンチ",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 23,
+      "name": "照らされたベンチ",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 24,
+      "name": "ジムの休けい所",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 25,
+      "name": "かけこみ救急所",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 26,
+      "name": "ジムの救急所",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 27,
+      "name": "道案内のカンバン",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 28,
+      "name": "大きな荷物をのせて",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 29,
+      "name": "木こりの作業場",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 30,
+      "name": "ぬいぐるみとおやすみ",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 31,
+      "name": "やさしい光でおやすみ",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 32,
+      "name": "お墓にお供えもの",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 33,
+      "name": "ブキミなお墓にお供えもの",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 34,
+      "name": "ラッキー休けい所",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 35,
+      "name": "明かりと香りのユウワク",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 36,
+      "name": "日かげでプカプカ水遊び",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 37,
+      "name": "さらさらな草むら",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 38,
+      "name": "工場の物置",
+      "areaId": "challenge"
+    },
+    {
+      "id": 39,
+      "name": "ぜいたくピヨピヨごはん",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 40,
+      "name": "きのみごちそうキャンプ",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 41,
+      "name": "あまごいスポット",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 42,
+      "name": "にほんばれスポット",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 43,
+      "name": "はかせのオタカラ",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 44,
+      "name": "丸太の温もり",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 45,
+      "name": "きのみ大集合",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 46,
+      "name": "ガーデンテラス",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 47,
+      "name": "木かげでぐっすりカビゴン",
+      "areaId": "massara"
+    },
+    {
+      "id": 48,
+      "name": "古きよきアンティーク",
+      "areaId": "massara"
+    },
+    {
+      "id": 49,
+      "name": "モンスターボールだらけ",
+      "areaId": "massara"
+    },
+    {
+      "id": 50,
+      "name": "黄色の草むら",
+      "areaId": "donyori"
+    },
+    {
+      "id": 51,
+      "name": "木かげの黄色の草むら",
+      "areaId": "donyori"
+    },
+    {
+      "id": 52,
+      "name": "高台の黄色の草むら",
+      "areaId": "donyori"
+    },
+    {
+      "id": 53,
+      "name": "うるおう黄色の草むら",
+      "areaId": "donyori"
+    },
+    {
+      "id": 54,
+      "name": "沼地の草むら",
+      "areaId": "donyori"
+    },
+    {
+      "id": 55,
+      "name": "草むらの自販機",
+      "areaId": "donyori"
+    },
+    {
+      "id": 56,
+      "name": "すずしげな花畑",
+      "areaId": "donyori"
+    },
+    {
+      "id": 57,
+      "name": "南国気分",
+      "areaId": "donyori"
+    },
+    {
+      "id": 58,
+      "name": "風の花畑",
+      "areaId": "donyori"
+    },
+    {
+      "id": 59,
+      "name": "ビーチの木かげ",
+      "areaId": "donyori"
+    },
+    {
+      "id": 60,
+      "name": "トロピカルシーサイド",
+      "areaId": "donyori"
+    },
+    {
+      "id": 61,
+      "name": "お休みどころ",
+      "areaId": "donyori"
+    },
+    {
+      "id": 62,
+      "name": "おかたづけをしよう",
+      "areaId": "donyori"
+    },
+    {
+      "id": 63,
+      "name": "ゴミ集積所",
+      "areaId": "donyori"
+    },
+    {
+      "id": 64,
+      "name": "ゴミ箱がいっぱい",
+      "areaId": "donyori"
+    },
+    {
+      "id": 65,
+      "name": "ゴミ捨て場",
+      "areaId": "donyori"
+    },
+    {
+      "id": 66,
+      "name": "公園のベンチ",
+      "areaId": "donyori"
+    },
+    {
+      "id": 67,
+      "name": "腹ペコレストラン",
+      "areaId": "donyori"
+    },
+    {
+      "id": 68,
+      "name": "お料理をお届け",
+      "areaId": "donyori"
+    },
+    {
+      "id": 69,
+      "name": "ピヨピヨごはん",
+      "areaId": "donyori"
+    },
+    {
+      "id": 70,
+      "name": "カフェスペース",
+      "areaId": "donyori"
+    },
+    {
+      "id": 71,
+      "name": "ビーチセット",
+      "areaId": "donyori"
+    },
+    {
+      "id": 72,
+      "name": "ライトアップステージ",
+      "areaId": "donyori"
+    },
+    {
+      "id": 73,
+      "name": "しかけにご注意",
+      "areaId": "donyori"
+    },
+    {
+      "id": 74,
+      "name": "夜のお祭り会場",
+      "areaId": "donyori"
+    },
+    {
+      "id": 75,
+      "name": "お着がえスペース",
+      "areaId": "donyori"
+    },
+    {
+      "id": 76,
+      "name": "おめかし中は見ないで",
+      "areaId": "donyori"
+    },
+    {
+      "id": 77,
+      "name": "毛糸で編み物",
+      "areaId": "donyori"
+    },
+    {
+      "id": 78,
+      "name": "温泉の洗い場",
+      "areaId": "donyori"
+    },
+    {
+      "id": 79,
+      "name": "リゾートでご飯のしたく",
+      "areaId": "donyori"
+    },
+    {
+      "id": 80,
+      "name": "荷づくりできたよ",
+      "areaId": "donyori"
+    },
+    {
+      "id": 81,
+      "name": "完治までおやすみ",
+      "areaId": "donyori"
+    },
+    {
+      "id": 82,
+      "name": "目覚ましベッドスペース",
+      "areaId": "donyori"
+    },
+    {
+      "id": 83,
+      "name": "自販機ヨコで一息",
+      "areaId": "donyori"
+    },
+    {
+      "id": 84,
+      "name": "自販機セット",
+      "areaId": "donyori"
+    },
+    {
+      "id": 85,
+      "name": "ミニゲームコーナー",
+      "areaId": "donyori"
+    },
+    {
+      "id": 86,
+      "name": "水力はつでん所",
+      "areaId": "donyori"
+    },
+    {
+      "id": 87,
+      "name": "火力はつでん所",
+      "areaId": "donyori"
+    },
+    {
+      "id": 88,
+      "name": "船着き場",
+      "areaId": "donyori"
+    },
+    {
+      "id": 89,
+      "name": "あやしい書さい",
+      "areaId": "donyori"
+    },
+    {
+      "id": 90,
+      "name": "ふなのりごっこ",
+      "areaId": "donyori"
+    },
+    {
+      "id": 91,
+      "name": "レジでお会計",
+      "areaId": "donyori"
+    },
+    {
+      "id": 92,
+      "name": "ちいさなアトリエ",
+      "areaId": "donyori"
+    },
+    {
+      "id": 93,
+      "name": "グルメなお供え物",
+      "areaId": "donyori"
+    },
+    {
+      "id": 94,
+      "name": "ピカチュウスペース",
+      "areaId": "donyori"
+    },
+    {
+      "id": 95,
+      "name": "ベリーキュートな空間",
+      "areaId": "donyori"
+    },
+    {
+      "id": 96,
+      "name": "リゾートへようこそ",
+      "areaId": "donyori"
+    },
+    {
+      "id": 97,
+      "name": "ナチュラルなくらし",
+      "areaId": "donyori"
+    },
+    {
+      "id": 98,
+      "name": "赤い草むら",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 99,
+      "name": "木かげの赤い草むら",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 100,
+      "name": "三角木かげに岩と草むら",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 101,
+      "name": "うるおう赤い草むら",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 102,
+      "name": "高台の赤い草むら",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 103,
+      "name": "草むらトレーニング場",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 104,
+      "name": "ゆうがな花畑",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 105,
+      "name": "木かげのゆうがな花畑",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 106,
+      "name": "うるおうゆうがな花畑",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 107,
+      "name": "花畑の切り株ステージ",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 108,
+      "name": "畑しごとはたいへん",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 109,
+      "name": "うきうきな水たまり",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 110,
+      "name": "コケまみれ",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 111,
+      "name": "コケまみれの岩",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 112,
+      "name": "コケむす温泉",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 113,
+      "name": "露天風呂",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 114,
+      "name": "ととのう温泉",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 115,
+      "name": "マグマでアツアツ",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 116,
+      "name": "掘って燃やして",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 117,
+      "name": "溶岩トンネル",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 118,
+      "name": "輝く鉱石",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 119,
+      "name": "鉱山の奥",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 120,
+      "name": "山のふもとの食堂",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 121,
+      "name": "山道のパン屋",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 122,
+      "name": "炎の鍛冶場",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 123,
+      "name": "山頂の展望台",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 124,
+      "name": "鉱山の入口",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 125,
+      "name": "山の高台",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 126,
+      "name": "岩場のトレーニング",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 127,
+      "name": "道場",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 128,
+      "name": "山小屋の音楽室",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 129,
+      "name": "宝物庫",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 130,
+      "name": "山道のキャンプ",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 131,
+      "name": "鉱山のレール",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 132,
+      "name": "石炭置き場",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 133,
+      "name": "山のキッチン",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 134,
+      "name": "金のショーケース",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 135,
+      "name": "炭鉱の深部",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 136,
+      "name": "森の奥の隠れ家",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 137,
+      "name": "ピンクの草むら",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 138,
+      "name": "木かげのピンクの草むら",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 139,
+      "name": "うるおうピンクの草むら",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 140,
+      "name": "高台のピンクの草むら",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 141,
+      "name": "土管の秘密基地",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 142,
+      "name": "フワフワな花畑",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 143,
+      "name": "木かげのフワフワな花畑",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 144,
+      "name": "うるおうフワフワな花畑",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 145,
+      "name": "水辺の小舟",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 146,
+      "name": "照らされた滝",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 147,
+      "name": "雲の上のベンチ",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 148,
+      "name": "星空のプール",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 149,
+      "name": "浮島の工房",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 150,
+      "name": "虹色のキャンプ",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 151,
+      "name": "夢見る図書館",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 152,
+      "name": "魔法のテーブル",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 153,
+      "name": "月明かりの庭",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 154,
+      "name": "カナヅチの工房",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 155,
+      "name": "花のトンネル",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 156,
+      "name": "浮島の訓練場",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 157,
+      "name": "パントマイムの舞台",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 158,
+      "name": "ゴーストの回廊",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 159,
+      "name": "妖精の庭",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 160,
+      "name": "音の洞窟",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 161,
+      "name": "オタマジャクシの池",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 162,
+      "name": "ダンスホール",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 163,
+      "name": "光の舞踏会",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 164,
+      "name": "デジタルルーム",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 165,
+      "name": "ツタの楽園",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 166,
+      "name": "データセンター",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 167,
+      "name": "幽霊屋敷",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 168,
+      "name": "占いの館",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 169,
+      "name": "メタルの工場",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 170,
+      "name": "コンピュータルーム",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 171,
+      "name": "蔦のアーチ",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 172,
+      "name": "夜のジャングル",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 173,
+      "name": "忍者の隠れ里",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 174,
+      "name": "プラマイの部屋",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 175,
+      "name": "アンテナの丘",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 176,
+      "name": "自然の中のマーケット",
+      "areaId": "donyori"
+    },
+    {
+      "id": 177,
+      "name": "工事現場のはつでん所",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 178,
+      "name": "道場でトレーニング",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 179,
+      "name": "悪の組織のアジト",
+      "areaId": "challenge"
+    },
+    {
+      "id": 180,
+      "name": "九つのほむら",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 181,
+      "name": "ぬいぐるみに囲まれて",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 182,
+      "name": "バツグンのゲーム環境",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 183,
+      "name": "ポップオブポップ",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 184,
+      "name": "釣り堀",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 185,
+      "name": "海釣り",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 186,
+      "name": "沼釣り",
+      "areaId": "donyori"
+    },
+    {
+      "id": 187,
+      "name": "温泉釣り",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 188,
+      "name": "マグマ釣り",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 189,
+      "name": "ハイなロックステージ",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 190,
+      "name": "ローなロックステージ",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 191,
+      "name": "怨念の騎士の祭壇",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 192,
+      "name": "忠誠の騎士の祭壇",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 193,
+      "name": "ツバサのカセキ展示台",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 194,
+      "name": "ずがいのカセキ展示台",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 195,
+      "name": "ずつきのカセキ展示台",
+      "areaId": "kirakira"
+    },
+    {
+      "id": 196,
+      "name": "たてのカセキ展示台",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 197,
+      "name": "シールドのカセキ展示台",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 198,
+      "name": "アゴのカセキ展示台",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 199,
+      "name": "ぼうくんのカセキ展示台",
+      "areaId": "gotsugotsu"
+    },
+    {
+      "id": 200,
+      "name": "ヒレのカセキ展示台",
+      "areaId": "donyori"
+    },
+    {
+      "id": 201,
+      "name": "ツンドラのカセキ展示台",
+      "areaId": "donyori"
+    },
+    {
+      "id": 202,
+      "name": "シャワーズのごはん",
+      "areaId": "massara"
+    },
+    {
+      "id": 203,
+      "name": "サンダースのごはん",
+      "areaId": "massara"
+    },
+    {
+      "id": 204,
+      "name": "ブースターのごはん",
+      "areaId": "massara"
+    },
+    {
+      "id": 205,
+      "name": "エーフィのごはん",
+      "areaId": "massara"
+    },
+    {
+      "id": 206,
+      "name": "ブラッキーのごはん",
+      "areaId": "massara"
+    },
+    {
+      "id": 207,
+      "name": "リーフィアのごはん",
+      "areaId": "massara"
+    },
+    {
+      "id": 208,
+      "name": "グレイシアのごはん",
+      "areaId": "massara"
+    },
+    {
+      "id": 209,
+      "name": "ニンフィアのごはん",
+      "areaId": "massara"
+    },
+    {
+      "id": 210,
+      "name": "黄色のじゅうたん",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 211,
+      "name": "遠足のおとも",
+      "areaId": "pasapasa"
+    },
+    {
+      "id": 212,
+      "name": "タンポポとお昼ご飯",
+      "areaId": "pasapasa"
+    }
+  ],
+  "pokemon": [
+    {
+      "dexNumber": 1,
+      "name": "フシギダネ",
+      "variant": null,
+      "types": [
+        "くさ",
+        "どく"
+      ],
+      "skillIds": [
+        2
+      ],
+      "habitats": [
+        {
+          "habitatId": 1,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 22,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "001",
+      "image": "フシギダネ.png"
+    },
+    {
+      "dexNumber": 2,
+      "name": "フシギソウ",
+      "variant": null,
+      "types": [
+        "くさ",
+        "どく"
+      ],
+      "skillIds": [
+        2
+      ],
+      "habitats": [
+        {
+          "habitatId": 11,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 22,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "002",
+      "image": "フシギソウ.png"
+    },
+    {
+      "dexNumber": 3,
+      "name": "フシギバナ",
+      "variant": null,
+      "types": [
+        "くさ",
+        "どく"
+      ],
+      "skillIds": [
+        2,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 11,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 46,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "003",
+      "image": "フシギバナ.png"
+    },
+    {
+      "dexNumber": 4,
+      "name": "ヒトカゲ",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3
+      ],
+      "habitats": [
+        {
+          "habitatId": 1,
+          "level": 1,
+          "time": "all",
+          "weather": "sunny,cloudy"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "004",
+      "image": "ヒトカゲ.png"
+    },
+    {
+      "dexNumber": 5,
+      "name": "リザード",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3
+      ],
+      "habitats": [
+        {
+          "habitatId": 17,
+          "level": 2,
+          "time": "all",
+          "weather": "sunny,cloudy"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "005",
+      "image": "リザード.png"
+    },
+    {
+      "dexNumber": 6,
+      "name": "リザードン",
+      "variant": null,
+      "types": [
+        "ほのお",
+        "ひこう"
+      ],
+      "skillIds": [
+        3,
+        8
+      ],
+      "habitats": [
+        {
+          "habitatId": 1,
+          "level": 3,
+          "time": "all",
+          "weather": "sunny,cloudy"
+        },
+        {
+          "habitatId": 40,
+          "level": 2,
+          "time": "all",
+          "weather": "sunny,cloudy"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "006",
+      "image": "リザードン.png"
+    },
+    {
+      "dexNumber": 7,
+      "name": "ゼニガメ",
+      "variant": null,
+      "types": [
+        "みず"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 1,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 4,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "007",
+      "image": "ゼニガメ.png"
+    },
+    {
+      "dexNumber": 8,
+      "name": "カメール",
+      "variant": null,
+      "types": [
+        "みず"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 4,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "008",
+      "image": "カメール.png"
+    },
+    {
+      "dexNumber": 9,
+      "name": "カメックス",
+      "variant": null,
+      "types": [
+        "みず"
+      ],
+      "skillIds": [
+        1,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 4,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 36,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "009",
+      "image": "カメックス.png"
+    },
+    {
+      "dexNumber": 10,
+      "name": "ポッポ",
+      "variant": null,
+      "types": [
+        "ノーマル",
+        "ひこう"
+      ],
+      "skillIds": [
+        8,
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 6,
+          "level": 1,
+          "time": "morning,day,evening",
+          "weather": "all"
+        },
+        {
+          "habitatId": 8,
+          "level": 1,
+          "time": "morning,day,evening",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "010",
+      "image": "ポッポ.png"
+    },
+    {
+      "dexNumber": 11,
+      "name": "ピジョン",
+      "variant": null,
+      "types": [
+        "ノーマル",
+        "ひこう"
+      ],
+      "skillIds": [
+        8,
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 6,
+          "level": 2,
+          "time": "morning,day,evening",
+          "weather": "all"
+        },
+        {
+          "habitatId": 8,
+          "level": 2,
+          "time": "morning,day,evening",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "011",
+      "image": "ピジョン.png"
+    },
+    {
+      "dexNumber": 12,
+      "name": "ピジョット",
+      "variant": null,
+      "types": [
+        "ノーマル",
+        "ひこう"
+      ],
+      "skillIds": [
+        8,
+        7
+      ],
+      "habitats": [
+        {
+          "habitatId": 39,
+          "level": 1,
+          "time": "morning,day,evening",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "012",
+      "image": "ピジョット.png"
+    },
+    {
+      "dexNumber": 13,
+      "name": "ナゾノクサ",
+      "variant": null,
+      "types": [
+        "くさ",
+        "どく"
+      ],
+      "skillIds": [
+        2
+      ],
+      "habitats": [
+        {
+          "habitatId": 1,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "013",
+      "image": "ナゾノクサ.png"
+    },
+    {
+      "dexNumber": 14,
+      "name": "クサイハナ",
+      "variant": null,
+      "types": [
+        "くさ",
+        "どく"
+      ],
+      "skillIds": [
+        2
+      ],
+      "habitats": [
+        {
+          "habitatId": 57,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "014",
+      "image": "クサイハナ.png"
+    },
+    {
+      "dexNumber": 15,
+      "name": "ラフレシア",
+      "variant": null,
+      "types": [
+        "くさ",
+        "どく"
+      ],
+      "skillIds": [
+        2,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 34,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "015",
+      "image": "ラフレシア.png"
+    },
+    {
+      "dexNumber": 16,
+      "name": "キレイハナ",
+      "variant": null,
+      "types": [
+        "くさ"
+      ],
+      "skillIds": [
+        2,
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 34,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "016",
+      "image": "キレイハナ.png"
+    },
+    {
+      "dexNumber": 17,
+      "name": "パラス",
+      "variant": null,
+      "types": [
+        "むし",
+        "くさ"
+      ],
+      "skillIds": [
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 12,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 14,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "017",
+      "image": "パラス.png"
+    },
+    {
+      "dexNumber": 18,
+      "name": "パラセクト",
+      "variant": null,
+      "types": [
+        "むし",
+        "くさ"
+      ],
+      "skillIds": [
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 12,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 14,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "018",
+      "image": "パラセクト.png"
+    },
+    {
+      "dexNumber": 19,
+      "name": "コンパン",
+      "variant": null,
+      "types": [
+        "むし",
+        "どく"
+      ],
+      "skillIds": [
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 7,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        },
+        {
+          "habitatId": 23,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "019",
+      "image": "コンパン.png"
+    },
+    {
+      "dexNumber": 20,
+      "name": "モルフォン",
+      "variant": null,
+      "types": [
+        "むし",
+        "どく"
+      ],
+      "skillIds": [
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 7,
+          "level": 2,
+          "time": "night",
+          "weather": "all"
+        },
+        {
+          "habitatId": 23,
+          "level": 2,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "020",
+      "image": "モルフォン.png"
+    },
+    {
+      "dexNumber": 21,
+      "name": "マダツボミ",
+      "variant": null,
+      "types": [
+        "くさ",
+        "どく"
+      ],
+      "skillIds": [
+        2,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 2,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "021",
+      "image": "マダツボミ.png"
+    },
+    {
+      "dexNumber": 22,
+      "name": "ウツドン",
+      "variant": null,
+      "types": [
+        "くさ",
+        "どく"
+      ],
+      "skillIds": [
+        2,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 21,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 35,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "022",
+      "image": "ウツドン.png"
+    },
+    {
+      "dexNumber": 23,
+      "name": "ウツボット",
+      "variant": null,
+      "types": [
+        "くさ",
+        "どく"
+      ],
+      "skillIds": [
+        2,
+        7
+      ],
+      "habitats": [
+        {
+          "habitatId": 21,
+          "level": 3,
+          "time": "all",
+          "weather": "sunny,cloudy,snow"
+        },
+        {
+          "habitatId": 35,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "023",
+      "image": "ウツボット.png"
+    },
+    {
+      "dexNumber": 24,
+      "name": "ヤドン",
+      "variant": null,
+      "types": [
+        "みず",
+        "エスパー"
+      ],
+      "skillIds": [
+        1,
+        16
+      ],
+      "habitats": [
+        {
+          "habitatId": 5,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "024",
+      "image": "ヤドン.png"
+    },
+    {
+      "dexNumber": 25,
+      "name": "ヤドラン",
+      "variant": null,
+      "types": [
+        "みず",
+        "エスパー"
+      ],
+      "skillIds": [
+        1,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 5,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 30,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 184,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "025",
+      "image": "ヤドラン.png"
+    },
+    {
+      "dexNumber": 26,
+      "name": "ヤドキング",
+      "variant": null,
+      "types": [
+        "みず",
+        "エスパー"
+      ],
+      "skillIds": [
+        1,
+        19
+      ],
+      "habitats": [
+        {
+          "habitatId": 5,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 30,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 184,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "026",
+      "image": "ヤドキング.png"
+    },
+    {
+      "dexNumber": 27,
+      "name": "コイル",
+      "variant": null,
+      "types": [
+        "でんき",
+        "はがね"
+      ],
+      "skillIds": [
+        11
+      ],
+      "habitats": [
+        {
+          "habitatId": 38,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "027",
+      "image": "コイル.png"
+    },
+    {
+      "dexNumber": 28,
+      "name": "レアコイル",
+      "variant": null,
+      "types": [
+        "でんき",
+        "はがね"
+      ],
+      "skillIds": [
+        11
+      ],
+      "habitats": [
+        {
+          "habitatId": 64,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 85,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "028",
+      "image": "レアコイル.png"
+    },
+    {
+      "dexNumber": 29,
+      "name": "ジバコイル",
+      "variant": null,
+      "types": [
+        "でんき",
+        "はがね"
+      ],
+      "skillIds": [
+        11,
+        20
+      ],
+      "habitats": [
+        {
+          "habitatId": 64,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 85,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "029",
+      "image": "ジバコイル.png"
+    },
+    {
+      "dexNumber": 30,
+      "name": "イワーク",
+      "variant": null,
+      "types": [
+        "いわ",
+        "じめん"
+      ],
+      "skillIds": [
+        15,
+        17
+      ],
+      "habitats": [
+        {
+          "habitatId": 37,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "030",
+      "image": "イワーク.png"
+    },
+    {
+      "dexNumber": 31,
+      "name": "ハガネール",
+      "variant": null,
+      "types": [
+        "はがね",
+        "じめん"
+      ],
+      "skillIds": [
+        15,
+        17
+      ],
+      "habitats": [
+        {
+          "habitatId": 117,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "031",
+      "image": "ハガネール.png"
+    },
+    {
+      "dexNumber": 32,
+      "name": "カラカラ",
+      "variant": null,
+      "types": [
+        "じめん"
+      ],
+      "skillIds": [
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 13,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "032",
+      "image": "カラカラ.png"
+    },
+    {
+      "dexNumber": 33,
+      "name": "ガラガラ",
+      "variant": null,
+      "types": [
+        "じめん"
+      ],
+      "skillIds": [
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 13,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "033",
+      "image": "ガラガラ.png"
+    },
+    {
+      "dexNumber": 34,
+      "name": "バルキー",
+      "variant": null,
+      "types": [
+        "かくとう"
+      ],
+      "skillIds": [
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 18,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "034",
+      "image": "バルキー.png"
+    },
+    {
+      "dexNumber": 35,
+      "name": "サワムラー",
+      "variant": null,
+      "types": [
+        "かくとう"
+      ],
+      "skillIds": [
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 25,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "035",
+      "image": "サワムラー.png"
+    },
+    {
+      "dexNumber": 36,
+      "name": "エビワラー",
+      "variant": null,
+      "types": [
+        "かくとう"
+      ],
+      "skillIds": [
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 24,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "036",
+      "image": "エビワラー.png"
+    },
+    {
+      "dexNumber": 37,
+      "name": "カポエラー",
+      "variant": null,
+      "types": [
+        "かくとう"
+      ],
+      "skillIds": [
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 26,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "037",
+      "image": "カポエラー.png"
+    },
+    {
+      "dexNumber": 38,
+      "name": "ドガース",
+      "variant": null,
+      "types": [
+        "どく"
+      ],
+      "skillIds": [
+        20
+      ],
+      "habitats": [
+        {
+          "habitatId": 63,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "038",
+      "image": "ドガース.png"
+    },
+    {
+      "dexNumber": 39,
+      "name": "マタドガス",
+      "variant": null,
+      "types": [
+        "どく"
+      ],
+      "skillIds": [
+        20
+      ],
+      "habitats": [
+        {
+          "habitatId": 48,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 63,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "039",
+      "image": "マタドガス.png"
+    },
+    {
+      "dexNumber": 40,
+      "name": "モンジャラ",
+      "variant": null,
+      "types": [
+        "くさ"
+      ],
+      "skillIds": [
+        2,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 49,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "040",
+      "image": "モンジャラ.png"
+    },
+    {
+      "dexNumber": 41,
+      "name": "モジャンボ",
+      "variant": "はかせ",
+      "types": [
+        "くさ"
+      ],
+      "skillIds": [
+        6
+      ],
+      "habitats": [
+        {
+          "habitatId": 43,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "041-hakase",
+      "image": "モジャンボ.png"
+    },
+    {
+      "dexNumber": 41,
+      "name": "モジャンボ",
+      "variant": null,
+      "types": [
+        "くさ"
+      ],
+      "skillIds": [
+        2,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 22,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "041",
+      "image": "モジャンボ.png"
+    },
+    {
+      "dexNumber": 42,
+      "name": "ストライク",
+      "variant": null,
+      "types": [
+        "むし",
+        "ひこう"
+      ],
+      "skillIds": [
+        7
+      ],
+      "habitats": [
+        {
+          "habitatId": 2,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "042",
+      "image": "ストライク.png"
+    },
+    {
+      "dexNumber": 43,
+      "name": "ハッサム",
+      "variant": null,
+      "types": [
+        "むし",
+        "はがね"
+      ],
+      "skillIds": [
+        7
+      ],
+      "habitats": [
+        {
+          "habitatId": 2,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "043",
+      "image": "ハッサム.png"
+    },
+    {
+      "dexNumber": 44,
+      "name": "カイロス",
+      "variant": null,
+      "types": [
+        "むし",
+        "かくとう"
+      ],
+      "skillIds": [
+        7,
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 2,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "044",
+      "image": "カイロス.png"
+    },
+    {
+      "dexNumber": 45,
+      "name": "コイキング",
+      "variant": null,
+      "types": [
+        "みず"
+      ],
+      "skillIds": [],
+      "habitats": [
+        {
+          "habitatId": 185,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "045",
+      "image": "コイキング.png"
+    },
+    {
+      "dexNumber": 46,
+      "name": "ギャラドス",
+      "variant": null,
+      "types": [
+        "みず",
+        "ひこう"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 146,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "046",
+      "image": "ギャラドス.png"
+    },
+    {
+      "dexNumber": 47,
+      "name": "メタモン",
+      "variant": null,
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        29
+      ],
+      "habitats": [],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "047",
+      "image": "メタモン.png"
+    },
+    {
+      "dexNumber": 48,
+      "name": "ホーホー",
+      "variant": null,
+      "types": [
+        "ノーマル",
+        "ひこう"
+      ],
+      "skillIds": [
+        5,
+        8
+      ],
+      "habitats": [
+        {
+          "habitatId": 6,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        },
+        {
+          "habitatId": 8,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        },
+        {
+          "habitatId": 31,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "048",
+      "image": "ホーホー.png"
+    },
+    {
+      "dexNumber": 49,
+      "name": "ヨルノズク",
+      "variant": null,
+      "types": [
+        "ノーマル",
+        "ひこう"
+      ],
+      "skillIds": [
+        5,
+        8
+      ],
+      "habitats": [
+        {
+          "habitatId": 6,
+          "level": 2,
+          "time": "night",
+          "weather": "all"
+        },
+        {
+          "habitatId": 31,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "049",
+      "image": "ヨルノズク.png"
+    },
+    {
+      "dexNumber": 50,
+      "name": "ヘラクロス",
+      "variant": null,
+      "types": [
+        "むし",
+        "かくとう"
+      ],
+      "skillIds": [
+        7,
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 2,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "050",
+      "image": "ヘラクロス.png"
+    },
+    {
+      "dexNumber": 51,
+      "name": "バルビート",
+      "variant": null,
+      "types": [
+        "むし"
+      ],
+      "skillIds": [
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 10,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "051",
+      "image": "バルビート.png"
+    },
+    {
+      "dexNumber": 52,
+      "name": "イルミーゼ",
+      "variant": null,
+      "types": [
+        "むし"
+      ],
+      "skillIds": [
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 10,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "052",
+      "image": "イルミーゼ.png"
+    },
+    {
+      "dexNumber": 53,
+      "name": "ゴクリン",
+      "variant": null,
+      "types": [
+        "どく"
+      ],
+      "skillIds": [
+        22
+      ],
+      "habitats": [
+        {
+          "habitatId": 19,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "053",
+      "image": "ゴクリン.png"
+    },
+    {
+      "dexNumber": 54,
+      "name": "マルノーム",
+      "variant": null,
+      "types": [
+        "どく"
+      ],
+      "skillIds": [
+        22
+      ],
+      "habitats": [
+        {
+          "habitatId": 120,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "054",
+      "image": "マルノーム.png"
+    },
+    {
+      "dexNumber": 55,
+      "name": "サボネア",
+      "variant": null,
+      "types": [
+        "くさ"
+      ],
+      "skillIds": [
+        2
+      ],
+      "habitats": [
+        {
+          "habitatId": 42,
+          "level": 1,
+          "time": "all",
+          "weather": "sunny"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "055",
+      "image": "サボネア.png"
+    },
+    {
+      "dexNumber": 56,
+      "name": "ノクタス",
+      "variant": null,
+      "types": [
+        "くさ",
+        "あく"
+      ],
+      "skillIds": [
+        2,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 9,
+          "level": 2,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "056",
+      "image": "ノクタス.png"
+    },
+    {
+      "dexNumber": 57,
+      "name": "ミツハニー",
+      "variant": null,
+      "types": [
+        "むし",
+        "ひこう"
+      ],
+      "skillIds": [
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 8,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "057",
+      "image": "ミツハニー.png"
+    },
+    {
+      "dexNumber": 58,
+      "name": "ビークイン",
+      "variant": null,
+      "types": [
+        "むし",
+        "ひこう"
+      ],
+      "skillIds": [
+        18,
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 11,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "058",
+      "image": "ビークイン.png"
+    },
+    {
+      "dexNumber": 59,
+      "name": "カラナクシ",
+      "variant": "ひがし",
+      "types": [
+        "みず"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 27,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "059-higashi",
+      "image": "カラナクシ.png"
+    },
+    {
+      "dexNumber": 59,
+      "name": "カラナクシ",
+      "variant": "にし",
+      "types": [
+        "みず"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 27,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "059-nishi",
+      "image": "カラナクシ.png"
+    },
+    {
+      "dexNumber": 60,
+      "name": "トリトドン",
+      "variant": "ひがし",
+      "types": [
+        "みず",
+        "じめん"
+      ],
+      "skillIds": [
+        1,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 185,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "060-higashi",
+      "image": "トリトドン.png"
+    },
+    {
+      "dexNumber": 60,
+      "name": "トリトドン",
+      "variant": "にし",
+      "types": [
+        "みず",
+        "じめん"
+      ],
+      "skillIds": [
+        1,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 185,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "060-nishi",
+      "image": "トリトドン.png"
+    },
+    {
+      "dexNumber": 61,
+      "name": "フワンテ",
+      "variant": null,
+      "types": [
+        "ゴースト",
+        "ひこう"
+      ],
+      "skillIds": [
+        9
+      ],
+      "habitats": [
+        {
+          "habitatId": 16,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 30,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 181,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "061",
+      "image": "フワンテ.png"
+    },
+    {
+      "dexNumber": 62,
+      "name": "フワライド",
+      "variant": null,
+      "types": [
+        "ゴースト",
+        "ひこう"
+      ],
+      "skillIds": [
+        8,
+        12
+      ],
+      "habitats": [
+        {
+          "habitatId": 181,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "062",
+      "image": "フワライド.png"
+    },
+    {
+      "dexNumber": 63,
+      "name": "モグリュー",
+      "variant": null,
+      "types": [
+        "じめん"
+      ],
+      "skillIds": [
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 15,
+          "level": 1,
+          "time": "morning,day,night,evening",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "063",
+      "image": "モグリュー.png"
+    },
+    {
+      "dexNumber": 64,
+      "name": "ドリュウズ",
+      "variant": null,
+      "types": [
+        "じめん",
+        "はがね"
+      ],
+      "skillIds": [
+        13,
+        7
+      ],
+      "habitats": [
+        {
+          "habitatId": 15,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "064",
+      "image": "ドリュウズ.png"
+    },
+    {
+      "dexNumber": 65,
+      "name": "ドッコラー",
+      "variant": null,
+      "types": [
+        "かくとう"
+      ],
+      "skillIds": [
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 3,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "065",
+      "image": "ドッコラー.png"
+    },
+    {
+      "dexNumber": 66,
+      "name": "ドテッコツ",
+      "variant": null,
+      "types": [
+        "かくとう"
+      ],
+      "skillIds": [
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 3,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "066",
+      "image": "ドテッコツ.png"
+    },
+    {
+      "dexNumber": 67,
+      "name": "ローブシン",
+      "variant": null,
+      "types": [
+        "かくとう"
+      ],
+      "skillIds": [
+        4,
+        15
+      ],
+      "habitats": [
+        {
+          "habitatId": 3,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 37,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "067",
+      "image": "ローブシン.png"
+    },
+    {
+      "dexNumber": 70,
+      "name": "キバゴ",
+      "variant": null,
+      "types": [
+        "ドラゴン"
+      ],
+      "skillIds": [
+        7,
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 37,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "070",
+      "image": "キバゴ.png"
+    },
+    {
+      "dexNumber": 71,
+      "name": "オノンド",
+      "variant": null,
+      "types": [
+        "ドラゴン"
+      ],
+      "skillIds": [
+        7,
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 37,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "071",
+      "image": "オノンド.png"
+    },
+    {
+      "dexNumber": 72,
+      "name": "オノノクス",
+      "variant": null,
+      "types": [
+        "ドラゴン"
+      ],
+      "skillIds": [
+        7,
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 37,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "072",
+      "image": "オノノクス.png"
+    },
+    {
+      "dexNumber": 78,
+      "name": "ピチュー",
+      "variant": null,
+      "types": [
+        "でんき"
+      ],
+      "skillIds": [
+        11
+      ],
+      "habitats": [
+        {
+          "habitatId": 20,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "078",
+      "image": "ピチュー.png"
+    },
+    {
+      "dexNumber": 79,
+      "name": "ピカチュウ",
+      "variant": "うすいろ",
+      "types": [
+        "でんき"
+      ],
+      "skillIds": [
+        25
+      ],
+      "habitats": [
+        {
+          "habitatId": 81,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "079-usuiro",
+      "image": "ピカチュウ.png"
+    },
+    {
+      "dexNumber": 79,
+      "name": "ピカチュウ",
+      "variant": null,
+      "types": [
+        "でんき"
+      ],
+      "skillIds": [
+        11
+      ],
+      "habitats": [
+        {
+          "habitatId": 20,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "079",
+      "image": "ピカチュウ.png"
+    },
+    {
+      "dexNumber": 80,
+      "name": "ライチュウ",
+      "variant": null,
+      "types": [
+        "でんき"
+      ],
+      "skillIds": [
+        11,
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 176,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "080",
+      "image": "ライチュウ.png"
+    },
+    {
+      "dexNumber": 81,
+      "name": "ズバット",
+      "variant": null,
+      "types": [
+        "どく",
+        "ひこう"
+      ],
+      "skillIds": [
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 51,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        },
+        {
+          "habitatId": 66,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "081",
+      "image": "ズバット.png"
+    },
+    {
+      "dexNumber": 82,
+      "name": "ゴルバット",
+      "variant": null,
+      "types": [
+        "どく",
+        "ひこう"
+      ],
+      "skillIds": [
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 51,
+          "level": 2,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "082",
+      "image": "ゴルバット.png"
+    },
+    {
+      "dexNumber": 83,
+      "name": "クロバット",
+      "variant": null,
+      "types": [
+        "どく",
+        "ひこう"
+      ],
+      "skillIds": [
+        13,
+        7
+      ],
+      "habitats": [
+        {
+          "habitatId": 52,
+          "level": 3,
+          "time": "night",
+          "weather": "all"
+        },
+        {
+          "habitatId": 65,
+          "level": 2,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "083",
+      "image": "クロバット.png"
+    },
+    {
+      "dexNumber": 84,
+      "name": "ニャース",
+      "variant": null,
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 61,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 91,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "084",
+      "image": "ニャース.png"
+    },
+    {
+      "dexNumber": 85,
+      "name": "ペルシアン",
+      "variant": null,
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        5,
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 179,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "085",
+      "image": "ペルシアン.png"
+    },
+    {
+      "dexNumber": 86,
+      "name": "コダック",
+      "variant": null,
+      "types": [
+        "みず"
+      ],
+      "skillIds": [
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 78,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "086",
+      "image": "コダック.png"
+    },
+    {
+      "dexNumber": 87,
+      "name": "ゴルダック",
+      "variant": null,
+      "types": [
+        "みず"
+      ],
+      "skillIds": [
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 78,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "087",
+      "image": "ゴルダック.png"
+    },
+    {
+      "dexNumber": 88,
+      "name": "ガーディ",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3,
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 62,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 79,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "088",
+      "image": "ガーディ.png"
+    },
+    {
+      "dexNumber": 89,
+      "name": "ウインディ",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3,
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 129,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 188,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "089",
+      "image": "ウインディ.png"
+    },
+    {
+      "dexNumber": 90,
+      "name": "カモネギ",
+      "variant": null,
+      "types": [
+        "ノーマル",
+        "ひこう"
+      ],
+      "skillIds": [
+        7,
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 80,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "090",
+      "image": "カモネギ.png"
+    },
+    {
+      "dexNumber": 91,
+      "name": "ベトベター",
+      "variant": null,
+      "types": [
+        "どく"
+      ],
+      "skillIds": [
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 186,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "091",
+      "image": "ベトベター.png"
+    },
+    {
+      "dexNumber": 92,
+      "name": "ベトベトン",
+      "variant": null,
+      "types": [
+        "どく"
+      ],
+      "skillIds": [
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 186,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "092",
+      "image": "ベトベトン.png"
+    },
+    {
+      "dexNumber": 93,
+      "name": "ゴース",
+      "variant": null,
+      "types": [
+        "ゴースト",
+        "どく"
+      ],
+      "skillIds": [
+        12,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 89,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "093",
+      "image": "ゴース.png"
+    },
+    {
+      "dexNumber": 94,
+      "name": "ゴースト",
+      "variant": null,
+      "types": [
+        "ゴースト",
+        "どく"
+      ],
+      "skillIds": [
+        12,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 73,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        },
+        {
+          "habitatId": 89,
+          "level": 2,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "094",
+      "image": "ゴースト.png"
+    },
+    {
+      "dexNumber": 95,
+      "name": "ゲンガー",
+      "variant": null,
+      "types": [
+        "ゴースト",
+        "どく"
+      ],
+      "skillIds": [
+        12,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 73,
+          "level": 2,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "095",
+      "image": "ゲンガー.png"
+    },
+    {
+      "dexNumber": 96,
+      "name": "ビリリダマ",
+      "variant": null,
+      "types": [
+        "でんき"
+      ],
+      "skillIds": [
+        11,
+        23
+      ],
+      "habitats": [
+        {
+          "habitatId": 66,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 90,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "096",
+      "image": "ビリリダマ.png"
+    },
+    {
+      "dexNumber": 97,
+      "name": "マルマイン",
+      "variant": null,
+      "types": [
+        "でんき"
+      ],
+      "skillIds": [
+        11,
+        23
+      ],
+      "habitats": [
+        {
+          "habitatId": 66,
+          "level": 3,
+          "time": "all",
+          "weather": "sunny,cloudy,rain,snow"
+        },
+        {
+          "habitatId": 90,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "097",
+      "image": "マルマイン.png"
+    },
+    {
+      "dexNumber": 98,
+      "name": "タマタマ",
+      "variant": null,
+      "types": [
+        "くさ",
+        "エスパー"
+      ],
+      "skillIds": [
+        2,
+        19
+      ],
+      "habitats": [
+        {
+          "habitatId": 57,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 59,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "098",
+      "image": "タマタマ.png"
+    },
+    {
+      "dexNumber": 99,
+      "name": "ナッシー",
+      "variant": null,
+      "types": [
+        "くさ",
+        "エスパー"
+      ],
+      "skillIds": [
+        2,
+        19
+      ],
+      "habitats": [
+        {
+          "habitatId": 57,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 59,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "099",
+      "image": "ナッシー.png"
+    },
+    {
+      "dexNumber": 100,
+      "name": "ピンプク",
+      "variant": null,
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 82,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 91,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "100",
+      "image": "ピンプク.png"
+    },
+    {
+      "dexNumber": 101,
+      "name": "ラッキー",
+      "variant": null,
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 81,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "101",
+      "image": "ラッキー.png"
+    },
+    {
+      "dexNumber": 102,
+      "name": "ハピナス",
+      "variant": null,
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        5,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 95,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "102",
+      "image": "ハピナス.png"
+    },
+    {
+      "dexNumber": 103,
+      "name": "エレキッド",
+      "variant": null,
+      "types": [
+        "でんき"
+      ],
+      "skillIds": [
+        11
+      ],
+      "habitats": [
+        {
+          "habitatId": 84,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "103",
+      "image": "エレキッド.png"
+    },
+    {
+      "dexNumber": 104,
+      "name": "エレブー",
+      "variant": null,
+      "types": [
+        "でんき"
+      ],
+      "skillIds": [
+        11
+      ],
+      "habitats": [
+        {
+          "habitatId": 64,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 72,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "104",
+      "image": "エレブー.png"
+    },
+    {
+      "dexNumber": 105,
+      "name": "エレキブル",
+      "variant": null,
+      "types": [
+        "でんき"
+      ],
+      "skillIds": [
+        11,
+        15
+      ],
+      "habitats": [
+        {
+          "habitatId": 72,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 84,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "105",
+      "image": "エレキブル.png"
+    },
+    {
+      "dexNumber": 106,
+      "name": "ラプラス",
+      "variant": null,
+      "types": [
+        "みず",
+        "こおり"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 60,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "106",
+      "image": "ラプラス.png"
+    },
+    {
+      "dexNumber": 107,
+      "name": "ゴンベ",
+      "variant": null,
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        17
+      ],
+      "habitats": [
+        {
+          "habitatId": 30,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 47,
+          "level": 1,
+          "time": "all",
+          "weather": "sunny,cloudy,snow"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "107",
+      "image": "ゴンベ.png"
+    },
+    {
+      "dexNumber": 108,
+      "name": "カビゴン",
+      "variant": "こけむし",
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        26
+      ],
+      "habitats": [
+        {
+          "habitatId": 93,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "108-kokemushi",
+      "image": "カビゴン.png"
+    },
+    {
+      "dexNumber": 108,
+      "name": "カビゴン",
+      "variant": null,
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        5,
+        17
+      ],
+      "habitats": [
+        {
+          "habitatId": 47,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 48,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "108",
+      "image": "カビゴン.png"
+    },
+    {
+      "dexNumber": 109,
+      "name": "イトマル",
+      "variant": null,
+      "types": [
+        "むし",
+        "どく"
+      ],
+      "skillIds": [
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 50,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "109",
+      "image": "イトマル.png"
+    },
+    {
+      "dexNumber": 110,
+      "name": "アリアドス",
+      "variant": null,
+      "types": [
+        "むし",
+        "どく"
+      ],
+      "skillIds": [
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 50,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "110",
+      "image": "アリアドス.png"
+    },
+    {
+      "dexNumber": 111,
+      "name": "メリープ",
+      "variant": null,
+      "types": [
+        "でんき"
+      ],
+      "skillIds": [
+        11,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 55,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 77,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "111",
+      "image": "メリープ.png"
+    },
+    {
+      "dexNumber": 112,
+      "name": "モココ",
+      "variant": null,
+      "types": [
+        "でんき"
+      ],
+      "skillIds": [
+        11,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 74,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 77,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "112",
+      "image": "モココ.png"
+    },
+    {
+      "dexNumber": 113,
+      "name": "デンリュウ",
+      "variant": null,
+      "types": [
+        "でんき"
+      ],
+      "skillIds": [
+        11,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 97,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "113",
+      "image": "デンリュウ.png"
+    },
+    {
+      "dexNumber": 114,
+      "name": "ルリリ",
+      "variant": null,
+      "types": [
+        "ノーマル",
+        "フェアリー"
+      ],
+      "skillIds": [
+        1,
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 53,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 62,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "114",
+      "image": "ルリリ.png"
+    },
+    {
+      "dexNumber": 115,
+      "name": "マリル",
+      "variant": null,
+      "types": [
+        "みず",
+        "フェアリー"
+      ],
+      "skillIds": [
+        1,
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 53,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 88,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "115",
+      "image": "マリル.png"
+    },
+    {
+      "dexNumber": 116,
+      "name": "マリルリ",
+      "variant": null,
+      "types": [
+        "みず",
+        "フェアリー"
+      ],
+      "skillIds": [
+        1,
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 88,
+          "level": 2,
+          "time": "all",
+          "weather": "rain"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "116",
+      "image": "マリルリ.png"
+    },
+    {
+      "dexNumber": 117,
+      "name": "パルデアウパー",
+      "variant": null,
+      "types": [
+        "どく",
+        "じめん"
+      ],
+      "skillIds": [
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 54,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "117",
+      "image": "パルデアウパー.png"
+    },
+    {
+      "dexNumber": 118,
+      "name": "ドオー",
+      "variant": null,
+      "types": [
+        "どく",
+        "じめん"
+      ],
+      "skillIds": [
+        10,
+        17
+      ],
+      "habitats": [
+        {
+          "habitatId": 54,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 186,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "118",
+      "image": "ドオー.png"
+    },
+    {
+      "dexNumber": 119,
+      "name": "ドーブル",
+      "variant": "ペインター",
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        28
+      ],
+      "habitats": [
+        {
+          "habitatId": 92,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "119-painter",
+      "image": "ドーブル.png"
+    },
+    {
+      "dexNumber": 120,
+      "name": "アチャモ",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3
+      ],
+      "habitats": [
+        {
+          "habitatId": 69,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 79,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "120",
+      "image": "アチャモ.png"
+    },
+    {
+      "dexNumber": 121,
+      "name": "ワカシャモ",
+      "variant": null,
+      "types": [
+        "ほのお",
+        "かくとう"
+      ],
+      "skillIds": [
+        3,
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 79,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 87,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "121",
+      "image": "ワカシャモ.png"
+    },
+    {
+      "dexNumber": 122,
+      "name": "バシャーモ",
+      "variant": null,
+      "types": [
+        "ほのお",
+        "かくとう"
+      ],
+      "skillIds": [
+        3,
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 69,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 87,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "122",
+      "image": "バシャーモ.png"
+    },
+    {
+      "dexNumber": 123,
+      "name": "キャモメ",
+      "variant": null,
+      "types": [
+        "みず",
+        "ひこう"
+      ],
+      "skillIds": [
+        1,
+        8
+      ],
+      "habitats": [
+        {
+          "habitatId": 52,
+          "level": 1,
+          "time": "morning,day,evening",
+          "weather": "all"
+        },
+        {
+          "habitatId": 58,
+          "level": 1,
+          "time": "morning,day,evening",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "123",
+      "image": "キャモメ.png"
+    },
+    {
+      "dexNumber": 124,
+      "name": "ペリッパー",
+      "variant": null,
+      "types": [
+        "みず",
+        "ひこう"
+      ],
+      "skillIds": [
+        1,
+        8
+      ],
+      "habitats": [
+        {
+          "habitatId": 52,
+          "level": 2,
+          "time": "morning,day,evening",
+          "weather": "all"
+        },
+        {
+          "habitatId": 58,
+          "level": 2,
+          "time": "morning,day,evening",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "124",
+      "image": "ペリッパー.png"
+    },
+    {
+      "dexNumber": 125,
+      "name": "マクノシタ",
+      "variant": null,
+      "types": [
+        "かくとう"
+      ],
+      "skillIds": [
+        4,
+        17
+      ],
+      "habitats": [
+        {
+          "habitatId": 51,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 80,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "125",
+      "image": "マクノシタ.png"
+    },
+    {
+      "dexNumber": 126,
+      "name": "ハリテヤマ",
+      "variant": null,
+      "types": [
+        "かくとう"
+      ],
+      "skillIds": [
+        4,
+        17
+      ],
+      "habitats": [
+        {
+          "habitatId": 51,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 80,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "126",
+      "image": "ハリテヤマ.png"
+    },
+    {
+      "dexNumber": 127,
+      "name": "アブソル",
+      "variant": null,
+      "types": [
+        "あく"
+      ],
+      "skillIds": [
+        7
+      ],
+      "habitats": [
+        {
+          "habitatId": 96,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "127",
+      "image": "アブソル.png"
+    },
+    {
+      "dexNumber": 128,
+      "name": "ポッチャマ",
+      "variant": null,
+      "types": [
+        "みず"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 53,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "128",
+      "image": "ポッチャマ.png"
+    },
+    {
+      "dexNumber": 129,
+      "name": "ポッタイシ",
+      "variant": null,
+      "types": [
+        "みず"
+      ],
+      "skillIds": [
+        1,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 53,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 86,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "129",
+      "image": "ポッタイシ.png"
+    },
+    {
+      "dexNumber": 130,
+      "name": "エンペルト",
+      "variant": null,
+      "types": [
+        "みず",
+        "はがね"
+      ],
+      "skillIds": [
+        1,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 68,
+          "level": 2,
+          "time": "all",
+          "weather": "rain"
+        },
+        {
+          "habitatId": 86,
+          "level": 3,
+          "time": "all",
+          "weather": "rain"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "130",
+      "image": "エンペルト.png"
+    },
+    {
+      "dexNumber": 131,
+      "name": "タブンネ",
+      "variant": null,
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 91,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "131",
+      "image": "タブンネ.png"
+    },
+    {
+      "dexNumber": 132,
+      "name": "ヤブクロン",
+      "variant": null,
+      "types": [
+        "どく"
+      ],
+      "skillIds": [
+        20,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 63,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "132",
+      "image": "ヤブクロン.png"
+    },
+    {
+      "dexNumber": 133,
+      "name": "ダストダス",
+      "variant": null,
+      "types": [
+        "どく"
+      ],
+      "skillIds": [
+        20,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 63,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "133",
+      "image": "ダストダス.png"
+    },
+    {
+      "dexNumber": 134,
+      "name": "ゾロア",
+      "variant": null,
+      "types": [
+        "あく"
+      ],
+      "skillIds": [
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 56,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "134",
+      "image": "ゾロア.png"
+    },
+    {
+      "dexNumber": 135,
+      "name": "ゾロアーク",
+      "variant": null,
+      "types": [
+        "あく"
+      ],
+      "skillIds": [
+        5,
+        7
+      ],
+      "habitats": [
+        {
+          "habitatId": 56,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 73,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "135",
+      "image": "ゾロアーク.png"
+    },
+    {
+      "dexNumber": 136,
+      "name": "チラーミィ",
+      "variant": null,
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        12
+      ],
+      "habitats": [
+        {
+          "habitatId": 75,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 76,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "136",
+      "image": "チラーミィ.png"
+    },
+    {
+      "dexNumber": 137,
+      "name": "チラチーノ",
+      "variant": null,
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        12,
+        20
+      ],
+      "habitats": [
+        {
+          "habitatId": 76,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "137",
+      "image": "チラチーノ.png"
+    },
+    {
+      "dexNumber": 138,
+      "name": "アゴジムシ",
+      "variant": null,
+      "types": [
+        "むし"
+      ],
+      "skillIds": [
+        7
+      ],
+      "habitats": [
+        {
+          "habitatId": 50,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 83,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "138",
+      "image": "アゴジムシ.png"
+    },
+    {
+      "dexNumber": 139,
+      "name": "デンヂムシ",
+      "variant": null,
+      "types": [
+        "むし",
+        "でんき"
+      ],
+      "skillIds": [
+        7,
+        11
+      ],
+      "habitats": [
+        {
+          "habitatId": 50,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 83,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "139",
+      "image": "デンヂムシ.png"
+    },
+    {
+      "dexNumber": 140,
+      "name": "クワガノン",
+      "variant": null,
+      "types": [
+        "むし",
+        "でんき"
+      ],
+      "skillIds": [
+        7,
+        11
+      ],
+      "habitats": [
+        {
+          "habitatId": 55,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 83,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "140",
+      "image": "クワガノン.png"
+    },
+    {
+      "dexNumber": 152,
+      "name": "ミミッキュ",
+      "variant": null,
+      "types": [
+        "ゴースト",
+        "フェアリー"
+      ],
+      "skillIds": [
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 33,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        },
+        {
+          "habitatId": 74,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "152",
+      "image": "ミミッキュ.png"
+    },
+    {
+      "dexNumber": 154,
+      "name": "ディグダ",
+      "variant": null,
+      "types": [
+        "じめん"
+      ],
+      "skillIds": [
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 99,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 119,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "154",
+      "image": "ディグダ.png"
+    },
+    {
+      "dexNumber": 155,
+      "name": "ダグトリオ",
+      "variant": null,
+      "types": [
+        "じめん"
+      ],
+      "skillIds": [
+        14,
+        15
+      ],
+      "habitats": [
+        {
+          "habitatId": 99,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 123,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "155",
+      "image": "ダグトリオ.png"
+    },
+    {
+      "dexNumber": 156,
+      "name": "ワンリキー",
+      "variant": null,
+      "types": [
+        "かくとう"
+      ],
+      "skillIds": [
+        4,
+        12
+      ],
+      "habitats": [
+        {
+          "habitatId": 3,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "156",
+      "image": "ワンリキー.png"
+    },
+    {
+      "dexNumber": 157,
+      "name": "ゴーリキー",
+      "variant": null,
+      "types": [
+        "かくとう"
+      ],
+      "skillIds": [
+        4,
+        12
+      ],
+      "habitats": [
+        {
+          "habitatId": 103,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 127,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "157",
+      "image": "ゴーリキー.png"
+    },
+    {
+      "dexNumber": 158,
+      "name": "カイリキー",
+      "variant": null,
+      "types": [
+        "かくとう"
+      ],
+      "skillIds": [
+        4,
+        12
+      ],
+      "habitats": [
+        {
+          "habitatId": 103,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 117,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "158",
+      "image": "カイリキー.png"
+    },
+    {
+      "dexNumber": 159,
+      "name": "イシツブテ",
+      "variant": null,
+      "types": [
+        "いわ",
+        "じめん"
+      ],
+      "skillIds": [
+        15
+      ],
+      "habitats": [
+        {
+          "habitatId": 1,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "159",
+      "image": "イシツブテ.png"
+    },
+    {
+      "dexNumber": 160,
+      "name": "ゴローン",
+      "variant": null,
+      "types": [
+        "いわ",
+        "じめん"
+      ],
+      "skillIds": [
+        15
+      ],
+      "habitats": [
+        {
+          "habitatId": 111,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "160",
+      "image": "ゴローン.png"
+    },
+    {
+      "dexNumber": 161,
+      "name": "ゴローニャ",
+      "variant": null,
+      "types": [
+        "いわ",
+        "じめん"
+      ],
+      "skillIds": [
+        15,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 111,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "161",
+      "image": "ゴローニャ.png"
+    },
+    {
+      "dexNumber": 162,
+      "name": "ブビィ",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3
+      ],
+      "habitats": [
+        {
+          "habitatId": 8,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "162",
+      "image": "ブビィ.png"
+    },
+    {
+      "dexNumber": 163,
+      "name": "ブーバー",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3
+      ],
+      "habitats": [
+        {
+          "habitatId": 116,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "163",
+      "image": "ブーバー.png"
+    },
+    {
+      "dexNumber": 164,
+      "name": "ブーバーン",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3,
+        15
+      ],
+      "habitats": [
+        {
+          "habitatId": 122,
+          "level": 2,
+          "time": "all",
+          "weather": "sunny,cloudy,snow"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "164",
+      "image": "ブーバーン.png"
+    },
+    {
+      "dexNumber": 165,
+      "name": "ウソハチ",
+      "variant": null,
+      "types": [
+        "いわ"
+      ],
+      "skillIds": [
+        17
+      ],
+      "habitats": [
+        {
+          "habitatId": 99,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "165",
+      "image": "ウソハチ.png"
+    },
+    {
+      "dexNumber": 166,
+      "name": "ウソッキー",
+      "variant": null,
+      "types": [
+        "いわ"
+      ],
+      "skillIds": [
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 99,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 123,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "166",
+      "image": "ウソッキー.png"
+    },
+    {
+      "dexNumber": 167,
+      "name": "ヤミカラス",
+      "variant": null,
+      "types": [
+        "あく",
+        "ひこう"
+      ],
+      "skillIds": [
+        5,
+        8
+      ],
+      "habitats": [
+        {
+          "habitatId": 102,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        },
+        {
+          "habitatId": 105,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "167",
+      "image": "ヤミカラス.png"
+    },
+    {
+      "dexNumber": 168,
+      "name": "ドンカラス",
+      "variant": null,
+      "types": [
+        "あく",
+        "ひこう"
+      ],
+      "skillIds": [
+        5,
+        8
+      ],
+      "habitats": [
+        {
+          "habitatId": 102,
+          "level": 2,
+          "time": "night",
+          "weather": "all"
+        },
+        {
+          "habitatId": 125,
+          "level": 2,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "168",
+      "image": "ドンカラス.png"
+    },
+    {
+      "dexNumber": 169,
+      "name": "ヨーギラス",
+      "variant": null,
+      "types": [
+        "いわ",
+        "じめん"
+      ],
+      "skillIds": [
+        15,
+        17
+      ],
+      "habitats": [
+        {
+          "habitatId": 110,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "169",
+      "image": "ヨーギラス.png"
+    },
+    {
+      "dexNumber": 170,
+      "name": "サナギラス",
+      "variant": null,
+      "types": [
+        "いわ",
+        "じめん"
+      ],
+      "skillIds": [
+        15,
+        17
+      ],
+      "habitats": [
+        {
+          "habitatId": 138,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "170",
+      "image": "サナギラス.png"
+    },
+    {
+      "dexNumber": 171,
+      "name": "バンギラス",
+      "variant": null,
+      "types": [
+        "いわ",
+        "あく"
+      ],
+      "skillIds": [
+        15,
+        17
+      ],
+      "habitats": [
+        {
+          "habitatId": 108,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 110,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "171",
+      "image": "バンギラス.png"
+    },
+    {
+      "dexNumber": 172,
+      "name": "ハスボー",
+      "variant": null,
+      "types": [
+        "みず",
+        "くさ"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 101,
+          "level": 1,
+          "time": "morning,day,evening",
+          "weather": "all"
+        },
+        {
+          "habitatId": 109,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 187,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "172",
+      "image": "ハスボー.png"
+    },
+    {
+      "dexNumber": 173,
+      "name": "ハスブレロ",
+      "variant": null,
+      "types": [
+        "みず",
+        "くさ"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 101,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 187,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "173",
+      "image": "ハスブレロ.png"
+    },
+    {
+      "dexNumber": 174,
+      "name": "ルンパッパ",
+      "variant": null,
+      "types": [
+        "みず",
+        "くさ"
+      ],
+      "skillIds": [
+        1,
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 109,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "174",
+      "image": "ルンパッパ.png"
+    },
+    {
+      "dexNumber": 175,
+      "name": "クチート",
+      "variant": null,
+      "types": [
+        "はがね",
+        "フェアリー"
+      ],
+      "skillIds": [
+        5,
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 91,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "175",
+      "image": "クチート.png"
+    },
+    {
+      "dexNumber": 176,
+      "name": "コータス",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3
+      ],
+      "habitats": [
+        {
+          "habitatId": 112,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "176",
+      "image": "コータス.png"
+    },
+    {
+      "dexNumber": 177,
+      "name": "コロボーシ",
+      "variant": null,
+      "types": [
+        "むし"
+      ],
+      "skillIds": [
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 98,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 128,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "177",
+      "image": "コロボーシ.png"
+    },
+    {
+      "dexNumber": 178,
+      "name": "コロトック",
+      "variant": null,
+      "types": [
+        "むし"
+      ],
+      "skillIds": [
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 98,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 128,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "178",
+      "image": "コロトック.png"
+    },
+    {
+      "dexNumber": 179,
+      "name": "ペラップ",
+      "variant": null,
+      "types": [
+        "ノーマル",
+        "ひこう"
+      ],
+      "skillIds": [
+        14,
+        8
+      ],
+      "habitats": [
+        {
+          "habitatId": 102,
+          "level": 1,
+          "time": "morning,day,evening",
+          "weather": "all"
+        },
+        {
+          "habitatId": 125,
+          "level": 1,
+          "time": "morning,day,evening",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "179",
+      "image": "ペラップ.png"
+    },
+    {
+      "dexNumber": 180,
+      "name": "リオル",
+      "variant": null,
+      "types": [
+        "かくとう"
+      ],
+      "skillIds": [
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 98,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 127,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "180",
+      "image": "リオル.png"
+    },
+    {
+      "dexNumber": 181,
+      "name": "ルカリオ",
+      "variant": null,
+      "types": [
+        "かくとう",
+        "はがね"
+      ],
+      "skillIds": [
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 127,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "181",
+      "image": "ルカリオ.png"
+    },
+    {
+      "dexNumber": 183,
+      "name": "メラルバ",
+      "variant": null,
+      "types": [
+        "むし",
+        "ほのお"
+      ],
+      "skillIds": [
+        3,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 105,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "183",
+      "image": "メラルバ.png"
+    },
+    {
+      "dexNumber": 184,
+      "name": "ウルガモス",
+      "variant": null,
+      "types": [
+        "むし",
+        "ほのお"
+      ],
+      "skillIds": [
+        3,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 105,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 115,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "184",
+      "image": "ウルガモス.png"
+    },
+    {
+      "dexNumber": 185,
+      "name": "モクロー",
+      "variant": null,
+      "types": [
+        "くさ",
+        "ひこう"
+      ],
+      "skillIds": [
+        2
+      ],
+      "habitats": [
+        {
+          "habitatId": 15,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "185",
+      "image": "モクロー.png"
+    },
+    {
+      "dexNumber": 186,
+      "name": "フクスロー",
+      "variant": null,
+      "types": [
+        "くさ",
+        "ひこう"
+      ],
+      "skillIds": [
+        2,
+        7
+      ],
+      "habitats": [
+        {
+          "habitatId": 100,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "186",
+      "image": "フクスロー.png"
+    },
+    {
+      "dexNumber": 187,
+      "name": "ジュナイパー",
+      "variant": null,
+      "types": [
+        "くさ",
+        "ゴースト"
+      ],
+      "skillIds": [
+        2,
+        7
+      ],
+      "habitats": [
+        {
+          "habitatId": 100,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 136,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "187",
+      "image": "ジュナイパー.png"
+    },
+    {
+      "dexNumber": 188,
+      "name": "ヒバニー",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3
+      ],
+      "habitats": [
+        {
+          "habitatId": 98,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "188",
+      "image": "ヒバニー.png"
+    },
+    {
+      "dexNumber": 189,
+      "name": "ラビフット",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3
+      ],
+      "habitats": [
+        {
+          "habitatId": 113,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 130,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "189",
+      "image": "ラビフット.png"
+    },
+    {
+      "dexNumber": 190,
+      "name": "エースバーン",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3,
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 98,
+          "level": 3,
+          "time": "all",
+          "weather": "sunny,cloudy,snow"
+        },
+        {
+          "habitatId": 130,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "190",
+      "image": "エースバーン.png"
+    },
+    {
+      "dexNumber": 191,
+      "name": "ホシガリス",
+      "variant": null,
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        13,
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 2,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "191",
+      "image": "ホシガリス.png"
+    },
+    {
+      "dexNumber": 192,
+      "name": "ヨクバリス",
+      "variant": "コック",
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        24
+      ],
+      "habitats": [
+        {
+          "habitatId": 133,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "192-cook",
+      "image": "ヨクバリス.png"
+    },
+    {
+      "dexNumber": 193,
+      "name": "タンドン",
+      "variant": null,
+      "types": [
+        "いわ"
+      ],
+      "skillIds": [
+        3,
+        12
+      ],
+      "habitats": [
+        {
+          "habitatId": 132,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "193",
+      "image": "タンドン.png"
+    },
+    {
+      "dexNumber": 194,
+      "name": "トロッゴン",
+      "variant": null,
+      "types": [
+        "いわ",
+        "ほのお"
+      ],
+      "skillIds": [
+        3,
+        12
+      ],
+      "habitats": [
+        {
+          "habitatId": 132,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "194",
+      "image": "トロッゴン.png"
+    },
+    {
+      "dexNumber": 195,
+      "name": "セキタンザン",
+      "variant": null,
+      "types": [
+        "いわ",
+        "ほのお"
+      ],
+      "skillIds": [
+        3,
+        12
+      ],
+      "habitats": [
+        {
+          "habitatId": 132,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 135,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "195",
+      "image": "セキタンザン.png"
+    },
+    {
+      "dexNumber": 196,
+      "name": "エレズン",
+      "variant": null,
+      "types": [
+        "でんき",
+        "どく"
+      ],
+      "skillIds": [
+        11
+      ],
+      "habitats": [
+        {
+          "habitatId": 124,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "196",
+      "image": "エレズン.png"
+    },
+    {
+      "dexNumber": 197,
+      "name": "ストリンダー",
+      "variant": "ハイ",
+      "types": [
+        "でんき",
+        "どく"
+      ],
+      "skillIds": [
+        11,
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 189,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "197-high",
+      "image": "ストリンダー.png"
+    },
+    {
+      "dexNumber": 197,
+      "name": "ストリンダー",
+      "variant": "ロー",
+      "types": [
+        "でんき",
+        "どく"
+      ],
+      "skillIds": [
+        11,
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 190,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "197-low",
+      "image": "ストリンダー.png"
+    },
+    {
+      "dexNumber": 198,
+      "name": "パピモッチ",
+      "variant": null,
+      "types": [
+        "フェアリー"
+      ],
+      "skillIds": [
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 104,
+          "level": 1,
+          "time": "morning,day,evening",
+          "weather": "all"
+        },
+        {
+          "habitatId": 121,
+          "level": 1,
+          "time": "morning,day,evening",
+          "weather": "sunny,cloudy,snow"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "198",
+      "image": "パピモッチ.png"
+    },
+    {
+      "dexNumber": 199,
+      "name": "バウッツェル",
+      "variant": null,
+      "types": [
+        "フェアリー"
+      ],
+      "skillIds": [
+        13,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 104,
+          "level": 2,
+          "time": "morning,day,evening",
+          "weather": "all"
+        },
+        {
+          "habitatId": 121,
+          "level": 2,
+          "time": "morning,day,evening",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "199",
+      "image": "バウッツェル.png"
+    },
+    {
+      "dexNumber": 200,
+      "name": "カルボウ",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3
+      ],
+      "habitats": [
+        {
+          "habitatId": 115,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "200",
+      "image": "カルボウ.png"
+    },
+    {
+      "dexNumber": 201,
+      "name": "グレンアルマ",
+      "variant": null,
+      "types": [
+        "ほのお",
+        "エスパー"
+      ],
+      "skillIds": [
+        3,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 192,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "201",
+      "image": "グレンアルマ.png"
+    },
+    {
+      "dexNumber": 202,
+      "name": "ソウブレイズ",
+      "variant": null,
+      "types": [
+        "ほのお",
+        "ゴースト"
+      ],
+      "skillIds": [
+        3,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 191,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "202",
+      "image": "ソウブレイズ.png"
+    },
+    {
+      "dexNumber": 203,
+      "name": "キラーメ",
+      "variant": null,
+      "types": [
+        "いわ",
+        "どく"
+      ],
+      "skillIds": [
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 118,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 119,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "203",
+      "image": "キラーメ.png"
+    },
+    {
+      "dexNumber": 204,
+      "name": "キラフロル",
+      "variant": null,
+      "types": [
+        "いわ",
+        "どく"
+      ],
+      "skillIds": [
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 118,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 119,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "204",
+      "image": "キラフロル.png"
+    },
+    {
+      "dexNumber": 205,
+      "name": "コレクレー",
+      "variant": null,
+      "types": [
+        "ゴースト"
+      ],
+      "skillIds": [
+        21
+      ],
+      "habitats": [
+        {
+          "habitatId": 129,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "205",
+      "image": "コレクレー.png"
+    },
+    {
+      "dexNumber": 206,
+      "name": "サーフゴー",
+      "variant": null,
+      "types": [
+        "はがね",
+        "ゴースト"
+      ],
+      "skillIds": [
+        21
+      ],
+      "habitats": [
+        {
+          "habitatId": 134,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "206",
+      "image": "サーフゴー.png"
+    },
+    {
+      "dexNumber": 207,
+      "name": "ロコン",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3
+      ],
+      "habitats": [
+        {
+          "habitatId": 142,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "207",
+      "image": "ロコン.png"
+    },
+    {
+      "dexNumber": 208,
+      "name": "キュウコン",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3
+      ],
+      "habitats": [
+        {
+          "habitatId": 142,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 180,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "208",
+      "image": "キュウコン.png"
+    },
+    {
+      "dexNumber": 209,
+      "name": "ニョロモ",
+      "variant": null,
+      "types": [
+        "みず"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 161,
+          "level": 1,
+          "time": "all",
+          "weather": "sunny,cloudy,rain,snow"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "209",
+      "image": "ニョロモ.png"
+    },
+    {
+      "dexNumber": 210,
+      "name": "ニョロゾ",
+      "variant": null,
+      "types": [
+        "みず"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 144,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "210",
+      "image": "ニョロゾ.png"
+    },
+    {
+      "dexNumber": 211,
+      "name": "ニョロボン",
+      "variant": null,
+      "types": [
+        "みず",
+        "かくとう"
+      ],
+      "skillIds": [
+        1,
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 156,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 178,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "211",
+      "image": "ニョロボン.png"
+    },
+    {
+      "dexNumber": 212,
+      "name": "ニョロトノ",
+      "variant": null,
+      "types": [
+        "みず"
+      ],
+      "skillIds": [
+        1,
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 106,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 107,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 114,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "212",
+      "image": "ニョロトノ.png"
+    },
+    {
+      "dexNumber": 213,
+      "name": "ケーシィ",
+      "variant": null,
+      "types": [
+        "エスパー"
+      ],
+      "skillIds": [
+        19
+      ],
+      "habitats": [
+        {
+          "habitatId": 151,
+          "level": 1,
+          "time": "all",
+          "weather": "sunny,cloudy,rain,snow"
+        },
+        {
+          "habitatId": 152,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "213",
+      "image": "ケーシィ.png"
+    },
+    {
+      "dexNumber": 214,
+      "name": "ユンゲラー",
+      "variant": null,
+      "types": [
+        "エスパー"
+      ],
+      "skillIds": [
+        19
+      ],
+      "habitats": [
+        {
+          "habitatId": 152,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "214",
+      "image": "ユンゲラー.png"
+    },
+    {
+      "dexNumber": 215,
+      "name": "フーディン",
+      "variant": null,
+      "types": [
+        "エスパー"
+      ],
+      "skillIds": [
+        19,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 151,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 168,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "215",
+      "image": "フーディン.png"
+    },
+    {
+      "dexNumber": 216,
+      "name": "マネネ",
+      "variant": null,
+      "types": [
+        "エスパー",
+        "フェアリー"
+      ],
+      "skillIds": [
+        12
+      ],
+      "habitats": [
+        {
+          "habitatId": 157,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 171,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "216",
+      "image": "マネネ.png"
+    },
+    {
+      "dexNumber": 217,
+      "name": "バリヤード",
+      "variant": null,
+      "types": [
+        "エスパー",
+        "フェアリー"
+      ],
+      "skillIds": [
+        12,
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 157,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "217",
+      "image": "バリヤード.png"
+    },
+    {
+      "dexNumber": 218,
+      "name": "ポリゴン",
+      "variant": null,
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        20
+      ],
+      "habitats": [
+        {
+          "habitatId": 170,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "218",
+      "image": "ポリゴン.png"
+    },
+    {
+      "dexNumber": 219,
+      "name": "ポリゴン2",
+      "variant": null,
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        20
+      ],
+      "habitats": [
+        {
+          "habitatId": 166,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "219",
+      "image": "ポリゴン2.png"
+    },
+    {
+      "dexNumber": 220,
+      "name": "ポリゴンZ",
+      "variant": null,
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        31
+      ],
+      "habitats": [
+        {
+          "habitatId": 164,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "220",
+      "image": "ポリゴンZ.png"
+    },
+    {
+      "dexNumber": 221,
+      "name": "ミニリュウ",
+      "variant": null,
+      "types": [
+        "ドラゴン"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 144,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 148,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "221",
+      "image": "ミニリュウ.png"
+    },
+    {
+      "dexNumber": 222,
+      "name": "ハクリュー",
+      "variant": null,
+      "types": [
+        "ドラゴン"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 144,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 148,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "222",
+      "image": "ハクリュー.png"
+    },
+    {
+      "dexNumber": 223,
+      "name": "カイリュー",
+      "variant": null,
+      "types": [
+        "ドラゴン",
+        "ひこう"
+      ],
+      "skillIds": [
+        1,
+        8
+      ],
+      "habitats": [
+        {
+          "habitatId": 145,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "223",
+      "image": "カイリュー.png"
+    },
+    {
+      "dexNumber": 224,
+      "name": "ヒノアラシ",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3
+      ],
+      "habitats": [
+        {
+          "habitatId": 141,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "224",
+      "image": "ヒノアラシ.png"
+    },
+    {
+      "dexNumber": 225,
+      "name": "マグマラシ",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3
+      ],
+      "habitats": [
+        {
+          "habitatId": 141,
+          "level": 2,
+          "time": "morning,day,evening",
+          "weather": "all"
+        },
+        {
+          "habitatId": 150,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "225",
+      "image": "マグマラシ.png"
+    },
+    {
+      "dexNumber": 226,
+      "name": "バクフーン",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 150,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 183,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "226",
+      "image": "バクフーン.png"
+    },
+    {
+      "dexNumber": 227,
+      "name": "ムウマ",
+      "variant": null,
+      "types": [
+        "ゴースト"
+      ],
+      "skillIds": [
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 142,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        },
+        {
+          "habitatId": 167,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "227",
+      "image": "ムウマ.png"
+    },
+    {
+      "dexNumber": 228,
+      "name": "ムウマージ",
+      "variant": null,
+      "types": [
+        "ゴースト"
+      ],
+      "skillIds": [
+        12,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 142,
+          "level": 3,
+          "time": "night",
+          "weather": "all"
+        },
+        {
+          "habitatId": 158,
+          "level": 2,
+          "time": "night",
+          "weather": "all"
+        },
+        {
+          "habitatId": 167,
+          "level": 2,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "228",
+      "image": "ムウマージ.png"
+    },
+    {
+      "dexNumber": 229,
+      "name": "キリンリキ",
+      "variant": null,
+      "types": [
+        "ノーマル",
+        "エスパー"
+      ],
+      "skillIds": [
+        12
+      ],
+      "habitats": [
+        {
+          "habitatId": 143,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "229",
+      "image": "キリンリキ.png"
+    },
+    {
+      "dexNumber": 230,
+      "name": "リキキリン",
+      "variant": null,
+      "types": [
+        "ノーマル",
+        "エスパー"
+      ],
+      "skillIds": [
+        12,
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 143,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "230",
+      "image": "リキキリン.png"
+    },
+    {
+      "dexNumber": 231,
+      "name": "ラルトス",
+      "variant": null,
+      "types": [
+        "エスパー",
+        "フェアリー"
+      ],
+      "skillIds": [
+        19
+      ],
+      "habitats": [
+        {
+          "habitatId": 159,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "231",
+      "image": "ラルトス.png"
+    },
+    {
+      "dexNumber": 232,
+      "name": "キルリア",
+      "variant": null,
+      "types": [
+        "エスパー",
+        "フェアリー"
+      ],
+      "skillIds": [
+        19
+      ],
+      "habitats": [
+        {
+          "habitatId": 159,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 162,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "232",
+      "image": "キルリア.png"
+    },
+    {
+      "dexNumber": 233,
+      "name": "サーナイト",
+      "variant": null,
+      "types": [
+        "エスパー",
+        "フェアリー"
+      ],
+      "skillIds": [
+        19,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 162,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 163,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "233",
+      "image": "サーナイト.png"
+    },
+    {
+      "dexNumber": 234,
+      "name": "エルレイド",
+      "variant": null,
+      "types": [
+        "エスパー",
+        "かくとう"
+      ],
+      "skillIds": [
+        19,
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 178,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "234",
+      "image": "エルレイド.png"
+    },
+    {
+      "dexNumber": 235,
+      "name": "プラスル",
+      "variant": null,
+      "types": [
+        "でんき"
+      ],
+      "skillIds": [
+        11
+      ],
+      "habitats": [
+        {
+          "habitatId": 174,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "235",
+      "image": "プラスル.png"
+    },
+    {
+      "dexNumber": 236,
+      "name": "マイナン",
+      "variant": null,
+      "types": [
+        "でんき"
+      ],
+      "skillIds": [
+        11
+      ],
+      "habitats": [
+        {
+          "habitatId": 174,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "236",
+      "image": "マイナン.png"
+    },
+    {
+      "dexNumber": 237,
+      "name": "ナックラー",
+      "variant": null,
+      "types": [
+        "じめん"
+      ],
+      "skillIds": [
+        17,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 137,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "237",
+      "image": "ナックラー.png"
+    },
+    {
+      "dexNumber": 238,
+      "name": "ビブラーバ",
+      "variant": null,
+      "types": [
+        "じめん",
+        "ドラゴン"
+      ],
+      "skillIds": [
+        17,
+        8
+      ],
+      "habitats": [
+        {
+          "habitatId": 137,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "238",
+      "image": "ビブラーバ.png"
+    },
+    {
+      "dexNumber": 239,
+      "name": "フライゴン",
+      "variant": null,
+      "types": [
+        "じめん",
+        "ドラゴン"
+      ],
+      "skillIds": [
+        17,
+        8
+      ],
+      "habitats": [
+        {
+          "habitatId": 137,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "239",
+      "image": "フライゴン.png"
+    },
+    {
+      "dexNumber": 240,
+      "name": "チルット",
+      "variant": null,
+      "types": [
+        "ノーマル",
+        "ひこう"
+      ],
+      "skillIds": [
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 137,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "240",
+      "image": "チルット.png"
+    },
+    {
+      "dexNumber": 241,
+      "name": "チルタリス",
+      "variant": null,
+      "types": [
+        "ドラゴン",
+        "ひこう"
+      ],
+      "skillIds": [
+        10,
+        8
+      ],
+      "habitats": [
+        {
+          "habitatId": 147,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "241",
+      "image": "チルタリス.png"
+    },
+    {
+      "dexNumber": 242,
+      "name": "ヨマワル",
+      "variant": null,
+      "types": [
+        "ゴースト"
+      ],
+      "skillIds": [
+        12
+      ],
+      "habitats": [
+        {
+          "habitatId": 137,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "242",
+      "image": "ヨマワル.png"
+    },
+    {
+      "dexNumber": 243,
+      "name": "サマヨール",
+      "variant": null,
+      "types": [
+        "ゴースト"
+      ],
+      "skillIds": [
+        12
+      ],
+      "habitats": [
+        {
+          "habitatId": 153,
+          "level": 2,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "243",
+      "image": "サマヨール.png"
+    },
+    {
+      "dexNumber": 244,
+      "name": "ヨノワール",
+      "variant": null,
+      "types": [
+        "ゴースト"
+      ],
+      "skillIds": [
+        12,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 153,
+          "level": 2,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "244",
+      "image": "ヨノワール.png"
+    },
+    {
+      "dexNumber": 245,
+      "name": "ダンバル",
+      "variant": null,
+      "types": [
+        "はがね",
+        "エスパー"
+      ],
+      "skillIds": [
+        20
+      ],
+      "habitats": [
+        {
+          "habitatId": 149,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "245",
+      "image": "ダンバル.png"
+    },
+    {
+      "dexNumber": 246,
+      "name": "メタング",
+      "variant": null,
+      "types": [
+        "はがね",
+        "エスパー"
+      ],
+      "skillIds": [
+        20
+      ],
+      "habitats": [
+        {
+          "habitatId": 169,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "246",
+      "image": "メタング.png"
+    },
+    {
+      "dexNumber": 247,
+      "name": "メタグロス",
+      "variant": null,
+      "types": [
+        "はがね",
+        "エスパー"
+      ],
+      "skillIds": [
+        20,
+        15
+      ],
+      "habitats": [
+        {
+          "habitatId": 182,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "247",
+      "image": "メタグロス.png"
+    },
+    {
+      "dexNumber": 248,
+      "name": "ツタージャ",
+      "variant": null,
+      "types": [
+        "くさ"
+      ],
+      "skillIds": [
+        2,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 165,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "248",
+      "image": "ツタージャ.png"
+    },
+    {
+      "dexNumber": 249,
+      "name": "ジャノビー",
+      "variant": null,
+      "types": [
+        "くさ"
+      ],
+      "skillIds": [
+        2,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 143,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "249",
+      "image": "ジャノビー.png"
+    },
+    {
+      "dexNumber": 250,
+      "name": "ジャローダ",
+      "variant": null,
+      "types": [
+        "くさ"
+      ],
+      "skillIds": [
+        2,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 143,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 171,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "250",
+      "image": "ジャローダ.png"
+    },
+    {
+      "dexNumber": 251,
+      "name": "ケロマツ",
+      "variant": null,
+      "types": [
+        "みず"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 139,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "251",
+      "image": "ケロマツ.png"
+    },
+    {
+      "dexNumber": 252,
+      "name": "ゲコガシラ",
+      "variant": null,
+      "types": [
+        "みず"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 139,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 173,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "252",
+      "image": "ゲコガシラ.png"
+    },
+    {
+      "dexNumber": 253,
+      "name": "ゲッコウガ",
+      "variant": null,
+      "types": [
+        "みず",
+        "あく"
+      ],
+      "skillIds": [
+        1,
+        7
+      ],
+      "habitats": [
+        {
+          "habitatId": 139,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 173,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "253",
+      "image": "ゲッコウガ.png"
+    },
+    {
+      "dexNumber": 254,
+      "name": "デデンネ",
+      "variant": null,
+      "types": [
+        "でんき",
+        "フェアリー"
+      ],
+      "skillIds": [
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 175,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "254",
+      "image": "デデンネ.png"
+    },
+    {
+      "dexNumber": 255,
+      "name": "オンバット",
+      "variant": null,
+      "types": [
+        "ひこう",
+        "ドラゴン"
+      ],
+      "skillIds": [
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 160,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "255",
+      "image": "オンバット.png"
+    },
+    {
+      "dexNumber": 256,
+      "name": "オンバーン",
+      "variant": null,
+      "types": [
+        "ひこう",
+        "ドラゴン"
+      ],
+      "skillIds": [
+        13,
+        8
+      ],
+      "habitats": [
+        {
+          "habitatId": 160,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "256",
+      "image": "オンバーン.png"
+    },
+    {
+      "dexNumber": 257,
+      "name": "ココガラ",
+      "variant": null,
+      "types": [
+        "ひこう"
+      ],
+      "skillIds": [
+        7
+      ],
+      "habitats": [
+        {
+          "habitatId": 142,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "257",
+      "image": "ココガラ.png"
+    },
+    {
+      "dexNumber": 258,
+      "name": "アオガラス",
+      "variant": null,
+      "types": [
+        "ひこう"
+      ],
+      "skillIds": [
+        7
+      ],
+      "habitats": [
+        {
+          "habitatId": 140,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "258",
+      "image": "アオガラス.png"
+    },
+    {
+      "dexNumber": 259,
+      "name": "アーマーガア",
+      "variant": null,
+      "types": [
+        "ひこう",
+        "はがね"
+      ],
+      "skillIds": [
+        7,
+        8
+      ],
+      "habitats": [
+        {
+          "habitatId": 140,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 156,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "259",
+      "image": "アーマーガア.png"
+    },
+    {
+      "dexNumber": 260,
+      "name": "ドラメシヤ",
+      "variant": null,
+      "types": [
+        "ドラゴン",
+        "ゴースト"
+      ],
+      "skillIds": [
+        12,
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 138,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "260",
+      "image": "ドラメシヤ.png"
+    },
+    {
+      "dexNumber": 261,
+      "name": "ドロンチ",
+      "variant": null,
+      "types": [
+        "ドラゴン",
+        "ゴースト"
+      ],
+      "skillIds": [
+        12,
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 138,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 167,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "261",
+      "image": "ドロンチ.png"
+    },
+    {
+      "dexNumber": 262,
+      "name": "ドラパルト",
+      "variant": null,
+      "types": [
+        "ドラゴン",
+        "ゴースト"
+      ],
+      "skillIds": [
+        12,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 167,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "262",
+      "image": "ドラパルト.png"
+    },
+    {
+      "dexNumber": 263,
+      "name": "ニャオハ",
+      "variant": null,
+      "types": [
+        "くさ"
+      ],
+      "skillIds": [
+        2
+      ],
+      "habitats": [
+        {
+          "habitatId": 138,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 155,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "263",
+      "image": "ニャオハ.png"
+    },
+    {
+      "dexNumber": 264,
+      "name": "ニャローテ",
+      "variant": null,
+      "types": [
+        "くさ"
+      ],
+      "skillIds": [
+        2
+      ],
+      "habitats": [
+        {
+          "habitatId": 155,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "264",
+      "image": "ニャローテ.png"
+    },
+    {
+      "dexNumber": 265,
+      "name": "マスカーニャ",
+      "variant": null,
+      "types": [
+        "くさ",
+        "あく"
+      ],
+      "skillIds": [
+        2,
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 172,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "265",
+      "image": "マスカーニャ.png"
+    },
+    {
+      "dexNumber": 266,
+      "name": "カイデン",
+      "variant": null,
+      "types": [
+        "でんき",
+        "ひこう"
+      ],
+      "skillIds": [
+        11
+      ],
+      "habitats": [
+        {
+          "habitatId": 140,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "266",
+      "image": "カイデン.png"
+    },
+    {
+      "dexNumber": 267,
+      "name": "タイカイデン",
+      "variant": null,
+      "types": [
+        "でんき",
+        "ひこう"
+      ],
+      "skillIds": [
+        11,
+        8
+      ],
+      "habitats": [
+        {
+          "habitatId": 140,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "267",
+      "image": "タイカイデン.png"
+    },
+    {
+      "dexNumber": 268,
+      "name": "カヌチャン",
+      "variant": null,
+      "types": [
+        "フェアリー",
+        "はがね"
+      ],
+      "skillIds": [
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 28,
+          "level": 1,
+          "time": "all",
+          "weather": "sunny,cloudy,snow"
+        },
+        {
+          "habitatId": 154,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "268",
+      "image": "カヌチャン.png"
+    },
+    {
+      "dexNumber": 269,
+      "name": "ナカヌチャン",
+      "variant": null,
+      "types": [
+        "フェアリー",
+        "はがね"
+      ],
+      "skillIds": [
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 28,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 156,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "269",
+      "image": "ナカヌチャン.png"
+    },
+    {
+      "dexNumber": 270,
+      "name": "デカヌチャン",
+      "variant": "おやかた",
+      "types": [
+        "フェアリー",
+        "はがね"
+      ],
+      "skillIds": [
+        30
+      ],
+      "habitats": [
+        {
+          "habitatId": 154,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "270-oyakata",
+      "image": "デカヌチャン.png"
+    },
+    {
+      "dexNumber": 271,
+      "name": "プテラ",
+      "variant": null,
+      "types": [
+        "いわ",
+        "ひこう"
+      ],
+      "skillIds": [
+        8
+      ],
+      "habitats": [
+        {
+          "habitatId": 193,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "271",
+      "image": "プテラ.png"
+    },
+    {
+      "dexNumber": 272,
+      "name": "ズガイドス",
+      "variant": null,
+      "types": [
+        "いわ"
+      ],
+      "skillIds": [
+        15
+      ],
+      "habitats": [
+        {
+          "habitatId": 194,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "272",
+      "image": "ズガイドス.png"
+    },
+    {
+      "dexNumber": 273,
+      "name": "ラムパルド",
+      "variant": null,
+      "types": [
+        "いわ"
+      ],
+      "skillIds": [
+        15,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 195,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "273",
+      "image": "ラムパルド.png"
+    },
+    {
+      "dexNumber": 274,
+      "name": "タテトプス",
+      "variant": null,
+      "types": [
+        "いわ",
+        "はがね"
+      ],
+      "skillIds": [
+        15
+      ],
+      "habitats": [
+        {
+          "habitatId": 196,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "274",
+      "image": "タテトプス.png"
+    },
+    {
+      "dexNumber": 275,
+      "name": "トリデプス",
+      "variant": null,
+      "types": [
+        "いわ",
+        "はがね"
+      ],
+      "skillIds": [
+        15,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 197,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "275",
+      "image": "トリデプス.png"
+    },
+    {
+      "dexNumber": 276,
+      "name": "チゴラス",
+      "variant": null,
+      "types": [
+        "いわ",
+        "ドラゴン"
+      ],
+      "skillIds": [
+        15
+      ],
+      "habitats": [
+        {
+          "habitatId": 198,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "276",
+      "image": "チゴラス.png"
+    },
+    {
+      "dexNumber": 277,
+      "name": "ガチゴラス",
+      "variant": null,
+      "types": [
+        "いわ",
+        "ドラゴン"
+      ],
+      "skillIds": [
+        15,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 199,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "277",
+      "image": "ガチゴラス.png"
+    },
+    {
+      "dexNumber": 278,
+      "name": "アマルス",
+      "variant": null,
+      "types": [
+        "いわ",
+        "こおり"
+      ],
+      "skillIds": [
+        15
+      ],
+      "habitats": [
+        {
+          "habitatId": 200,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "278",
+      "image": "アマルス.png"
+    },
+    {
+      "dexNumber": 279,
+      "name": "アマルルガ",
+      "variant": null,
+      "types": [
+        "いわ",
+        "こおり"
+      ],
+      "skillIds": [
+        15,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 201,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "279",
+      "image": "アマルルガ.png"
+    },
+    {
+      "dexNumber": 280,
+      "name": "イーブイ",
+      "variant": null,
+      "types": [
+        "ノーマル"
+      ],
+      "skillIds": [
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 8,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "280",
+      "image": "イーブイ.png"
+    },
+    {
+      "dexNumber": 281,
+      "name": "シャワーズ",
+      "variant": null,
+      "types": [
+        "みず"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 202,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "281",
+      "image": "シャワーズ.png"
+    },
+    {
+      "dexNumber": 282,
+      "name": "サンダース",
+      "variant": null,
+      "types": [
+        "でんき"
+      ],
+      "skillIds": [
+        11
+      ],
+      "habitats": [
+        {
+          "habitatId": 203,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "282",
+      "image": "サンダース.png"
+    },
+    {
+      "dexNumber": 283,
+      "name": "ブースター",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3
+      ],
+      "habitats": [
+        {
+          "habitatId": 204,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "283",
+      "image": "ブースター.png"
+    },
+    {
+      "dexNumber": 284,
+      "name": "エーフィ",
+      "variant": null,
+      "types": [
+        "エスパー"
+      ],
+      "skillIds": [
+        12
+      ],
+      "habitats": [
+        {
+          "habitatId": 205,
+          "level": 1,
+          "time": "morning,day,evening",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "284",
+      "image": "エーフィ.png"
+    },
+    {
+      "dexNumber": 285,
+      "name": "ブラッキー",
+      "variant": null,
+      "types": [
+        "あく"
+      ],
+      "skillIds": [
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 206,
+          "level": 1,
+          "time": "night",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "285",
+      "image": "ブラッキー.png"
+    },
+    {
+      "dexNumber": 286,
+      "name": "リーフィア",
+      "variant": null,
+      "types": [
+        "くさ"
+      ],
+      "skillIds": [
+        2
+      ],
+      "habitats": [
+        {
+          "habitatId": 207,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "286",
+      "image": "リーフィア.png"
+    },
+    {
+      "dexNumber": 287,
+      "name": "グレイシア",
+      "variant": null,
+      "types": [
+        "こおり"
+      ],
+      "skillIds": [
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 208,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "287",
+      "image": "グレイシア.png"
+    },
+    {
+      "dexNumber": 288,
+      "name": "ニンフィア",
+      "variant": null,
+      "types": [
+        "フェアリー"
+      ],
+      "skillIds": [
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 209,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "288",
+      "image": "ニンフィア.png"
+    },
+    {
+      "dexNumber": 289,
+      "name": "カイオーガ",
+      "variant": null,
+      "types": [
+        "みず"
+      ],
+      "skillIds": [],
+      "habitats": [],
+      "isLegendary": true,
+      "isEventOnly": false,
+      "slug": "289",
+      "image": "カイオーガ.png"
+    },
+    {
+      "dexNumber": 290,
+      "name": "ライコウ",
+      "variant": null,
+      "types": [
+        "でんき"
+      ],
+      "skillIds": [
+        11
+      ],
+      "habitats": [],
+      "isLegendary": true,
+      "isEventOnly": false,
+      "slug": "290",
+      "image": "ライコウ.png"
+    },
+    {
+      "dexNumber": 291,
+      "name": "エンテイ",
+      "variant": null,
+      "types": [
+        "ほのお"
+      ],
+      "skillIds": [
+        3
+      ],
+      "habitats": [],
+      "isLegendary": true,
+      "isEventOnly": false,
+      "slug": "291",
+      "image": "エンテイ.png"
+    },
+    {
+      "dexNumber": 292,
+      "name": "スイクン",
+      "variant": null,
+      "types": [
+        "みず"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [],
+      "isLegendary": true,
+      "isEventOnly": false,
+      "slug": "292",
+      "image": "スイクン.png"
+    },
+    {
+      "dexNumber": 293,
+      "name": "ボルケニオン",
+      "variant": null,
+      "types": [
+        "ほのお",
+        "みず"
+      ],
+      "skillIds": [
+        3
+      ],
+      "habitats": [],
+      "isLegendary": true,
+      "isEventOnly": false,
+      "slug": "293",
+      "image": "ボルケニオン.png"
+    },
+    {
+      "dexNumber": 294,
+      "name": "フリーザー",
+      "variant": null,
+      "types": [
+        "こおり",
+        "ひこう"
+      ],
+      "skillIds": [
+        8
+      ],
+      "habitats": [],
+      "isLegendary": true,
+      "isEventOnly": false,
+      "slug": "294",
+      "image": "フリーザー.png"
+    },
+    {
+      "dexNumber": 295,
+      "name": "サンダー",
+      "variant": null,
+      "types": [
+        "でんき",
+        "ひこう"
+      ],
+      "skillIds": [
+        8
+      ],
+      "habitats": [],
+      "isLegendary": true,
+      "isEventOnly": false,
+      "slug": "295",
+      "image": "サンダー.png"
+    },
+    {
+      "dexNumber": 296,
+      "name": "ファイヤー",
+      "variant": null,
+      "types": [
+        "ほのお",
+        "ひこう"
+      ],
+      "skillIds": [
+        8
+      ],
+      "habitats": [],
+      "isLegendary": true,
+      "isEventOnly": false,
+      "slug": "296",
+      "image": "ファイヤー.png"
+    },
+    {
+      "dexNumber": 297,
+      "name": "ルギア",
+      "variant": null,
+      "types": [
+        "エスパー",
+        "ひこう"
+      ],
+      "skillIds": [],
+      "habitats": [],
+      "isLegendary": true,
+      "isEventOnly": false,
+      "slug": "297",
+      "image": "ルギア.png"
+    },
+    {
+      "dexNumber": 298,
+      "name": "ホウオウ",
+      "variant": null,
+      "types": [
+        "ほのお",
+        "ひこう"
+      ],
+      "skillIds": [],
+      "habitats": [],
+      "isLegendary": true,
+      "isEventOnly": false,
+      "slug": "298",
+      "image": "ホウオウ.png"
+    },
+    {
+      "dexNumber": 299,
+      "name": "ミュウツー",
+      "variant": null,
+      "types": [
+        "エスパー"
+      ],
+      "skillIds": [
+        19
+      ],
+      "habitats": [],
+      "isLegendary": true,
+      "isEventOnly": false,
+      "slug": "299",
+      "image": "ミュウツー.png"
+    },
+    {
+      "dexNumber": 300,
+      "name": "ミュウ",
+      "variant": null,
+      "types": [
+        "エスパー"
+      ],
+      "skillIds": [
+        19
+      ],
+      "habitats": [],
+      "isLegendary": true,
+      "isEventOnly": false,
+      "slug": "300",
+      "image": "ミュウ.png"
+    },
+    {
+      "dexNumber": 301,
+      "name": "ハネッコ",
+      "variant": null,
+      "types": [
+        "くさ",
+        "ひこう"
+      ],
+      "skillIds": [
+        2
+      ],
+      "habitats": [
+        {
+          "habitatId": 210,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": true,
+      "slug": "301",
+      "image": "ハネッコ.png"
+    },
+    {
+      "dexNumber": 302,
+      "name": "ポポッコ",
+      "variant": null,
+      "types": [
+        "くさ",
+        "ひこう"
+      ],
+      "skillIds": [
+        2
+      ],
+      "habitats": [
+        {
+          "habitatId": 210,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 211,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": true,
+      "slug": "302",
+      "image": "ポポッコ.png"
+    },
+    {
+      "dexNumber": 303,
+      "name": "ワタッコ",
+      "variant": null,
+      "types": [
+        "くさ",
+        "ひこう"
+      ],
+      "skillIds": [
+        2,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 210,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        },
+        {
+          "habitatId": 212,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": true,
+      "slug": "303",
+      "image": "ワタッコ.png"
+    },
+    {
+      "dexNumber": 68,
+      "name": "ヒトモシ",
+      "variant": null,
+      "types": [
+        "ゴースト",
+        "ほのお"
+      ],
+      "skillIds": [
+        3
+      ],
+      "habitats": [
+        {
+          "habitatId": 7,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "068b",
+      "image": "ヒトモシ.png"
+    },
+    {
+      "dexNumber": 69,
+      "name": "ランプラー",
+      "variant": null,
+      "types": [
+        "ゴースト",
+        "ほのお"
+      ],
+      "skillIds": [
+        3
+      ],
+      "habitats": [
+        {
+          "habitatId": 7,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "069b",
+      "image": "ランプラー.png"
+    },
+    {
+      "dexNumber": 70,
+      "name": "シャンデラ",
+      "variant": null,
+      "types": [
+        "ゴースト",
+        "ほのお"
+      ],
+      "skillIds": [
+        3,
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 7,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "070b",
+      "image": "キバゴ.png"
+    },
+    {
+      "dexNumber": 74,
+      "name": "ヌメラ",
+      "variant": null,
+      "types": [
+        "ドラゴン"
+      ],
+      "skillIds": [
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 4,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "074b",
+      "image": "ヌメラ.png"
+    },
+    {
+      "dexNumber": 75,
+      "name": "ヌメイル",
+      "variant": null,
+      "types": [
+        "ドラゴン"
+      ],
+      "skillIds": [
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 4,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "075b",
+      "image": "ヌメイル.png"
+    },
+    {
+      "dexNumber": 76,
+      "name": "ヌメルゴン",
+      "variant": null,
+      "types": [
+        "ドラゴン"
+      ],
+      "skillIds": [
+        10,
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 4,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "076b",
+      "image": "ヌメルゴン.png"
+    },
+    {
+      "dexNumber": 77,
+      "name": "ウッウ",
+      "variant": null,
+      "types": [
+        "ひこう",
+        "みず"
+      ],
+      "skillIds": [
+        13
+      ],
+      "habitats": [
+        {
+          "habitatId": 52,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "077b",
+      "image": "ウッウ.png"
+    },
+    {
+      "dexNumber": 142,
+      "name": "パモ",
+      "variant": null,
+      "types": [
+        "でんき"
+      ],
+      "skillIds": [
+        11
+      ],
+      "habitats": [
+        {
+          "habitatId": 55,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "142b",
+      "image": "パモ.png"
+    },
+    {
+      "dexNumber": 143,
+      "name": "パモット",
+      "variant": null,
+      "types": [
+        "でんき",
+        "かくとう"
+      ],
+      "skillIds": [
+        11,
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 55,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "143b",
+      "image": "パモット.png"
+    },
+    {
+      "dexNumber": 144,
+      "name": "パーモット",
+      "variant": null,
+      "types": [
+        "でんき",
+        "かくとう"
+      ],
+      "skillIds": [
+        11,
+        4
+      ],
+      "habitats": [
+        {
+          "habitatId": 55,
+          "level": 3,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "144b",
+      "image": "パーモット.png"
+    },
+    {
+      "dexNumber": 145,
+      "name": "シャリタツ",
+      "variant": "そったすがた",
+      "types": [
+        "ドラゴン",
+        "みず"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 60,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "145-sotta",
+      "image": "シャリタツ.png"
+    },
+    {
+      "dexNumber": 145,
+      "name": "シャリタツ",
+      "variant": "たれたすがた",
+      "types": [
+        "ドラゴン",
+        "みず"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 60,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "145-tareta",
+      "image": "シャリタツ.png"
+    },
+    {
+      "dexNumber": 145,
+      "name": "シャリタツ",
+      "variant": "のびたすがた",
+      "types": [
+        "ドラゴン",
+        "みず"
+      ],
+      "skillIds": [
+        1
+      ],
+      "habitats": [
+        {
+          "habitatId": 60,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "145-nobita",
+      "image": "シャリタツ.png"
+    },
+    {
+      "dexNumber": 146,
+      "name": "アーボ",
+      "variant": null,
+      "types": [
+        "どく"
+      ],
+      "skillIds": [
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 50,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "146b",
+      "image": "アーボ.png"
+    },
+    {
+      "dexNumber": 147,
+      "name": "アーボック",
+      "variant": null,
+      "types": [
+        "どく"
+      ],
+      "skillIds": [
+        10
+      ],
+      "habitats": [
+        {
+          "habitatId": 50,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "147b",
+      "image": "アーボック.png"
+    },
+    {
+      "dexNumber": 148,
+      "name": "ピィ",
+      "variant": null,
+      "types": [
+        "フェアリー"
+      ],
+      "skillIds": [
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 142,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "148b",
+      "image": "ピィ.png"
+    },
+    {
+      "dexNumber": 149,
+      "name": "ピッピ",
+      "variant": null,
+      "types": [
+        "フェアリー"
+      ],
+      "skillIds": [
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 142,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "149b",
+      "image": "ピッピ.png"
+    },
+    {
+      "dexNumber": 150,
+      "name": "ピクシー",
+      "variant": null,
+      "types": [
+        "フェアリー"
+      ],
+      "skillIds": [
+        14,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 142,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "150b",
+      "image": "ピクシー.png"
+    },
+    {
+      "dexNumber": 151,
+      "name": "ププリン",
+      "variant": null,
+      "types": [
+        "ノーマル",
+        "フェアリー"
+      ],
+      "skillIds": [
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 104,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "151b",
+      "image": "ププリン.png"
+    },
+    {
+      "dexNumber": 152,
+      "name": "プリン",
+      "variant": null,
+      "types": [
+        "ノーマル",
+        "フェアリー"
+      ],
+      "skillIds": [
+        14
+      ],
+      "habitats": [
+        {
+          "habitatId": 104,
+          "level": 1,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "152b",
+      "image": "ミミッキュ.png"
+    },
+    {
+      "dexNumber": 153,
+      "name": "プクリン",
+      "variant": null,
+      "types": [
+        "ノーマル",
+        "フェアリー"
+      ],
+      "skillIds": [
+        14,
+        5
+      ],
+      "habitats": [
+        {
+          "habitatId": 104,
+          "level": 2,
+          "time": "all",
+          "weather": "all"
+        }
+      ],
+      "isLegendary": false,
+      "isEventOnly": false,
+      "slug": "153b",
+      "image": "プクリン.png"
+    }
+  ]
+}
