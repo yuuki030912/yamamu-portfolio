@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>仏像レース ～悟りへの道～ | AIが作ったブラウザゲーム【無料・DL不要】</title>
+  <meta name="description" content="AIで作られた仏像レースをブラウザで無料プレイ。阿弥陀如来・釈迦如来・不動明王・観音菩薩・地蔵菩薩の5仏が悟りを目指してレース。Claude製ロジック×NovelAI製キャラの異色HTML5ゲーム。">
+  <meta name="keywords" content="仏像レース,悟りへの道,AIゲーム,ブラウザゲーム,無料,HTML5,やまむー,Claude,NovelAI">
+  <link rel="canonical" href="https://yamamu-youtube.jp/ai-games/play/butsuzou-race.html">
+
+  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="仏像レース ～悟りへの道～ | AIが作ったブラウザゲーム">
+  <meta property="og:description" content="阿弥陀・釈迦・不動・観音・地蔵の5仏が悟りを目指す異色レースゲーム。ブラウザで無料プレイ。">
+  <meta property="og:image" content="https://yamamu-youtube.jp/ai-games/games/butsuzou-race/butsuzou_title.png">
+  <meta property="og:url" content="https://yamamu-youtube.jp/ai-games/play/butsuzou-race.html">
+  <meta property="og:site_name" content="AIが作ったゲーム【やまむー】">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="仏像レース ～悟りへの道～ | やまむー">
+  <meta name="twitter:description" content="阿弥陀・釈迦・不動・観音・地蔵の5仏が悟りを目指すAI制作ブラウザゲーム">
+  <meta name="twitter:image" content="https://yamamu-youtube.jp/ai-games/games/butsuzou-race/butsuzou_title.png">
+
+  <!-- JSON-LD: VideoGame -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "仏像レース ～悟りへの道～",
+    "url": "https://yamamu-youtube.jp/ai-games/play/butsuzou-race.html",
+    "description": "阿弥陀如来・釈迦如来・不動明王・観音菩薩・地蔵菩薩の5仏が悟りを目指して競うコメディレースゲーム。AIで制作されたHTML5ブラウザゲーム。",
+    "genre": ["Racing", "Comedy"],
+    "operatingSystem": "Browser (HTML5)",
+    "applicationCategory": "Game",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "JPY",
+      "availability": "https://schema.org/InStock"
+    },
+    "image": "https://yamamu-youtube.jp/ai-games/games/butsuzou-race/butsuzou_title.png",
+    "author": {
+      "@type": "Person",
+      "name": "やまむー",
+      "url": "https://www.youtube.com/@yamamu"
+    },
+    "gamePlatform": "Browser",
+    "playMode": "SinglePlayer"
+  }
+  </script>
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "AIが作ったゲーム", "item": "https://yamamu-youtube.jp/ai-games/" },
+      { "@type": "ListItem", "position": 2, "name": "仏像レース ～悟りへの道～" }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD: FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "仏像レースはどんなゲームですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "阿弥陀如来・釈迦如来・不動明王・観音菩薩・地蔵菩薩の5仏が悟りを目指して競うコメディレースゲームです。AIで制作されており、ブラウザで無料プレイできます。所要時間は約5〜10分。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ダウンロードは必要ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不要です。ブラウザ上で動作するHTML5ゲームのため、URLを開くだけで即プレイできます。スマートフォン・PCの両方に対応しています。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "どのAIで作られていますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ゲームロジックはClaude（Anthropic）、キャラクター画像はNovelAI、効果音は無料素材を組み合わせて制作されています。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "セーブはできますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "1プレイ完結型のシンプル設計のため、セーブ機能はありません。スコアはローカルストレージに自動保存されます。"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1697281908647985" crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      --bg: #fff8f0;
+      --bg-card: #ffffff;
+      --bg-soft: #fef3e7;
+      --text: #2d1b0f;
+      --text-soft: #6b5847;
+      --primary: #ec4899;
+      --primary-dark: #db2777;
+      --secondary: #a855f7;
+      --accent: #fcd34d;
+      --shadow: 0 4px 0 rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 0 rgba(0,0,0,0.12);
+      --radius: 16px;
+      --radius-lg: 24px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: var(--bg); color: var(--text);
+      font-family: "M PLUS Rounded 1c", "Noto Sans JP", sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* HEADER */
+    header.site-head {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255, 248, 240, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 3px solid var(--text);
+      padding: 14px 24px;
+    }
+    .head-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .logo {
+      font-weight: 900; font-size: 20px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .logo .emoji { font-size: 26px; }
+    .logo b {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    nav.head-nav { display: flex; gap: 6px; flex-wrap: wrap; }
+    nav.head-nav a {
+      padding: 7px 12px;
+      font-weight: 700; font-size: 12px;
+      border: 2px solid var(--text);
+      border-radius: 999px;
+      background: var(--bg-card);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    nav.head-nav a:hover {
+      transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--text);
+    }
+
+    /* BREADCRUMB */
+    .breadcrumb {
+      max-width: 1100px; margin: 16px auto 0; padding: 0 24px;
+      font-size: 12px; color: var(--text-soft);
+    }
+    .breadcrumb a { color: var(--primary); border-bottom: 1px dotted var(--primary); }
+    .breadcrumb span { margin: 0 6px; }
+
+    /* HERO */
+    .game-hero {
+      max-width: 1100px; margin: 24px auto; padding: 0 24px;
+    }
+    .hero-card {
+      background-image:
+        linear-gradient(135deg, rgba(255,248,240,0.75) 0%, rgba(252,211,77,0.55) 100%),
+        url("../assets/ogp-butsuzou-race.png");
+      background-size: cover;
+      background-position: center;
+      border: 3px solid var(--text);
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+    .game-meta-tags { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+    .meta-tag {
+      background: var(--text); color: #fff;
+      padding: 4px 12px; font-size: 11px; font-weight: 900;
+      border-radius: 999px;
+    }
+    .meta-tag.pink { background: var(--primary); }
+    .meta-tag.purple { background: var(--secondary); }
+    .game-hero h1 {
+      font-size: clamp(26px, 5vw, 42px);
+      font-weight: 900; line-height: 1.2;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .game-hero .sub {
+      font-size: 15px; color: var(--text); font-weight: 500;
+      max-width: 720px;
+      position: relative;
+    }
+
+    /* AD SLOT */
+    .ad-slot {
+      max-width: 1100px; margin: 24px auto; padding: 0 24px;
+      text-align: center;
+    }
+    .ad-label {
+      font-size: 10px; color: var(--text-soft); margin-bottom: 4px;
+      letter-spacing: 0.1em;
+    }
+    .ad-box {
+      background: var(--bg-card);
+      border: 2px dashed var(--text-soft);
+      border-radius: var(--radius);
+      padding: 8px; min-height: 90px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* GAME EMBED */
+    .game-section {
+      max-width: 1100px; margin: 0 auto; padding: 0 24px;
+    }
+    .game-frame-wrap {
+      background: #000;
+      border: 4px solid var(--text);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      aspect-ratio: 16/10;
+    }
+    .game-frame-wrap iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border: 0;
+      display: block;
+    }
+    .play-hint {
+      margin: 12px 0 0;
+      text-align: center;
+      font-size: 13px; color: var(--text-soft);
+    }
+
+    /* SECTION */
+    section.content-section {
+      max-width: 1100px; margin: 48px auto; padding: 0 24px;
+    }
+    section.content-section h2 {
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 900;
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    section.content-section h2 .ico { font-size: 1.4em; }
+    section.content-section h3 {
+      font-size: 18px; font-weight: 900;
+      margin: 20px 0 8px;
+    }
+    section.content-section p { color: var(--text); margin-bottom: 12px; }
+
+    /* INFO GRID */
+    .info-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px; margin: 16px 0;
+    }
+    .info-item {
+      background: var(--bg-card);
+      border: 3px solid var(--text);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      box-shadow: var(--shadow);
+    }
+    .info-item b { display: block; font-size: 13px; color: var(--text-soft); margin-bottom: 4px; }
+    .info-item .v { font-size: 16px; font-weight: 900; }
+
+    /* CHARACTERS */
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px; margin: 20px 0;
+    }
+    .char-card {
+      background: var(--bg-card);
+      border: 3px solid var(--text);
+      border-radius: var(--radius);
+      padding: 14px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .char-card img {
+      width: 100%; aspect-ratio: 1;
+      object-fit: contain; margin-bottom: 8px;
+      background: var(--bg-soft); border-radius: 12px;
+    }
+    .char-card b { font-size: 14px; font-weight: 900; display: block; }
+    .char-card .desc { font-size: 12px; color: var(--text-soft); }
+
+    /* AI TOOLS */
+    .ai-tools-list {
+      display: grid; gap: 12px;
+      margin: 16px 0;
+    }
+    .ai-tool {
+      background: var(--bg-card);
+      border: 3px solid var(--text);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      box-shadow: var(--shadow);
+      display: flex; align-items: center; gap: 14px;
+    }
+    .ai-tool .icon {
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    .ai-tool .body { flex: 1; }
+    .ai-tool b { display: block; font-size: 15px; }
+    .ai-tool .role { font-size: 12px; color: var(--text-soft); }
+    .ai-tool .visit {
+      background: var(--text); color: #fff;
+      padding: 6px 14px; font-size: 12px; font-weight: 900;
+      border-radius: 999px;
+    }
+
+    /* FAQ */
+    .faq { display: grid; gap: 10px; margin-top: 16px; }
+    .faq details {
+      background: var(--bg-card);
+      border: 3px solid var(--text);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      box-shadow: var(--shadow);
+    }
+    .faq summary {
+      font-weight: 900; font-size: 15px;
+      cursor: pointer; list-style: none;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .faq summary::after { content: '＋'; margin-left: auto; font-weight: 900; }
+    .faq details[open] summary::after { content: '−'; }
+    .faq p { margin-top: 10px; color: var(--text-soft); font-size: 14px; }
+
+    /* DEV VIDEO */
+    .dev-video {
+      background: var(--bg-card);
+      border: 3px solid var(--text);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+    .dev-video-embed { aspect-ratio: 16/9; background: #000; position: relative; }
+    .dev-video-embed iframe {
+      position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+    }
+    .dev-video-meta { padding: 16px; }
+    .dev-video-meta b { display: block; font-size: 15px; margin-bottom: 4px; }
+    .dev-video-meta a {
+      display: inline-block; margin-top: 8px;
+      background: #ff0000; color: #fff;
+      padding: 8px 14px; font-size: 13px; font-weight: 900;
+      border-radius: 999px;
+      border: 2px solid var(--text);
+    }
+
+    /* TIP JAR */
+    .tip-jar {
+      text-align: center;
+      background: linear-gradient(135deg, #fce7f3 0%, #ec4899 100%);
+      border: 3px solid var(--text);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      box-shadow: var(--shadow-lg);
+    }
+    .tip-jar h2 { justify-content: center; }
+    .tip-jar p { font-weight: 700; }
+    .tip-btn {
+      display: inline-block;
+      background: var(--text); color: #fff;
+      padding: 16px 32px; font-size: 16px; font-weight: 900;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-top: 12px;
+    }
+    .tip-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--text-soft); }
+
+    /* RELATED */
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .related-card {
+      background: var(--bg-card);
+      border: 3px solid var(--text);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: var(--shadow);
+    }
+    .related-card:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 9px 9px 0 var(--text);
+    }
+    .related-thumb {
+      aspect-ratio: 16/10;
+      display: flex; align-items: center; justify-content: center;
+      border-bottom: 3px solid var(--text);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .related-thumb.t2 { background-image: url("../assets/ogp-manin-densha-gacha.png"); }
+    .related-thumb.t3 { background-image: url("../assets/ogp-ojiichan-space.png"); }
+    .related-thumb.t4 { background-image: url("../assets/ogp-timestop-hero.png"); }
+    .related-thumb.t5 { background-image: url("../assets/ogp-guild-master-tactics.png"); }
+    .related-body { padding: 14px; }
+    .related-body b { display: block; font-size: 14px; font-weight: 900; margin-bottom: 4px; }
+    .related-body .desc { font-size: 12px; color: var(--text-soft); }
+
+    /* STICKY ANCHOR AD (mobile-friendly) */
+    .anchor-ad {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: var(--bg-card);
+      border-top: 3px solid var(--text);
+      padding: 8px;
+      z-index: 90;
+      text-align: center;
+      min-height: 64px;
+    }
+    .anchor-ad-close {
+      position: absolute; top: -14px; right: 10px;
+      background: var(--text); color: #fff;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      font-size: 16px; font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      border: 2px solid var(--bg-card);
+    }
+
+    /* FOOTER */
+    footer.site-foot {
+      padding: 32px 24px;
+      background: var(--bg-card);
+      border-top: 3px solid var(--text);
+    }
+    .foot-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; gap: 16px; flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .foot-links { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; }
+    .foot-links a { color: var(--text-soft); border-bottom: 1px dashed transparent; }
+    .foot-links a:hover { color: var(--primary); border-color: var(--primary); }
+    .foot-copy { font-size: 12px; color: var(--text-soft); }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-head">
+    <div class="head-inner">
+      <a href="/ai-games/" class="logo">
+        <span class="emoji">🎮</span>
+        <span><b>AIが作ったゲーム</b></span>
+      </a>
+      <nav class="head-nav">
+        <a href="/ai-games/">トップ</a>
+        <a href="https://yamamu-youtube.jp/">攻略Wiki</a>
+        <a href="https://www.youtube.com/@yamamu" rel="noopener" target="_blank">YouTube</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <nav class="breadcrumb" aria-label="パンくず">
+    <a href="/ai-games/">AIが作ったゲーム</a>
+    <span>›</span>
+    仏像レース ～悟りへの道～
+  </nav>
+
+  <!-- HERO -->
+  <section class="game-hero">
+    <div class="hero-card">
+      <div class="game-meta-tags">
+        <span class="meta-tag pink">🆕 NEW</span>
+        <span class="meta-tag">レース</span>
+        <span class="meta-tag purple">コメディ</span>
+        <span class="meta-tag">⏱ 約5〜10分</span>
+      </div>
+      <h1>仏像レース ～悟りへの道～</h1>
+      <p class="sub">
+        阿弥陀如来・釈迦如来・不動明王・観音菩薩・地蔵菩薩 ── 5仏が悟りを目指して競い合う、AIが本気で作った異色のコメディレース。煩悩を振り切って涅槃を目指せ。
+      </p>
+    </div>
+  </section>
+
+  <!-- AD 1: ABOVE GAME -->
+  <aside class="ad-slot" aria-label="広告">
+    <div class="ad-label">SPONSORED</div>
+    <div class="ad-box">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-1697281908647985"
+           data-ad-slot="0000000010"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </aside>
+
+  <!-- GAME IFRAME -->
+  <section class="game-section">
+    <div class="game-frame-wrap">
+      <iframe
+        src="../games/butsuzou-race/index.html"
+        title="仏像レース ～悟りへの道～"
+        sandbox="allow-scripts allow-same-origin"
+        allow="accelerometer; gyroscope"
+        loading="lazy"></iframe>
+    </div>
+    <p class="play-hint">💡 操作方法はゲーム内で表示されます / モバイル・PC両対応</p>
+  </section>
+
+  <!-- AD 2: BELOW GAME -->
+  <aside class="ad-slot" aria-label="広告">
+    <div class="ad-label">SPONSORED</div>
+    <div class="ad-box">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-1697281908647985"
+           data-ad-slot="0000000011"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </aside>
+
+  <!-- GAME INFO -->
+  <section class="content-section">
+    <h2><span class="ico">📖</span> このゲームについて</h2>
+    <p>
+      <b>仏像レース ～悟りへの道～</b>は、5体の仏像が「悟り」を目指して走るコメディレースゲーム。煩悩アイテムや法力ブーストを駆使し、ライバル仏像を出し抜いて涅槃に至るのが目標です。
+    </p>
+    <p>
+      「仏像をモチーフにしたレースゲーム」というぶっ飛んだコンセプトは、AIだから1日で形になりました。深く考えず、ネタとして楽しんでください。
+    </p>
+
+    <div class="info-grid">
+      <div class="info-item"><b>ジャンル</b><div class="v">コメディレース</div></div>
+      <div class="info-item"><b>プレイ時間</b><div class="v">約5〜10分</div></div>
+      <div class="info-item"><b>対応デバイス</b><div class="v">PC / スマホ</div></div>
+      <div class="info-item"><b>料金</b><div class="v">完全無料</div></div>
+    </div>
+  </section>
+
+  <!-- CHARACTERS -->
+  <section class="content-section">
+    <h2><span class="ico">🛕</span> 登場する5仏</h2>
+    <p>NovelAIで生成された個性豊かな仏像たち。それぞれが異なる特殊能力を持っています。</p>
+
+    <div class="char-grid">
+      <div class="char-card">
+        <img src="../games/butsuzou-race/assets/char_amida.png" alt="阿弥陀如来" loading="lazy">
+        <b>阿弥陀如来</b>
+        <div class="desc">浄土の救世主。安定型</div>
+      </div>
+      <div class="char-card">
+        <img src="../games/butsuzou-race/assets/char_shaka.png" alt="釈迦如来" loading="lazy">
+        <b>釈迦如来</b>
+        <div class="desc">悟りの開祖。バランス型</div>
+      </div>
+      <div class="char-card">
+        <img src="../games/butsuzou-race/assets/char_fudo.png" alt="不動明王" loading="lazy">
+        <b>不動明王</b>
+        <div class="desc">炎の戦士。高火力型</div>
+      </div>
+      <div class="char-card">
+        <img src="../games/butsuzou-race/assets/char_kannon.png" alt="観音菩薩" loading="lazy">
+        <b>観音菩薩</b>
+        <div class="desc">慈悲の象徴。サポート型</div>
+      </div>
+      <div class="char-card">
+        <img src="../games/butsuzou-race/assets/char_jizo.png" alt="地蔵菩薩" loading="lazy">
+        <b>地蔵菩薩</b>
+        <div class="desc">守護の聖者。耐久型</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AD 3: IN-CONTENT -->
+  <aside class="ad-slot" aria-label="広告">
+    <div class="ad-label">SPONSORED</div>
+    <div class="ad-box">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-1697281908647985"
+           data-ad-slot="0000000012"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </aside>
+
+  <!-- AI TOOLS USED (アフィリエイト枠) -->
+  <section class="content-section">
+    <h2><span class="ico">🛠</span> 制作に使ったAIツール</h2>
+    <p>このゲーム、実は1日で完成しました。使ったツールを紹介します（リンクから登録すると応援になります）。</p>
+
+    <div class="ai-tools-list">
+      <div class="ai-tool">
+        <div class="icon">🤖</div>
+        <div class="body">
+          <b>Claude</b>
+          <div class="role">ゲームロジック・JavaScript全体の設計</div>
+        </div>
+        <a href="https://claude.com/" rel="noopener nofollow sponsored" target="_blank" class="visit">公式サイト →</a>
+      </div>
+      <div class="ai-tool">
+        <div class="icon">🎨</div>
+        <div class="body">
+          <b>NovelAI</b>
+          <div class="role">5仏像のキャラクター画像生成</div>
+        </div>
+        <a href="https://novelai.net/" rel="noopener nofollow sponsored" target="_blank" class="visit">公式サイト →</a>
+      </div>
+      <div class="ai-tool">
+        <div class="icon">🔊</div>
+        <div class="body">
+          <b>効果音ラボ</b>
+          <div class="role">SE・BGM（無料素材）</div>
+        </div>
+        <a href="https://soundeffect-lab.info/" rel="noopener nofollow" target="_blank" class="visit">公式サイト →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEV VIDEO (実際の動画IDが決まったら埋め込みに置換) -->
+  <section class="content-section">
+    <h2><span class="ico">🎬</span> 制作の裏側（動画）</h2>
+    <p>このゲームをAIで作る過程をYouTubeで公開しています。プロンプトや工夫点も解説。</p>
+
+    <div class="dev-video">
+      <a href="https://www.youtube.com/@yamamu" rel="noopener" target="_blank" style="display:block; text-decoration:none;">
+        <div class="dev-video-embed" style="background:linear-gradient(135deg,#fef3c7,#fcd34d); display:flex; align-items:center; justify-content:center; flex-direction:column;">
+          <div style="font-size:64px; margin-bottom:8px;">🎬</div>
+          <div style="color:var(--text); font-weight:900; font-size:20px;">制作動画を見る</div>
+          <div style="color:var(--text-soft); font-size:13px; margin-top:4px;">▶ YouTube チャンネルへ</div>
+        </div>
+      </a>
+      <div class="dev-video-meta">
+        <b>やまむー【yamamu】 チャンネル</b>
+        <small>AIゲーム制作の裏側を毎日配信中</small><br>
+        <a href="https://www.youtube.com/@yamamu" rel="noopener" target="_blank">▶ チャンネル登録</a>
+      </div>
+    </div>
+    <!-- 動画ID確定後、上記をiframe埋め込みに置換：
+    <iframe src="https://www.youtube.com/embed/VIDEO_ID" ...></iframe>
+    -->
+  </section>
+
+  <!-- FAQ -->
+  <section class="content-section">
+    <h2><span class="ico">❓</span> よくある質問</h2>
+
+    <div class="faq">
+      <details open>
+        <summary>仏像レースはどんなゲームですか？</summary>
+        <p>阿弥陀如来・釈迦如来・不動明王・観音菩薩・地蔵菩薩の5仏が悟りを目指して競うコメディレースゲームです。AIで制作されており、ブラウザで無料プレイできます。所要時間は約5〜10分。</p>
+      </details>
+      <details>
+        <summary>ダウンロードは必要ですか？</summary>
+        <p>不要です。ブラウザ上で動作するHTML5ゲームのため、URLを開くだけで即プレイできます。スマートフォン・PCの両方に対応しています。</p>
+      </details>
+      <details>
+        <summary>どのAIで作られていますか？</summary>
+        <p>ゲームロジックはClaude（Anthropic）、キャラクター画像はNovelAI、効果音は無料素材を組み合わせて制作されています。</p>
+      </details>
+      <details>
+        <summary>セーブはできますか？</summary>
+        <p>1プレイ完結型のシンプル設計のため、セーブ機能はありません。スコアはローカルストレージに自動保存されます。</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- TIP JAR -->
+  <section class="content-section">
+    <div class="tip-jar">
+      <h2><span class="ico">💝</span> 面白かったら応援してね</h2>
+      <p>このゲームが気に入ったら、YouTubeチャンネル登録 or 投げ銭で応援お願いします。次回作の制作費になります。</p>
+      <a href="https://www.youtube.com/@yamamu" rel="noopener" target="_blank" class="tip-btn">▶ YouTubeチャンネル登録（無料）</a>
+    </div>
+  </section>
+
+  <!-- RELATED GAMES -->
+  <section class="content-section">
+    <h2><span class="ico">🎯</span> こちらのゲームもおすすめ</h2>
+
+    <div class="related-grid">
+      <a href="manin-densha-gacha.html" class="related-card">
+        <div class="related-thumb t2"></div>
+        <div class="related-body">
+          <b>満員電車おじさんガチャ</b>
+          <div class="desc">朝の通勤電車でレアおじさんを引け</div>
+        </div>
+      </a>
+      <a href="ojiichan-space.html" class="related-card">
+        <div class="related-thumb t3"></div>
+        <div class="related-body">
+          <b>おじいちゃん宇宙大冒険</b>
+          <div class="desc">引退宇宙飛行士の最後の冒険</div>
+        </div>
+      </a>
+      <a href="timestop-hero.html" class="related-card">
+        <div class="related-thumb t4"></div>
+        <div class="related-body">
+          <b>TIMESTOP HERO</b>
+          <div class="desc">時を止めて敵を一掃する爽快アクション</div>
+        </div>
+      </a>
+      <a href="guild-master-tactics.html" class="related-card">
+        <div class="related-thumb t5"></div>
+        <div class="related-body">
+          <b>ギルドマスター・タクティクス</b>
+          <div class="desc">ギルドを率いる本格SRPG</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- DISCLAIMER -->
+  <section class="content-section">
+    <div style="background:var(--bg-soft); border:2px solid var(--text-soft); border-radius:var(--radius); padding:18px 22px; font-size:13px; color:var(--text-soft); line-height:1.8;">
+      <b style="color:var(--text); display:block; margin-bottom:6px;">📜 免責事項</b>
+      本ゲームの登場キャラクター（阿弥陀如来・釈迦如来・不動明王・観音菩薩・地蔵菩薩）は、仏教モチーフを用いたオリジナル創作物であり、特定の宗教団体・寺院・人物とは一切関係ありません。信仰の対象を侮辱する意図はなく、エンターテインメントとしての創作として制作しています。
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-foot">
+    <div class="foot-inner">
+      <div class="foot-links">
+        <a href="/ai-games/">トップ</a>
+        <a href="https://yamamu-youtube.jp/">攻略Wiki</a>
+        <a href="https://www.youtube.com/@yamamu" rel="noopener" target="_blank">YouTube</a>
+        <a href="https://twitter.com/YamamuGaming" rel="noopener" target="_blank">X (Twitter)</a>
+        <a href="/about.html">運営者情報</a>
+        <a href="/privacy.html">プライバシーポリシー</a>
+        <a href="/contact.html">お問い合わせ</a>
+      </div>
+      <div class="foot-copy">
+        &copy; 2026 やまむー【yamamu】 / AIが作ったゲーム ポータル
+      </div>
+    </div>
+  </footer>
+
+  <!-- ANCHOR AD (sticky bottom) — AdSenseスロットID確定後に有効化
+  <aside class="anchor-ad" id="anchorAd" aria-label="広告">
+    <span class="anchor-ad-close" onclick="document.getElementById('anchorAd').style.display='none'">×</span>
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:728px;max-width:100%;height:50px"
+         data-ad-client="ca-pub-1697281908647985"
+         data-ad-slot="0000000013"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </aside>
+  -->
+
+
+</body>
+</html>

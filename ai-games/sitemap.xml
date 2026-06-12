@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- ポータルトップ -->
+  <url>
+    <loc>https://yamamu-youtube.jp/ai-games/</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://yamamu-youtube.jp/ai-games/assets/ogp-portal.png</image:loc>
+      <image:title>AIが作ったゲーム ポータル</image:title>
+    </image:image>
+  </url>
+
+  <!-- 仏像レース -->
+  <url>
+    <loc>https://yamamu-youtube.jp/ai-games/play/butsuzou-race.html</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://yamamu-youtube.jp/ai-games/assets/ogp-butsuzou-race.png</image:loc>
+      <image:title>仏像レース ～悟りへの道～</image:title>
+    </image:image>
+  </url>
+
+  <!-- 満員電車おじさんガチャ -->
+  <url>
+    <loc>https://yamamu-youtube.jp/ai-games/play/manin-densha-gacha.html</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://yamamu-youtube.jp/ai-games/assets/ogp-manin-densha-gacha.png</image:loc>
+      <image:title>満員電車おじさんガチャ</image:title>
+    </image:image>
+  </url>
+
+  <!-- おじいちゃん宇宙大冒険 -->
+  <url>
+    <loc>https://yamamu-youtube.jp/ai-games/play/ojiichan-space.html</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://yamamu-youtube.jp/ai-games/assets/ogp-ojiichan-space.png</image:loc>
+      <image:title>おじいちゃん宇宙大冒険</image:title>
+    </image:image>
+  </url>
+
+  <!-- TIMESTOP HERO -->
+  <url>
+    <loc>https://yamamu-youtube.jp/ai-games/play/timestop-hero.html</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://yamamu-youtube.jp/ai-games/assets/ogp-timestop-hero.png</image:loc>
+      <image:title>TIMESTOP HERO</image:title>
+    </image:image>
+  </url>
+
+  <!-- ギルドマスター・タクティクス -->
+  <url>
+    <loc>https://yamamu-youtube.jp/ai-games/play/guild-master-tactics.html</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://yamamu-youtube.jp/ai-games/assets/ogp-guild-master-tactics.png</image:loc>
+      <image:title>ギルドマスター・タクティクス v0.6β</image:title>
+    </image:image>
+  </url>
+
+</urlset>

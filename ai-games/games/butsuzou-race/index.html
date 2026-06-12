@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>仏像レース ～悟りへの道～</title>
+<link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+  <div id="game">
+
+    <!-- タイトル画面 -->
+    <div id="title-screen" class="screen active">
+      <h1 class="title-main">仏像レース</h1>
+      <p class="title-sub">～悟りへの道～</p>
+      <div class="title-art">
+        <img src="assets/butsuzou_title.png" alt="" onerror="this.style.display='none'">
+      </div>
+      <p class="instruction">5体の仏像が、悟りを目指して走る。<br>南無阿弥陀仏を唱えて、最初に悟りなさい。</p>
+      <button id="start-btn" class="btn-main">レース開始</button>
+    </div>
+
+    <!-- キャラ選択 -->
+    <div id="select-screen" class="screen">
+      <h2>担当する仏像をお選びください</h2>
+      <div id="char-list"></div>
+      <button id="select-confirm-btn" class="btn-main" disabled>この仏像で行く</button>
+    </div>
+
+    <!-- レース画面 -->
+    <div id="race-screen" class="screen">
+      <div id="race-track">
+        <div class="goal-line"></div>
+        <div id="lanes"></div>
+      </div>
+      <div id="hud">
+        <div id="event-log">レーススタート！</div>
+        <div id="position-display">順位：-</div>
+      </div>
+      <div id="control-area">
+        <button id="chant-btn">南無阿弥陀仏</button>
+        <p class="hint">連打して念仏パワーを溜めよ</p>
+      </div>
+    </div>
+
+    <!-- 結果画面 -->
+    <div id="result-screen" class="screen">
+      <h2 id="result-title">悟りました</h2>
+      <div class="result-art">
+        <img id="result-img" src="assets/satori.png" alt="" onerror="this.style.display='none'">
+      </div>
+      <p id="result-text"></p>
+      <button id="retry-btn" class="btn-main">もう一度</button>
+    </div>
+
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

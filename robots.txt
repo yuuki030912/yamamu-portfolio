@@ -1,8 +1,9 @@
 User-agent: *
 Allow: /
 
-# Sitemap
+# Sitemaps
 Sitemap: https://yamamu-youtube.jp/sitemap.xml
+Sitemap: https://yamamu-youtube.jp/ai-games/sitemap.xml
 
 # LLMO（AI検索最適化）
 # llms.txt: https://yamamu-youtube.jp/llms.txt

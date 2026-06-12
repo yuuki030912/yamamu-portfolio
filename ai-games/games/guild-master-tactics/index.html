@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ギルドマスター・タクティクス v0.6</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Yu Gothic UI', 'Meiryo', sans-serif;
+  background: #1a1a2e; color: #e6e6e6;
+  min-height: 100vh; padding: 16px;
+}
+h1 { font-size: 20px; margin-bottom: 4px; color: #ffd700; }
+.subtitle { font-size: 12px; color: #888; }
+#game { max-width: 720px; margin: 0 auto; }
+#stage-info {
+  background: #16213e; padding: 10px 16px;
+  border-radius: 8px; margin: 12px 0;
+  border-left: 4px solid #ffd700; font-size: 14px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+#stage-info .right { display:flex; gap:12px; font-size:13px; }
+.row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+/* 敵カード */
+.card {
+  background: #16213e; border: 2px solid #2c3e5d;
+  border-radius: 10px; padding: 12px;
+  flex: 1; min-width: 130px;
+  transition: all 0.15s; position: relative; overflow: hidden;
+}
+.card.target { cursor: pointer; }
+.card.target:hover { border-color: #ff6b6b; transform: translateY(-2px); }
+.card.acting { border-color: #ffd700; box-shadow: 0 0 12px rgba(255,215,0,0.4); }
+.card.dead { opacity: 0.3; filter: grayscale(1); }
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.card-name { font-weight: bold; font-size: 14px; }
+.card-class { font-size: 11px; color: #88c0d0; }
+.card-icon { font-size: 15px; }
+.enemy-img { width:100%; height:70px; object-fit:contain; object-position:center; margin-bottom:6px; border-radius:4px; }
+.ability-tag { font-size:10px; background:#2c1a3a; color:#cc88ff; padding:2px 6px; border-radius:4px; display:inline-block; margin-top:4px; }
+/* ソロキャラカード */
+.solo-card {
+  background: #16213e; border: 2px solid #2c3e5d;
+  border-radius: 12px; padding: 16px;
+  margin-bottom: 12px; transition: all 0.15s;
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.solo-card.acting { border-color: #ffd700; box-shadow: 0 0 16px rgba(255,215,0,0.4); }
+.solo-card.dead { opacity: 0.3; filter: grayscale(1); }
+.solo-portrait {
+  width: 80px; height: 104px; flex-shrink: 0;
+  border-radius: 8px; overflow: hidden;
+  border: 2px solid #2c3e5d; background: #0f1a2e;
+}
+.solo-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.solo-info { flex: 1; }
+.solo-name { font-size: 18px; font-weight: bold; color: #ffd700; margin-bottom: 2px; }
+.solo-class { font-size: 13px; color: #88c0d0; margin-bottom: 8px; }
+/* 召喚獣ミニカード */
+.summon-card {
+  background: #16213e; border: 2px solid #5d2c8d;
+  border-radius: 10px; padding: 10px;
+  margin-bottom: 12px;
+}
+/* HP/EXPバー */
+.hp-bar { background: #0f3460; height: 10px; border-radius: 5px; overflow: hidden; margin: 6px 0 2px; }
+.hp-fill { height: 100%; transition: width 0.3s; }
+.hp-fill.hi  { background: linear-gradient(to right, #2ecc71, #6bcb77); }
+.hp-fill.mid { background: linear-gradient(to right, #f39c12, #f1c40f); }
+.hp-fill.lo  { background: linear-gradient(to right, #e94560, #ff6b6b); }
+.hp-bar-sm { background: #0f3460; height: 7px; border-radius: 4px; overflow: hidden; margin: 4px 0 2px; }
+.exp-bar { background: #0a1025; height: 4px; border-radius: 2px; overflow: hidden; margin: 4px 0 1px; }
+.exp-fill { height: 100%; background: linear-gradient(to right, #7b2fff, #b84aff); transition: width 0.3s; }
+.exp-text { font-size: 11px; color: #7b5fbb; }
+.badges { font-size: 10px; margin-top: 8px; line-height: 1.8; }
+.badge {
+  display: inline-block; background: #0f3460;
+  padding: 2px 7px; border-radius: 8px;
+  margin: 2px 2px 2px 0; font-size: 10px;
+}
+.badge.ok { background: #1a3a1a; color: #6bcb77; }
+.status-row { font-size: 12px; margin: 4px 0; min-height:18px; }
+.status-poison { color: #9b59b6; }
+.status-atk    { color: #e74c3c; }
+.status-def    { color: #3498db; }
+.status-phoenix{ color: #f39c12; }
+.section-title {
+  font-size: 12px; color: #888; margin: 8px 0 6px;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+#actions {
+  background: #16213e; border-radius: 10px;
+  padding: 14px; margin-bottom: 12px;
+}
+.btn {
+  background: #0f3460; color: #e6e6e6;
+  border: 1px solid #2c3e5d; border-radius: 6px;
+  padding: 10px 18px; margin: 4px;
+  cursor: pointer; font-size: 13px; font-family: inherit;
+  transition: all 0.15s;
+}
+.btn:hover { background: #1f4e8a; border-color: #ffd700; }
+.btn.primary { background: #ffd700; color: #1a1a2e; font-weight: bold; }
+.btn.primary:hover { background: #ffea66; }
+.btn.item-btn { background:#1a3a2a; border-color:#2ecc71; color:#6bcb77; padding:8px 14px; }
+.btn.item-btn:hover { background:#2a4a3a; border-color:#6bcb77; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+#log {
+  background: #0d0d1a; border-radius: 8px; padding: 12px;
+  font-size: 12px; max-height: 180px; overflow-y: auto;
+  margin-top: 12px; line-height: 1.5; font-family: 'Consolas', monospace;
+}
+#log .turn  { color: #ffd700; font-weight: bold; }
+#log .dmg   { color: #ff6b6b; }
+#log .heal  { color: #6bcb77; }
+#log .info  { color: #88c0d0; }
+#log .quote { color: #f9ca24; font-style: italic; }
+#log .lvup  { color: #b84aff; font-weight: bold; }
+#log .event { color: #f39c12; font-weight: bold; }
+#log .poison{ color: #9b59b6; }
+.modal-bg {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100; overflow-y: auto; padding: 16px;
+}
+.modal {
+  background: #16213e; padding: 24px; border-radius: 12px;
+  max-width: 560px; width: 100%; border: 2px solid #ffd700;
+}
+.modal h2 { color: #ffd700; margin-bottom: 12px; }
+.modal p  { margin-bottom: 12px; line-height: 1.6; }
+.char-card {
+  display: flex; align-items: center; gap: 14px;
+  background: #0f3460; padding: 14px; border-radius: 8px;
+  margin: 10px 0; cursor: pointer;
+  border: 2px solid transparent; transition: all 0.15s;
+}
+.char-card:hover { border-color: #ffd700; transform: translateY(-1px); }
+.char-card-img {
+  width: 64px; height: 82px; flex-shrink: 0;
+  border-radius: 6px; overflow: hidden;
+  background: #0a1a2e; border: 1px solid #2c3e5d;
+}
+.char-card-img img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.char-card-info .name  { font-weight: bold; color: #ffd700; font-size: 16px; }
+.char-card-info .class { font-size: 12px; color: #88c0d0; margin-top: 3px; }
+.char-card-info .catch { font-size: 11px; color: #aaa; margin-top: 5px; font-style: italic; }
+.opt {
+  background: #0f3460; padding: 12px; border-radius: 8px;
+  margin: 8px 0; cursor: pointer; border: 2px solid transparent; transition: all 0.15s;
+}
+.opt:hover { border-color: #ffd700; }
+.opt .name { font-weight: bold; color: #ffd700; }
+.opt .desc { font-size: 12px; color: #aaa; margin-top: 4px; }
+/* ショップ */
+.shop-item {
+  background: #0f1f3a; border: 1px solid #2c3e5d; border-radius: 8px;
+  padding: 10px 14px; margin: 6px 0;
+  display: flex; justify-content: space-between; align-items: center; gap: 8px;
+}
+.shop-item .item-name { font-weight:bold; font-size:14px; }
+.shop-item .item-desc { font-size:11px; color:#aaa; margin-top:2px; }
+.shop-item .item-cost { color:#ffd700; font-weight:bold; font-size:14px; white-space:nowrap; }
+.shop-item .btn { margin:0; padding:6px 14px; font-size:12px; }
+/* イベントカード */
+.event-card {
+  background: #1a2a1a; border: 2px solid #f39c12;
+  border-radius: 10px; padding: 16px; margin: 10px 0; text-align:center;
+}
+.event-card .event-icon { font-size: 40px; margin-bottom:8px; }
+.event-card .event-title { font-size:16px; font-weight:bold; color:#f39c12; margin-bottom:6px; }
+.event-card .event-text { font-size:13px; color:#ddd; line-height:1.6; }
+/* アリーカード（2人目以降のパーティメンバー） */
+.ally-card {
+  background: #16213e; border: 2px solid #2c3e5d;
+  border-radius: 10px; padding: 10px 14px;
+  margin-bottom: 8px; display: flex; gap: 10px; align-items: flex-start;
+  transition: all 0.15s;
+}
+.ally-card.acting { border-color: #ffd700; box-shadow: 0 0 12px rgba(255,215,0,0.4); }
+.ally-card.dead { opacity: 0.3; filter: grayscale(1); }
+.ally-portrait {
+  width: 52px; height: 68px; flex-shrink: 0;
+  border-radius: 6px; overflow: hidden;
+  border: 2px solid #2c3e5d; background: #0f1a2e;
+}
+.ally-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.ally-info { flex: 1; }
+.ally-name { font-size: 15px; font-weight: bold; color: #ffd700; margin-bottom: 2px; }
+.ally-class { font-size: 12px; color: #88c0d0; margin-bottom: 6px; }
+/* インベントリ */
+.inv-slot {
+  display:inline-flex; align-items:center; gap:6px;
+  background:#0f3460; border:1px solid #2c3e5d; border-radius:6px;
+  padding:4px 10px; margin:2px; font-size:12px; cursor:pointer;
+  transition:all 0.15s;
+}
+.inv-slot:hover { border-color:#ffd700; background:#1f4e8a; }
+.inv-slot.empty { opacity:0.3; cursor:default; }
+</style>
+</head>
+<body>
+<div id="game">
+  <h1>⚔️ ギルドマスター・タクティクス</h1>
+  <div class="subtitle">v0.6 — パーティ編成 × Lv10転職 × 動的転職システム</div>
+  <div id="stage-info"></div>
+  <div class="section-title">敵</div>
+  <div id="enemies" class="row"></div>
+  <div class="section-title">冒険者</div>
+  <div id="party"></div>
+  <div id="actions"></div>
+  <div class="section-title">戦闘ログ</div>
+  <div id="log"></div>
+</div>
+<div id="modal-area"></div>
+
+<script>
+'use strict';
+
+// ===== データ定義 =====
+
+const CHARACTERS = {
+  hal: {
+    key:'hal', name:'ハル', classKey:'warrior', hireCost:80,
+    img:'assets/characters/hal.png',
+    catch:'「金にならない冒険はやらない主義だ」',
+    quotes:{
+      battleStart:'行くぞ…報酬分は働く',
+      hit:'死ぬなよ、敵が死んでも稼げないからな',
+      miss:'やる気あんのか…',
+      allyDown:'相棒がやられた…（経費扱いにする）',
+      victory:'で、報酬は？',
+    }
+  },
+  noel: {
+    key:'noel', name:'ノエル', classKey:'mage', hireCost:80,
+    img:'assets/characters/noel.png',
+    catch:'「ふっ…我が真の力、見せてあげるわっ」',
+    quotes:{
+      battleStart:'ふっ…我が魔導の真髄、見せてあげる',
+      hit:'フン、私の力の片鱗よ',
+      miss:'い、いまのは作戦よ！布石なんだから！',
+      allyDown:'私の召喚獣が…！仇は取るわ！',
+      victory:'ふ…当然の結果よ（息切れ）',
+    }
+  },
+  alice: {
+    key:'alice', name:'アリス', classKey:'cleric', hireCost:90,
+    img:'assets/characters/alice.png',
+    catch:'「私の崇高な力でアナタたちを救ってあげるわっ！」',
+    quotes:{
+      battleStart:'私の聖なる加護、見せてあげる！',
+      hit:'アハハッ！崇めなさい！',
+      miss:'神は私を試している…！（試してない）',
+      allyDown:'神よ…！何でこんな時に…！',
+      victory:'これが女神の力です！崇めなさい！',
+    }
+  },
+  nico: {
+    key:'nico', name:'ニコ', classKey:'thief', hireCost:70,
+    img:'assets/characters/nico.png',
+    catch:'「お代は前払い！踏み倒しは膝撃ち抜くからね♪」',
+    quotes:{
+      battleStart:'敵の所持金、いくらだろ♪',
+      hit:'100G追加♪',
+      miss:'あれ？今のノーカンでよろしく〜',
+      allyDown:'相棒やられちゃった。お葬式代は請求するわ',
+      victory:'戦利品分配会議、始めるよー♪',
+    }
+  },
+};
+
+const CLASSES = {
+  warrior:{
+    name:'剣士', icon:'⚔️', baseHp:14, baseAtk:5,
+    actions:['attack','defend'],
+    branches:[
+      {to:'knight',     label:'騎士',    desc:'守る2回以上 → 守るで-5軽減',       check:c=>c.log.defend>=2},
+      {to:'swordmaster',label:'剣豪',    desc:'攻撃3回以上＆守る0 → 攻撃ダメ+3',  check:c=>c.log.attack>=3&&c.log.defend===0},
+      {to:'darkknight', label:'暗黒剣士',desc:'瀕死経験 → HP-2消費で攻撃+5',      check:c=>c.log.lowhp>=1},
+    ]
+  },
+  mage:{
+    name:'魔法使い', icon:'🔮', baseHp:8, baseAtk:6,
+    actions:['magic','chant'],
+    branches:[
+      {to:'sage',     label:'賢者',    desc:'詠唱2回以上 → 魔法ダメ+3',          check:c=>c.log.chant>=2},
+      {to:'blackmage',label:'黒魔導士',desc:'魔法で5体以上撃破 → 単体大魔法解放', check:c=>c.log.magickill>=5},
+      {to:'summoner', label:'召喚士',  desc:'召喚獣が倒された経験 → 召喚強化',    check:c=>c.log.allydown>=1},
+    ]
+  },
+  cleric:{
+    name:'聖職者', icon:'✨', baseHp:10, baseAtk:3,
+    actions:['heal','pray'],
+    branches:[
+      {to:'priest',     label:'神官',    desc:'回復3回以上 → 回復量大幅アップ',    check:c=>c.log.heal>=3},
+      {to:'paladin',    label:'聖騎士',  desc:'祈り2回＆敵撃破 → 攻撃可能に',     check:c=>c.log.pray>=2&&c.log.kill>=1},
+      {to:'necromancer',label:'死霊術士',desc:'召喚獣が倒された経験 → 敵を仲間化', check:c=>c.log.allydown>=1},
+    ]
+  },
+  thief:{
+    name:'盗賊', icon:'🗡️', baseHp:10, baseAtk:5,
+    actions:['attack','steal'],
+    branches:[
+      {to:'assassin',label:'アサシン',          desc:'クリ3回以上 → クリティカル50%',  check:c=>c.log.crit>=3},
+      {to:'hunter',  label:'トレジャーハンター',desc:'盗む3回以上 → 戦闘後+5G',       check:c=>c.log.steal>=3},
+      {to:'ninja',   label:'忍者',              desc:'5戦連続無傷 → 1戦1回回避',      check:c=>c.log.nodamage>=5},
+    ]
+  },
+  // v0.5: 転職後のbaseHpをLv5基本職と同等以上に調整（転職が強化実感できるように）
+  knight:      {name:'騎士',            icon:'🛡️',   baseHp:58, baseAtk:7, actions:['attack','defend'],             defendBonus:6, isUpgrade:true},
+  swordmaster: {name:'剣豪',            icon:'⚔️✨', baseHp:50, baseAtk:11,actions:['attack','defend'],             atkBonus:3,    isUpgrade:true},
+  darkknight:  {name:'暗黒剣士',        icon:'🖤',   baseHp:50, baseAtk:8, actions:['attack','defend','darkattack'],              isUpgrade:true},
+  sage:        {name:'賢者',            icon:'📖',   baseHp:40, baseAtk:12,actions:['magic','chant'],                              isUpgrade:true},
+  blackmage:   {name:'黒魔導士',        icon:'🌑',   baseHp:34, baseAtk:9, actions:['magic','darkbolt'],                          isUpgrade:true},
+  summoner:    {name:'召喚士',          icon:'🐉',   baseHp:38, baseAtk:9, actions:['magic','summon'],                            isUpgrade:true},
+  priest:      {name:'神官',            icon:'⛪',   baseHp:48, baseAtk:5, actions:['heal','pray'],                 healBonus:8,   isUpgrade:true},
+  paladin:     {name:'聖騎士',          icon:'🛡️✨',baseHp:52, baseAtk:7, actions:['attack','heal','pray'],                      isUpgrade:true},
+  necromancer: {name:'死霊術士',        icon:'💀',   baseHp:42, baseAtk:6, actions:['heal','raise'],                              isUpgrade:true},
+  assassin:    {name:'アサシン',        icon:'🩸',   baseHp:46, baseAtk:10,actions:['attack','steal'],              critRate:0.5,  isUpgrade:true},
+  hunter:      {name:'トレジャーハンター',icon:'💰',  baseHp:46, baseAtk:8, actions:['attack','steal'],              goldBonus:8,   isUpgrade:true},
+  ninja:       {name:'忍者',            icon:'🥷',   baseHp:46, baseAtk:9, actions:['attack','steal','evade'],                    isUpgrade:true},
+  summon_beast:{name:'召喚獣',          icon:'👁️',   baseHp:28, baseAtk:6, actions:['attack']},
+};
+
+// ── v0.6 LEVEL_STATS ──────────────────────────────────────────────────────
+// 全クラスLv1〜10を定義。転職クラスはLv5(index4)が転職時の基準値。
+// レベルアップ体感設計: HP+5〜10/lv、ATK+1〜1.5/lv
+const MAX_LEVEL = 10;
+const LEVEL_STATS = {
+  // ── 基本職（Lv1〜10） ──
+  warrior: [
+    {hp:36,atk:4},{hp:39,atk:5},{hp:43,atk:6},{hp:47,atk:7},{hp:52,atk:8},
+    {hp:57,atk:9},{hp:63,atk:10},{hp:69,atk:11},{hp:76,atk:12},{hp:84,atk:13}
+  ],
+  mage: [
+    {hp:24,atk:5},{hp:26,atk:6},{hp:29,atk:7},{hp:32,atk:8},{hp:36,atk:9},
+    {hp:40,atk:10},{hp:44,atk:11},{hp:49,atk:12},{hp:54,atk:13},{hp:60,atk:14}
+  ],
+  cleric: [
+    {hp:30,atk:3},{hp:33,atk:4},{hp:36,atk:4},{hp:39,atk:5},{hp:43,atk:5},
+    {hp:47,atk:6},{hp:52,atk:7},{hp:57,atk:7},{hp:63,atk:8},{hp:69,atk:8}
+  ],
+  thief: [
+    {hp:30,atk:4},{hp:33,atk:5},{hp:36,atk:6},{hp:39,atk:7},{hp:43,atk:8},
+    {hp:47,atk:9},{hp:52,atk:10},{hp:57,atk:11},{hp:63,atk:12},{hp:69,atk:13}
+  ],
+  // ── 転職クラス（Lv1〜10 / Lv5index4が転職時の基準） ──
+  // 騎士: 高耐久タンク。Lv5でHP+13・ATK+1相当の強化
+  knight: [
+    {hp:42,atk:6},{hp:46,atk:7},{hp:51,atk:7},{hp:56,atk:8},{hp:62,atk:9},
+    {hp:68,atk:10},{hp:75,atk:11},{hp:82,atk:12},{hp:90,atk:13},{hp:99,atk:14}
+  ],
+  // 剣豪: 超高火力。Lv5でATK+5相当の強化
+  swordmaster: [
+    {hp:36,atk:9},{hp:39,atk:10},{hp:43,atk:11},{hp:47,atk:12},{hp:52,atk:13},
+    {hp:57,atk:14},{hp:63,atk:15},{hp:69,atk:16},{hp:76,atk:17},{hp:84,atk:18}
+  ],
+  // 暗黒剣士: バランス型。闇剣でHP消費攻撃
+  darkknight: [
+    {hp:40,atk:7},{hp:44,atk:8},{hp:48,atk:9},{hp:53,atk:10},{hp:58,atk:11},
+    {hp:64,atk:12},{hp:70,atk:13},{hp:77,atk:14},{hp:84,atk:15},{hp:92,atk:16}
+  ],
+  // 賢者: 高魔力。詠唱ボーナス+全体魔法強化
+  sage: [
+    {hp:28,atk:8},{hp:31,atk:9},{hp:34,atk:10},{hp:38,atk:11},{hp:42,atk:12},
+    {hp:46,atk:13},{hp:51,atk:14},{hp:56,atk:15},{hp:62,atk:16},{hp:68,atk:17}
+  ],
+  // 黒魔導士: ガラス砲。単体大魔法ダメージ特化
+  blackmage: [
+    {hp:24,atk:9},{hp:26,atk:10},{hp:29,atk:11},{hp:32,atk:12},{hp:36,atk:13},
+    {hp:40,atk:14},{hp:44,atk:15},{hp:49,atk:16},{hp:54,atk:17},{hp:60,atk:18}
+  ],
+  // 召喚士: バランス型。召喚獣強化
+  summoner: [
+    {hp:30,atk:7},{hp:33,atk:8},{hp:36,atk:9},{hp:40,atk:10},{hp:44,atk:11},
+    {hp:48,atk:12},{hp:53,atk:13},{hp:58,atk:14},{hp:64,atk:15},{hp:70,atk:16}
+  ],
+  // 神官: 高回復。healBonus込みで回復量大幅アップ
+  priest: [
+    {hp:34,atk:4},{hp:37,atk:5},{hp:41,atk:5},{hp:45,atk:6},{hp:50,atk:6},
+    {hp:55,atk:7},{hp:60,atk:8},{hp:66,atk:8},{hp:73,atk:9},{hp:80,atk:9}
+  ],
+  // 聖騎士: 攻撃+回復のハイブリッド高耐久
+  paladin: [
+    {hp:40,atk:6},{hp:44,atk:7},{hp:48,atk:8},{hp:53,atk:9},{hp:58,atk:10},
+    {hp:64,atk:11},{hp:70,atk:12},{hp:77,atk:13},{hp:84,atk:14},{hp:92,atk:15}
+  ],
+  // 死霊術士: 蘇生・敵仲間化
+  necromancer: [
+    {hp:32,atk:5},{hp:35,atk:6},{hp:39,atk:7},{hp:43,atk:8},{hp:47,atk:9},
+    {hp:52,atk:10},{hp:57,atk:11},{hp:63,atk:12},{hp:69,atk:13},{hp:76,atk:14}
+  ],
+  // アサシン: クリティカル50%の高火力
+  assassin: [
+    {hp:34,atk:8},{hp:37,atk:9},{hp:41,atk:10},{hp:45,atk:11},{hp:50,atk:12},
+    {hp:55,atk:13},{hp:60,atk:14},{hp:66,atk:15},{hp:73,atk:16},{hp:80,atk:17}
+  ],
+  // トレジャーハンター: 戦闘後ゴールドボーナス
+  hunter: [
+    {hp:34,atk:7},{hp:37,atk:8},{hp:41,atk:9},{hp:45,atk:10},{hp:50,atk:11},
+    {hp:55,atk:12},{hp:60,atk:13},{hp:66,atk:14},{hp:73,atk:15},{hp:80,atk:16}
+  ],
+  // 忍者: 回避特化
+  ninja: [
+    {hp:34,atk:8},{hp:37,atk:9},{hp:41,atk:10},{hp:45,atk:11},{hp:50,atk:12},
+    {hp:55,atk:13},{hp:60,atk:14},{hp:66,atk:15},{hp:73,atk:16},{hp:80,atk:17}
+  ],
+};
+
+// ===== 敵データ（特殊行動付き） =====
+// ability: 'poison'=毒攻撃 / 'double'=2連撃 / 'guard'=被ダメ半減 / 'regen'=毎ターンHP回復
+// tier: 1=序盤専用, 2=中盤追加, 3=後半追加, 4=終盤のみ
+// ── v0.5 バランス調整 ──────────────────────────────────────────────────────
+// STS参考値: 敵ATK ≈ プレイヤーHP × 6〜10% (剣士HP36 → 敵1撃で2〜4ダメ目標)
+// ただしd6()を加えるため実際のダメージ幅 = d6()+atk → atk=2なら avg6.5, min3, max8
+// 剣士HP36を4〜10ターンで削るよう設計
+const ENEMY_TYPES = [
+  // tier1: 序盤（第1〜2戦）- 安全な入門敵。d6()+2 = avg6.5でHPの18%程度
+  {name:'ゴブリン',   icon:'👺', hp:22, atk:2, tier:1, img:'assets/enemies/goblin.png'},
+  {name:'スライム',   icon:'🟢', hp:16, atk:1, tier:1, img:'assets/enemies/slime.png'},
+  // tier2: 中盤（第3〜4戦）- 特殊行動が初登場、ただし攻撃力控えめ
+  {name:'コウモリ',   icon:'🦇', hp:18, atk:2, tier:2, ability:'poison', abilityLabel:'毒牙',   img:'assets/enemies/bat.png'},
+  {name:'スケルトン', icon:'💀', hp:26, atk:3, tier:2, ability:'regen',  abilityLabel:'不死再生',img:'assets/enemies/skeleton.png'},
+  // tier3: 後半（第5戦）- 本格的な強敵。2連撃はATK低めで調整
+  {name:'大蜘蛛',    icon:'🕷️', hp:28, atk:2, tier:3, ability:'double', abilityLabel:'2連撃',  img:'assets/enemies/spider.png'},
+  {name:'ウルフ',    icon:'🐺', hp:30, atk:3, tier:3, ability:'double', abilityLabel:'2連撃',  img:'assets/enemies/wolf.png'},
+  {name:'オーク',     icon:'🐗', hp:40, atk:4, tier:3, ability:'guard',  abilityLabel:'堅牛皮', img:'assets/enemies/orc.png'},
+  // tier4: 終盤限定（BOSSバトル前哨戦として出現）
+  {name:'ゴーレム',  icon:'🗿', hp:55, atk:5, tier:4, ability:'guard',  abilityLabel:'岩肌',   img:'assets/enemies/golem.png'},
+  {name:'幽霊',      icon:'👻', hp:22, atk:3, tier:4, ability:'poison', abilityLabel:'呪い',   img:'assets/enemies/ghost.png'},
+];
+// BOSS: HP120（剣士Lv5=52HPとして 〜2ターン耐える程度が最低ライン）
+// 2連撃で1ターン avg(3.5+6)×2=19、守ると(3.5+6-5)×2=9 → 12〜13ターンが生死の境
+const BOSS = {name:'ゴブリンキング', icon:'👑', hp:120, atk:6, ability:'double', abilityLabel:'王の猛攻', isBoss:true, img:'assets/enemies/goblin_king.png'};
+
+// ===== アイテムデータ =====
+// v0.5: ショップ価格調整（初期所持金50G、戦闘報酬もHPに比例して増加）
+// ポーションをHP+30に強化（HP36の主人公には+15だと焼け石に水）
+const ITEMS = {
+  potion:   {name:'ポーション',     icon:'🧪', cost:35,  desc:'HP+30回復',         target:'hero'},
+  hipotion: {name:'ハイポーション', icon:'💊', cost:80,  desc:'HP全回復',           target:'hero'},
+  antidote: {name:'解毒薬',         icon:'🌿', cost:25,  desc:'毒を治療',           target:'hero'},
+  ring:     {name:'力の指輪',       icon:'💍', cost:70,  desc:'ATK永続+3',          target:'passive'},
+  amulet:   {name:'護符',           icon:'📿', cost:70,  desc:'被ダメ永続-2',       target:'passive'},
+  phoenix:  {name:'不死鳥の羽',     icon:'🪶', cost:140, desc:'次の戦闘不能を1回無効（HP半分で復活）', target:'passive'},
+  bomb:     {name:'火炎ビン',       icon:'💣', cost:50,  desc:'全敵に15ダメージ',    target:'enemy_all'},
+};
+
+// ===== ランダムイベント =====
+const EVENTS = [
+  {
+    id:'treasure', icon:'🎁', title:'宝箱を発見！',
+    text:'道の脇に古い宝箱が落ちていた。',
+    choices:[
+      {label:'開ける', resolve:()=>{ state.gold+=35; log(`<span class="event">💰 宝箱から35G獲得！</span>`); return '中には35Gが入っていた！'; }},
+      {label:'無視する', resolve:()=>'やめておいた。'},
+    ]
+  },
+  {
+    id:'merchant', icon:'🧑‍🤝‍🧑', title:'旅の商人',
+    text:'「あんた、冒険者かい？特別に安く売るよ」',
+    choices:[
+      {label:'取引する（ポーション20G）', resolve:()=>{
+        if(state.gold<20){ return '所持金が足りない…'; }
+        if(state.items.length>=5){ return 'アイテムを持ちすぎている。'; }
+        state.gold-=20; state.items.push({...ITEMS.potion, key:'potion'});
+        log(`<span class="event">🧪 ポーションを20Gで購入！</span>`);
+        return '安く買えた！';
+      }},
+      {label:'断る', resolve:()=>'また今度にした。'},
+    ]
+  },
+  {
+    id:'spring', icon:'⛲', title:'神秘の泉',
+    text:'光る泉を発見。飲むと不思議な力を感じる。',
+    choices:[
+      {label:'飲む', resolve:()=>{
+        const aliveParty = state.party.filter(c=>!c.isSummon&&c.hp>0);
+        aliveParty.forEach(c=>{ c.hp=c.maxHp; });
+        log(`<span class="heal">✨ 泉の水でパーティ全員HP全回復！</span>`);
+        return '体中に力が満ちた！（全員HP全回復）';
+      }},
+      {label:'やめておく', resolve:()=>'怪しいので飲まなかった。'},
+    ]
+  },
+  {
+    id:'trap', icon:'⚠️', title:'罠！',
+    text:'足元に仕掛けられた罠にかかってしまった！',
+    choices:[
+      {label:'やむなし…', resolve:()=>{
+        const hero = state.party.find(c=>!c.isSummon);
+        if(hero){ const dmg=Math.min(hero.hp-1, 6); hero.hp-=dmg; log(`<span class="dmg">⚠️ 罠で${dmg}ダメージ！</span>`); }
+        return `ダメージを受けた。`;
+      }},
+    ]
+  },
+  {
+    id:'old_man', icon:'🧙', title:'謎の老人',
+    text:'「君、なかなか良い目をしているな。ひとつ教えてあげよう」',
+    choices:[
+      {label:'話を聞く', resolve:()=>{
+        const hero = state.party.find(c=>!c.isSummon);
+        const cls = CLASSES[hero?.classKey];
+        if(cls?.branches){
+          const b = cls.branches[Math.floor(Math.random()*cls.branches.length)];
+          log(`<span class="event">📖 老人の助言: ${b.label} — ${b.desc}</span>`);
+          return `「${b.label}への道は…${b.desc}だ」`;
+        }
+        return '「うむ、その職はもう極まっておるな」';
+      }},
+      {label:'無視する', resolve:()=>'老人は溜め息をついた。'},
+    ]
+  },
+  {
+    id:'goblin_stash', icon:'👺', title:'ゴブリンの隠し金庫',
+    text:'ゴブリンの巣を発見。こっそり中を漁ると…',
+    choices:[
+      {label:'漁る', resolve:()=>{
+        const g = 20+Math.floor(Math.random()*30);
+        state.gold+=g;
+        log(`<span class="event">💰 ゴブリンの隠し金 ${g}G発見！</span>`);
+        return `${g}Gと謎のメモが見つかった。`;
+      }},
+      {label:'やめておく', resolve:()=>'潔く立ち去った。'},
+    ]
+  },
+];
+
+// ===== 状態変数 =====
+let state = null;
+let pendingAction = null;
+let uid = 1;
+
+// ===== ユーティリティ =====
+// v0.6: Lv10対応。EXP閾値をlv*50に調整（10レベル分のプレイ時間を確保）
+// v0.6.1: lv*20 → B1=Lv2, B3=Lv3, B5=Lv4, B7=Lv5 → BOSS前に転職できる黄金比
+function expNeeded(lv){ return lv * 20; }
+
+// ベテランチェック: 基本職のままLv5以上かどうか
+function isVeteran(c){
+  const base = ['warrior','mage','cleric','thief'];
+  return base.includes(c.classKey) && (c.level||1) >= 5;
+}
+function d6(){ return 1+Math.floor(Math.random()*6); }
+
+function charAtk(c) {
+  const lv = Math.min(c.level || 1, MAX_LEVEL);
+  if (LEVEL_STATS[c.classKey]) {
+    return LEVEL_STATS[c.classKey][lv - 1].atk + (c.atkBonus || 0);
+  }
+  // fallback（summon_beast等）
+  const cls = CLASSES[c.classKey];
+  return (cls.baseAtk || 5) + (c.atkBonus || 0);
+}
+
+function charMaxHp(c) {
+  const lv = Math.min(c.level || 1, MAX_LEVEL);
+  if (LEVEL_STATS[c.classKey]) {
+    return LEVEL_STATS[c.classKey][lv - 1].hp;
+  }
+  return CLASSES[c.classKey]?.baseHp || 30;
+}
+
+function charDef(c) {
+  return (c.defBonus || 0);
+}
+
+// ===== キャラ生成 =====
+function mkChar(charKey) {
+  const chr = CHARACTERS[charKey];
+  const lvStats = LEVEL_STATS[chr.classKey];
+  const startHp = lvStats ? lvStats[0].hp : CLASSES[chr.classKey].baseHp;
+  return {
+    id: uid++, charKey,
+    classKey: chr.classKey,
+    name: chr.name, img: chr.img, quotes: chr.quotes,
+    level: 1, exp: 0,
+    hp: startHp, maxHp: startHp,
+    atkBonus: 0, defBonus: 0,
+    status: { poison: 0 },
+    log:{attack:0,defend:0,magic:0,chant:0,heal:0,pray:0,steal:0,kill:0,magickill:0,crit:0,lowhp:0,allydown:0,nodamage:0},
+    flags:{defending:false,chantBoost:false,prayBoost:false,justAct:false,evading:false,phoenix:false},
+  };
+}
+
+function mkSummon() {
+  const cls = CLASSES.summon_beast;
+  return {
+    id:uid++, charKey:null, classKey:'summon_beast',
+    name:'召喚獣', img:null, quotes:null, isSummon:true,
+    level:1, exp:0,
+    hp:cls.baseHp, maxHp:cls.baseHp,
+    atkBonus:0, defBonus:0,
+    status:{poison:0},
+    log:{attack:0,defend:0,magic:0,chant:0,heal:0,pray:0,steal:0,kill:0,magickill:0,crit:0,lowhp:0,allydown:0,nodamage:0},
+    flags:{defending:false,chantBoost:false,prayBoost:false,justAct:false,evading:false,phoenix:false},
+  };
+}
+
+// ===== EXP/レベルアップ =====
+// v0.6.1: EXPを生存パーティ人数で等分配布
+// 2人なら1人分ずつ、仲間がいる分だけ個々の成長は遅くなる（リアリティ＋難易度調整）
+function giveExp(amount) {
+  const eligible = state.party.filter(c => !c.isSummon && c.hp > 0 && c.level < MAX_LEVEL && LEVEL_STATS[c.classKey]);
+  if (eligible.length === 0) return;
+  const share = Math.max(1, Math.floor(amount / eligible.length));
+  if (eligible.length > 1) log(`<span class="info">📊 EXP分配: ${amount} ÷ ${eligible.length}人 = ${share}ずつ</span>`);
+  eligible.forEach(c => {
+    c.exp += share;
+    while (c.level < MAX_LEVEL && c.exp >= expNeeded(c.level)) {
+      c.exp -= expNeeded(c.level);
+      doLevelUp(c);
+    }
+  });
+}
+
+function doLevelUp(c) {
+  c.level++;
+  const newMaxHp = charMaxHp(c);
+  const hpGain = newMaxHp - c.maxHp;
+  c.maxHp = newMaxHp;
+  c.hp = Math.min(c.maxHp, c.hp + hpGain);
+  log(`<span class="lvup">⬆️ ${c.name} Lv${c.level}！ HP+${Math.max(0,hpGain)} ATK→${charAtk(c)}</span>`);
+}
+
+// ===== ゲーム開始 =====
+function newGame() {
+  uid = 1;
+  state = {
+    phase:'select', stage:1, battle:0, maxBattles:7,  // v0.6.1: 5→7戦（EXP・金稼ぎ時間確保）
+    party:[], enemies:[], gold:70, items:[],  // v0.6.1: 50→70G（序盤の宿屋・雇用を安定化）
+    log:[], eventQueue:[]
+  };
+  showCharSelect();
+}
+
+// ===== キャラクター選択 =====
+function showCharSelect() {
+  const cards = Object.values(CHARACTERS).map(chr => {
+    const cls = CLASSES[chr.classKey];
+    const lv1 = LEVEL_STATS[chr.classKey];
+    const hp1 = lv1 ? lv1[0].hp : cls.baseHp;
+    const atk1 = lv1 ? lv1[0].atk : cls.baseAtk;
+    return `<div class="char-card" onclick="startWithChar('${chr.key}')">
+      <div class="char-card-img"><img src="${chr.img}" alt="${chr.name}" onerror="this.style.display='none'"></div>
+      <div class="char-card-info">
+        <div class="name">${cls.icon} ${chr.name}</div>
+        <div class="class">${cls.name} — Lv1 HP:${hp1} 攻:${atk1}</div>
+        <div class="class" style="margin-top:2px">${cls.actions.map(actionLabel).join('・')}</div>
+        <div class="catch">${chr.catch}</div>
+      </div>
+    </div>`;
+  }).join('');
+  showModal(`
+    <h2>⚔️ 冒険者を選択</h2>
+    <p>ひとりを選んで冒険に出発！<small style="color:#888">（初期所持金: 70G）</small></p>
+    ${cards}
+  `);
+}
+
+function startWithChar(key) {
+  state.party = [mkChar(key)];
+  closeModal();
+  startBattle();
+}
+
+// ===== 戦闘開始 =====
+function startBattle() {
+  state.battle++;
+  state.phase = 'battle';
+  if (state.battle > state.maxBattles) {
+    state.enemies = [{...BOSS, id:uid++, maxHp:BOSS.hp, hp:BOSS.hp}];
+  } else {
+    // v0.6.1: STS風tierシステム（難易度緩和版）──────────────────────────
+    // 第1〜3戦: tier1のみ (ゴブリン・スライム) ← 安全な入門期間を1戦延長
+    // 第4〜5戦: tier1〜2 (コウモリ・スケルトン) ← 特殊行動に慣れる
+    // 第6〜7戦: tier1〜3 (2連撃・オーク等)     ← 本格化
+    const maxTier = state.battle <= 3 ? 1 : state.battle <= 5 ? 2 : 3;
+    // 敵数: ★根本修正★ ソロは3戦まで必ず1体。その後50%で2体。5戦以降は2体固定
+    // パーティ2人以上で+1体（最大3体）
+    const partyCount = state.party.filter(c=>!c.isSummon&&c.hp>0).length;
+    const baseN = state.battle <= 3 ? 1 : state.battle <= 5 ? (Math.random()<0.5?1:2) : 2;
+    const n = Math.min(baseN + (partyCount >= 2 ? 1 : 0), 3);
+    state.enemies = [];
+    const pool = ENEMY_TYPES.filter(e => !e.isBoss && e.tier <= maxTier);
+    for (let i=0;i<n;i++) {
+      const t = pool[Math.floor(Math.random()*pool.length)];
+      // v0.6.1: HP成長をさらに緩やかに(1戦ごと+3→後半+18)
+      const bonus = (state.battle - 1) * 3;
+      const maxhp = t.hp + bonus;
+      state.enemies.push({...t, id:uid++, maxHp:maxhp, hp:maxhp, regenAcc:0});
+    }
+  }
+  state.party.forEach(c=>{
+    Object.assign(c.flags,{defending:false,chantBoost:false,prayBoost:false,justAct:false,evading:false});
+    c.tookDmg = false;
+  });
+  pendingAction = null;
+  state.currentActor = 0;
+  log(`<span class="turn">━━ 第${state.battle}戦${state.battle>state.maxBattles?'【BOSS】':''} ━━</span>`);
+  log(`<span class="info">敵が現れた: ${state.enemies.map(e=>e.icon+e.name+(e.abilityLabel?` [${e.abilityLabel}]`:'')).join(', ')}</span>`);
+  const hero = state.party.find(c=>!c.isSummon);
+  if (hero) quote(hero, 'battleStart');
+  render(); promptNext();
+}
+
+// ===== 台詞 =====
+function quote(c, type) {
+  if (!c.quotes||!c.quotes[type]) return;
+  const icon = CLASSES[c.classKey].icon;
+  log(`<span class="quote">${icon} ${c.name}「${c.quotes[type]}」</span>`);
+}
+
+// ===== ターン管理 =====
+function promptNext() {
+  while (state.currentActor < state.party.length) {
+    const c = state.party[state.currentActor];
+    if (c.hp>0 && !c.flags.justAct) break;
+    state.currentActor++;
+  }
+  if (state.currentActor >= state.party.length) { enemyTurn(); return; }
+  render();
+}
+
+// ===== アクションラベル =====
+function actionLabel(a) {
+  return ({
+    attack:'攻撃',defend:'守る',magic:'魔法',chant:'詠唱',heal:'回復',pray:'祈り',
+    steal:'盗む',darkattack:'闇剣',darkbolt:'闇雷',summon:'召喚',
+    massheal:'全体回復',raise:'蘇生',evade:'回避',item:'アイテム'
+  })[a]||a;
+}
+function actionDesc(a) {
+  return ({
+    attack:'敵1体にd6+攻ダメージ',defend:'次の被ダメ-3',magic:'敵全体にd6+攻',
+    chant:'次の魔法+5',heal:'自分をd6+攻回復',pray:'次の攻撃+1',steal:'成功で+3G',
+    darkattack:'HP-2で攻撃+5',darkbolt:'敵1体に2d6+攻',summon:'召喚獣を呼ぶ',
+    massheal:'全員d6+攻回復',raise:'倒れた召喚獣を復活',evade:'次の被ダメ無効',item:'アイテムを使う'
+  })[a]||'';
+}
+
+// ===== アクション実行 =====
+function execAction(action, targetId) {
+  const actor = state.party[state.currentActor];
+  if (!actor||actor.hp<=0){ state.currentActor++; promptNext(); return; }
+  const cls = CLASSES[actor.classKey];
+
+  switch(action){
+    case 'attack':{
+      const t = state.enemies.find(e=>e.id===targetId);
+      if(!t||t.hp<=0) return;
+      let dmg = d6()+charAtk(actor)+(actor.flags.prayBoost?1:0);
+      let crit = false;
+      if (cls.critRate&&Math.random()<cls.critRate){ dmg*=2; crit=true; actor.log.crit++; }
+      else if(d6()===6){ actor.log.crit++; }
+      // guard軽減
+      if(t.ability==='guard') dmg = Math.max(1, Math.floor(dmg/2));
+      t.hp = Math.max(0, t.hp-dmg);
+      log(`${cls.icon} ${actor.name} → ${t.name} <span class="dmg">${dmg}</span>${crit?' 🎯クリティカル!':''}${t.ability==='guard'?' (守-½)':''}`);
+      actor.flags.prayBoost=false;
+      quote(actor,'hit'); actor.log.attack++;
+      if(t.hp<=0){ actor.log.kill++; log(`<span class="info"> └ ${t.name} 撃破！</span>`); }
+      break;
+    }
+    case 'defend':
+      actor.flags.defending=true; actor.log.defend++;
+      log(`${cls.icon} ${actor.name} 身を守った 🛡️${isVeteran(actor)?' <span style="color:#f39c12">（ベテラン：軽減+2）</span>':''}`); break;
+
+    case 'magic':{
+      let dmg = d6()+charAtk(actor);
+      if(actor.flags.chantBoost){ dmg+=5; actor.flags.chantBoost=false; }
+      // ベテラン魔法使い: 詠唱なしでも常時+3（詠唱すれば+5+3）
+      if(isVeteran(actor)){ dmg+=3; }
+      if(actor.classKey==='sage') dmg+=3;
+      const alive = state.enemies.filter(e=>e.hp>0);
+      log(`${cls.icon} ${actor.name} 魔法を放った！`);
+      alive.forEach(e=>{
+        let d2 = dmg;
+        if(e.ability==='guard') d2 = Math.max(1, Math.floor(d2/2));
+        e.hp=Math.max(0,e.hp-d2);
+        log(` └ ${e.name} <span class="dmg">${d2}</span>${e.ability==='guard'?' (守-½)':''}`);
+        if(e.hp<=0){ actor.log.kill++; actor.log.magickill++; log(`<span class="info">   ${e.name} 撃破！</span>`); }
+      });
+      quote(actor, alive.length>0?'hit':'miss'); actor.log.magic++; break;
+    }
+    case 'chant':
+      actor.flags.chantBoost=true; actor.log.chant++;
+      log(`${cls.icon} ${actor.name} 詠唱… ✨`); break;
+
+    case 'heal':{
+      const targets = state.party.filter(c=>c.hp>0);
+      const t = targets.reduce((a,b)=>(a.hp/a.maxHp < b.hp/b.maxHp ? a : b), actor);
+      const bonus = (cls.healBonus || 0) + (isVeteran(actor) ? 5 : 0); // ベテラン聖職者+5
+      const amt = d6()+charAtk(actor)+bonus;
+      t.hp = Math.min(t.maxHp, t.hp+amt);
+      const targetName = t.id===actor.id ? '自分' : t.name;
+      log(`${cls.icon} ${actor.name} → ${targetName} 回復！ <span class="heal">+${amt}</span>（${t.hp}/${t.maxHp}）`);
+      actor.log.heal++; break;
+    }
+    case 'pray':
+      actor.flags.prayBoost=true;
+      actor.log.pray++;
+      log(`${cls.icon} ${actor.name} 祈りを捧げた（次の攻撃+1）`); break;
+
+    case 'steal':{
+      const t = state.enemies.find(e=>e.id===targetId);
+      if(!t||t.hp<=0) return;
+      const vet = isVeteran(actor);
+      const stealAmt = vet ? 8 : 3; // ベテラン盗賊は8G
+      const threshold = vet ? 2 : 4; // ベテラン盗賊はd6≥2でほぼ確実成功
+      if(d6()>=threshold){ state.gold+=stealAmt; actor.log.steal++; log(`${cls.icon} ${actor.name} <span class="info">${stealAmt}G</span> 盗んだ！${vet?' 🎖️':''}` ); quote(actor,'hit'); }
+      else { log(`${cls.icon} ${actor.name} 盗むに失敗…`); quote(actor,'miss'); }
+      break;
+    }
+    case 'darkattack':{
+      if(actor.hp<=2){ log(`HP不足で闇剣を放てない`); return; }
+      const t = state.enemies.find(e=>e.id===targetId);
+      if(!t) return;
+      actor.hp-=2;
+      let dmg = d6()+charAtk(actor)+5;
+      if(t.ability==='guard') dmg = Math.max(1, Math.floor(dmg/2));
+      t.hp=Math.max(0,t.hp-dmg);
+      log(`${cls.icon} ${actor.name} 闇剣！${t.name} <span class="dmg">${dmg}</span>（自HP-2）${t.ability==='guard'?' (守-½)':''}`);
+      actor.log.attack++;
+      if(t.hp<=0){ actor.log.kill++; log(`<span class="info"> └ ${t.name} 撃破！</span>`); }
+      break;
+    }
+    case 'darkbolt':{
+      const t = state.enemies.find(e=>e.id===targetId);
+      if(!t) return;
+      let dmg = d6()+d6()+charAtk(actor);
+      if(t.ability==='guard') dmg = Math.max(1, Math.floor(dmg/2));
+      t.hp=Math.max(0,t.hp-dmg);
+      log(`${cls.icon} ${actor.name} 闇の雷！${t.name} <span class="dmg">${dmg}</span>${t.ability==='guard'?' (守-½)':''}`);
+      actor.log.magic++;
+      if(t.hp<=0){ actor.log.kill++; actor.log.magickill++; log(`<span class="info"> └ ${t.name} 撃破！</span>`); }
+      break;
+    }
+    case 'raise':{
+      const t = state.party.find(c=>c.hp<=0&&c.isSummon);
+      if(!t){ log(`蘇生できる召喚獣がいない`); return; }
+      t.hp=Math.floor(t.maxHp/2);
+      log(`${cls.icon} ${actor.name} が召喚獣を蘇生！（HP ${t.hp}）`); break;
+    }
+    case 'summon':{
+      const hasSummon = state.party.some(c=>c.isSummon&&c.hp>0);
+      if(hasSummon){ log(`召喚獣はすでに召喚中`); return; }
+      state.party.push(mkSummon());
+      log(`${cls.icon} ${actor.name} 召喚獣を呼び出した！`);
+      actor.log.magic++; break;
+    }
+    case 'evade':
+      actor.flags.evading=true;
+      log(`${cls.icon} ${actor.name} 身を隠した（次の被ダメ無効）`); break;
+
+    case 'item':
+      showItemSelect();
+      return; // フラグを変えずに終了（アイテム使用後に続行）
+
+    default:
+      log(`（${actionLabel(action)} 未実装）`);
+  }
+  actor.flags.justAct=true; state.currentActor++; pendingAction=null;
+  if(checkEnd()) return;
+  render(); setTimeout(promptNext,400);
+}
+
+// ===== アイテム使用 =====
+function showItemSelect() {
+  if(state.items.length===0){
+    log(`<span class="info">アイテムを持っていない</span>`);
+    render(); return;
+  }
+  const actor = state.party[state.currentActor];
+  const rows = state.items.map((it,i)=>`
+    <div class="shop-item">
+      <div><div class="item-name">${it.icon} ${it.name}</div><div class="item-desc">${it.desc}</div></div>
+      <button class="btn primary" onclick="useItemInBattle(${i})">使う</button>
+    </div>`).join('');
+  const actDiv = document.getElementById('actions');
+  actDiv.innerHTML = `<div style="font-size:13px;margin-bottom:8px;"><strong>${actor.name}</strong>: アイテム選択</div>
+    ${rows}
+    <button class="btn" onclick="cancelAction()">キャンセル</button>`;
+}
+
+function useItemInBattle(idx) {
+  const actor = state.party[state.currentActor];
+  const item = state.items[idx];
+  if(!item) return;
+  const hero = state.party.find(c=>!c.isSummon);
+  applyItem(item, hero);
+  state.items.splice(idx, 1);
+  actor.flags.justAct=true; state.currentActor++; pendingAction=null;
+  if(checkEnd()) return;
+  render(); setTimeout(promptNext,400);
+}
+
+function applyItem(item, hero) {
+  switch(item.key){
+    case 'potion':   hero.hp=Math.min(hero.maxHp, hero.hp+30); log(`<span class="heal">🧪 ポーション使用！ HP+30</span>`); break;
+    case 'hipotion': hero.hp=hero.maxHp; log(`<span class="heal">💊 ハイポーション！ HP全回復</span>`); break;
+    case 'antidote': hero.status.poison=0; log(`<span class="heal">🌿 解毒薬！ 毒が治った</span>`); break;
+    case 'ring':     hero.atkBonus=(hero.atkBonus||0)+3; log(`<span class="info">💍 力の指輪装備！ ATK+3</span>`); break;
+    case 'amulet':   hero.defBonus=(hero.defBonus||0)+2; log(`<span class="info">📿 護符装備！ 被ダメ-2</span>`); break;
+    case 'phoenix':  hero.flags.phoenix=true; log(`<span class="info">🪶 不死鳥の羽を持った！（次の戦闘不能を無効）</span>`); break;
+    case 'bomb':{
+      const alive = state.enemies.filter(e=>e.hp>0);
+      log(`<span class="dmg">💣 火炎ビン！ 全敵に8ダメージ！</span>`);
+      alive.forEach(e=>{ e.hp=Math.max(0,e.hp-15); if(e.hp<=0) log(`<span class="info"> └ ${e.name} 撃破！</span>`); });
+      break;
+    }
+  }
+}
+
+// ===== 敵のターン =====
+function enemyTurn() {
+  log(`<span class="turn">— 敵のターン —</span>`);
+
+  // regenチェック（スケルトン等）
+  state.enemies.forEach(e=>{
+    if(e.hp<=0) return;
+    if(e.ability==='regen'){
+      const regen = 2;
+      e.hp = Math.min(e.maxHp, e.hp+regen);
+      log(`<span class="heal"> 🔄 ${e.name} 再生（+${regen}）</span>`);
+    }
+  });
+
+  // 主人公の毒ダメージ処理
+  state.party.forEach(c=>{
+    if(c.hp<=0 || c.status.poison<=0) return;
+    const pdmg = Math.min(c.hp-1, c.status.poison);
+    c.hp -= pdmg;
+    c.status.poison = Math.max(0, c.status.poison-1);
+    log(`<span class="poison">☠️ ${c.name} 毒ダメージ ${pdmg}（残${c.status.poison}T）</span>`);
+    if(c.hp<=0 && !c.isSummon){
+      if(c.flags.phoenix){ c.hp=Math.floor(c.maxHp/2); c.flags.phoenix=false; log(`<span class="info">🪶 不死鳥の加護で復活！</span>`); }
+    }
+  });
+
+  state.enemies.forEach(e=>{
+    if(e.hp<=0) return;
+    const attacks = e.ability==='double' ? 2 : 1;
+    for(let atk=0;atk<attacks;atk++){
+      const alive = state.party.filter(c=>c.hp>0);
+      if(!alive.length) return;
+      const t = alive[Math.floor(Math.random()*alive.length)];
+      if(t.flags.evading){ log(`${e.name} の攻撃！${t.name} は回避した！`); t.flags.evading=false; continue; }
+      let dmg = d6()+e.atk;
+      const baseDefend = t.flags.defending ? ((CLASSES[t.classKey]?.defendBonus||3) + (isVeteran(t)?2:0)) : 0;
+      const reduce = baseDefend + charDef(t);
+      dmg = Math.max(0, dmg-reduce);
+      log(`${e.icon} ${e.name} → ${t.name} <span class="dmg">${dmg}</span>${reduce?` (守-${reduce})`:''}${attacks>1?' ×'+attacks:''}`)
+      t.hp=Math.max(0,t.hp-dmg);
+      if(dmg>0) t.tookDmg=true;
+      if(t.hp<=2&&t.hp>0) t.log.lowhp=(t.log.lowhp||0)+1;
+      // 毒付与
+      if(e.ability==='poison' && dmg>0 && t.hp>0){
+        t.status.poison = (t.status.poison||0)+3;
+        log(`<span class="poison"> ☠️ ${t.name} に毒！（${t.status.poison}T）</span>`);
+      }
+      if(t.hp===0){
+        log(`<span class="dmg"> └ ${t.name} 倒れた！</span>`);
+        if(t.flags.phoenix && !t.isSummon){ t.hp=Math.floor(t.maxHp/2); t.flags.phoenix=false; log(`<span class="info">🪶 不死鳥の加護で復活！</span>`); }
+        else if(t.isSummon){
+          const hero = state.party.find(c=>!c.isSummon&&c.hp>0);
+          if(hero){ hero.log.allydown++; quote(hero,'allyDown'); }
+        } else {
+          // 仲間キャラが倒れた場合、生き残りがallydownカウント
+          const survivor = state.party.find(c=>!c.isSummon&&c.hp>0&&c.id!==t.id);
+          if(survivor){ survivor.log.allydown++; quote(survivor,'allyDown'); }
+        }
+      }
+    }
+  });
+
+  state.party.forEach(c=>{ c.flags.defending=false; c.flags.justAct=false; c.flags.prayBoost=false; });
+  state.currentActor=0;
+  if(checkEnd()) return;
+  render(); setTimeout(promptNext,600);
+}
+
+// ===== 戦闘終了判定 =====
+// v0.6: 全非召喚パーティが全滅でゲームオーバー
+function checkEnd(){
+  if(state.enemies.every(e=>e.hp<=0)){ onVictory(); return true; }
+  const anyAlive = state.party.some(c=>!c.isSummon&&c.hp>0);
+  if(!anyAlive){ onGameOver(); return true; }
+  return false;
+}
+
+// ===== 勝利処理 =====
+function onVictory(){
+  state.phase='post';
+  const reward = state.enemies.reduce((s,e)=>s+e.maxHp,0);
+  state.gold+=reward;
+  const hero = state.party.find(c=>!c.isSummon);
+  if(hero&&!hero.tookDmg) hero.log.nodamage++; else if(hero) hero.log.nodamage=0;
+  if(hero&&CLASSES[hero.classKey]?.goldBonus) state.gold+=CLASSES[hero.classKey].goldBonus;
+  log(`<span class="info">━━ 勝利！ ${reward}G獲得 ━━</span>`);
+  if(hero) quote(hero,'victory');
+  if(state.battle>state.maxBattles){ onClear(); return; }
+  giveExp(reward);
+  // v0.6.1: 全パーティメンバーを40%回復（22%は焼け石に水だったため大幅増）
+  state.party.forEach(c => {
+    if (c.isSummon || c.hp <= 0) return;
+    const healAmt = Math.max(5, Math.floor(c.maxHp * 0.40));
+    const before = c.hp;
+    c.hp = Math.min(c.maxHp, c.hp + healAmt);
+    const actual = c.hp - before;
+    if (actual > 0) log(`<span class="heal">❤️ ${c.name} 休憩で回復 +${actual}HP（${c.hp}/${c.maxHp}）</span>`);
+  });
+  // ランダムイベント (35%確率、BOSS前は除く)
+  if(state.battle < state.maxBattles && Math.random()<0.35){
+    setTimeout(()=>showEvent(), 600);
+  } else {
+    setTimeout(()=>checkPromotion(), 600);
+  }
+}
+
+// ===== ランダムイベント =====
+function showEvent() {
+  const ev = EVENTS[Math.floor(Math.random()*EVENTS.length)];
+  const choiceHtml = ev.choices.map((ch,i)=>`
+    <button class="btn${i===0?' primary':''}" onclick="resolveEvent(${i})" data-ev='${JSON.stringify(ev.choices.map(c=>null))}' style="display:block;width:100%;margin:4px 0;text-align:left">
+      ${ch.label}
+    </button>`).join('');
+  state._currentEvent = ev;
+  showModal(`
+    <h2>${ev.icon} ${ev.title}</h2>
+    <div class="event-card">
+      <div class="event-icon">${ev.icon}</div>
+      <div class="event-text">${ev.text}</div>
+    </div>
+    ${choiceHtml}
+  `);
+}
+
+function resolveEvent(choiceIdx) {
+  const ev = state._currentEvent;
+  if(!ev) return;
+  const result = ev.choices[choiceIdx].resolve();
+  state._currentEvent = null;
+  closeModal();
+  if(result){
+    showModal(`
+      <h2>${ev.icon} ${ev.title}</h2>
+      <p>${result}</p>
+      <button class="btn primary" onclick="closeModal();checkPromotion()" style="margin-top:8px">続ける</button>
+    `);
+  } else {
+    checkPromotion();
+  }
+}
+
+// ===== 転職チェック =====
+// v0.6: 全パーティメンバーをチェック、Lv5以上が条件
+function checkPromotion(){
+  const candidate = state.party.find(c => {
+    if (c.isSummon || c.hp <= 0) return false;
+    const cls = CLASSES[c.classKey];
+    if (!cls.branches) return false;
+    if ((c.level || 1) < 5) return false;
+    return cls.branches.some(b => b.check(c));
+  });
+  if (!candidate) { showShop(); return; }
+  const cls = CLASSES[candidate.classKey];
+  const avail = cls.branches.filter(b => b.check(candidate));
+  const PROMOTE_COST = 50; // 転職費用（ギルドへの登録料）
+  const canAfford = state.gold >= PROMOTE_COST;
+  const opts = avail.map(b => {
+    const nc = CLASSES[b.to];
+    return `<div class="opt ${canAfford?'':''}${canAfford?'':'opacity:0.5;pointer-events:none;'}"
+      style="${canAfford?'':'opacity:0.5;pointer-events:none;'}"
+      ${canAfford?`onclick="doPromotion('${b.to}',${candidate.id})"`:''}>
+      <div class="name">${nc.icon} ${b.label} に転職 <span style="color:#ffd700;font-size:12px">(-${PROMOTE_COST}G)</span></div>
+      <div class="desc">${b.desc}</div>
+    </div>`;
+  }).join('');
+  const portrait = candidate.img
+    ? `<img src="${candidate.img}" style="width:64px;height:80px;object-fit:cover;object-position:top;border-radius:6px;float:right;margin-left:12px;" onerror="this.style.display='none'">`
+    : '';
+
+  // ベテランボーナスの説明
+  const vetBonusDesc = {
+    warrior:'守るの軽減+2（計-5）',mage:'魔法に常時+3ダメージ',
+    cleric:'回復量に+5',thief:'盗み成功率大幅UP＆+8G'
+  }[candidate.classKey]||'';
+
+  showModal(`
+    <h2>🎉 ${candidate.name} が転職可能！（Lv${candidate.level}）</h2>
+    ${portrait}
+    <p>戦いの経験で新たな職業に進化できます。<br>
+    <small style="color:#88c0d0">✨ レベルそのまま継続 / HP大幅アップ / 費用: <strong style="color:#ffd700">${PROMOTE_COST}G</strong></small></p>
+    ${!canAfford?`<div style="color:#ff6b6b;font-size:12px;margin-bottom:8px">⚠️ 所持金不足（${state.gold}G / 必要${PROMOTE_COST}G）</div>`:''}
+    ${opts}
+    <div class="opt" onclick="doPromotion(null,${candidate.id})">
+      <div class="name">🎖️ このまま続ける（無料）</div>
+      <div class="desc">Lv5以上の基本職ベテランボーナス: ${vetBonusDesc}</div>
+    </div>
+  `);
+}
+
+// v0.6: charIdでキャラを特定、レベル引き継ぎ、次の候補もチェック
+function doPromotion(toClass, charId){
+  const PROMOTE_COST = 50;
+  const c = state.party.find(p => p.id === charId);
+  if (c && toClass) {
+    if (state.gold < PROMOTE_COST) {
+      log(`<span class="dmg">所持金不足で転職できない（必要${PROMOTE_COST}G）</span>`);
+      closeModal(); showShop(); return;
+    }
+    state.gold -= PROMOTE_COST;
+    const nc = CLASSES[toClass];
+    c.classKey = toClass;
+    c.maxHp = charMaxHp(c);
+    c.hp = c.maxHp;
+    c.log = {...c.log, attack:0, defend:0, magic:0, chant:0, heal:0, pray:0, steal:0, kill:0, magickill:0, crit:0, lowhp:0, nodamage:0};
+    log(`<span class="lvup">✨ ${c.name} → ${nc.name} に転職！（Lv${c.level}継続・-${PROMOTE_COST}G）HP全回復 → ${c.maxHp}</span>`);
+  } else if (c && !toClass) {
+    // ベテランボーナスで続行
+    if (isVeteran(c)) log(`<span class="info">🎖️ ${c.name} ベテラン特性で続行！</span>`);
+  }
+  closeModal();
+  checkPromotion();
+}
+
+// ===== ショップ =====
+function showShop(){
+  state.phase='shop';
+
+  // パーティ全員表示
+  const partyMembers = state.party.filter(c=>!c.isSummon);
+  const partyHtml = partyMembers.map(c=>{
+    const cls = CLASSES[c.classKey];
+    const hpPct = Math.round(c.hp/c.maxHp*100);
+    const hpColor = hpPct>60?'#6bcb77':hpPct>30?'#f1c40f':'#ff6b6b';
+    return `<div class="opt" style="cursor:default;padding:10px 12px">
+      <div class="name">${cls.icon} ${c.name}（${cls.name} Lv${c.level}${c.level>=MAX_LEVEL?' <span style="color:#ffd700">MAX</span>':''}）</div>
+      <div class="desc">HP: <span style="color:${hpColor}">${c.hp}/${c.maxHp}</span>　ATK: ${charAtk(c)}　EXP: ${c.level<MAX_LEVEL?c.exp+'/'+expNeeded(c.level):'---'}</div>
+    </div>`;
+  }).join('');
+
+  // インベントリ
+  const invHtml = state.items.length>0
+    ? state.items.map(it=>`<span class="inv-slot">${it.icon} ${it.name}</span>`).join('')
+    : '<span style="color:#555;font-size:12px">なし</span>';
+
+  // ショップ品（ランダムで4種）
+  const allKeys = Object.keys(ITEMS);
+  const shopKeys = allKeys.sort(()=>Math.random()-0.5).slice(0,4);
+  const shopHtml = shopKeys.map(k=>{
+    const it = ITEMS[k];
+    const canBuy = state.gold>=it.cost && state.items.length<5;
+    return `<div class="shop-item">
+      <div>
+        <div class="item-name">${it.icon} ${it.name}</div>
+        <div class="item-desc">${it.desc}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="item-cost">${it.cost}G</span>
+        <button class="btn" ${canBuy?`onclick="buyItem('${k}')"`:'disabled'}>
+          ${canBuy?'購入':'×'}
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+
+  // 仲間を雇うセクション
+  const currentKeys = partyMembers.map(c=>c.charKey);
+  const recruitable = Object.values(CHARACTERS).filter(chr=>!currentKeys.includes(chr.key));
+  let recruitHtml = '';
+  if(partyMembers.length < 3 && recruitable.length > 0){
+    const recruitItems = recruitable.map(chr=>{
+      const cls = CLASSES[chr.classKey];
+      const lv1 = LEVEL_STATS[chr.classKey];
+      const canHire = state.gold >= chr.hireCost;
+      return `<div class="shop-item">
+        <div style="display:flex;align-items:center;gap:10px">
+          <img src="${chr.img}" style="width:40px;height:52px;object-fit:cover;object-position:top;border-radius:4px;" onerror="this.style.display='none'">
+          <div>
+            <div class="item-name">${cls.icon} ${chr.name}（${cls.name}）</div>
+            <div class="item-desc">HP:${lv1[0].hp} ATK:${lv1[0].atk} 　${chr.catch}</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="item-cost">${chr.hireCost}G</span>
+          <button class="btn" ${canHire?`onclick="recruitChar('${chr.key}')"`:'disabled'}>
+            ${canHire?'雇う':'×'}
+          </button>
+        </div>
+      </div>`;
+    }).join('');
+    recruitHtml = `<div class="section-title">仲間を雇う（${partyMembers.length}/3人）</div>${recruitItems}`;
+  }
+
+  showModal(`
+    <h2>🍺 酒場・ショップ</h2>
+    <p>所持金: <strong style="color:#ffd700">${state.gold}G</strong> ／ 次: 第${state.battle+1}戦${state.battle+1>state.maxBattles?'【BOSS】':''}</p>
+    <div class="section-title">パーティ（${partyMembers.length}/3人）</div>${partyHtml}
+    ${recruitHtml}
+    <div class="section-title">所持品（最大5個）</div>
+    <div style="margin-bottom:8px">${invHtml}</div>
+    <div class="section-title">ショップ</div>
+    ${shopHtml}
+    <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn" onclick="rest()">宿屋で休む（全員HP全回復 / 15G）</button>
+      <button class="btn primary" onclick="closeModal();startBattle()">次の戦闘へ →</button>
+    </div>
+  `);
+}
+
+// v0.6: 仲間を雇う
+function recruitChar(key) {
+  const chr = CHARACTERS[key];
+  if (!chr || state.gold < chr.hireCost) return;
+  const partyCount = state.party.filter(c=>!c.isSummon).length;
+  if (partyCount >= 3) return;
+  if (state.party.some(c=>!c.isSummon&&c.charKey===key)) return;
+  state.gold -= chr.hireCost;
+  state.party.push(mkChar(key));
+  log(`<span class="event">🎉 ${chr.name} がパーティに加わった！（-${chr.hireCost}G）</span>`);
+  showShop();
+}
+
+function buyItem(key) {
+  const it = ITEMS[key];
+  if(!it || state.gold < it.cost || state.items.length >= 5) return;
+  state.gold -= it.cost;
+  state.items.push({...it, key});
+  log(`<span class="info">${it.icon} ${it.name}を購入！</span>`);
+  // passiveは即時適用
+  if(it.target==='passive'){
+    const hero = state.party.find(c=>!c.isSummon);
+    if(hero){ applyItem({...it,key}, hero); state.items.pop(); }
+  }
+  showShop();
+}
+
+function rest(){
+  if(state.gold < 15){ log(`<span class="dmg">所持金が足りない（15G必要）</span>`); showShop(); return; }
+  const aliveParty = state.party.filter(c=>!c.isSummon&&c.hp>0);
+  if(aliveParty.length > 0){
+    state.gold -= 25;
+    aliveParty.forEach(c=>{ c.hp=c.maxHp; c.status.poison=0; });
+    log(`<span class="heal">🛏️ パーティ全員がしっかり休んだ（HP全回復・毒治癒）- 15G</span>`);
+  }
+  showShop();
+}
+
+// ===== ゲームオーバー / クリア =====
+function onGameOver(){
+  state.phase='over';
+  log(`<span class="dmg">━━ パーティ全滅 ━━</span>`);
+
+  // パーティ情報
+  const partyInfo = state.party.filter(c=>!c.isSummon)
+    .map(c=>`<span style="color:#88c0d0">${CLASSES[c.classKey].icon} ${c.name}</span>（${CLASSES[c.classKey].name} Lv${c.level}）`)
+    .join('　');
+
+  // 転職ヒント（最も近い転職条件を表示）
+  let hintHtml = '';
+  state.party.filter(c=>!c.isSummon).forEach(c=>{
+    const cls = CLASSES[c.classKey];
+    if (!cls.branches) return;
+    cls.branches.forEach(b=>{
+      const prog = progressText(b, c);
+      if (!prog) return;
+      const pct = b.check(c) ? 100 : null;
+      if (!pct) {
+        hintHtml += `<div style="font-size:12px;color:#88c0d0;margin-top:4px">
+          💡 ${c.name}: <strong>${b.label}</strong> まであと少し — ${prog}
+        </div>`;
+      }
+    });
+  });
+
+  // コンテキストヒント
+  const battlesWon = Math.max(0, state.battle - 1);
+  let tip = '';
+  if (battlesWon <= 1) tip = '「守る」や「詠唱」で次のターンに備えよう！';
+  else if (state.party.filter(c=>!c.isSummon).length < 2) tip = 'ショップで仲間を雇うとサバイバル力が大幅UP！';
+  else if (!state.party.some(c=>c.classKey!==CLASSES[c.classKey].name&&CLASSES[c.classKey].isUpgrade)) tip = 'Lv5で転職するとHP・ATKが急成長！';
+  else tip = 'ポーション系アイテムを戦闘前にストックしておこう！';
+
+  showModal(`
+    <h2>💀 GAME OVER</h2>
+    <p>第${state.battle}戦で力尽きました。</p>
+    <p style="font-size:13px">${partyInfo||'なし'}</p>
+    <p>クリア戦数: <strong>${battlesWon}</strong> 　所持金: <strong>${state.gold}G</strong></p>
+    ${hintHtml}
+    <div style="margin-top:10px;padding:10px;background:#0f1a2e;border-radius:8px;font-size:12px;color:#f39c12;line-height:1.7">
+      💡 次のプレイのヒント: ${tip}
+    </div>
+    <button class="btn primary" onclick="closeModal();newGame()" style="margin-top:16px;width:100%">もう一度挑戦！</button>
+  `);
+}
+
+function onClear(){
+  state.phase='clear';
+  const hero = state.party.find(c=>!c.isSummon);
+  log(`<span class="info">━━ 第1章クリア！ ━━</span>`);
+  showModal(`
+    <h2>🏆 第1章クリア！</h2>
+    <p>魔王の手下を退け、辺境の村に平和が戻った！</p>
+    <p>最終所持金: <strong>${state.gold}G</strong></p>
+    ${hero?`<div style="margin:8px 0">${CLASSES[hero.classKey].icon} ${hero.name}（${CLASSES[hero.classKey].name}） HP ${hero.hp}/${hero.maxHp}</div>`:''}
+    <button class="btn primary" onclick="closeModal();newGame()" style="margin-top:12px">もう一度遊ぶ</button>
+  `);
+}
+
+// ===== レンダリング =====
+function progressText(b, c){
+  const l=c.log;
+  const map={
+    knight:`守る ${l.defend}/2`,swordmaster:`攻撃 ${l.attack}/3`,darkknight:`瀕死 ${l.lowhp}/1`,
+    sage:`詠唱 ${l.chant}/2`,blackmage:`撃破 ${l.magickill}/5`,summoner:`召喚獣↓ ${l.allydown}/1`,
+    priest:`回復 ${l.heal}/3`,paladin:`祈り ${l.pray}/2`,necromancer:`召喚獣↓ ${l.allydown}/1`,
+    assassin:`クリ ${l.crit}/3`,hunter:`盗む ${l.steal}/3`,ninja:`無傷 ${l.nodamage}/5`,
+  };
+  return map[b.to]||null;
+}
+
+function render(){
+  const hero = state.party.find(c=>!c.isSummon);
+  const invBadge = state.items.length>0 ? ` 🎒${state.items.length}` : '';
+  document.getElementById('stage-info').innerHTML =
+    `<span>第${state.stage}章 — 第${state.battle}戦${state.battle>state.maxBattles?'【BOSS】':''}</span>
+     <span class="right">
+       ${hero&&hero.status.poison>0?`<span style="color:#9b59b6">☠️ 毒${hero.status.poison}T</span>`:''}
+       <span style="color:#ffd700">💰 ${state.gold}G</span>
+       <span style="color:#aaa">${invBadge}</span>
+     </span>`;
+
+  // 敵
+  const isPendingEnemy = pendingAction&&['attack','steal','darkattack','darkbolt'].includes(pendingAction.action);
+  document.getElementById('enemies').innerHTML = state.enemies.map(e=>`
+    <div class="card ${e.hp<=0?'dead':''} ${isPendingEnemy?'target':''}"
+         ${isPendingEnemy&&e.hp>0?`onclick="execAction('${pendingAction.action}',${e.id})"`:''}>
+      <div class="card-header">
+        <div><span class="card-icon">${e.icon}</span> <span class="card-name">${e.name}</span></div>
+        ${e.isBoss?'<span style="color:#ffd700;font-size:11px">BOSS 👑</span>':''}
+      </div>
+      ${e.img?`<img src="${e.img}" class="enemy-img" onerror="this.style.display='none'" alt="${e.name}">`:''}
+      <div class="hp-bar"><div class="hp-fill lo" style="width:${(e.hp/e.maxHp)*100}%"></div></div>
+      <div class="hp-text">HP ${e.hp}/${e.maxHp}　攻 ${e.atk}</div>
+      ${e.abilityLabel?`<div class="ability-tag">⚡ ${e.abilityLabel}</div>`:''}
+    </div>
+  `).join('');
+
+  // パーティ
+  const partyEl = document.getElementById('party');
+  let partyHtml = '';
+  let heroRendered = false;
+
+  state.party.forEach((c, i) => {
+    const cls = CLASSES[c.classKey] || {icon:'?', actions:[]};
+    const acting = state.phase==='battle' && i===state.currentActor && c.hp>0;
+    const pct = (c.hp/c.maxHp)*100;
+    const hpCls = pct>60?'hi':pct>30?'mid':'lo';
+
+    if (c.isSummon) {
+      partyHtml += `<div class="summon-card ${c.hp<=0?'dead':''} ${acting?'acting':''}">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <span>${cls.icon} <strong>${c.name}</strong></span>
+          <span style="font-size:11px;color:#9d5fff">召喚中</span>
+        </div>
+        <div class="hp-bar-sm"><div class="hp-fill ${hpCls}" style="width:${pct}%"></div></div>
+        <div style="font-size:11px;color:#aaa">HP ${c.hp}/${c.maxHp}　攻 ${charAtk(c)}</div>
+      </div>`;
+      return;
+    }
+
+    const hasLvl = !!LEVEL_STATS[c.classKey];
+    const expPct = hasLvl && c.level < MAX_LEVEL ? (c.exp / expNeeded(c.level)) * 100 : 100;
+    const lvLabel = hasLvl ? `Lv.${c.level}` : '';
+
+    // ステータス表示
+    const statusParts = [];
+    if(c.status.poison>0) statusParts.push(`<span class="status-poison">☠️毒${c.status.poison}T</span>`);
+    if(c.atkBonus>0)       statusParts.push(`<span class="status-atk">⚔️+${c.atkBonus}</span>`);
+    if(c.defBonus>0)       statusParts.push(`<span class="status-def">🛡️+${c.defBonus}</span>`);
+    if(c.flags.phoenix)    statusParts.push(`<span class="status-phoenix">🪶復活待機</span>`);
+    if(c.flags.defending)  statusParts.push(`<span style="color:#3498db">🛡️防御中</span>`);
+    if(c.flags.chantBoost) statusParts.push(`<span style="color:#88c0d0">✨詠唱済み</span>`);
+    if(isVeteran(c))       statusParts.push(`<span style="color:#f39c12">🎖️ベテラン</span>`);
+
+    let badges = '';
+    if (cls.branches && c.hp > 0) {
+      badges = cls.branches.map(b => {
+        const txt = progressText(b, c); if (!txt) return '';
+        return `<span class="badge ${b.check(c)?'ok':''}">${b.check(c)?'✓ ':''} ${txt}</span>`;
+      }).join('');
+    } else {
+      badges = Object.entries(c.log).filter(([,v])=>v>0)
+        .map(([k,v])=>`<span class="badge">${actionLabel(k)}:${v}</span>`).join('');
+    }
+
+    if (!heroRendered) {
+      // 1人目: ソロカード（大）
+      heroRendered = true;
+      const portrait = c.img
+        ? `<div class="solo-portrait"><img src="${c.img}" alt="${c.name}" onerror="this.style.display='none'"></div>`
+        : '';
+      partyHtml += `<div class="solo-card ${c.hp<=0?'dead':''} ${acting?'acting':''}">
+        ${portrait}
+        <div class="solo-info">
+          <div class="solo-name">${c.name}</div>
+          <div class="solo-class">${cls.icon} ${cls.name}${lvLabel?' — '+lvLabel:''}</div>
+          <div class="hp-bar"><div class="hp-fill ${hpCls}" style="width:${pct}%"></div></div>
+          <div class="hp-text">HP ${c.hp}/${c.maxHp}　攻 ${charAtk(c)}${c.defBonus>0?`　守 -${c.defBonus}`:''}</div>
+          ${hasLvl ? `<div class="exp-bar"><div class="exp-fill" style="width:${expPct}%"></div></div>
+          <div class="exp-text">${c.level<MAX_LEVEL?`EXP ${c.exp}/${expNeeded(c.level)}`:'★ LV MAX'}</div>` : ''}
+          ${statusParts.length>0?`<div class="status-row">${statusParts.join(' ')}</div>`:''}
+          <div class="badges">${badges||'<span style="color:#555">行動なし</span>'}</div>
+        </div>
+      </div>`;
+    } else {
+      // 2人目以降: アリーカード（小）
+      const portrait = c.img
+        ? `<div class="ally-portrait"><img src="${c.img}" alt="${c.name}" onerror="this.style.display='none'"></div>`
+        : '';
+      partyHtml += `<div class="ally-card ${c.hp<=0?'dead':''} ${acting?'acting':''}">
+        ${portrait}
+        <div class="ally-info">
+          <div class="ally-name">${c.name} ${acting?'<span style="font-size:11px;color:#ffd700">▶ 行動中</span>':''}</div>
+          <div class="ally-class">${cls.icon} ${cls.name}${lvLabel?' — '+lvLabel:''}</div>
+          <div class="hp-bar-sm"><div class="hp-fill ${hpCls}" style="width:${pct}%"></div></div>
+          <div style="font-size:11px;color:#aaa;margin-bottom:3px">HP ${c.hp}/${c.maxHp}　攻 ${charAtk(c)}</div>
+          ${hasLvl ? `<div class="exp-bar"><div class="exp-fill" style="width:${expPct}%"></div></div>
+          <div class="exp-text">${c.level<MAX_LEVEL?`EXP ${c.exp}/${expNeeded(c.level)}`:'★ LV MAX'}</div>` : ''}
+          ${statusParts.length>0?`<div class="status-row">${statusParts.join(' ')}</div>`:''}
+          <div class="badges" style="font-size:10px">${badges||''}</div>
+        </div>
+      </div>`;
+    }
+  });
+
+  partyEl.innerHTML = partyHtml;
+
+  // アクション
+  const actor = state.party[state.currentActor];
+  const actDiv = document.getElementById('actions');
+  if(state.phase==='battle'&&actor&&actor.hp>0){
+    if(pendingAction){
+      actDiv.innerHTML=`
+        <div style="font-size:13px;margin-bottom:8px;">
+          <strong>${actor.name}</strong>: ${actionLabel(pendingAction.action)} → 敵を選んでください
+        </div>
+        <button class="btn" onclick="cancelAction()">キャンセル</button>`;
+    } else {
+      const cls=CLASSES[actor.classKey];
+      const portrait=actor.img&&!actor.isSummon
+        ?`<img src="${actor.img}" style="width:36px;height:44px;object-fit:cover;object-position:top;border-radius:4px;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'">`:'';
+      let btns=cls.actions.map(a=>`<button class="btn" onclick="selectAction('${a}')" title="${actionDesc(a)}">${actionLabel(a)}</button>`).join('');
+      // アイテムボタン
+      if(state.items.length>0 && !actor.isSummon){
+        btns += `<button class="btn item-btn" onclick="selectAction('item')" title="アイテムを使う">🎒 アイテム(${state.items.length})</button>`;
+      }
+      actDiv.innerHTML=`
+        <div style="font-size:13px;margin-bottom:8px;">${portrait}<strong>${actor.name}</strong>（${cls.icon} ${cls.name}）の行動：</div>
+        ${btns}`;
+    }
+  } else {
+    actDiv.innerHTML='<div style="color:#666;font-size:12px;text-align:center">— 待機中 —</div>';
+  }
+}
+
+function selectAction(a){
+  const actor=state.party[state.currentActor];
+  if(!actor||actor.hp<=0) return;
+  if(['attack','steal','darkattack','darkbolt'].includes(a)){
+    pendingAction={action:a}; render();
+  } else {
+    execAction(a,null);
+  }
+}
+function cancelAction(){ pendingAction=null; render(); }
+
+function showModal(html){
+  document.getElementById('modal-area').innerHTML=`<div class="modal-bg"><div class="modal">${html}</div></div>`;
+}
+function closeModal(){ document.getElementById('modal-area').innerHTML=''; }
+
+function log(html){
+  state.log.push(html);
+  const el=document.getElementById('log');
+  el.innerHTML=state.log.slice(-60).map(l=>`<div>${l}</div>`).join('');
+  el.scrollTop=el.scrollHeight;
+}
+
+newGame();
+</script>
+</body>
+</html>

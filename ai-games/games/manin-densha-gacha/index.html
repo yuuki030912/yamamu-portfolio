@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>満員電車おじさんガチャ</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="app">
+  <!-- タイトル画面 -->
+  <div id="title-screen" class="screen active">
+    <div class="title-wrap">
+      <div class="title-jp">満員電車</div>
+      <div class="title-main">おじさんガチャ</div>
+      <div class="title-sub">〜地獄の通勤RUSH〜</div>
+      <div class="title-desc">
+        ７人掛けロングシートにヤバい乗客が乗ってくる<br />
+        隣に座られる前に席を移れ！<br />
+        目指せ２０駅生存
+      </div>
+      <button id="start-btn" class="big-btn">電車に乗る</button>
+      <button id="help-btn" class="sub-btn">遊び方</button>
+      <div class="title-credit">AIが作ったゲーム #5</div>
+    </div>
+  </div>
+
+  <!-- ヘルプ画面 -->
+  <div id="help-screen" class="screen">
+    <div class="help-wrap">
+      <h2>遊び方</h2>
+      <ul class="help-list">
+        <li><b>クリック</b>で席を選んで座る</li>
+        <li>各駅で乗客が乗降。<b>停車中の３秒</b>に席を移動できる</li>
+        <li>隣に乗客が座ると<b>不快オーラ</b>でゲージが溜まる</li>
+        <li>ゲージ１００でゲームオーバー</li>
+        <li>２０駅生き残れば<b>定時退社エンド</b>🏁</li>
+        <li>席移動は<b>マナー減点-10</b>（しょっちゅう立つと白い目）</li>
+      </ul>
+      <h3>乗客図鑑</h3>
+      <div class="enemy-list" id="enemy-list"></div>
+      <button id="help-back" class="big-btn">戻る</button>
+    </div>
+  </div>
+
+  <!-- ゲーム画面 -->
+  <div id="game-screen" class="screen">
+    <div class="hud">
+      <div class="hud-row">
+        <div class="station-info">
+          <div class="station-label">次の駅</div>
+          <div class="station-name" id="station-name">新宿</div>
+        </div>
+        <div class="progress-info">
+          <div class="progress-label">残り駅</div>
+          <div class="progress-num" id="progress-num">20</div>
+        </div>
+      </div>
+      <div class="gauge-row">
+        <div class="gauge-label">不快度</div>
+        <div class="gauge-track"><div class="gauge-fill" id="gauge-fill"></div></div>
+        <div class="gauge-num" id="gauge-num">0</div>
+      </div>
+      <div class="status-row">
+        <div class="status-item">マナー <span id="manner-num">100</span></div>
+        <div class="status-item">スコア <span id="score-num">0</span></div>
+      </div>
+    </div>
+
+    <div class="train-wrap">
+      <div class="train-roof">――――――  ＪＲ山手線（仮）  ――――――</div>
+      <div class="train-doors">
+        <div class="door door-left" id="door-left">▼</div>
+        <div class="door door-right" id="door-right">▼</div>
+      </div>
+      <div class="seats" id="seats">
+        <!-- JSで生成 -->
+      </div>
+      <div class="floor">________________________________</div>
+      <div class="announce" id="announce">扉が閉まります、ご注意ください</div>
+    </div>
+
+    <div class="action-bar">
+      <button id="standup-btn" class="action-btn">立ち上がる<br /><small>(席を選びなおす)</small></button>
+      <div class="timer-wrap">
+        <div class="timer-label" id="timer-label">走行中</div>
+        <div class="timer-track"><div class="timer-fill" id="timer-fill"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- リザルト画面 -->
+  <div id="result-screen" class="screen">
+    <div class="result-wrap">
+      <div class="result-title" id="result-title">遅刻</div>
+      <div class="result-sub" id="result-sub">耐えられなかった…</div>
+      <div class="result-score">
+        <div class="result-score-label">スコア</div>
+        <div class="result-score-num" id="result-score-num">0</div>
+      </div>
+      <div class="result-detail" id="result-detail"></div>
+      <button id="retry-btn" class="big-btn">もう一本乗る</button>
+      <button id="title-btn" class="sub-btn">タイトルへ</button>
+    </div>
+  </div>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+
+  <!-- SEO基本タグ -->
+  <title>AIが作ったゲーム ポータル | ブラウザで遊べる5本【やまむー】</title>
+  <meta name="description" content="AIで毎日制作されたぶっ飛びゲーム5本がブラウザで遊べる。仏像レース・満員電車おじさんガチャ・おじいちゃん宇宙大冒険・TIMESTOP HERO・ギルドマスタータクティクス。DL不要、無料。Claude / NovelAI / Sunoで制作中のyamamu公式ポータル。">
+  <meta name="keywords" content="AIゲーム,ブラウザゲーム,無料ゲーム,HTML5,やまむー,AI制作,Claude,NovelAI,仏像レース,満員電車ガチャ">
+  <link rel="canonical" href="https://yamamu-youtube.jp/ai-games/">
+
+  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AIが作ったゲーム ポータル | ブラウザで遊べる5本【やまむー】">
+  <meta property="og:description" content="AIで毎日制作されたぶっ飛びゲーム5本がブラウザで遊べる。DL不要、無料。">
+  <meta property="og:image" content="https://yamamu-youtube.jp/ai-games/assets/ogp-portal.png">
+  <meta property="og:url" content="https://yamamu-youtube.jp/ai-games/">
+  <meta property="og:site_name" content="やまむー【yamamu】">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIが作ったゲーム ポータル | やまむー公式">
+  <meta name="twitter:description" content="AIで作ったぶっ飛びゲーム5本がブラウザで無料プレイ可能">
+  <meta name="twitter:image" content="https://yamamu-youtube.jp/ai-games/assets/ogp-portal.png">
+
+  <!-- JSON-LD: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "AIが作ったゲーム ポータル",
+    "url": "https://yamamu-youtube.jp/ai-games/",
+    "description": "AIで制作されたブラウザで遊べるオリジナルゲームを公開するポータルサイト",
+    "publisher": {
+      "@type": "Person",
+      "name": "やまむー",
+      "url": "https://www.youtube.com/@yamamu"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://yamamu-youtube.jp/ai-games/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD: ItemList (掲載ゲーム一覧) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "AIが作ったブラウザゲーム",
+    "numberOfItems": 5,
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "VideoGame",
+          "name": "仏像レース ～悟りへの道～",
+          "url": "https://yamamu-youtube.jp/ai-games/play/butsuzou-race.html",
+          "genre": "コメディレース",
+          "operatingSystem": "Browser",
+          "applicationCategory": "Game"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@type": "VideoGame",
+          "name": "満員電車おじさんガチャ",
+          "url": "https://yamamu-youtube.jp/ai-games/play/manin-densha-gacha.html",
+          "genre": "ガチャ・コメディ",
+          "operatingSystem": "Browser",
+          "applicationCategory": "Game"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@type": "VideoGame",
+          "name": "おじいちゃん宇宙大冒険",
+          "url": "https://yamamu-youtube.jp/ai-games/play/ojiichan-space.html",
+          "genre": "アドベンチャー",
+          "operatingSystem": "Browser",
+          "applicationCategory": "Game"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "item": {
+          "@type": "VideoGame",
+          "name": "TIMESTOP HERO",
+          "url": "https://yamamu-youtube.jp/ai-games/play/timestop-hero.html",
+          "genre": "アクション",
+          "operatingSystem": "Browser",
+          "applicationCategory": "Game"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 5,
+        "item": {
+          "@type": "VideoGame",
+          "name": "ギルドマスター・タクティクス",
+          "url": "https://yamamu-youtube.jp/ai-games/play/guild-master-tactics.html",
+          "genre": "シミュレーションRPG",
+          "operatingSystem": "Browser",
+          "applicationCategory": "Game"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1697281908647985" crossorigin="anonymous"></script>
+
+  <style>
+    /* ====================== POP & CASUAL THEME ====================== */
+    :root {
+      --bg: #fff8f0;
+      --bg-card: #ffffff;
+      --bg-soft: #fef3e7;
+      --text: #2d1b0f;
+      --text-soft: #6b5847;
+      --primary: #ec4899;       /* hot pink */
+      --primary-dark: #db2777;
+      --secondary: #a855f7;     /* purple */
+      --accent: #fcd34d;        /* yellow */
+      --accent-2: #06b6d4;      /* cyan */
+      --shadow: 0 4px 0 rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 0 rgba(0,0,0,0.12);
+      --radius: 16px;
+      --radius-lg: 24px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "M PLUS Rounded 1c", "Noto Sans JP", system-ui, sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* 背景の遊び心 */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(236, 72, 153, 0.06) 0%, transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.06) 0%, transparent 30%),
+        radial-gradient(circle at 50% 50%, rgba(252, 211, 77, 0.04) 0%, transparent 40%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ====================== HEADER ====================== */
+    header.site-head {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255, 248, 240, 0.92);
+      backdrop-filter: saturate(150%) blur(12px);
+      border-bottom: 3px solid var(--text);
+      padding: 14px 24px;
+    }
+    .head-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .logo {
+      font-weight: 900; font-size: 22px;
+      display: flex; align-items: center; gap: 8px;
+      color: var(--text);
+    }
+    .logo .emoji { font-size: 28px; }
+    .logo b {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    nav.head-nav { display: flex; gap: 6px; flex-wrap: wrap; }
+    nav.head-nav a {
+      padding: 8px 14px;
+      font-weight: 700; font-size: 13px;
+      border: 2px solid var(--text);
+      border-radius: 999px;
+      background: var(--bg-card);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    nav.head-nav a:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--text);
+    }
+    nav.head-nav a.cta {
+      background: var(--primary); color: #fff; border-color: var(--primary-dark);
+    }
+    nav.head-nav a.cta:hover { box-shadow: 4px 4px 0 var(--primary-dark); }
+
+    /* ====================== HERO ====================== */
+    .hero {
+      position: relative; z-index: 1;
+      padding: 64px 24px 48px;
+      text-align: center;
+    }
+    .hero-inner { max-width: 920px; margin: 0 auto; }
+    .hero-tag {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--text);
+      padding: 6px 16px;
+      font-weight: 900; font-size: 13px;
+      border-radius: 999px;
+      border: 2px solid var(--text);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      transform: rotate(-2deg);
+    }
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 64px);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+    .hero h1 .hl {
+      background: linear-gradient(180deg, transparent 60%, var(--accent) 60%);
+      padding: 0 6px;
+    }
+    .hero h1 .pop {
+      color: var(--primary);
+      display: inline-block;
+      animation: bounce 2s infinite ease-in-out;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .hero-sub {
+      font-size: clamp(15px, 2.2vw, 19px);
+      color: var(--text-soft);
+      margin-bottom: 32px;
+      max-width: 640px; margin-left: auto; margin-right: auto;
+    }
+    .hero-stats {
+      display: flex; justify-content: center; gap: 24px;
+      margin-bottom: 32px; flex-wrap: wrap;
+    }
+    .stat {
+      background: var(--bg-card);
+      border: 3px solid var(--text);
+      border-radius: var(--radius);
+      padding: 14px 20px;
+      box-shadow: var(--shadow);
+      min-width: 100px;
+    }
+    .stat .num {
+      font-size: 28px; font-weight: 900;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .stat .label { font-size: 12px; font-weight: 700; color: var(--text-soft); }
+    .hero-cta {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 900; font-size: 18px;
+      padding: 18px 36px;
+      border: 3px solid var(--text);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .hero-cta:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 11px 11px 0 var(--text);
+    }
+    .hero-cta:active {
+      transform: translate(2px, 2px);
+      box-shadow: 4px 4px 0 var(--text);
+    }
+
+    /* ====================== WHY (3 columns) ====================== */
+    .why {
+      position: relative; z-index: 1;
+      padding: 48px 24px;
+      background: var(--bg-soft);
+      border-top: 3px solid var(--text);
+      border-bottom: 3px solid var(--text);
+    }
+    .why-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    @media (max-width: 768px) { .why-inner { grid-template-columns: 1fr; } }
+    .why-card {
+      background: var(--bg-card);
+      border: 3px solid var(--text);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .why-card .ico { font-size: 48px; margin-bottom: 12px; display: block; }
+    .why-card h3 { font-size: 18px; font-weight: 900; margin-bottom: 8px; }
+    .why-card p { font-size: 14px; color: var(--text-soft); }
+
+    /* ====================== AD SLOT ====================== */
+    .ad-slot {
+      max-width: 1100px; margin: 32px auto;
+      padding: 0 24px;
+      text-align: center;
+      min-height: 100px;
+    }
+    .ad-label {
+      font-size: 10px; color: var(--text-soft); margin-bottom: 4px;
+      letter-spacing: 0.1em;
+    }
+    .ad-box {
+      background: var(--bg-card);
+      border: 2px dashed var(--text-soft);
+      border-radius: var(--radius);
+      padding: 8px;
+      min-height: 90px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ====================== GAME GRID ====================== */
+    .games {
+      position: relative; z-index: 1;
+      padding: 48px 24px;
+    }
+    .section-head {
+      max-width: 1100px; margin: 0 auto 32px;
+      text-align: center;
+    }
+    .section-head h2 {
+      font-size: clamp(28px, 5vw, 40px);
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+    .section-head .emoji { display: inline-block; transform: rotate(-10deg); }
+    .section-head p { color: var(--text-soft); font-size: 15px; }
+    .game-grid {
+      max-width: 1100px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .game-card {
+      background: var(--bg-card);
+      border: 3px solid var(--text);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: var(--shadow);
+      display: flex; flex-direction: column;
+    }
+    .game-card:hover {
+      transform: translate(-4px, -4px);
+      box-shadow: 12px 12px 0 var(--text);
+    }
+    .game-thumb {
+      aspect-ratio: 16/10;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 80px;
+      position: relative;
+      border-bottom: 3px solid var(--text);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .game-thumb.t1 { background-image: url("assets/ogp-butsuzou-race.png"); }
+    .game-thumb.t2 { background-image: url("assets/ogp-manin-densha-gacha.png"); }
+    .game-thumb.t3 { background-image: url("assets/ogp-ojiichan-space.png"); }
+    .game-thumb.t4 { background-image: url("assets/ogp-timestop-hero.png"); }
+    .game-thumb.t5 { background-image: url("assets/ogp-guild-master-tactics.png"); }
+    .game-thumb .badge {
+      position: absolute; top: 12px; left: 12px;
+      background: var(--text); color: #fff;
+      padding: 4px 10px; font-size: 11px; font-weight: 900;
+      border-radius: 999px;
+    }
+    .game-thumb .badge.new { background: var(--primary); }
+    .game-body {
+      padding: 20px; flex: 1;
+      display: flex; flex-direction: column;
+    }
+    .game-tags { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
+    .game-tag {
+      background: var(--bg-soft); color: var(--text-soft);
+      padding: 2px 10px; font-size: 11px; font-weight: 700;
+      border-radius: 999px;
+    }
+    .game-title {
+      font-size: 18px; font-weight: 900;
+      margin-bottom: 6px; line-height: 1.4;
+    }
+    .game-desc {
+      font-size: 13px; color: var(--text-soft);
+      flex: 1; margin-bottom: 14px;
+    }
+    .game-cta {
+      display: inline-block; text-align: center;
+      background: var(--text); color: #fff;
+      padding: 10px 16px; font-size: 14px; font-weight: 900;
+      border-radius: 999px;
+      transition: background 0.15s;
+    }
+    .game-card:hover .game-cta { background: var(--primary); }
+
+    /* ====================== ABOUT ====================== */
+    .about {
+      position: relative; z-index: 1;
+      padding: 64px 24px;
+      background: var(--bg-soft);
+      border-top: 3px solid var(--text);
+      border-bottom: 3px solid var(--text);
+    }
+    .about-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+      align-items: center;
+    }
+    @media (max-width: 768px) { .about-inner { grid-template-columns: 1fr; } }
+    .about-text h2 {
+      font-size: clamp(24px, 4vw, 32px);
+      font-weight: 900; margin-bottom: 14px;
+    }
+    .about-text p { color: var(--text-soft); margin-bottom: 16px; font-size: 15px; }
+    .youtube-card {
+      background: #fff; border: 3px solid var(--text);
+      border-radius: var(--radius-lg); overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+    .youtube-embed {
+      aspect-ratio: 16/9; background: #000; position: relative;
+    }
+    .youtube-embed iframe {
+      position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+    }
+    .youtube-meta { padding: 16px; }
+    .youtube-meta b { display: block; font-size: 16px; margin-bottom: 4px; }
+    .youtube-meta a {
+      display: inline-block; margin-top: 8px;
+      background: #ff0000; color: #fff;
+      padding: 8px 14px; font-size: 13px; font-weight: 900;
+      border-radius: 999px;
+      border: 2px solid var(--text);
+    }
+
+    /* ====================== FOOTER ====================== */
+    footer.site-foot {
+      position: relative; z-index: 1;
+      padding: 32px 24px 48px;
+      background: var(--bg-card);
+      border-top: 3px solid var(--text);
+    }
+    .foot-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; gap: 16px; flex-wrap: wrap;
+      justify-content: space-between; align-items: flex-start;
+    }
+    .foot-links { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; }
+    .foot-links a { color: var(--text-soft); border-bottom: 1px dashed transparent; }
+    .foot-links a:hover { color: var(--primary); border-color: var(--primary); }
+    .foot-copy { font-size: 12px; color: var(--text-soft); }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-head">
+    <div class="head-inner">
+      <a href="/ai-games/" class="logo">
+        <span class="emoji">🎮</span>
+        <span><b>AIが作ったゲーム</b></span>
+      </a>
+      <nav class="head-nav">
+        <a href="https://yamamu-youtube.jp/">攻略Wiki</a>
+        <a href="https://www.youtube.com/@yamamu" rel="noopener" target="_blank">YouTube</a>
+        <a href="https://twitter.com/YamamuGaming" rel="noopener" target="_blank">X</a>
+        <a href="#games" class="cta">▶ 遊ぶ</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <span class="hero-tag">🤖 ALL GENERATED WITH AI</span>
+      <h1>
+        <span class="hl">AIで作った</span><br>
+        <span class="pop">ぶっ飛び</span>ゲーム、<br>
+        ぜんぶブラウザで遊べる。
+      </h1>
+      <p class="hero-sub">
+        Claude / NovelAI / Suno で毎日制作中。<br>
+        DL不要、無料。「仏像レース」「満員電車おじさんガチャ」など、<br>
+        AIだから作れた発想を、そのままお届け。
+      </p>
+      <div class="hero-stats">
+        <div class="stat"><div class="num">5</div><div class="label">遊べるゲーム</div></div>
+        <div class="stat"><div class="num">100%</div><div class="label">AI制作</div></div>
+        <div class="stat"><div class="num">0円</div><div class="label">完全無料</div></div>
+        <div class="stat"><div class="num">DL</div><div class="label">不要</div></div>
+      </div>
+      <a href="#games" class="hero-cta">▶ 今すぐ遊ぶ</a>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="why">
+    <div class="why-inner">
+      <div class="why-card">
+        <span class="ico">⚡</span>
+        <h3>ブラウザで即プレイ</h3>
+        <p>インストール不要。URLを開くだけで遊べる。スマホもPCも対応。</p>
+      </div>
+      <div class="why-card">
+        <span class="ico">🤖</span>
+        <h3>全てAIで制作</h3>
+        <p>キャラ画像はNovelAI、コードはClaude、音楽はSuno。AI時代だから生まれた発想。</p>
+      </div>
+      <div class="why-card">
+        <span class="ico">🆕</span>
+        <h3>毎日新作追加</h3>
+        <p>YouTubeチャンネルで毎日1本制作。完成品からここに順次追加していきます。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AD SLOT 1 -->
+  <aside class="ad-slot" aria-label="広告">
+    <div class="ad-label">SPONSORED</div>
+    <div class="ad-box">
+      <!-- AdSense レスポンシブ広告（実装時に広告ユニットIDを差し替え） -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-1697281908647985"
+           data-ad-slot="0000000000"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </aside>
+
+  <!-- GAME GRID -->
+  <section class="games" id="games">
+    <div class="section-head">
+      <h2><span class="emoji">🎯</span> 今すぐ遊べるゲーム</h2>
+      <p>クリック→即プレイ。所要時間 各5〜15分</p>
+    </div>
+
+    <div class="game-grid">
+      <!-- GAME 1: 仏像レース -->
+      <a href="play/butsuzou-race.html" class="game-card">
+        <div class="game-thumb t1">
+          <span class="badge new">NEW</span>
+        </div>
+        <div class="game-body">
+          <div class="game-tags">
+            <span class="game-tag">レース</span>
+            <span class="game-tag">コメディ</span>
+          </div>
+          <h3 class="game-title">仏像レース ～悟りへの道～</h3>
+          <p class="game-desc">煩悩を振り切って涅槃を目指せ。AIが本気で作った仏教モチーフのカオスレース。</p>
+          <span class="game-cta">▶ プレイする</span>
+        </div>
+      </a>
+
+      <!-- GAME 2: 満員電車おじさんガチャ -->
+      <a href="play/manin-densha-gacha.html" class="game-card">
+        <div class="game-thumb t2">
+          <span class="badge">⭐ 人気</span>
+        </div>
+        <div class="game-body">
+          <div class="game-tags">
+            <span class="game-tag">ガチャ</span>
+            <span class="game-tag">日常コメディ</span>
+          </div>
+          <h3 class="game-title">満員電車おじさんガチャ</h3>
+          <p class="game-desc">朝の通勤電車で、隣に来るおじさんは選べない。レアおじさん引いて出社しよう。</p>
+          <span class="game-cta">▶ プレイする</span>
+        </div>
+      </a>
+
+      <!-- GAME 3: おじいちゃん宇宙大冒険 -->
+      <a href="play/ojiichan-space.html" class="game-card">
+        <div class="game-thumb t3">
+        </div>
+        <div class="game-body">
+          <div class="game-tags">
+            <span class="game-tag">アドベンチャー</span>
+            <span class="game-tag">SF</span>
+          </div>
+          <h3 class="game-title">おじいちゃん宇宙大冒険</h3>
+          <p class="game-desc">引退した宇宙飛行士のおじいちゃんが、孫を救うためもう一度宇宙へ。涙腺崩壊系SF。</p>
+          <span class="game-cta">▶ プレイする</span>
+        </div>
+      </a>
+
+      <!-- GAME 4: TIMESTOP HERO -->
+      <a href="play/timestop-hero.html" class="game-card">
+        <div class="game-thumb t4">
+          <span class="badge">⚡ アクション</span>
+        </div>
+        <div class="game-body">
+          <div class="game-tags">
+            <span class="game-tag">アクション</span>
+            <span class="game-tag">時止め</span>
+          </div>
+          <h3 class="game-title">TIMESTOP HERO</h3>
+          <p class="game-desc">時を止めて敵を一掃せよ。タイミング命の爽快アクション。</p>
+          <span class="game-cta">▶ プレイする</span>
+        </div>
+      </a>
+
+      <!-- GAME 5: ギルドマスター・タクティクス -->
+      <a href="play/guild-master-tactics.html" class="game-card">
+        <div class="game-thumb t5">
+          <span class="badge">v0.6 β</span>
+        </div>
+        <div class="game-body">
+          <div class="game-tags">
+            <span class="game-tag">SRPG</span>
+            <span class="game-tag">戦略</span>
+          </div>
+          <h3 class="game-title">ギルドマスター・タクティクス</h3>
+          <p class="game-desc">冒険者を雇い、ギルドを育て、世界制覇を狙う本格シミュレーションRPG。じっくり遊べる。</p>
+          <span class="game-cta">▶ プレイする</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- AD SLOT 2 -->
+  <aside class="ad-slot" aria-label="広告">
+    <div class="ad-label">SPONSORED</div>
+    <div class="ad-box">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-1697281908647985"
+           data-ad-slot="0000000001"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </aside>
+
+  <!-- ABOUT -->
+  <section class="about">
+    <div class="about-inner">
+      <div class="about-text">
+        <h2>このサイトについて</h2>
+        <p>
+          <b>「やまむー」</b>がAIを駆使して制作したオリジナルゲームを、ブラウザでそのまま遊べる形で公開しています。
+        </p>
+        <p>
+          コードはClaude / Claude Code、キャラクターはNovelAI、音楽・効果音はSuno / ElevenLabsで生成。
+          AIだから1日で完成する「ぶっ飛んだコンセプト」のゲームを毎日制作しています。
+        </p>
+        <p>
+          <b>制作プロセスはYouTubeで公開中。</b>「こんなのAIで作れるの！？」と驚いてもらえるはずです。
+        </p>
+      </div>
+
+      <div class="youtube-card">
+        <a href="https://www.youtube.com/@yamamu" rel="noopener" target="_blank" style="display:block; text-decoration:none;">
+          <div class="youtube-embed" style="background:linear-gradient(135deg,#ec4899,#a855f7); display:flex; align-items:center; justify-content:center; flex-direction:column;">
+            <div style="font-size:64px; margin-bottom:8px;">🎬</div>
+            <div style="color:#fff; font-weight:900; font-size:20px;">制作動画を見る</div>
+            <div style="color:rgba(255,255,255,0.85); font-size:13px; margin-top:4px;">▶ YouTube チャンネルへ</div>
+          </div>
+        </a>
+        <div class="youtube-meta">
+          <b>やまむー【yamamu】</b>
+          <small>AIゲーム制作の裏側を毎日配信中</small><br>
+          <a href="https://www.youtube.com/@yamamu" rel="noopener" target="_blank">▶ チャンネル登録</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AD SLOT 3 -->
+  <aside class="ad-slot" aria-label="広告">
+    <div class="ad-label">SPONSORED</div>
+    <div class="ad-box">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-1697281908647985"
+           data-ad-slot="0000000002"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </aside>
+
+  <!-- FOOTER -->
+  <footer class="site-foot">
+    <div class="foot-inner">
+      <div class="foot-links">
+        <a href="/ai-games/">トップ</a>
+        <a href="https://yamamu-youtube.jp/">攻略Wiki</a>
+        <a href="https://www.youtube.com/@yamamu" rel="noopener" target="_blank">YouTube</a>
+        <a href="https://twitter.com/YamamuGaming" rel="noopener" target="_blank">X (Twitter)</a>
+        <a href="/about.html">運営者情報</a>
+        <a href="/privacy.html">プライバシーポリシー</a>
+        <a href="/contact.html">お問い合わせ</a>
+      </div>
+      <div class="foot-copy">
+        &copy; 2026 やまむー【yamamu】 / AIが作ったゲーム ポータル
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

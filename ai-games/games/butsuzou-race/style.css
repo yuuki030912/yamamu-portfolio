@@ -1,0 +1,312 @@
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@700;800&family=Yuji+Mai&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Shippori Mincho', serif;
+  background: #1a0f08;
+  color: #f5e6c8;
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#game {
+  width: 100vw;
+  height: 100vh;
+  max-width: 1280px;
+  max-height: 720px;
+  position: relative;
+  background:
+    radial-gradient(ellipse at top, rgba(255,180,80,0.18) 0%, transparent 60%),
+    linear-gradient(180deg, #2a1810 0%, #1a0f08 100%);
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(0,0,0,0.8);
+}
+
+.screen {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+.screen.active { display: flex; }
+
+/* ─── タイトル ─── */
+.title-main {
+  font-family: 'Yuji Mai', serif;
+  font-size: 88px;
+  color: #ffd86b;
+  text-shadow:
+    0 0 20px rgba(255,180,80,0.6),
+    3px 3px 0 #5a2a0a;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+.title-sub {
+  font-size: 22px;
+  color: #d4a857;
+  letter-spacing: 0.4em;
+  margin-bottom: 24px;
+}
+.title-art {
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(255,200,100,0.2), transparent 70%);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 24px;
+}
+.title-art img { max-width: 100%; max-height: 100%; filter: drop-shadow(0 0 24px rgba(255,200,100,0.5)); }
+.instruction {
+  text-align: center;
+  font-size: 17px;
+  line-height: 1.8;
+  margin-bottom: 28px;
+  color: #e9d4a0;
+}
+
+.btn-main {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 22px;
+  font-weight: 800;
+  padding: 14px 48px;
+  background: linear-gradient(180deg, #d8a042 0%, #8c5a18 100%);
+  color: #1a0f08;
+  border: 2px solid #ffd86b;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 0.2em;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.btn-main:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,180,80,0.5); }
+.btn-main:active:not(:disabled) { transform: translateY(1px); }
+.btn-main:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ─── キャラ選択 ─── */
+#select-screen h2 {
+  font-size: 28px;
+  color: #ffd86b;
+  margin-bottom: 24px;
+  letter-spacing: 0.15em;
+}
+#char-list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+  max-width: 1100px;
+  width: 100%;
+}
+.char-card {
+  background: rgba(60,30,10,0.6);
+  border: 2px solid #6a4018;
+  border-radius: 6px;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.char-card:hover { border-color: #ffd86b; transform: translateY(-4px); }
+.char-card.selected { border-color: #ffd86b; background: rgba(255,180,80,0.2); box-shadow: 0 0 24px rgba(255,200,100,0.4); }
+.char-portrait {
+  width: 100%; height: 140px;
+  background: radial-gradient(circle, rgba(255,200,100,0.15), transparent 70%);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 8px;
+}
+.char-portrait img { max-width: 100%; max-height: 100%; }
+.char-portrait.no-img::after {
+  content: "🧘";
+  font-size: 70px;
+}
+.char-name { font-size: 16px; color: #ffd86b; font-weight: 700; }
+.char-desc { font-size: 11px; color: #c9a878; margin-top: 4px; line-height: 1.4; }
+
+/* ─── レース ─── */
+#race-screen { padding: 0; }
+#race-track {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0 2px, transparent 2px 80px),
+    linear-gradient(180deg, #3a2618 0%, #1a0f08 100%);
+  overflow: hidden;
+}
+.goal-line {
+  position: absolute;
+  right: 60px;
+  top: 0; bottom: 0;
+  width: 6px;
+  background: repeating-linear-gradient(0deg, #ffd86b 0 14px, #5a2a0a 14px 28px);
+  box-shadow: 0 0 16px rgba(255,200,100,0.7);
+  z-index: 2;
+}
+#lanes {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+.lane {
+  flex: 1;
+  position: relative;
+  border-bottom: 1px dashed rgba(255,200,100,0.15);
+}
+.runner {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 95%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: left 0.12s linear;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
+}
+.runner img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  border: 2px solid rgba(255,200,100,0.4);
+  background: radial-gradient(circle, rgba(255,200,100,0.2), transparent);
+}
+.runner.no-img::before {
+  content: "🧘";
+  font-size: 56px;
+}
+.runner.player::after {
+  content: "★YOU";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #ffd86b;
+  background: rgba(0,0,0,0.7);
+  padding: 2px 6px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.runner.dashing {
+  animation: dash 0.2s ease-out;
+}
+@keyframes dash {
+  0% { filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6)); }
+  50% { filter: drop-shadow(0 0 24px #ffd86b) drop-shadow(0 0 12px #fff); }
+  100% { filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6)); }
+}
+
+#hud {
+  position: absolute;
+  top: 12px; left: 12px; right: 12px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 3;
+  pointer-events: none;
+}
+#event-log {
+  background: rgba(0,0,0,0.7);
+  border: 1px solid #8c5a18;
+  padding: 8px 14px;
+  font-size: 16px;
+  color: #ffd86b;
+  max-width: 60%;
+  min-height: 38px;
+}
+#position-display {
+  background: rgba(0,0,0,0.7);
+  border: 1px solid #8c5a18;
+  padding: 8px 14px;
+  font-size: 18px;
+  color: #ffd86b;
+  font-weight: 700;
+}
+
+#control-area {
+  height: 140px;
+  background: linear-gradient(180deg, #1a0f08 0%, #000 100%);
+  border-top: 2px solid #8c5a18;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+#chant-btn {
+  font-family: 'Yuji Mai', serif;
+  font-size: 32px;
+  padding: 16px 60px;
+  background: linear-gradient(180deg, #c8462a 0%, #6a1a0a 100%);
+  color: #ffd86b;
+  border: 3px solid #ffd86b;
+  border-radius: 8px;
+  cursor: pointer;
+  letter-spacing: 0.2em;
+  box-shadow: 0 0 24px rgba(255,80,40,0.4);
+  user-select: none;
+  transition: transform 0.05s;
+}
+#chant-btn:active { transform: scale(0.95); box-shadow: 0 0 36px rgba(255,200,100,0.8); }
+.hint { font-size: 13px; color: #a87838; letter-spacing: 0.1em; }
+
+/* 念仏フローティング */
+.namu-float {
+  position: absolute;
+  font-family: 'Yuji Mai', serif;
+  font-size: 24px;
+  color: #ffd86b;
+  text-shadow: 0 0 8px rgba(255,200,100,0.8);
+  pointer-events: none;
+  animation: float-up 1s ease-out forwards;
+  z-index: 5;
+}
+@keyframes float-up {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-80px); opacity: 0; }
+}
+
+/* イベントエフェクト */
+.event-flash {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.4);
+  pointer-events: none;
+  z-index: 4;
+  animation: flash 0.3s ease-out;
+}
+@keyframes flash { 0% { opacity: 0; } 30% { opacity: 1; } 100% { opacity: 0; } }
+
+/* ─── 結果 ─── */
+#result-title {
+  font-family: 'Yuji Mai', serif;
+  font-size: 64px;
+  color: #ffd86b;
+  text-shadow: 0 0 24px rgba(255,200,100,0.8);
+  margin-bottom: 16px;
+}
+.result-art {
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(255,200,100,0.3), transparent 70%);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+}
+.result-art img { max-width: 100%; max-height: 100%; filter: drop-shadow(0 0 32px rgba(255,255,200,0.7)); }
+#result-text {
+  font-size: 18px;
+  line-height: 1.8;
+  text-align: center;
+  margin-bottom: 28px;
+  max-width: 600px;
+  color: #e9d4a0;
+}
