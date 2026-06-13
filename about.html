@@ -17,6 +17,13 @@
   <meta property="og:site_name" content="やまむー【yamamu】">
   <meta property="og:image" content="https://yamamu-youtube.jp/icon.png">
 
+  <!-- パフォーマンス: 事前接続 -->
+  <link rel="preconnect" href="https://img.youtube.com">
+  <link rel="preconnect" href="https://www.youtube.com">
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="dns-prefetch" href="https://i.ytimg.com">
+  <!-- FOUC防止: 描画前にテーマ確定（async/defer無し） -->
+  <script src="/theme-init.js"></script>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="video.css">
   <style>

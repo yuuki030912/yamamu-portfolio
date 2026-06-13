@@ -49,6 +49,13 @@
   }
   </script>
 
+  <!-- パフォーマンス: 事前接続 -->
+  <link rel="preconnect" href="https://img.youtube.com">
+  <link rel="preconnect" href="https://www.youtube.com">
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="dns-prefetch" href="https://i.ytimg.com">
+  <!-- FOUC防止: 描画前にテーマ確定（async/defer無し） -->
+  <script src="/theme-init.js"></script>
   <link rel="stylesheet" href="style.css">
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1697281908647985" crossorigin="anonymous"></script>

@@ -92,6 +92,13 @@
 }
   </script>
 
+  <!-- パフォーマンス: 事前接続 -->
+  <link rel="preconnect" href="https://img.youtube.com">
+  <link rel="preconnect" href="https://www.youtube.com">
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="dns-prefetch" href="https://i.ytimg.com">
+  <!-- FOUC防止: 描画前にテーマ確定（async/defer無し） -->
+  <script src="/theme-init.js"></script>
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="../video.css">
   <!-- Google AdSense -->
@@ -265,7 +272,7 @@
           </div>
           <div class="video-info">
             <h3 class="video-title">【イナイレV】正義テンションで流行ってる最強タクティクスはこれだ！【イナズマイレブン英雄たちのヴィクトリーロード】</h3>
-            <p class="video-meta">2,856回視聴</p>
+            <p class="video-meta">やまむー【yamamu】</p>
           </div>
         </a>
     </div>

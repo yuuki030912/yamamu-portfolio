@@ -60,3 +60,59 @@
     }
   });
 })();
+
+/**
+ * YouTube チャンネル登録 CTA を全動画ページに自動挿入
+ * - 動画直下に登録ボタン（最も成約しやすい位置）
+ * - スマホでは画面下に追従バーを表示（1セッション1回まで）
+ * CSP: 'self' の外部JSなのでインライン制約に抵触しない
+ */
+(function () {
+  'use strict';
+  var CHANNEL = 'https://www.youtube.com/@yamamu';
+  var SUBSCRIBE = CHANNEL + '?sub_confirmation=1';
+
+  function ytIcon(size) {
+    return '<svg viewBox="0 0 24 24" width="' + size + '" height="' + size + '" aria-hidden="true">' +
+      '<path fill="#ff0000" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8z"/>' +
+      '<path fill="#fff" d="M9.6 15.5V8.5l6.3 3.5z"/></svg>';
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // 動画ページ以外（playerが無い）では何もしない
+    var anchor = document.querySelector('.video-detail') || document.querySelector('.video-player-section');
+    if (!anchor) return;
+
+    // --- 動画直下のメインCTA ---
+    var cta = document.createElement('section');
+    cta.className = 'yt-cta';
+    cta.innerHTML =
+      '<div class="yt-cta-title">この攻略が役に立ったら<br>チャンネル登録で最新攻略をチェック！</div>' +
+      '<div class="yt-cta-sub">総プレイ1200時間超のやり込み攻略を毎週配信中</div>' +
+      '<div class="yt-cta-btns">' +
+        '<a class="yt-cta-btn yt-cta-btn-primary" href="' + SUBSCRIBE + '" target="_blank" rel="noopener noreferrer">' + ytIcon(20) + 'チャンネル登録する</a>' +
+        '<a class="yt-cta-btn yt-cta-btn-secondary" href="' + CHANNEL + '/videos" target="_blank" rel="noopener noreferrer">他の攻略動画を見る</a>' +
+      '</div>';
+    anchor.parentNode.insertBefore(cta, anchor.nextSibling);
+
+    // --- スマホ追従バー（閉じたら当面非表示） ---
+    try {
+      if (sessionStorage.getItem('ytFloatClosed') === '1') return;
+    } catch (e) {}
+
+    var bar = document.createElement('div');
+    bar.className = 'yt-cta-float';
+    bar.innerHTML =
+      '<span class="yt-cta-float-text">やまむーの攻略動画を<br>もっと見る</span>' +
+      '<a class="yt-cta-float-btn" href="' + SUBSCRIBE + '" target="_blank" rel="noopener noreferrer">' + ytIcon(16) + 'チャンネル登録</a>' +
+      '<button class="yt-cta-float-close" aria-label="閉じる">&times;</button>';
+    document.body.appendChild(bar);
+    document.body.classList.add('has-float-cta');
+
+    bar.querySelector('.yt-cta-float-close').addEventListener('click', function () {
+      bar.remove();
+      document.body.classList.remove('has-float-cta');
+      try { sessionStorage.setItem('ytFloatClosed', '1'); } catch (e) {}
+    });
+  });
+})();

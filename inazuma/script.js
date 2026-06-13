@@ -34,6 +34,11 @@ function parseViews(v) {
   return parseInt((v.views || "0").replace(/,/g, ""), 10);
 }
 
+// 低再生数は社会的証明を損なうため表示しない（3000回未満はチャンネル名にフォールバック）
+function viewLabel(v) {
+  return parseViews(v) >= 3000 ? v.views + "回視聴" : "やまむー【yamamu】";
+}
+
 // ===== ショート動画判定（2分未満） =====
 function isShortVideo(v) {
   var dur = v.duration || "";
@@ -79,7 +84,7 @@ function createVideoCard(video) {
   infoDiv.appendChild(title);
   var meta = document.createElement("p");
   meta.className = "video-meta";
-  meta.textContent = video.views + "回視聴";
+  meta.textContent = viewLabel(video);
   infoDiv.appendChild(meta);
   card.appendChild(infoDiv);
 
@@ -121,7 +126,7 @@ function renderPickup() {
     body.appendChild(title);
     var meta = document.createElement("div");
     meta.className = "pickup-meta";
-    meta.textContent = video.views + "回視聴";
+    meta.textContent = viewLabel(video);
     body.appendChild(meta);
     card.appendChild(body);
 
