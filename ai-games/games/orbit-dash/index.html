@@ -1068,7 +1068,7 @@ function draw(){
 
     // ランク＆今日のミッション（リング中央）
     refreshMissions();
-    {
+    if(R>150){
       const L=lvlOf(totalXp);
       ctx.fillStyle='#cdf';
       ctx.font='bold 16px system-ui,sans-serif';

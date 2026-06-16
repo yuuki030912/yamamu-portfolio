@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TIMESTOP HERO</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -328,9 +329,12 @@ document.addEventListener('keydown', e => {
 document.addEventListener('keyup', e => { keys[e.code] = false; });
 canvas.addEventListener('mousemove', e => {
   const r = canvas.getBoundingClientRect();
-  mouseX = e.clientX - r.left; mouseY = e.clientY - r.top;
+  mouseX = (e.clientX - r.left) * (canvas.width / r.width); mouseY = (e.clientY - r.top) * (canvas.height / r.height);
 });
 canvas.addEventListener('click', () => { if (state === 'playing') doAttack(); });
+function _ts_pt(t){const r=canvas.getBoundingClientRect();mouseX=(t.clientX-r.left)*(canvas.width/r.width);mouseY=(t.clientY-r.top)*(canvas.height/r.height);}
+canvas.addEventListener('touchstart',e=>{e.preventDefault();_ts_pt(e.touches[0]);if(state==='playing')doAttack();},{passive:false});
+canvas.addEventListener('touchmove',e=>{e.preventDefault();_ts_pt(e.touches[0]);},{passive:false});
 
 // ---- Wave Config ----
 function waveConfig(w) {
@@ -944,5 +948,6 @@ function drawTitle(ts) {
 }
 requestAnimationFrame(drawTitle);
 </script>
+<script>(function(){var b=document.getElementById('gameContainer');function f(){var s=Math.min(window.innerWidth/800,window.innerHeight/500);b.style.transform='scale('+s+')';}addEventListener('resize',f);addEventListener('load',f);f();requestAnimationFrame(f);setTimeout(f,200);})();</script>
 </body>
 </html>

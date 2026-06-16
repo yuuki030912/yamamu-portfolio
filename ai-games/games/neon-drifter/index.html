@@ -10,9 +10,16 @@
   #wrap { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; }
   canvas { display:block; image-rendering:auto; box-shadow:0 0 60px rgba(80,180,255,0.15); touch-action:none; }
   .overlay { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
-    color:#dff3ff; text-align:center; pointer-events:none; z-index:10; }
-  .panel { pointer-events:auto; background:rgba(8,12,28,0.92); border:1px solid rgba(90,180,255,0.35);
+    color:#dff3ff; text-align:center; pointer-events:none; z-index:10; overflow-y:auto; padding:16px 12px; }
+  .panel { pointer-events:auto; margin:auto; background:rgba(8,12,28,0.92); border:1px solid rgba(90,180,255,0.35);
     border-radius:16px; padding:32px 40px; max-width:560px; box-shadow:0 0 40px rgba(60,160,255,0.25), inset 0 0 40px rgba(40,120,255,0.06); }
+  @media (max-width:560px){
+    .panel { padding:20px 16px; }
+    h1 { font-size:34px !important; letter-spacing:2px; }
+    .keyrow { font-size:13px; }
+    .cards { flex-wrap:wrap; justify-content:center; }
+    .card { width:138px; }
+  }
   h1 { font-size:54px; letter-spacing:6px; font-weight:800;
     background:linear-gradient(90deg,#5ad1ff,#b98bff,#ff6ad5); -webkit-background-clip:text; background-clip:text; color:transparent;
     text-shadow:0 0 30px rgba(120,180,255,0.4); margin-bottom:6px; }
