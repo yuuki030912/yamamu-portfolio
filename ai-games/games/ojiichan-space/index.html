@@ -1105,5 +1105,29 @@ document.getElementById('aiDemoBtn').addEventListener('click', startAIDemo);
 loop();
 </script>
 <script>(function(){var b=document.getElementById('gc');function f(){var s=Math.min(window.innerWidth/800,window.innerHeight/500);b.style.transform='scale('+s+')';}addEventListener('resize',f);addEventListener('load',f);f();requestAnimationFrame(f);setTimeout(f,200);})();</script>
+<style>
+.vc-root{position:fixed;inset:0;z-index:60;pointer-events:none;display:none}
+.vc-stick{position:absolute;left:24px;bottom:30px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.08);border:2px solid rgba(136,170,255,.45);pointer-events:auto;touch-action:none}
+.vc-thumb{position:absolute;left:50%;top:50%;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;background:rgba(136,204,255,.55);box-shadow:0 0 16px rgba(120,200,255,.7)}
+.vc-hint{position:absolute;right:22px;bottom:46px;color:rgba(255,232,102,.85);font:bold 14px/1.5 Arial,sans-serif;text-align:right;text-shadow:0 0 6px #000;pointer-events:none}
+</style>
+<script>
+(function(){
+  if(!matchMedia('(pointer:coarse)').matches && innerWidth>820) return;
+  function E(t,c,h){var d=document.createElement(t);if(c)d.className=c;if(h!=null)d.innerHTML=h;return d;}
+  var root=E('div','vc-root');
+  var base=E('div','vc-stick'),thumb=E('div','vc-thumb');base.appendChild(thumb);root.appendChild(base);
+  root.appendChild(E('div','vc-hint','🔫 射撃は自動<br>スティックで移動'));
+  var pid=null,cx=0,cy=0,RAD=52,DEAD=0.3;
+  function setMove(x,y){KEYS['ArrowLeft']=x<-DEAD;KEYS['ArrowRight']=x>DEAD;KEYS['ArrowUp']=y<-DEAD;KEYS['ArrowDown']=y>DEAD;}
+  function jh(e){var dx=e.clientX-cx,dy=e.clientY-cy,d=Math.hypot(dx,dy)||1,c=Math.min(d,RAD);thumb.style.transform='translate('+(dx/d*c)+'px,'+(dy/d*c)+'px)';setMove(dx/RAD,dy/RAD);}
+  base.addEventListener('pointerdown',function(e){e.preventDefault();pid=e.pointerId;base.setPointerCapture(pid);var r=base.getBoundingClientRect();cx=r.left+r.width/2;cy=r.top+r.height/2;jh(e);});
+  base.addEventListener('pointermove',function(e){if(e.pointerId===pid)jh(e);});
+  function jend(e){if(e.pointerId!==pid)return;pid=null;thumb.style.transform='translate(0,0)';setMove(0,0);}
+  base.addEventListener('pointerup',jend);base.addEventListener('pointercancel',jend);
+  document.body.appendChild(root);
+  setInterval(function(){var show=(state==='playing');root.style.display=show?'block':'none';if(!show){setMove(0,0);thumb.style.transform='translate(0,0)';}},150);
+})();
+</script>
 </body>
 </html>
