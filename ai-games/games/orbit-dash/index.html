@@ -427,6 +427,8 @@ function press(opt){
     if(opt.x!==undefined){
       if(inRect(opt,ui.skinL)){ cycleSkin(-1); return; }
       if(inRect(opt,ui.skinR)){ cycleSkin(1); return; }
+      // スキン選択行のタップでは誤ってゲームを開始しない（デイリーボタンは下記で別途判定）
+      if(inRect(opt,ui.skinRow) && !inRect(opt,ui.daily)){ return; }
     }
     const m=(opt.key==='KeyD'||(opt.x!==undefined&&inRect(opt,ui.daily)))?'daily':'endless';
     reset(m); state='play'; sfxStart(); return;
@@ -1012,10 +1014,16 @@ function draw(){
     {
       const rowY=CY-R*0.62+70;
       const sk=SKINS[skinIdx], owned=!!unlockedSkins[sk.id];
-      ui.skinL={x:CX-160,y:rowY-24,w:50,h:34};
-      ui.skinR={x:CX+110,y:rowY-24,w:50,h:34};
-      ctx.font='bold 20px system-ui,sans-serif';
-      ctx.fillStyle='rgba(255,255,255,0.7)';
+      // タップしやすいよう判定を拡大。skinRowは行全体（誤スタート防止のデッドゾーン）
+      ui.skinL={x:CX-175,y:rowY-30,w:80,h:52};
+      ui.skinR={x:CX+95,y:rowY-30,w:80,h:52};
+      ui.skinRow={x:CX-175,y:rowY-30,w:350,h:52};
+      // 矢印を「ボタンらしく」背景つきで描画
+      ctx.fillStyle='rgba(255,255,255,0.10)';
+      ctx.fillRect(ui.skinL.x,ui.skinL.y,ui.skinL.w,ui.skinL.h);
+      ctx.fillRect(ui.skinR.x,ui.skinR.y,ui.skinR.w,ui.skinR.h);
+      ctx.font='bold 24px system-ui,sans-serif';
+      ctx.fillStyle='rgba(255,255,255,0.85)';
       ctx.fillText('◀', CX-135, rowY);
       ctx.fillText('▶', CX+135, rowY);
       ctx.font='bold 15px system-ui,sans-serif';
