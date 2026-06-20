@@ -312,7 +312,6 @@ let waveClock=0, waveNum=-1, eventFired=false, pending=[];
 let stat={gem:0,graze:0,close:0,flip:0,grazeN:0,closeN:0,flipN:0,gemN:0,feverN:0};
 let firstPlay=!localStorage.getItem('od_played');
 let mode='endless', noFlipT=0, dailyNewBest=false;
-let ghost=null, ghostRec=[], ghostPtr=0, ghostBeaten=false;
 let lastXpGain=0;
 let items=[], itemT=0, shieldOn=false, slowT=0, boostT=0, invulnT=0;
 let trail=[];
@@ -325,9 +324,7 @@ function reset(m){
   mode=m||'endless';
   rng = mode==='daily' ? mulberry32(dayStamp()) : Math.random;
   dailyNewBest=false; noFlipT=0;
-  ghostRec=[]; ghostPtr=0; ghostBeaten=false;
   items=[]; itemT=rnd(6,10); shieldOn=false; slowT=0; boostT=0; invulnT=0;
-  try{ ghost=JSON.parse(localStorage.getItem(mode==='daily'?('od_ghost_d'+dayStamp()):'od_ghost')||'null'); }catch(e){ ghost=null; }
   refreshMissions();
   score=0; t=0; angle=-Math.PI/2; dir=1; spd=1.8;
   combo=0; comboTimer=0; maxCombo=0; fever=0; nextFeverAt=12; newBest=false;
@@ -496,10 +493,6 @@ function die(cause,hx,hy){
     const k='od_daily_'+dayStamp();
     if(score>+(localStorage.getItem(k)||0)){ dailyNewBest=true; localStorage.setItem(k,score); }
   } else if(score>best){ best=score; newBest=true; localStorage.setItem('od_best',best); }
-  // ベスト更新時はゴースト（軌道）を保存
-  if(mode==='daily'?dailyNewBest:newBest){
-    try{ localStorage.setItem(mode==='daily'?('od_ghost_d'+dayStamp()):'od_ghost', JSON.stringify(ghostRec)); }catch(e){}
-  }
   // 通算統計 & XP付与（スコアの1/10）
   localStorage.setItem('od_plays',(+localStorage.getItem('od_plays')||0)+1);
   localStorage.setItem('od_time',Math.round((+localStorage.getItem('od_time')||0)+t));
@@ -550,9 +543,6 @@ function update(dt){
   const prev=angle;
   angle += dir*spd*dt;
   trail.push({a:angle,life:0.35});
-  // ゴースト記録（0.1秒間隔）
-  if(ghostRec.length===0 || t-ghostRec[ghostRec.length-1][0]>=0.1)
-    ghostRec.push([Math.round(t*100)/100, Math.round(angle*1000)/1000]);
   for(const tr of trail) tr.life-=dt;
   trail=trail.filter(tr=>tr.life>0);
 
@@ -849,23 +839,6 @@ function draw(){
       const k=tr.life/0.35;
       ctx.fillStyle = fever>0 ? 'rgba(255,210,80,'+(0.35*k)+')' : skinTrailCol(SK,0.35*k);
       ctx.beginPath(); ctx.arc(px(tr.a),py(tr.a), 9*k, 0, TAU); ctx.fill();
-    }
-
-    // ゴースト（自己ベストの軌道が並走）
-    if(state==='play' && ghost && ghost.length>1){
-      if(t<=ghost[ghost.length-1][0]){
-        while(ghostPtr<ghost.length-2 && ghost[ghostPtr+1][0]<=t) ghostPtr++;
-        const a=ghost[ghostPtr], b=ghost[ghostPtr+1];
-        const k=clamp((t-a[0])/Math.max(0.001,b[0]-a[0]),0,1);
-        const ga=a[1]+(b[1]-a[1])*k;
-        ctx.globalAlpha=0.32;
-        glowCircle(px(ga),py(ga),9,'#fff',12);
-        ctx.globalAlpha=1;
-      } else if(!ghostBeaten){
-        ghostBeaten=true;
-        addText(CX,CY+R*0.6,'ゴーストを超えた！','#cdf',24);
-        sfxClose();
-      }
     }
 
     // player
