@@ -5,18 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>8192分の1の勇者</title>
 <style>
-  :root{--bg:#0a0a1a;--panel:#10122b;--panel2:#171a3a;--ink:#eef1ff;--sub:#9aa3d6;--line:#3a3f78;--gold:#ffd23f;--good:#46e8a0;--bad:#ff5c7a;--mag:#b06bff;--hp:#ff5c7a;--xp:#5ad1ff}
+  :root{--bg:#0a0a1a;--panel:#10122b;--panel2:#171a3a;--ink:#eef1ff;--sub:#9aa3d6;--line:#3a3f78;--gold:#ffd23f;--good:#46e8a0;--bad:#ff5c7a;--mag:#b06bff;--coin:#ffcf5a}
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
   body{background:radial-gradient(120% 90% at 50% -10%,#1a1c45 0%,var(--bg) 60%);color:var(--ink);font-family:"Hiragino Maru Gothic ProN","M PLUS Rounded 1c",system-ui,sans-serif;-webkit-font-smoothing:antialiased;user-select:none;-webkit-user-select:none;overflow:hidden}
   #app{max-width:540px;margin:0 auto;height:100%;height:100dvh;display:flex;flex-direction:column;padding:12px;gap:9px}
   .hud{background:linear-gradient(180deg,var(--panel2),var(--panel));border:2px solid var(--line);border-radius:14px;padding:9px 13px;box-shadow:0 6px 0 rgba(0,0,0,.35)}
-  .hud-row{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800}
-  .hud-cls{color:var(--gold)} .hud-lv{color:var(--xp)} .hud-sub{color:var(--sub);font-weight:700}
-  .bar{flex:1;height:9px;border-radius:5px;background:#23264f;overflow:hidden;position:relative}
-  .bar>i{position:absolute;left:0;top:0;bottom:0;border-radius:5px;transition:width .3s}
-  .bar.hp>i{background:linear-gradient(90deg,#ff7a93,var(--hp))} .bar.xp>i{background:linear-gradient(90deg,#7ee0ff,var(--xp))}
-  .hud-num{font-variant-numeric:tabular-nums;color:var(--ink);min-width:64px;text-align:right}
+  .hud-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .hud-cls{font-size:12px;font-weight:900;color:var(--gold)}
+  .hud-coin{font-size:12px;font-weight:900;color:var(--coin)}
+  .hud-prob{font-size:18px;font-weight:900;color:var(--good);font-variant-numeric:tabular-nums}
+  .hud-prob small{font-size:12px;color:var(--sub)}
+  .pips{display:flex;gap:2px;margin-top:8px}
+  .pip{flex:1;height:6px;border-radius:2px;background:#23264f;transition:background .3s}
+  .pip.on{background:linear-gradient(180deg,var(--gold),#e0a800)} .pip.now{background:var(--mag)} .pip.boon{background:#3a6}
+  .pip-cap{font-size:11px;color:var(--sub);text-align:center;margin-top:5px;font-weight:700}
   .stage{flex:1;position:relative;display:flex;flex-direction:column;background:linear-gradient(180deg,#0e1030,#0a0b22);border:2px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 6px 0 rgba(0,0,0,.35)}
   .stage.scroll{overflow-y:auto}
   .scene{flex:1;position:relative;min-height:130px;display:flex;align-items:center;justify-content:center;background:radial-gradient(80% 60% at 50% 30%,rgba(176,107,255,.16),transparent 70%)}
@@ -24,20 +27,11 @@
   .art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
   .scene .grad{position:absolute;left:0;right:0;bottom:0;height:42%;z-index:2;background:linear-gradient(180deg,transparent,rgba(7,8,21,.9))}
   .acttag{position:absolute;top:10px;left:12px;z-index:3;background:rgba(0,0,0,.5);border:1.5px solid var(--mag);color:#dcc6ff;font-weight:800;font-size:11px;padding:5px 10px;border-radius:999px}
-  .ebadge{position:absolute;top:10px;right:12px;z-index:3;background:rgba(0,0,0,.6);border:1.5px solid var(--bad);color:#ffd0da;font-weight:900;font-size:12px;padding:5px 10px;border-radius:999px}
-  .efoe{position:relative;z-index:2;text-align:center}
-  .efoe .em{font-size:72px;filter:drop-shadow(0 8px 8px rgba(0,0,0,.5));animation:bob 2.4s ease-in-out infinite}
-  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-  .efoe .ehp{margin:8px auto 0;width:180px}
-  .efoe .ehp .bar{height:11px}
-  .efoe .en{font-size:13px;font-weight:900;margin-top:4px}
-  .hit{position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:900;opacity:0;color:#fff;text-shadow:0 0 10px #000}
-  .hit.go{animation:hit .6s ease}
-  @keyframes hit{0%{opacity:0;transform:scale(.5)}30%{opacity:1;transform:scale(1.2)}100%{opacity:0;transform:scale(1.4)}}
-  .shake{animation:shk .35s} @keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
-  .msg{background:#070815;border-top:2px solid var(--line);padding:12px 15px;min-height:82px;font-size:14.5px;line-height:1.7;position:relative}
+  .gtag{position:absolute;top:10px;right:12px;z-index:3;background:rgba(0,0,0,.6);border:1.5px solid var(--bad);color:#ffd0da;font-weight:900;font-size:12px;padding:5px 10px;border-radius:999px}
+  .gtag.boon{border-color:var(--good);color:var(--good)}
+  .msg{background:#070815;border-top:2px solid var(--line);padding:12px 15px;min-height:84px;font-size:15px;line-height:1.7;position:relative}
   .msg .who{display:block;font-size:12px;color:var(--mag);font-weight:900;margin-bottom:3px}
-  .msg b{color:var(--gold)} .msg .ok{color:var(--good);font-weight:900} .msg .ng{color:var(--bad);font-weight:900} .msg .dmg{color:#ffce5a;font-weight:900}
+  .msg b{color:var(--gold)} .msg .ok{color:var(--good);font-weight:900} .msg .ng{color:var(--bad);font-weight:900} .msg .coin{color:var(--coin);font-weight:900}
   .msg.tapnext{cursor:pointer} .msg .next-ind{position:absolute;right:12px;bottom:7px;font-size:12px;color:var(--mag);animation:blink 1s infinite}
   @keyframes blink{50%{opacity:.3}}
   .cmds{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -45,9 +39,8 @@
   button.cmd{font-family:inherit;font-size:14.5px;font-weight:800;color:var(--ink);background:linear-gradient(180deg,var(--panel2),var(--panel));border:2px solid var(--line);border-radius:12px;padding:13px 11px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.4);transition:transform .08s,box-shadow .08s,border-color .12s;-webkit-tap-highlight-color:transparent;text-align:center;line-height:1.3}
   button.cmd:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.4)}
   button.cmd:hover{border-color:var(--mag)} button.cmd.primary{background:linear-gradient(180deg,#3a2d00,#241c00);border-color:var(--gold);color:var(--gold)}
-  button.cmd.locked{opacity:.5;border-style:dashed;cursor:not-allowed;color:var(--sub)} button.cmd.locked .req{display:block;font-size:10px;color:var(--bad);font-weight:800;margin-top:2px}
-  button.cmd[disabled]:not(.locked){opacity:.5;pointer-events:none}
-  button.cmd .sk{display:block;font-size:10px;color:var(--sub);font-weight:700;margin-top:2px}
+  button.cmd[disabled]{opacity:.5;pointer-events:none}
+  button.cmd .sub{display:block;font-size:10px;color:var(--sub);font-weight:700;margin-top:2px}
   .center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;text-align:center;padding:18px}
   .title-h{font-size:25px;font-weight:900;line-height:1.25;background:linear-gradient(135deg,var(--gold),var(--mag));-webkit-background-clip:text;background-clip:text;color:transparent}
   .title-num{font-size:46px;font-weight:900;color:var(--gold);text-shadow:0 0 22px rgba(255,210,63,.45)}
@@ -56,21 +49,29 @@
   .stat{background:var(--panel);border:1.5px solid var(--line);border-radius:10px;padding:7px 12px;min-width:84px}
   .stat .k{font-size:10px;color:var(--sub)} .stat .v{font-size:16px;font-weight:900;color:var(--ink)} .stat .v.gold{color:var(--gold)}
   .ending-tag{font-size:12px;font-weight:900;letter-spacing:.12em;color:var(--mag)}
-  .clscard{background:linear-gradient(180deg,var(--panel2),var(--panel));border:2px solid var(--line);border-radius:13px;padding:12px;text-align:left;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.4)}
+  .clscard{background:linear-gradient(180deg,var(--panel2),var(--panel));border:2px solid var(--line);border-radius:13px;padding:11px 12px;text-align:left;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.4)}
   .clscard:active{transform:translateY(2px)} .clscard:hover{border-color:var(--mag)}
-  .clscard .ch{font-size:15px;font-weight:900;color:var(--gold)} .clscard .cd{font-size:11.5px;color:var(--sub);margin-top:3px;line-height:1.5}
-  .clscard .cs{font-size:11px;color:var(--xp);margin-top:4px;font-weight:800}
+  .clscard .ch{font-size:14px;font-weight:900;color:var(--gold)} .clscard .cd{font-size:11px;color:var(--sub);margin-top:3px;line-height:1.45}
+  .flowwrap{padding:10px 12px 4px} .flowhead{font-size:12px;font-weight:900;color:var(--mag);text-align:center;margin-bottom:9px}
+  .flow{position:relative;padding-left:4px} .flow::before{content:'';position:absolute;left:21px;top:18px;bottom:18px;width:2px;background:var(--line);z-index:0}
+  .fnode{position:relative;z-index:1;display:flex;gap:10px;align-items:flex-start;padding:4px 4px}
+  .ficon{width:32px;height:32px;flex:none;display:flex;align-items:center;justify-content:center;font-size:16px;background:#13152f;border:2px solid var(--line);border-radius:9px}
+  .fnode.ok .ficon{border-color:var(--good)} .fnode.boon .ficon{border-color:#3a6} .fnode.die .ficon{border-color:var(--bad);background:#2a0e16} .fnode.goal .ficon{border-color:var(--gold);background:#2a2400}
+  .fbody{flex:1;font-size:12px;line-height:1.4;padding-top:1px} .fbody .ft{font-weight:800;color:#cfd4ff} .fbody .fc{color:var(--gold);font-weight:800}
+  .fnote{display:block;font-size:11px;margin-top:1px;color:var(--sub)} .fnote.win{color:var(--good)} .fnote.die{color:var(--bad)} .fnote.boon{color:#5c8}
   .mute{position:fixed;top:8px;right:10px;background:none;border:none;color:var(--sub);font-size:20px;cursor:pointer;z-index:5}
   .fade{animation:fade .3s ease} @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .shake{animation:shk .35s} @keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
 </style>
 </head>
 <body>
 <button class="mute" id="mute">🔊</button>
 <div id="app">
   <div class="hud" id="hud">
-    <div class="hud-row"><span class="hud-cls" id="hcls">—</span><span class="hud-lv" id="hlv">Lv1</span>
-      <span class="hud-sub">❤</span><div class="bar hp"><i id="hpbar" style="width:100%"></i></div><span class="hud-num" id="hpnum">—</span></div>
-    <div class="hud-row" style="margin-top:6px"><span class="hud-sub">EXP</span><div class="bar xp"><i id="xpbar" style="width:0%"></i></div><span class="hud-num" id="locnum" style="min-width:auto;color:var(--sub)">始まりの村</span></div>
+    <div class="hud-top"><span><span class="hud-cls" id="hcls">—</span> <span class="hud-coin" id="hcoin"></span></span>
+      <span class="hud-prob" id="prob"><small>到達確率 </small>1/1</span></div>
+    <div class="pips" id="pips"></div>
+    <div class="pip-cap" id="pipcap">運命の関門 0/13 突破で 1/8,192</div>
   </div>
   <div class="stage" id="stage"><div class="scene" id="scene"></div><div class="msg" id="msg"></div></div>
   <div class="cmds" id="cmds"></div>
@@ -78,370 +79,243 @@
 <script>
 'use strict';
 /* =======================================================
-   8192分の1の勇者 ── RPGアドベンチャー版
-   村→職業選択→道中で戦闘(経験値/スキル習得/逃走)→寄り道で情報→
-   習得スキルや得た情報で「先の選択肢が解放」(条件未達はグレー表示)→魔王戦。
-   失敗はその場で発生（矛盾なし）。最後の魔王は準備で勝てる＝努力が報われる。
-   伝説の「8192分の1」は"無策で挑んだ時の勝率"という位置づけ。
+   8192分の1の勇者 ── ガチ1/8192運ゲー版（RPGの皮）
+   14の運命の関門(4択・当たり2つ=各1/2)。職業の"加護"で自分のtype関門を1つ自動突破
+   → 残り13関門 = (1/2)^13 = 1/8192。
+   外したら即その場で死(矛盾なし)。運命のコインがあれば1回だけやり直せる。
    ======================================================= */
+const CORRECT_PER=2;
 
 // ---------- audio ----------
 let AC=null,master=null,muted=!!localStorage.getItem('h8_mute');
 function initAudio(){ if(AC)return; try{AC=new(window.AudioContext||window.webkitAudioContext)();master=AC.createGain();master.gain.value=muted?0:0.4;master.connect(AC.destination);}catch(e){AC=null;} }
 function tone(f,d,t,v,sl){ if(!AC)return; const t0=AC.currentTime,o=AC.createOscillator(),g=AC.createGain(); o.type=t||'sine'; o.frequency.setValueAtTime(f,t0); if(sl)o.frequency.exponentialRampToValueAtTime(Math.max(20,sl),t0+d); g.gain.setValueAtTime(v||0.2,t0); g.gain.exponentialRampToValueAtTime(0.0001,t0+d); o.connect(g);g.connect(master);o.start(t0);o.stop(t0+d+0.05); }
-function sfxBlip(){ tone(620,0.04,'square',0.05); }
-function sfxHit(){ tone(180,0.12,'sawtooth',0.18,90); }
-function sfxHurt(){ tone(140,0.18,'square',0.16,70); }
-function sfxHeal(){ tone(640,0.12,'sine',0.14); setTimeout(()=>tone(880,0.14,'sine',0.12),80); }
-function sfxWin(){ [523,659,784,1046,1318].forEach((f,i)=>setTimeout(()=>tone(f,0.2,'triangle',0.15),i*110)); }
-function sfxLevel(){ [523,659,880].forEach((f,i)=>setTimeout(()=>tone(f,0.14,'square',0.13),i*80)); }
-function sfxFail(){ tone(200,0.4,'sawtooth',0.22,50); tone(90,0.6,'sine',0.22,40); }
 function sfxPick(){ tone(420,0.06,'square',0.10,520); }
+function sfxOk(){ tone(523,0.09,'triangle',0.14); setTimeout(()=>tone(784,0.12,'triangle',0.13),80); }
+function sfxBoon(){ tone(660,0.08,'sine',0.13); setTimeout(()=>tone(990,0.12,'sine',0.12),70); }
+function sfxCoin(){ tone(880,0.06,'square',0.12); setTimeout(()=>tone(1320,0.1,'square',0.1),60); }
+function sfxBlip(){ tone(620,0.04,'square',0.05); }
+function sfxFail(){ tone(200,0.4,'sawtooth',0.22,50); tone(90,0.6,'sine',0.22,40); }
+function sfxWin(){ [523,659,784,1046,1318,1568].forEach((f,i)=>setTimeout(()=>tone(f,0.22,'triangle',0.16),i*110)); }
 function toggleMute(){ muted=!muted; localStorage.setItem('h8_mute',muted?'1':''); if(master)master.gain.value=muted?0:0.4; document.getElementById('mute').textContent=muted?'🔇':'🔊'; }
 
 // ---------- data ----------
-const SK={ // スキル定義
-  slash:{id:'slash',name:'強斬り',kind:'力',pow:11},
-  helm:{id:'helm',name:'兜割り',kind:'力',pow:16},
-  might:{id:'might',name:'渾身斬り',kind:'力',pow:23},
-  fire:{id:'fire',name:'火球',kind:'魔',pow:13,elem:'炎'},
-  ice:{id:'ice',name:'氷槍',kind:'魔',pow:16},
-  blaze:{id:'blaze',name:'業火',kind:'魔',pow:24,elem:'炎'},
-  stab:{id:'stab',name:'急所突き',kind:'技',pow:10},
-  poison:{id:'poison',name:'毒刃',kind:'技',pow:14},
-  flurry:{id:'flurry',name:'乱れ突き',kind:'技',pow:21},
-  holy:{id:'holy',name:'聖光',kind:'信',pow:10,elem:'光',heal:6},
-  cure:{id:'cure',name:'癒し',kind:'信',pow:0,heal:18},
-  judge:{id:'judge',name:'裁きの光',kind:'信',pow:20,elem:'光'}
-};
 const CLASSES=[
- {id:'warrior',name:'戦士',emoji:'⚔️',hp:42,stat:{力:3,魔:0,技:1,信:1},start:'slash',learn:{2:'helm',3:'might'},
-  desc:'高いHPと腕力。壁を壊し、力でねじ伏せる。'},
- {id:'mage',name:'魔法使い',emoji:'🔮',hp:26,stat:{力:0,魔:3,技:1,信:1},start:'fire',learn:{2:'ice',3:'blaze'},
-  desc:'火球で焼き払う。魔法の障害を突破する。'},
- {id:'thief',name:'盗賊',emoji:'🗡️',hp:30,stat:{力:1,魔:0,技:3,信:1},start:'stab',learn:{2:'poison',3:'flurry'},
-  desc:'技で罠や鍵を見破る。逃げ足も速い。'},
- {id:'priest',name:'僧侶',emoji:'✨',hp:32,stat:{力:0,魔:1,技:1,信:3},start:'holy',learn:{2:'cure',3:'judge'},
-  desc:'聖なる光で癒し、闇を浄化する。光は魔の弱点。'}
+ {id:'力',name:'戦士',emoji:'⚔️',desc:'腕力で道をこじ開ける。「力の試練」を加護で自動突破。'},
+ {id:'魔',name:'魔法使い',emoji:'🔮',desc:'魔を操り封印を破る。「魔の試練」を加護で自動突破。'},
+ {id:'技',name:'盗賊',emoji:'🗡️',desc:'罠と鍵を見破る。「技の試練」を加護で自動突破。'},
+ {id:'信',name:'僧侶',emoji:'✨',desc:'祈りが運を呼ぶ。「信の試練」を加護で自動突破。'}
 ];
-const XP_TABLE=[0,15,40,75,120]; // Lv1..5 の必要総XP
-
-// 道中（journey）
-const JOURNEY=[
- {type:'story',loc:'始まりの村',emoji:'🏘️',art:'art/village.png',lines:[
-   {who:'',text:'ここは<b>始まりの村</b>。8192年に一度よみがえる魔王が、また目を覚ました。'},
-   {who:'',text:'村に伝わる言い伝え——『無策で挑めば、勝てる確率は<b>8192分の1</b>』。'},
-   {who:'ギルド長',text:'「だが、確率は覆せる。技を磨き、情報を集めろ。準備した者だけが、奇跡を手繰り寄せる」'},
-   {who:'ギルド長',text:'「さあ、お前の職を選べ。それが冒険の始まりだ」'}
- ]},
+// 関門(gate)と寄り道(detour)。ttype: 力/魔/技/信 は職業加護で自動突破、'運' は誰でも運。
+const NODES=[
  {type:'class'},
- {type:'story',loc:'冒険の начало',emoji:'📜',art:'',lines:[
-   {who:'ギルド長',text:'「いい目だ。魔王城は遥か北。道中で力をつけ、必ず"何か"を持ち帰れ」'},
-   {who:'',text:'※ 戦闘で<b>経験値</b>を得てレベルアップ、新しい<b>技</b>を覚える。'},
-   {who:'',text:'※ <b>寄り道</b>で得た情報や習得した技で、先の<b>選択肢が解放</b>される（条件未達はグレー）。'}
+ {type:'story',loc:'始まりの村',emoji:'🏘️',lines:[
+   {who:'',text:'8192年に一度の魔王が、また目覚めた。言い伝えはこうだ——'},
+   {who:'',text:'『勇者が魔王を倒せる確率は、<b>8192分の1</b>』。'},
+   {who:'ギルド長',text:'「職の加護と、わずかな幸運だけが頼りだ。…さあ、運命の門へ」'}
  ]},
- {type:'battle',loc:'なだらかな平原',enemy:{name:'スライム',emoji:'🟢',hp:18,atk:5,xp:12},flee:true,
-   intro:[{who:'',text:'平原で、ぷるぷるのスライムが道を塞ぐ。'}]},
- {type:'choice',loc:'茨の門',emoji:'🌿',art:'',prompt:[
-   {who:'',text:'蔦に覆われた古い門。進むには、どうにかして開けねば。'}
- ],options:[
-   {label:'力で押し開く',req:{stat:['力',3]},result:[{who:'',text:'渾身の力で門をこじ開けた！　奥に<b>宝箱</b>を見つけ、<b>聖なる雫</b>を手に入れた。'}],give:{item:'holywater'}},
-   {label:'火で焼き払う',req:{stat:['魔',3]},result:[{who:'',text:'火球が蔦を焼き尽くす。焦げ跡の祠から<b>聖なる雫</b>を手に入れた。'}],give:{item:'holywater'}},
-   {label:'鍵穴を開ける',req:{stat:['技',3]},result:[{who:'',text:'素早く錠前を外した。隠し棚に<b>聖なる雫</b>と小金。'}],give:{item:'holywater'}},
-   {label:'迂回する（誰でも）',result:[{who:'',text:'遠回りして門を避けた。…宝は得られなかったが、先へ進める。'}]}
- ]},
- {type:'battle',loc:'ささやきの森',enemy:{name:'ゴブリン',emoji:'👺',hp:26,atk:8,xp:20},flee:true,
-   intro:[{who:'',text:'森の奥から、棍棒を持ったゴブリンが躍り出た。'}]},
- {type:'choice',loc:'封印の祠',emoji:'⛩️',art:'',prompt:[
-   {who:'',text:'淡く光る、封印された祠。中に何かが眠っている気配。'}
- ],options:[
-   {label:'聖なる光で浄化する',req:{stat:['信',3]},result:[{who:'',text:'聖光が封印を解いた。石碑にこう刻まれていた——<b>「魔王の核は"光"を恐れる」</b>。'}],give:{info:'weak'}},
-   {label:'古文書を読み解く',req:{stat:['技',2]},result:[{who:'',text:'古い文字を解読する。<b>「魔王の核は"光"を恐れる」</b>——重要な情報を得た。'}],give:{info:'weak'}},
-   {label:'魔力で解析する',req:{stat:['魔',2]},result:[{who:'',text:'魔力で碑文を浮かび上がらせた。<b>「魔王の核は"光"を恐れる」</b>。'}],give:{info:'weak'}},
-   {label:'立ち去る（誰でも）',result:[{who:'',text:'嫌な予感がして、祠には触れずに進んだ。'}]}
- ]},
- {type:'battle',loc:'凍えの洞窟',enemy:{name:'影オオカミ',emoji:'🐺',hp:34,atk:11,xp:24},flee:true,
-   intro:[{who:'',text:'洞窟の闇から、影のようなオオカミが牙を剥く。…強い。逃げるのも手だ。'}]},
- {type:'choice',loc:'魔王城・城門',emoji:'🏰',art:'art/castle.png',prompt:[
-   {who:'',text:'ついに魔王城。固く閉ざされた城門。入る方法は——'}
- ],options:[
-   {label:'正面から打ち破る',req:{level:3},result:[{who:'',text:'鍛え抜いた一撃で門扉を破壊！　堂々と玉座へ向かう。'}]},
-   {label:'隠し通路を抜ける',req:{stat:['技',3]},result:[{who:'',text:'壁の継ぎ目を見抜き、隠し通路から潜入した。'}]},
-   {label:'門を爆破する',req:{stat:['魔',3]},result:[{who:'',text:'魔力を集束し、門を爆砕した。'}]},
-   {label:'力ずくでよじ登る（誰でも）',result:[{who:'',text:'ボロボロになりながら城壁をよじ登った。…少し消耗した。'}],give:{dmg:6}}
- ]},
- {type:'boss',loc:'玉座の間',enemy:{name:'魔王 ザ・プロバビリティ',emoji:'👹',hp:60,atk:14,xp:0,weak:'光'},
-   intro:[
-     {who:'魔王',text:'「よくぞ来た、勇者。だが——勝率は8192分の1。運に祈るがいい」'},
-     {who:'',text:'魔王の巨体が、玉座から立ち上がる。最後の戦いだ。'}
-   ]}
+ {type:'gate',loc:'始まりの森',emoji:'🌲',ttype:'運',prompt:'森が四つに分かれている。出口は二つ。',opts:['木漏れ日の道','苔の道','霧の道','獣道'],fT:'森に消えて',fX:'選んだ道は底なしの霧の沼。勇者は森から出られなかった。'},
+ {type:'gate',loc:'氾濫の川',emoji:'🌊',ttype:'運',prompt:'増水した川。渡れる場所は半分だけ。',opts:['丸太橋','飛び石','浅瀬','蔓'],fT:'濁流に呑まれて',fX:'足を取られ、勇者は濁流に消えた。'},
+ {type:'gate',loc:'スライムの森',emoji:'🟢',ttype:'力',prompt:'スライムの群れ。急所を力で一突きだ。',opts:['上の核','下の核','左の核','右の核'],fT:'呑まれて',fX:'急所を外し、勇者はスライムに呑み込まれた。'},
+ {type:'detour',loc:'苔むした祠',emoji:'⛩️',prompt:'道端に古い祠。お参りしていく？',
+   take:{label:'お参りする',lines:[{who:'',text:'小銭を供えて祈ると、<b class="coin">運命のコイン</b>を授かった。（やり直し+1）'}],coin:1},
+   skip:{label:'素通りする',lines:[{who:'',text:'先を急ぎ、祠は通り過ぎた。'}]}},
+ {type:'gate',loc:'こだまの洞窟',emoji:'🕳️',ttype:'運',prompt:'四つの坑道。風が抜けるのは生きた道。',opts:['右坑道','左坑道','下坑道','奥坑道'],fT:'地の底へ',fX:'道は塞がれ、闇が勇者を呑んだ。'},
+ {type:'gate',loc:'光る鉱脈',emoji:'💎',ttype:'運',prompt:'四色の鉱脈。半分は石化の罠。',opts:['青の石','赤の石','緑の石','金の石'],fT:'石となりて',fX:'魔石の罠。勇者は静かな彫像になった。'},
+ {type:'gate',loc:'封印の魔法陣',emoji:'🔯',ttype:'魔',prompt:'魔法陣の封印。正しい紋を魔力で灯せ。',opts:['火の紋','水の紋','風の紋','地の紋'],fT:'封印に弾かれて',fX:'紋を誤り、封印の逆流が勇者を消し飛ばした。'},
+ {type:'gate',loc:'賭博師の橋',emoji:'🃏',ttype:'運',prompt:'番人「運命の札は四枚中二枚。当てな」',opts:['太陽の札','月の札','星の札','嵐の札'],fT:'橋からの転落',fX:'番人は嗤った。橋は音もなく崩れた。'},
+ {type:'gate',loc:'毒の罠部屋',emoji:'🪤',ttype:'技',prompt:'床一面の罠。安全な足場を見破れ。',opts:['手前','奥','左壁際','右壁際'],fT:'毒に倒れて',fX:'罠を踏み抜き、勇者は毒に倒れた。'},
+ {type:'detour',loc:'隠し部屋',emoji:'🗝️',prompt:'壁の隙間に隠し部屋。探ってみる？',
+   take:{label:'探索する',lines:[{who:'',text:'宝箱から<b class="coin">運命のコイン</b>を見つけた。（やり直し+1）'}],coin:1},
+   skip:{label:'やめておく',lines:[{who:'',text:'罠を警戒し、触れずに進んだ。'}]}},
+ {type:'gate',loc:'地底湖',emoji:'⛲',ttype:'運',prompt:'底なしの湖。渡れる術は二つ。',opts:['岩伝い','泳ぐ','氷上','蔓'],fT:'湖の底に',fX:'冷たい水が勇者を引き込んだ。'},
+ {type:'gate',loc:'祈りの祠',emoji:'🕯️',ttype:'信',prompt:'祠の四つの灯。聖なる火を祈りで選べ。',opts:['東の灯','西の灯','南の灯','北の灯'],fT:'闇に呑まれて',fX:'偽りの灯が闇を呼び、勇者を呑んだ。'},
+ {type:'gate',loc:'魔王城・城門',emoji:'🏰',ttype:'運',prompt:'四つの城門。本物は二つ。',opts:['鉄門','金門','銀門','黒門'],fT:'門の牢へ',fX:'門の先は地下牢。勇者は囚われた。'},
+ {type:'gate',loc:'炎の回廊',emoji:'🔥',ttype:'運',prompt:'四筋の炎。安全なのは二筋。',opts:['蒼炎','紅炎','白炎','黒炎'],fT:'炎に焼かれて',fX:'炎が勇者を捉えた。玉座は目前だったのに。'},
+ {type:'gate',loc:'魔王の結界',emoji:'🛡️',ttype:'運',prompt:'結界の綻びは二つ。見極めろ。',opts:['上の綻び','下の綻び','右の綻び','左の綻び'],fT:'結界に阻まれて',fX:'結界に弾かれ、勇者は崩れ落ちた。'},
+ {type:'boss',loc:'魔王の核',emoji:'👹',ttype:'運',prompt:'魔王「我が核は四つのうち二つ。当ててみよ、最後の勇者！」',opts:['王冠の核','胸の核','杖の核','影の核'],fT:'核を逸れて',fX:'刃は核を逸れた。哄笑が響く。8192分の1は、今回も微笑まなかった。'}
 ];
+const LUCK_TOTAL=13; // 加護で1免除後に運で抜ける関門の数
 
 // ---------- state ----------
-let p=null;               // player
-let jIndex=0, busy=false;
+let cls=null,coins=0,idx=0,luckPassed=0,busy=false,choices=[],curSet=null;
 let lw={arr:[],idx:0,done:null};
-let bt=null;              // battle state
 let attempts=+(localStorage.getItem('h8_attempts')||0);
 let clears=+(localStorage.getItem('h8_clears')||0);
+let bestLuck=+(localStorage.getItem('h8_bestluck')||0);
 
 // ---------- dom ----------
 const $=id=>document.getElementById(id);
-const stage=$('stage'),cmds=$('cmds');
+const stage=$('stage'),cmds=$('cmds'),pipsEl=$('pips'),pipcap=$('pipcap'),prob=$('prob');
 function fmt(n){ return n.toLocaleString('en-US'); }
-function ri(a,b){ return a+Math.floor(Math.random()*(b-a+1)); }
-function skill(id){ return SK[id]; }
-function lvFromXp(xp){ let l=1; for(let i=0;i<XP_TABLE.length;i++){ if(xp>=XP_TABLE[i]) l=i+1; } return l; }
+function ri(n){ return Math.floor(Math.random()*n); }
+function pickSet(n,k){ const a=[...Array(n).keys()]; for(let i=n-1;i>0;i--){const j=ri(i+1);const t=a[i];a[i]=a[j];a[j]=t;} return a.slice(0,k).sort((x,y)=>x-y); }
+function buildPips(){ pipsEl.innerHTML=''; for(let i=0;i<LUCK_TOTAL;i++){const d=document.createElement('div');d.className='pip';pipsEl.appendChild(d);} }
 function renderHud(){
-  if(!p){ $('hcls').textContent='—'; $('hlv').textContent='Lv1'; $('hpnum').textContent='—'; $('hpbar').style.width='100%'; $('xpbar').style.width='0%'; $('locnum').textContent=JOURNEY[jIndex]?JOURNEY[jIndex].loc||'':''; return; }
-  $('hcls').textContent=p.cls.emoji+' '+p.cls.name; $('hlv').textContent='Lv'+p.lv;
-  $('hpnum').textContent=p.hp+' / '+p.maxhp; $('hpbar').style.width=Math.max(0,p.hp/p.maxhp*100)+'%';
-  const base=XP_TABLE[p.lv-1]||0, next=XP_TABLE[p.lv]!=null?XP_TABLE[p.lv]:base; const span=Math.max(1,next-base);
-  $('xpbar').style.width=Math.min(100,(p.xp-base)/span*100)+'%';
-  $('locnum').textContent=(JOURNEY[jIndex]&&JOURNEY[jIndex].loc)||'';
+  $('hcls').textContent= cls?(cls.emoji+cls.name):'—';
+  $('hcoin').textContent= cls?('🪙'+coins):'';
+  prob.innerHTML='<small>到達確率 </small>1/'+fmt(Math.pow(2,luckPassed));
+  pipcap.textContent='運命の関門 '+luckPassed+'/'+LUCK_TOTAL+' 突破で 1/8,192';
+  const ps=pipsEl.children; for(let i=0;i<ps.length;i++) ps[i].className='pip'+(i<luckPassed?' on':(i===luckPassed?' now':''));
 }
-function setMsgHtml(html){ const m=$('msg'); if(m){ m.innerHTML=html; m.classList.remove('fade'); void m.offsetWidth; m.classList.add('fade'); } }
-function setCmds(items,cls){ cmds.className='cmds'+(cls?(' '+cls):''); cmds.innerHTML=''; items.forEach(it=>{ const b=document.createElement('button'); b.className='cmd'+(it.primary?' primary':'')+(it.locked?' locked':''); b.innerHTML=it.html; if(it.dis||it.locked)b.disabled=true; if(!it.dis&&!it.locked) b.onclick=()=>{ initAudio(); if(AC&&AC.state==='suspended')AC.resume(); it.fn(); }; cmds.appendChild(b); }); }
+function setCmds(items,c){ cmds.className='cmds'+(c?(' '+c):''); cmds.innerHTML=''; items.forEach(it=>{ const b=document.createElement('button'); b.className='cmd'+(it.primary?' primary':''); b.innerHTML=it.html; if(it.dis)b.disabled=true; if(!it.dis) b.onclick=()=>{ initAudio(); if(AC&&AC.state==='suspended')AC.resume(); it.fn(); }; cmds.appendChild(b); }); }
 function artHtml(f){ return (f.art?'<img class="art" src="'+f.art+'" alt="" onerror="this.remove()">':'')+'<div class="artfb">'+(f.emoji||'⚔️')+'</div><div class="grad"></div>'; }
 function lineHtml(l){ return (l.who?'<span class="who">'+l.who+'</span>':'')+l.text; }
 function walk(lines,onDone){ lw={arr:lines||[],idx:0,done:onDone}; showLW(); }
-function showLW(){
-  const m=$('msg'); if(!m){ if(lw.done)lw.done(); return; }
-  if(lw.arr.length===0){ if(lw.done)lw.done(); return; }
+function showLW(){ const m=$('msg'); if(!m){ if(lw.done)lw.done(); return; } if(lw.arr.length===0){ if(lw.done)lw.done(); return; }
   m.innerHTML=lineHtml(lw.arr[lw.idx]); m.classList.remove('fade'); void m.offsetWidth; m.classList.add('fade');
   const last=lw.idx>=lw.arr.length-1;
-  if(!last){ m.classList.add('tapnext'); m.insertAdjacentHTML('beforeend','<span class="next-ind">▼ タップ</span>');
-    m.onclick=()=>{ sfxBlip(); m.onclick=null; lw.idx++; showLW(); };
-    setCmds([{html:'▼ つぎへ',fn:()=>{ sfxBlip(); lw.idx++; showLW(); }}],'one');
-  } else { m.classList.remove('tapnext'); m.onclick=null; if(lw.done) lw.done(); }
+  if(!last){ m.classList.add('tapnext'); m.insertAdjacentHTML('beforeend','<span class="next-ind">▼ タップ</span>'); m.onclick=()=>{ sfxBlip(); m.onclick=null; lw.idx++; showLW(); }; setCmds([{html:'▼ つぎへ',fn:()=>{ sfxBlip(); lw.idx++; showLW(); }}],'one'); }
+  else { m.classList.remove('tapnext'); m.onclick=null; if(lw.done) lw.done(); }
 }
+function shell(f,gtag){ stage.innerHTML='<div class="scene" id="scene">'+artHtml(f)+'<div class="acttag">'+(f.loc||'')+'</div>'+(gtag||'')+'</div><div class="msg" id="msg"></div>'; }
 
-// ---------- requirements ----------
-function reqMet(req){
-  if(!req) return true;
-  if(req.level && p.lv<req.level) return false;
-  if(req.stat && p.stat[req.stat[0]]<req.stat[1]) return false;
-  if(req.skill && !p.skills.includes(req.skill)) return false;
-  if(req.info && !p.info.includes(req.info)) return false;
-  if(req.item && !p.items.includes(req.item)) return false;
-  return true;
-}
-function reqText(req){
-  if(!req) return '';
-  if(req.level) return '要 Lv'+req.level;
-  if(req.stat) return '要 '+req.stat[0]+req.stat[1];
-  if(req.skill) return '要 '+SK[req.skill].name;
-  if(req.info) return '要 情報';
-  if(req.item) return '要 アイテム';
-  return '';
-}
-
-// ---------- title ----------
+// ---------- screens ----------
 function showTitle(){
-  p=null; jIndex=0; busy=false; bt=null; stage.classList.remove('scroll'); renderHud();
+  cls=null;coins=0;idx=0;luckPassed=0;busy=false;choices=[]; stage.classList.remove('scroll'); renderHud();
+  pipcap.textContent='全13関門を運で突破 ＝ 1/8,192';
   stage.innerHTML='<div class="scene" id="scene">'+artHtml({emoji:'🗡️',art:'art/title.png'})+'</div><div class="msg" id="msg"></div>';
   $('scene').insertAdjacentHTML('beforeend','<div style="position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px;gap:6px">'
     +'<div class="title-h">8192分の1の</div><div class="title-num">勇者</div>'
-    +'<div class="title-sub" style="color:#e7ebff">職を選び、技を磨き、情報を集めろ。<br>準備した者だけが、<b style="color:#ffd23f">確率を覆す</b>。</div></div>');
+    +'<div class="title-sub" style="color:#e7ebff">13の運命の関門を、すべて運で突破せよ。<br>その確率、まさに <b style="color:#ffd23f">1/8,192</b>。職の加護と幸運だけが頼り。</div></div>');
   $('msg').innerHTML='<div style="text-align:center"><div class="stat-row" style="justify-content:center">'
+    +'<div class="stat"><div class="k">最高到達</div><div class="v gold">'+(bestLuck>=LUCK_TOTAL?'討伐👑':(bestLuck+'/'+LUCK_TOTAL))+'</div></div>'
     +'<div class="stat"><div class="k">挑戦回数</div><div class="v">'+fmt(attempts)+'</div></div>'
-    +'<div class="stat"><div class="k">魔王討伐</div><div class="v gold">'+fmt(clears)+'</div></div></div></div>';
-  setCmds([{html:'⚔ 冒険を始める',primary:true,fn:startRun}],'one');
+    +'<div class="stat"><div class="k">魔王討伐</div><div class="v">'+fmt(clears)+'</div></div></div></div>';
+  setCmds([{html:'⚔ 運命に挑む',primary:true,fn:startRun}],'one');
 }
 function startRun(){
   attempts++; localStorage.setItem('h8_attempts',attempts);
-  p=null; jIndex=0; busy=false; bt=null; stage.classList.remove('scroll');
-  runStep();
+  cls=null;coins=0;idx=0;luckPassed=0;busy=false;choices=[]; stage.classList.remove('scroll'); renderHud();
+  runNode();
 }
-
-// ---------- step runner ----------
-function runStep(){
+function runNode(){
   busy=false;
-  if(jIndex>=JOURNEY.length){ return; }
-  const st=JOURNEY[jIndex]; renderHud();
-  if(st.type==='story') return enterStory(st);
-  if(st.type==='class') return enterClassPick();
-  if(st.type==='battle'||st.type==='boss') return enterBattle(st);
-  if(st.type==='choice') return enterChoice(st);
+  if(idx>=NODES.length) return;
+  const f=NODES[idx]; renderHud();
+  if(f.type==='class') return enterClass();
+  if(f.type==='story') return enterStory(f);
+  if(f.type==='detour') return enterDetour(f);
+  return enterGate(f); // gate / boss
 }
-function nextStep(){ jIndex++; runStep(); }
+function nextNode(){ idx++; runNode(); }
 
-function sceneShell(st,extra){
-  stage.innerHTML='<div class="scene" id="scene">'+artHtml(st)
-    +'<div class="acttag">'+(st.loc||'')+'</div>'+(extra||'')
-    +'</div><div class="msg" id="msg"></div>';
-}
-function enterStory(st){
-  sceneShell(st);
-  walk(st.lines, ()=> setCmds([{html:'▶ 進む',primary:true,fn:nextStep}],'one'));
-}
-
-// ---------- class pick ----------
-function enterClassPick(){
-  stage.innerHTML='<div class="scene" id="scene" style="min-height:90px">'+artHtml({emoji:'📜'})+'<div class="acttag">職業の選択</div></div>'
-    +'<div class="msg" id="msg" style="overflow-y:auto"></div>';
-  $('msg').innerHTML='<div style="display:flex;flex-direction:column;gap:8px">'
-    + CLASSES.map((c,i)=>'<div class="clscard" data-i="'+i+'"><div class="ch">'+c.emoji+' '+c.name+'</div><div class="cd">'+c.desc+'</div>'
-       +'<div class="cs">初期技: '+SK[c.start].name+'　ステ: 力'+c.stat.力+'/魔'+c.stat.魔+'/技'+c.stat.技+'/信'+c.stat.信+'</div></div>').join('')
-    +'</div>';
+function enterClass(){
+  stage.innerHTML='<div class="scene" id="scene" style="min-height:84px">'+artHtml({emoji:'⚔️'})+'<div class="acttag">職業を選べ</div></div><div class="msg" id="msg" style="overflow-y:auto"></div>';
+  $('msg').innerHTML='<div style="display:flex;flex-direction:column;gap:7px">'
+    + CLASSES.map((c,i)=>'<div class="clscard" data-i="'+i+'"><div class="ch">'+c.emoji+' '+c.name+'</div><div class="cd">'+c.desc+'　＋運命のコイン1</div></div>').join('')
+    + '</div>';
   [...document.querySelectorAll('.clscard')].forEach(el=>el.onclick=()=>{ initAudio(); if(AC&&AC.state==='suspended')AC.resume(); chooseClass(+el.getAttribute('data-i')); });
-  setCmds([{html:'↑ 職業をタップして選択',dis:true,fn:()=>{}}],'one');
+  setCmds([{html:'↑ 職業をタップ',dis:true,fn:()=>{}}],'one');
 }
-function chooseClass(i){
-  sfxPick();
-  const c=CLASSES[i];
-  p={cls:c, lv:1, xp:0, maxhp:c.hp, hp:c.hp, stat:Object.assign({},c.stat), skills:[c.start], info:[], items:[]};
-  renderHud(); nextStep();
+function chooseClass(i){ sfxPick(); cls=CLASSES[i]; coins=1; renderHud(); nextNode(); }
+
+function enterStory(f){ shell(f); walk(f.lines, ()=> setCmds([{html:'▶ 進む',primary:true,fn:nextNode}],'one')); }
+
+function enterDetour(f){
+  shell(f,'<div class="gtag boon">寄り道</div>');
+  $('msg').innerHTML=f.prompt;
+  setCmds([
+    {html:f.take.label,primary:true,fn:()=>{ sfxCoin(); if(f.take.coin){coins+=f.take.coin; renderHud();} walk(f.take.lines, ()=> setCmds([{html:'▶ 進む',primary:true,fn:nextNode}],'one')); }},
+    {html:f.skip.label,fn:()=>{ sfxBlip(); walk(f.skip.lines, ()=> setCmds([{html:'▶ 進む',primary:true,fn:nextNode}],'one')); }}
+  ]);
 }
 
-// ---------- level / xp ----------
-function gainXp(amount, after){
-  p.xp+=amount;
-  const newLv=lvFromXp(p.xp);
-  if(newLv>p.lv){
-    let learned=[];
-    while(p.lv<newLv){ p.lv++; p.maxhp+=8; p.hp=p.maxhp; const sid=p.cls.learn[p.lv]; if(sid && !p.skills.includes(sid)){ p.skills.push(sid); learned.push(SK[sid].name); } }
-    renderHud(); sfxLevel();
-    let t='<span class="ok">レベルアップ！ Lv'+p.lv+'</span>　HP全回復。';
-    if(learned.length) t+='<br>新しい技を覚えた：<b>'+learned.join('、')+'</b>';
-    setMsgHtml('+'+amount+' EXP　'+t);
-    setCmds([{html:'▶ 進む',primary:true,fn:after}],'one');
-  } else { renderHud(); setMsgHtml('<span class="ok">+'+amount+' EXP</span> を得た。'); setCmds([{html:'▶ 進む',primary:true,fn:after}],'one'); }
-}
-
-// ---------- battle ----------
-function enemyBar(){ return '<div class="bar hp"><i id="ehpbar" style="width:'+Math.max(0,bt.enemy.hp/bt.enemy.max*100)+'%"></i></div>'; }
-function renderEnemy(){
-  const e=bt.enemy;
-  $('scene').innerHTML='<div class="acttag">'+bt.st.loc+'</div><div class="ebadge">'+(bt.boss?'★ BOSS':'戦闘')+'</div>'
-    +'<div class="efoe"><div class="em" id="efoe">'+e.emoji+'</div><div class="ehp">'+enemyBar()+'</div><div class="en">'+e.name+'　❤'+Math.max(0,e.hp)+'/'+e.max+'</div></div>'
-    +'<div class="hit" id="hit"></div>';
-}
-function enterBattle(st){
-  bt={st:st, enemy:Object.assign({},st.enemy), boss:st.type==='boss'};
-  bt.enemy.max=bt.enemy.hp;
-  sceneShell({loc:st.loc, emoji:st.enemy.emoji, art:st.art});
-  // intro lines then battle menu
-  walk(st.intro||[{who:'',text:bt.enemy.name+'が現れた！'}], ()=>{ renderEnemy(); battleMenu(); });
-}
-function statBonus(kind){ return (p.stat[kind]||0)*2; }
-function battleMenu(){
-  if(!$('efoe')) renderEnemy();
-  setMsgHtml('<b>'+bt.enemy.name+'</b> との戦い。どうする？');
-  const items=[];
-  p.skills.forEach(sid=>{ const s=SK[sid]; items.push({html:s.name+'<span class="sk">'+(s.pow>0?('威力'+s.pow):'')+(s.heal?(' 回復'+s.heal):'')+'</span>', fn:()=>useSkill(sid)}); });
-  if(p.items.includes('holywater')) items.push({html:'聖なる雫を使う<span class="sk">光の大ダメージ</span>',fn:()=>useHolyWater()});
-  if(bt.st.flee) items.push({html:'逃げる<span class="sk">技で成功率UP</span>',fn:()=>tryFlee()});
-  setCmds(items, items.length>2?'':'');
-}
-function flash(txt,cls){ const h=$('hit'); if(h){ h.textContent=txt; h.className='hit'+(cls?(' '+cls):'')+' go'; setTimeout(()=>{ if($('hit'))$('hit').className='hit'; },650); } }
-function updEhp(){ if($('ehpbar'))$('ehpbar').style.width=Math.max(0,bt.enemy.hp/bt.enemy.max*100)+'%'; const en=document.querySelector('.en'); if(en)en.innerHTML=bt.enemy.name+'　❤'+Math.max(0,bt.enemy.hp)+'/'+bt.enemy.max; }
-function useSkill(sid){
-  if(busy)return; busy=true;
-  const s=SK[sid]; let log='';
-  if(s.heal){ p.hp=Math.min(p.maxhp,p.hp+s.heal); renderHud(); sfxHeal(); flash('+'+s.heal,''); log='<span class="ok">'+s.name+'！</span> HPを'+s.heal+'回復した。'; }
-  if(s.pow>0){
-    let dmg=s.pow+statBonus(s.kind)+ri(0,3);
-    if(bt.enemy.weak && s.elem===bt.enemy.weak){ dmg=Math.floor(dmg*1.8); log+=(log?'<br>':'')+'<span class="ok">弱点を突いた！</span> '; }
-    bt.enemy.hp-=dmg; sfxHit(); flash('-'+dmg,''); updEhp();
-    log+='<span class="dmg">'+s.name+'　'+dmg+'のダメージ！</span>';
+function enterGate(f){
+  const boss=f.type==='boss';
+  // 加護で自動突破？
+  if(f.ttype && f.ttype!=='運' && cls && cls.id===f.ttype){
+    shell(f,'<div class="gtag boon">加護</div>');
+    choices.push({i:idx, auto:true, label:'【'+f.ttype+'の加護】'});
+    sfxBoon();
+    $('msg').innerHTML='<span class="ok">'+cls.name+'の加護！</span> 「'+f.loc+'」の試練を、力なくして越えた。';
+    setCmds([{html:'▶ 進む',primary:true,fn:nextNode}],'one');
+    return;
   }
-  setMsgHtml(log);
-  setTimeout(()=>{ if(bt.enemy.hp<=0){ battleWin(); } else { enemyTurn(); } }, 720);
+  curSet=pickSet(f.opts.length, CORRECT_PER);
+  presentGate(f,false);
 }
-function useHolyWater(){
-  if(busy)return; busy=true;
-  p.items=p.items.filter(x=>x!=='holywater'); p.usedHoly=true;
-  let dmg=40+ri(0,8); if(bt.enemy.weak==='光') dmg=Math.floor(dmg*1.5);
-  bt.enemy.hp-=dmg; sfxHeal(); flash('-'+dmg,''); updEhp();
-  setMsgHtml('<span class="ok">聖なる雫が眩い光を放つ！</span> <span class="dmg">'+dmg+'の光ダメージ！</span>');
-  setTimeout(()=>{ if(bt.enemy.hp<=0){ battleWin(); } else { enemyTurn(); } }, 760);
+function presentGate(f,isRetry){
+  const boss=f.type==='boss';
+  shell(f,'<div class="gtag">'+(boss?'★ 魔王':'運命の関門')+'</div>');
+  $('msg').innerHTML=(isRetry?'<span class="coin">運命のコインで、もう一度。</span><br>':'')+'<b>'+f.loc+'</b>　'+f.prompt+'<br><span style="color:#9aa3d6;font-size:12px">当たりは4つ中2つ（＝1/2）</span>';
+  setCmds(f.opts.map((o,i)=>({html:o,fn:()=>pick(f,i)})));
 }
-function tryFlee(){
-  if(busy)return; busy=true;
-  const chance=Math.min(0.85, 0.35 + (p.stat.技||0)*0.13);
-  if(Math.random()<chance){ setMsgHtml('<span class="ok">うまく逃げ切った！</span>'); setCmds([{html:'▶ 進む',primary:true,fn:()=>{ busy=false; nextStep(); }}],'one'); }
-  else { setMsgHtml('<span class="ng">逃げられなかった！</span>'); setTimeout(enemyTurn,650); }
+function pick(f,i){
+  if(busy)return; busy=true; sfxPick();
+  const correct=curSet.indexOf(i)>=0;
+  setCmds(f.opts.map(()=>({html:'…',dis:true,fn:()=>{}})));
+  $('msg').innerHTML='「'+f.opts[i]+'」——運命の選択。';
+  setTimeout(()=>{
+    if(correct){
+      luckPassed++; if(luckPassed>bestLuck){bestLuck=luckPassed; localStorage.setItem('h8_bestluck',bestLuck);} renderHud();
+      choices.push({i:idx, label:f.opts[i], ok:true});
+      sfxOk();
+      $('msg').innerHTML='<span class="ok">突破！</span> 到達確率は <b>1/'+fmt(Math.pow(2,luckPassed))+'</b>。';
+      if(f.type==='boss'){ setTimeout(win,700); return; }
+      setCmds([{html:'▶ 進む',primary:true,fn:nextNode}],'one');
+      busy=false;
+    } else {
+      if(coins>0){
+        coins--; renderHud(); sfxCoin();
+        const sc=$('scene'); if(sc){sc.classList.add('shake');setTimeout(()=>sc.classList.remove('shake'),350);}
+        $('msg').innerHTML='<span class="ng">外した…！</span> だが <span class="coin">運命のコイン</span>で、運命をやり直す。';
+        curSet=pickSet(f.opts.length, CORRECT_PER);
+        setTimeout(()=>{ busy=false; presentGate(f,true); },900);
+      } else {
+        choices.push({i:idx, label:f.opts[i], ok:false, correctLabels:curSet.map(k=>f.opts[k])});
+        die(f);
+      }
+    }
+  },650);
 }
-function enemyTurn(){
-  const e=bt.enemy; let dmg=Math.max(1, e.atk+ri(-2,3));
-  p.hp-=dmg; renderHud(); sfxHurt();
-  const sc=$('scene'); if(sc){ sc.classList.add('shake'); setTimeout(()=>sc.classList.remove('shake'),350); }
-  setMsgHtml('<span class="ng">'+e.name+'の攻撃！</span> <span class="dmg">'+dmg+'のダメージを受けた。</span>');
-  setTimeout(()=>{ if(p.hp<=0){ battleLose(); } else { busy=false; battleMenu(); } }, 760);
-}
-function battleWin(){
-  const e=bt.enemy;
-  if(bt.boss){ return bossWin(); }
-  setMsgHtml('<span class="ok">'+e.name+'を倒した！</span>');
-  setCmds([{html:'…',dis:true,fn:()=>{}}],'one'); // 連打での二重発火を防止
-  setTimeout(()=> gainXp(e.xp, nextStep), 700);
-}
-function battleLose(){
+
+function die(f){
   busy=false; sfxFail();
-  const loc=bt.st.loc, name=bt.enemy.name, boss=bt.boss;
+  const sc=$('scene'); if(sc){sc.classList.add('shake');setTimeout(()=>sc.classList.remove('shake'),350);}
+  $('msg').innerHTML='<span class="ng">運命に、見放された。</span>';
   setTimeout(()=>{
     stage.classList.add('scroll');
-    const title = boss?'魔王に、敗れる':(loc+'で力尽きる');
-    const text = boss?'魔王の一撃が勇者を貫いた。確率は、覆らなかった。…次こそ、万全の備えで挑め。'
-                     :('勇者は '+name+' に敗れ、'+loc+' に倒れた。…もっと力をつけ、装備を整えてから挑もう。');
-    stage.innerHTML='<div class="center fade"><div class="ending-tag">GAME OVER</div><div style="font-size:48px">💀</div>'
-      +'<div style="font-size:20px;font-weight:900;color:#ff5c7a">'+title+'</div>'
-      +'<div class="title-sub">'+text+'</div>'
-      +'<div class="stat-row"><div class="stat"><div class="k">職業</div><div class="v">'+p.cls.emoji+p.cls.name+'</div></div>'
-      +'<div class="stat"><div class="k">到達</div><div class="v">Lv'+p.lv+'</div></div>'
-      +'<div class="stat"><div class="k">挑戦回数</div><div class="v gold">'+fmt(attempts)+'</div></div></div></div>';
+    stage.innerHTML='<div class="center fade"><div class="ending-tag">GAME OVER</div><div style="font-size:46px">💀</div>'
+      +'<div style="font-size:20px;font-weight:900;color:#ff5c7a">'+f.fT+'</div>'
+      +'<div class="title-sub">'+f.fX+'<br>「'+f.loc+'」で力尽きた。突破できたのは <b>'+luckPassed+'/'+LUCK_TOTAL+'</b> 関門。</div>'
+      +'<div class="stat-row"><div class="stat"><div class="k">到達確率</div><div class="v gold">1/'+fmt(Math.pow(2,luckPassed))+'</div></div>'
+      +'<div class="stat"><div class="k">挑戦回数</div><div class="v">'+fmt(attempts)+'</div></div></div>'
+      +'<div style="font-size:13px;color:#9aa3d6;margin-top:6px">現実なら、クリアまで平均 8,192 回。さあ、何回目で奇跡を引く？</div></div>'
+      +buildFlow(idx);
     setCmds([{html:'⚔ もう一度（'+fmt(attempts+1)+'回目）',primary:true,fn:startRun},{html:'タイトルへ',fn:showTitle}]);
-  },600);
+  },650);
 }
-
-// ---------- choice (conditional) ----------
-function enterChoice(st){
-  sceneShell(st);
-  walk(st.prompt, ()=>{
-    const items=st.options.map(o=>{
-      const met=reqMet(o.req);
-      if(met) return {html:o.label, fn:()=>resolveChoice(st,o)};
-      return {html:o.label+'<span class="req">🔒 '+reqText(o.req)+'</span>', locked:true, fn:()=>{}};
-    });
-    setCmds(items, '');
+function buildFlow(dieIdx){
+  let h='<div class="flowwrap"><div class="flowhead">― 運命のフローチャート ―</div><div class="flow">';
+  choices.forEach(c=>{
+    const f=NODES[c.i]; let cls2,note;
+    if(c.auto){ cls2='boon'; note='<span class="fnote boon">加護で自動突破</span>'; }
+    else if(c.ok){ cls2='ok'; note='<span class="fnote win">✓ 当たり（1/2を突破）</span>'; }
+    else { cls2='die'; note='<span class="fnote die">✗ 外した（当たりは「'+c.correctLabels.join('」「')+'」）</span>'; }
+    h+='<div class="fnode '+cls2+'"><div class="ficon">'+f.emoji+'</div><div class="fbody"><span class="ft">'+f.loc+'</span> <span class="fc">'+(c.auto?'':'▶ '+c.label)+'</span>'+note+'</div></div>';
   });
+  const reached = dieIdx<0;
+  h+='<div class="fnode '+(reached?'goal':'die')+'"><div class="ficon">'+(reached?'👑':'👹')+'</div><div class="fbody"><span class="ft">魔王 ザ・プロバビリティ</span><span class="fnote '+(reached?'win':'die')+'">'+(reached?'8192分の1の奇跡、達成！':'未討伐')+'</span></div></div>';
+  return h+'</div></div>';
 }
-function resolveChoice(st,o){
-  sfxPick();
-  if(o.give){
-    if(o.give.item && !p.items.includes(o.give.item)) p.items.push(o.give.item);
-    if(o.give.info && !p.info.includes(o.give.info)) p.info.push(o.give.info);
-    if(o.give.dmg){ p.hp=Math.max(1,p.hp-o.give.dmg); renderHud(); }
-  }
-  walk(o.result, ()=> setCmds([{html:'▶ 進む',primary:true,fn:nextStep}],'one'));
-}
-
-// ---------- boss win → endings ----------
-function bossWin(){
-  clears++; localStorage.setItem('h8_clears',clears); sfxWin();
-  const usedPrep = p.info.includes('weak') || p.usedHoly; // 弱点情報 or 聖なる雫=準備の証
+function win(){
+  clears++; localStorage.setItem('h8_clears',clears); bestLuck=LUCK_TOTAL; localStorage.setItem('h8_bestluck',bestLuck); sfxWin();
   stage.classList.add('scroll');
-  let tag,story;
-  if(usedPrep){
-    tag='TRUE END ― 確率を覆した者';
-    story='磨いた技と、集めた知識——"光"の弱点を突いた一撃が、魔王の核を撃ち砕いた。「馬鹿な…運では、ない、だと…？」。8192分の1は、もはやお前には関係ない。準備した者が、運命を超えたのだ。世界に朝が還った。';
-  } else {
-    tag='奇跡 ― 8192分の1';
-    story='情報も足りぬまま、それでも勇者は喰らいついた。幾度も死にかけ、最後は祈るような一撃が——奇跡的に核を捉えた。まさに8192分の1。「…運の女神は、お前に微笑んだか」。辛くも、世界は救われた。';
-  }
-  stage.innerHTML='<div class="center fade"><div class="ending-tag" style="color:#ffd23f">'+tag+'</div>'
-    +'<div style="font-size:52px">👑</div><div class="title-h">魔王、討伐！</div>'
-    +'<div class="title-sub">'+story+'</div>'
-    +'<div class="stat-row"><div class="stat"><div class="k">職業</div><div class="v">'+p.cls.emoji+p.cls.name+'</div></div>'
-    +'<div class="stat"><div class="k">最終Lv</div><div class="v gold">Lv'+p.lv+'</div></div>'
-    +'<div class="stat"><div class="k">挑戦回数</div><div class="v">'+fmt(attempts)+'回目</div></div></div>'
-    +'<div style="font-size:13px;color:#ffd23f;font-weight:800;margin-top:6px">🎉 '+(usedPrep?'準備を制した、本物の勇者だ。':'引き当てた、8192分の1の奇跡！')+'</div></div>';
-  const share='「8192分の1の勇者」で魔王討伐！🎉 '+p.cls.name+'/Lv'+p.lv+'、'+attempts+'回目の挑戦でクリア。あなたは何回で倒せる？ #8192分の1の勇者 #やまむー';
+  stage.innerHTML='<div class="center fade"><div class="ending-tag" style="color:#ffd23f">TRUE END ― 8192分の1の奇跡</div>'
+    +'<div style="font-size:54px">👑</div><div class="title-h">魔王、討伐！</div>'
+    +'<div class="title-sub">13の運命を、すべて引き当てた。確率にして 1/8,192——その"1"を、お前は掴んだ。魔王ザ・プロバビリティは崩れ、世界に朝が還った。これはもう、運ではない。<b>伝説</b>だ。</div>'
+    +'<div class="stat-row"><div class="stat"><div class="k">職業</div><div class="v">'+cls.emoji+cls.name+'</div></div>'
+    +'<div class="stat"><div class="k">クリア時の挑戦</div><div class="v gold">'+fmt(attempts)+'回目</div></div>'
+    +'<div class="stat"><div class="k">通算討伐</div><div class="v">'+fmt(clears)+'</div></div></div>'
+    +'<div style="font-size:13px;color:#ffd23f;font-weight:800;margin-top:6px">🎉 '+fmt(attempts)+' 回目の挑戦で、8192分の1を引き当てた！</div></div>'
+    +buildFlow(-1);
+  const share='「8192分の1の勇者」で魔王討伐！🎉 '+attempts+'回目の挑戦で 1/8192 の奇跡を引いた。あなたは何回で勝てる？ #8192分の1の勇者 #やまむー';
   setCmds([{html:'もう一度挑む',primary:true,fn:startRun},{html:'𝕏 で自慢する',fn:()=>{ window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(share),'_blank','noopener'); }}]);
 }
 
 // ---------- init ----------
+buildPips();
 document.getElementById('mute').textContent=muted?'🔇':'🔊';
 document.getElementById('mute').onclick=()=>{ initAudio(); toggleMute(); };
 showTitle();
