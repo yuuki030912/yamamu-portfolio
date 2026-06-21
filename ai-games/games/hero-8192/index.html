@@ -22,15 +22,14 @@
   .pip-cap{font-size:11px;color:var(--sub);text-align:center;margin-top:6px;font-weight:700}
   .stage{flex:1;position:relative;display:flex;flex-direction:column;background:linear-gradient(180deg,#0e1030,#0a0b22);border:2px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 6px 0 rgba(0,0,0,.35)}
   .stage.scroll{overflow-y:auto}
-  .scene{flex:1;display:flex;align-items:center;justify-content:center;font-size:80px;position:relative;background:radial-gradient(80% 60% at 50% 30%,rgba(176,107,255,.16),transparent 70%);min-height:130px}
-  .scene .ground{position:absolute;left:0;right:0;bottom:0;height:32%;background:linear-gradient(180deg,transparent,rgba(58,63,120,.35));border-top:2px solid rgba(120,130,220,.25)}
-  .scene .hero{position:absolute;left:24px;bottom:16%;font-size:42px;filter:drop-shadow(0 6px 6px rgba(0,0,0,.5))}
-  .scene .foe{font-size:80px;filter:drop-shadow(0 8px 8px rgba(0,0,0,.5));animation:bob 2.6s ease-in-out infinite}
-  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-  .badge{position:absolute;top:10px;right:12px;background:rgba(0,0,0,.5);border:1.5px solid var(--gold);color:var(--gold);font-weight:900;font-size:12px;padding:5px 10px;border-radius:999px}
+  .scene{flex:1;position:relative;min-height:150px;background:radial-gradient(80% 60% at 50% 30%,rgba(176,107,255,.16),transparent 70%)}
+  .artfb{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:88px}
+  .art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+  .scene .grad{position:absolute;left:0;right:0;bottom:0;height:38%;z-index:2;background:linear-gradient(180deg,transparent,rgba(7,8,21,.85))}
+  .badge{position:absolute;top:10px;right:12px;z-index:3;background:rgba(0,0,0,.55);border:1.5px solid var(--gold);color:var(--gold);font-weight:900;font-size:12px;padding:5px 10px;border-radius:999px}
   .badge.qte{border-color:var(--bad);color:var(--bad)}
-  .acttag{position:absolute;top:10px;left:12px;background:rgba(176,107,255,.18);border:1.5px solid var(--mag);color:#dcc6ff;font-weight:800;font-size:11px;padding:5px 10px;border-radius:999px}
-  .msg{background:#070815;border-top:2px solid var(--line);padding:12px 16px;min-height:80px;font-size:15px;line-height:1.6}
+  .acttag{position:absolute;top:10px;left:12px;z-index:3;background:rgba(0,0,0,.5);border:1.5px solid var(--mag);color:#dcc6ff;font-weight:800;font-size:11px;padding:5px 10px;border-radius:999px}
+  .msg{background:#070815;border-top:2px solid var(--line);padding:12px 16px;min-height:84px;font-size:15px;line-height:1.6}
   .msg .who{display:block;font-size:11px;color:var(--mag);font-weight:900;margin-bottom:3px;letter-spacing:.04em}
   .msg b{color:var(--gold)} .msg .ok{color:var(--good);font-weight:900} .msg .ng{color:var(--bad);font-weight:900}
   .timer{height:0;overflow:hidden;transition:height .18s;position:relative;border-radius:9px}
@@ -38,9 +37,9 @@
   .timer-bar{position:absolute;left:0;top:0;bottom:0;width:100%;background:linear-gradient(90deg,var(--good),var(--gold));opacity:.85;border-radius:7px;transition:width .1s linear}
   .timer-bar.warn{background:linear-gradient(90deg,var(--bad),#ff9a3c)}
   .timer-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#0a0a1a}
-  .cmds{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .cmds{display:grid;grid-template-columns:1fr 1fr;gap:9px}
   .cmds.one{grid-template-columns:1fr}
-  button.cmd{font-family:inherit;font-size:15px;font-weight:800;color:var(--ink);background:linear-gradient(180deg,var(--panel2),var(--panel));border:2px solid var(--line);border-radius:13px;padding:15px 10px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.4);transition:transform .08s,box-shadow .08s,border-color .12s;-webkit-tap-highlight-color:transparent}
+  button.cmd{font-family:inherit;font-size:15px;font-weight:800;color:var(--ink);background:linear-gradient(180deg,var(--panel2),var(--panel));border:2px solid var(--line);border-radius:13px;padding:14px 10px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.4);transition:transform .08s,box-shadow .08s,border-color .12s;-webkit-tap-highlight-color:transparent}
   button.cmd:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.4)}
   button.cmd:hover{border-color:var(--mag)}
   button.cmd.primary{background:linear-gradient(180deg,#3a2d00,#241c00);border-color:var(--gold);color:var(--gold)}
@@ -58,14 +57,10 @@
   .flow::before{content:'';position:absolute;left:21px;top:20px;bottom:20px;width:2px;background:var(--line);z-index:0}
   .fnode{position:relative;z-index:1;display:flex;gap:10px;align-items:flex-start;padding:5px 4px}
   .ficon{width:34px;height:34px;flex:none;display:flex;align-items:center;justify-content:center;font-size:18px;background:#13152f;border:2px solid var(--line);border-radius:9px}
-  .fnode.ok .ficon{border-color:var(--good)}
-  .fnode.free .ficon{border-color:var(--sub)}
-  .fnode.die .ficon{border-color:var(--bad);background:#2a0e16}
-  .fnode.goal .ficon{border-color:var(--gold);background:#2a2400}
+  .fnode.ok .ficon{border-color:var(--good)} .fnode.free .ficon{border-color:var(--sub)}
+  .fnode.die .ficon{border-color:var(--bad);background:#2a0e16} .fnode.goal .ficon{border-color:var(--gold);background:#2a2400}
   .fbody{flex:1;font-size:12px;line-height:1.45;padding-top:1px}
-  .fbody .ft{font-weight:800;color:#cfd4ff}
-  .fbody .fc{color:var(--gold);font-weight:800}
-  .fbody .fx{color:var(--sub);text-decoration:line-through;opacity:.65;margin-left:4px}
+  .fbody .ft{font-weight:800;color:#cfd4ff} .fbody .fc{color:var(--gold);font-weight:800} .fbody .fx{color:var(--sub);opacity:.7;margin-left:4px;font-size:11px}
   .fnote{display:block;font-size:11px;margin-top:1px;color:var(--sub)}
   .fnote.win{color:var(--good)} .fnote.die{color:var(--bad)} .fnote.alt{color:var(--mag)}
   .mute{position:fixed;top:8px;right:10px;background:none;border:none;color:var(--sub);font-size:20px;cursor:pointer;z-index:5}
@@ -76,26 +71,25 @@
 <button class="mute" id="mute">🔊</button>
 <div id="app">
   <div class="hud" id="hud">
-    <div class="hud-top"><span class="hud-label">勝ち筋（クリアできる道）</span><span class="hud-prob" id="prob">8<small>/65,536</small></span></div>
+    <div class="hud-top"><span class="hud-label">クリアできる道</span><span class="hud-prob" id="prob"><small>1/</small>8,192</span></div>
     <div class="pips" id="pips"></div>
-    <div class="pip-cap" id="pipcap">= クリア確率 1/8,192 ・ 選択 0/16</div>
+    <div class="pip-cap" id="pipcap">運命の選択 0/9</div>
   </div>
-  <div class="stage" id="stage"><div class="scene" id="scene"><div class="ground"></div></div><div class="msg" id="msg"></div></div>
+  <div class="stage" id="stage"><div class="scene" id="scene"></div><div class="msg" id="msg"></div></div>
   <div class="timer" id="timer"><div class="timer-bar" id="timerBar"></div><span class="timer-num" id="timerNum"></span></div>
   <div class="cmds" id="cmds"></div>
 </div>
 <script>
 'use strict';
 /* =======================================================
-   8192分の1の勇者 ── 選択分岐・多重エンディング版
-   16の選択。うち13は「運命の分岐」(隠れた正解が1つ)、3は「どちらでもOK」。
-   正解の組み合わせ = 2^3 = 8通り / 全 2^16 = 65,536通り = 1/8,192。
-   必ず最後まで到達。途中でゲームオーバーにはならない。
-   ただし運命の分岐を1つでも外すと、最後まで進んでもクリアできない。
-   最後に「運命のフローチャート」で、どこで道が分かれたかが判明する。
-   時間制限(QTE)は一部の場面のみ。
+   8192分の1の勇者 ── 4択ルート分岐・多重エンディング版
+   運命の選択は4択(一部はコインで2択)。隠れた正解が1つ。
+   critical 7つ: 6つ=4択(各1/4) + 1つ=コイン2択(1/2)
+   → (1/4)^6 × (1/2) = 1/8192。
+   必ず最後まで到達。1つでも外すとクリア不可。最後にフローチャートで判明。
+   時間制限(QTE)は一部のみ。イラストは art/ に置けば自動表示(無ければ絵文字)。
    ======================================================= */
-const N=16, QTE_TIME=8.0;
+const QTE_TIME=8.0;
 
 // ---------- audio ----------
 let AC=null,master=null,muted=!!localStorage.getItem('h8_mute');
@@ -109,29 +103,41 @@ function sfxWin(){ [523,659,784,1046,1318].forEach((f,i)=>setTimeout(()=>tone(f,
 function toggleMute(){ muted=!muted; localStorage.setItem('h8_mute',muted?'1':''); if(master)master.gain.value=muted?0:0.4; document.getElementById('mute').textContent=muted?'🔇':'🔊'; }
 
 // ---------- scenes ----------
-// free:true = どちらでもOK（3つ）。timed:true = 制限時間あり（数か所）。
-// fT/fX = この場面で正解を外した場合の結末（critical時のみ使用）
+// free:true=どれを選んでもOK。timed:true=制限時間。opts=選択肢。fT/fX=この場面で外した時の結末。
+// art=イラストのファイル(art/ 配下)。無ければ emoji を表示。
 const SCENES=[
- {act:'第一幕：旅立ち',who:'妖精ルナ',s:'🌅',title:'最後の朝',text:'ルナ「魔王を倒せる確率は、8192分の1。それでも——行くのね？」',a:'迷わず頷く',b:'震える手を握りしめる',free:true},
- {act:'第一幕：旅立ち',who:'妖精ルナ',s:'🌲',title:'はじまりの森',text:'道が二手に分かれている。ルナ「勘を、信じて」',a:'木漏れ日の道へ',b:'霧の道へ',fT:'霧に呑まれて',fX:'選んだ道は、底なしの霧の沼へ続いていた。勇者は永遠に森をさまよう。'},
- {act:'第一幕：旅立ち',who:'',s:'🐺',title:'森の牙',text:'飢えた狼の群れが行く手を塞ぐ。一瞬の判断が命を分ける。',a:'剣を抜いて戦う',b:'隙を突き駆け抜ける',timed:true,fT:'牙にかかりて',fX:'判断は、致命的だった。狼の群れが、旅の終わりを告げた。'},
- {act:'第一幕：旅立ち',who:'老人',s:'🧙',title:'迷いの老人',text:'老人「この先は戻れぬ。…進むか？それとも道を尋ねるか？」',a:'そのまま進む',b:'道を尋ねる',fT:'老人の罠',fX:'老人は魔王の手の者だった。勇者は罠にかかり、二度と戻れなかった。'},
- {act:'第二幕：試練の地',who:'',s:'🕳️',title:'こだまの洞窟',text:'洞窟が二つの闇へ続く。どちらかから、かすかに水音。',a:'下りの闇へ',b:'上りの闇へ',fT:'地の底へ',fX:'闇は果てしなく続いた。勇者の松明は、やがて尽きた。'},
- {act:'第二幕：試練の地',who:'妖精ルナ',s:'💎',title:'光る鉱脈',text:'ルナ「綺麗…でも罠かも。どっちの光を信じる？」',a:'青い光へ',b:'赤い光へ',fT:'偽りの輝き',fX:'その光は魔石の罠。石化の呪いが、勇者を彫像へと変えた。'},
- {act:'第二幕：試練の地',who:'',s:'🦇',title:'群れの帳',text:'天井を埋めるコウモリ。どう抜ける？（どちらでも進める）',a:'火を掲げ堂々と',b:'火を消し息を潜め',free:true},
- {act:'第二幕：試練の地',who:'妖精ルナ',s:'⛲',title:'地底湖',text:'底の見えない湖。対岸に出口の光。',a:'岩を伝って渡る',b:'泳いで渡る',fT:'湖の底に',fX:'冷たい水が勇者を引きずり込んだ。出口の光は、もう届かない。'},
- {act:'第三幕：賭けの夜',who:'賭博師',s:'🌉',title:'賭博師の橋',text:'番人「通りたくば賭けろ。運命の札はどちらだ？」',a:'太陽の札',b:'月の札',fT:'橋からの転落',fX:'番人は嗤った。「運がなかったな」。橋は音もなく崩れた。'},
- {act:'第三幕：賭けの夜',who:'賭博師',s:'🎲',title:'丁半',text:'番人「丁か、半か。今すぐ決めろ」',a:'丁（偶数）',b:'半（奇数）',timed:true,fT:'賽の目に泣く',fX:'賽は無情に転がった。勇者の旅は、賭場で終わった。'},
- {act:'第三幕：賭けの夜',who:'妖精ルナ',s:'🪙',title:'宙のコイン',text:'コインが高く舞う。落ちるまでに——ルナ「祈って！」',a:'表に賭ける',b:'裏に賭ける',timed:true,fT:'コインの裏側',fX:'コインは裏返った。ルナは静かに、目を伏せた。'},
- {act:'第三幕：賭けの夜',who:'賭博師',s:'🃏',title:'最後の一枚',text:'番人「これで最後だ。色を当てろ」',a:'赤',b:'黒',fT:'当たらぬ色',fX:'札がめくられる。色は、違った。ただ、それだけのことだった。'},
- {act:'第四幕：魔王城',who:'',s:'🏰',title:'魔王城',text:'二つの跳ね橋が霧の奥へ伸びる。',a:'右の跳ね橋',b:'左の跳ね橋',fT:'橋の向こうの牢',fX:'跳ね橋の先は地下牢。勇者は鎖に繋がれ、声も届かなくなった。'},
- {act:'第四幕：魔王城',who:'妖精ルナ',s:'🗝️',title:'二つの鍵穴',text:'ルナ「片方は…牢獄に繋がってる、はず」',a:'金の鍵穴',b:'銀の鍵穴',fT:'牢への鍵',fX:'鍵は牢獄の扉を開いた。勇者は魔王に会う前に、囚われた。'},
- {act:'第四幕：魔王城',who:'',s:'🔥',title:'炎の回廊',text:'玉座へ続く二筋の炎。どちらも、熱い。（どちらでも進める）',a:'蒼炎の回廊',b:'紅炎の回廊',free:true},
- {act:'最終決戦',who:'魔王',s:'👹',title:'魔王 ザ・プロバビリティ',text:'魔王「我が心臓を貫く確率、8192分の1！今だ、狙え！」',a:'右胸を狙う',b:'左胸を狙う',timed:true,boss:true,fT:'心臓の、寸前で',fX:'刃は魔王の心臓をかすめた。8192分の1は、今回も微笑まなかった。'}
+ {act:'第一幕：旅立ち',who:'妖精ルナ',emoji:'🌅',art:'art/s1.png',title:'旅立ちの誓い',
+  text:'ルナ「魔王を倒せる確率は8192分の1。…どんな覚悟で行く？」',
+  free:true, opts:['正義のために','故郷を守るため','ルナのために','ただ、運命に抗う']},
+ {act:'第一幕：旅立ち',who:'',emoji:'🌲',art:'art/s2.png',title:'迷いの森',timed:true,
+  text:'森が四方に分かれている。出口へ続くのは、ただ一つ。',
+  opts:['北の道','東の道','南の道','西の道'], fT:'森に消えて',fX:'選んだ道は、底なしの霧の沼へ続いていた。勇者は永遠に森をさまよう。'},
+ {act:'第二幕：試練の地',who:'妖精ルナ',emoji:'💎',art:'art/s3.png',title:'光る鉱脈',
+  text:'ルナ「四つの輝き…どれかは魔石の罠。どの光を信じる？」',
+  opts:['青の鉱石','赤の鉱石','緑の鉱石','金の鉱石'], fT:'偽りの輝き',fX:'その光は魔石の罠だった。石化の呪いが、勇者を彫像へと変える。'},
+ {act:'第二幕：試練の地',who:'妖精ルナ',emoji:'🔥',art:'art/s4.png',title:'仲間との約束',
+  text:'焚き火の夜。ルナ「ねえ、もし私が消えても…約束、する？」',
+  free:true, opts:['必ず守る','一緒に帰ろう','泣くな、ルナ','…黙って頷く']},
+ {act:'第三幕：賭けの夜',who:'賭博師',emoji:'🃏',art:'art/s5.png',title:'賭博師の札',
+  text:'番人「四枚の札。運命の一枚を当てれば、橋を渡してやろう」',
+  opts:['太陽の札','月の札','星の札','嵐の札'], fT:'橋からの転落',fX:'番人は嗤った。「運が無かったな」。橋は音もなく崩れ落ちた。'},
+ {act:'第三幕：賭けの夜',who:'妖精ルナ',emoji:'🪙',art:'art/s6.png',title:'運命のコイン',timed:true,
+  text:'コインが高く舞う。落ちるまでに——ルナ「早く、祈って！」',
+  opts:['表','裏'], fT:'コインの裏側',fX:'コインは裏返った。ルナは静かに、目を伏せた。'},
+ {act:'第四幕：魔王城',who:'古竜',emoji:'🐉',art:'art/s7.png',title:'古竜の謎かけ',
+  text:'古竜「我が魂の属性を当てよ。違えば、灰にする」',
+  opts:['🔥 炎','❄ 氷','⚡ 雷','🌪 風'], fT:'竜の炎に',fX:'古竜の咆哮が燃え上がる。勇者は灰となり、風に散った。'},
+ {act:'第四幕：魔王城',who:'',emoji:'🏰',art:'art/s8.png',title:'魔王城の扉',
+  text:'玉座へ続く、四つの扉。一つだけが、本物。',
+  opts:['鉄の扉','金の扉','銀の扉','黒曜の扉'], fT:'扉の向こうの牢',fX:'扉の先は地下牢。勇者は鎖に繋がれ、二度と声は届かなかった。'},
+ {act:'最終決戦',who:'魔王',emoji:'👹',art:'art/s9.png',title:'魔王 ザ・プロバビリティ',timed:true,boss:true,
+  text:'魔王「我が弱点を見抜けるか！？さあ、今だ、狙え！」',
+  opts:['頭を狙う','心臓を狙う','右腕を狙う','影を狙う'], fT:'心臓の、寸前で',fX:'刃は急所を逸れた。8192分の1は、今回も微笑まなかった。'}
 ];
+const N=SCENES.length;
 
 // ---------- state ----------
-let depth=0,runStart=0,busy=false,choices=[],correctSide=[];
+let depth=0,runStart=0,busy=false,choices=[],correctIdx=[];
 let timerId=null,timeLeft=0;
 let attempts=+(localStorage.getItem('h8_attempts')||0);
 let clears=+(localStorage.getItem('h8_clears')||0);
@@ -141,55 +147,56 @@ let bestMiss=localStorage.getItem('h8_bestmiss')!==null?+localStorage.getItem('h
 const $=id=>document.getElementById(id);
 const stage=$('stage'),cmds=$('cmds'),prob=$('prob'),pipsEl=$('pips'),pipcap=$('pipcap'),timerEl=$('timer'),timerBar=$('timerBar'),timerNum=$('timerNum');
 function fmt(n){ return n.toLocaleString('en-US'); }
+function ri(n){ return Math.floor(Math.random()*n); }
 function buildPips(){ pipsEl.innerHTML=''; for(let i=0;i<N;i++){const d=document.createElement('div');d.className='pip';pipsEl.appendChild(d);} }
-function renderHud(){ pipcap.textContent='= クリア確率 1/8,192 ・ 選択 '+depth+'/'+N; const ps=pipsEl.children; for(let i=0;i<ps.length;i++) ps[i].className='pip'+(i<depth?' on':(i===depth?' now':'')); }
+function renderHud(){ pipcap.textContent='運命の選択 '+depth+'/'+N; const ps=pipsEl.children; for(let i=0;i<ps.length;i++) ps[i].className='pip'+(i<depth?' on':(i===depth?' now':'')); }
 function setMsg(html){ const m=$('msg'); if(!m)return; m.innerHTML=html; m.classList.remove('fade'); void m.offsetWidth; m.classList.add('fade'); }
 function setCmds(items,cls){ cmds.className='cmds'+(cls?(' '+cls):''); cmds.innerHTML=''; items.forEach(it=>{ const b=document.createElement('button'); b.className='cmd'+(it.primary?' primary':''); b.innerHTML=it.html; if(it.dis)b.disabled=true; b.onclick=()=>{ initAudio(); if(AC&&AC.state==='suspended')AC.resume(); it.fn(); }; cmds.appendChild(b); }); }
 function startTimer(onExpire){ clearTimer(); timeLeft=QTE_TIME; timerEl.classList.add('on'); updateTimerUI(); timerId=setInterval(()=>{ timeLeft-=0.1; if(timeLeft<=3.05 && Math.abs(timeLeft%1)<0.06) sfxTick(); if(timeLeft<=0){ clearTimer(); onExpire(); } else updateTimerUI(); },100); }
 function clearTimer(){ if(timerId){clearInterval(timerId);timerId=null;} timerEl.classList.remove('on'); }
 function updateTimerUI(){ const r=Math.max(0,timeLeft/QTE_TIME); timerBar.style.width=(r*100)+'%'; timerBar.className='timer-bar'+(timeLeft<=3?' warn':''); timerNum.textContent='⏱ '+Math.ceil(Math.max(0,timeLeft))+'秒'; }
+function sceneArt(f){ return '<div class="artfb">'+f.emoji+'</div>'+(f.art?'<img class="art" src="'+f.art+'" alt="" onerror="this.remove()">':'')+'<div class="grad"></div>'; }
 
 // ---------- screens ----------
 function showTitle(){
   clearTimer(); depth=0;busy=false;choices=[]; stage.classList.remove('scroll'); renderHud();
-  const missTxt = bestMiss>=99?'まだ無し':(bestMiss===0?'クリア達成👑':('あと'+bestMiss+'手で真エンド'));
-  stage.innerHTML='<div class="center fade">'
+  const missTxt = bestMiss>=99?'まだ無し':(bestMiss===0?'クリア達成👑':('あと'+bestMiss+'択で真エンド'));
+  stage.innerHTML='<div class="scene" id="scene">'+sceneArt({emoji:'⚔️',art:'art/title.png'})+'</div>'
+    +'<div class="msg" id="msg"></div>';
+  $('scene').insertAdjacentHTML('beforeend','<div style="position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px;gap:8px">'
     +'<div class="title-h">8192分の1の</div><div class="title-num">勇者</div>'
-    +'<div class="title-sub">全 <b>65,536</b> 通りの選択のうち、魔王に届く道は <b>8</b> 本だけ（= <b style="color:#ffd23f">1/8,192</b>）。<br>選択は結末を変える。だが、どこかで運命の分岐を誤れば——最後まで進んでも、クリアはできない。</div>'
-    +'<div class="stat-row">'
+    +'<div class="title-sub" style="color:#e7ebff">4択の運命を選び抜け。<br>正しい組み合わせは、わずか <b style="color:#ffd23f">1/8,192</b>。</div></div>');
+  $('msg').innerHTML='<div style="text-align:center">'
+    +'<div class="stat-row" style="justify-content:center">'
     +'<div class="stat"><div class="k">ベスト</div><div class="v gold">'+missTxt+'</div></div>'
     +'<div class="stat"><div class="k">挑戦回数</div><div class="v">'+fmt(attempts)+'</div></div>'
-    +'<div class="stat"><div class="k">討伐数</div><div class="v">'+fmt(clears)+'</div></div></div>'
-    +'<div class="title-sub" style="color:#9aa3d6">妖精ルナと共に、魔王ザ・プロバビリティへ。<br>真実は、最後のフローチャートで明かされる。</div></div>';
+    +'<div class="stat"><div class="k">討伐数</div><div class="v">'+fmt(clears)+'</div></div></div></div>';
   setCmds([{html:'⚔ 運命を始める',primary:true,fn:startRun}],'one');
 }
 function startRun(){
   attempts++; localStorage.setItem('h8_attempts',attempts);
   depth=0;busy=false;choices=[];runStart=Date.now(); stage.classList.remove('scroll');
-  // この回の「正解」をランダムに決定（criticalな場面のみ）
-  correctSide=SCENES.map(sc=> sc.free?null:(Math.random()<0.5?'A':'B'));
+  correctIdx=SCENES.map(sc=> sc.free?null:ri(sc.opts.length)); // この回の正解をランダム決定
   renderHud(); sfxStep(); nextScene();
 }
 function nextScene(){
   busy=false;
   const f=SCENES[depth];
-  stage.innerHTML='<div class="scene" id="scene"><div class="ground"></div>'
+  stage.innerHTML='<div class="scene" id="scene">'+sceneArt(f)
     +'<div class="acttag">'+f.act+'</div>'
     +'<div class="badge'+(f.timed?' qte':'')+'">'+(f.timed?'⏱ 制限時間':'選択 '+(depth+1)+'/'+N)+'</div>'
-    +'<div class="hero">🦸</div>'
-    +(f.boss?'<div class="foe">'+f.s+'</div>':'<div style="font-size:80px">'+f.s+'</div>')
     +'</div><div class="msg" id="msg"></div>';
   $('msg').innerHTML=(f.who?'<span class="who">'+f.who+'</span>':'')+'<b>'+f.title+'</b>　'+f.text;
-  setCmds([{html:f.a,fn:()=>choose('A')},{html:f.b,fn:()=>choose('B')}]);
-  if(f.timed){ startTimer(()=>{ const side=Math.random()<0.5?'A':'B'; setMsg('<span class="ng">時間切れ！</span> 勇者は迷い、とっさに動いた——'); setTimeout(()=>choose(side,true),450); }); }
+  setCmds(f.opts.map((o,i)=>({html:o,fn:()=>choose(i)})), f.opts.length<=2?'':'');
+  if(f.timed){ startTimer(()=>{ const i=ri(f.opts.length); setMsg('<span class="ng">時間切れ！</span> 勇者は迷い、とっさに動いた——'); setTimeout(()=>choose(i,true),450); }); }
 }
-function choose(side,timeout){
+function choose(idx,timeout){
   if(busy) return; busy=true; clearTimer(); sfxPick();
   const f=SCENES[depth];
-  const chosen=side==='A'?f.a:f.b;
-  const correct = f.free ? true : (side===correctSide[depth]);
-  choices.push({i:depth,side:side,chosen:chosen,other:side==='A'?f.b:f.a,free:!!f.free,correct:correct});
-  setCmds([{html:'…',dis:true,fn:()=>{}},{html:'…',dis:true,fn:()=>{}}]);
+  const chosen=f.opts[idx];
+  const correct = f.free ? true : (idx===correctIdx[depth]);
+  choices.push({i:depth, idx:idx, chosen:chosen, correctLabel: f.free?null:f.opts[correctIdx[depth]], free:!!f.free, correct:correct});
+  setCmds(f.opts.map(()=>({html:'…',dis:true,fn:()=>{}})));
   if(!timeout) setMsg('「'+chosen+'」——勇者は、道を選んだ。');
   depth++; renderHud();
   setTimeout(()=>{
@@ -198,7 +205,6 @@ function choose(side,timeout){
   }, timeout?500:650);
 }
 function finish(){
-  // criticalで外した最初の場面を探す
   let firstWrong=-1, miss=0;
   for(const c of choices){ if(!c.free && !c.correct){ miss++; if(firstWrong<0) firstWrong=c.i; } }
   if(miss<bestMiss){ bestMiss=miss; localStorage.setItem('h8_bestmiss',bestMiss); }
@@ -210,20 +216,19 @@ function buildFlow(firstWrong){
   let h='<div class="flowwrap"><div class="flowhead">― 運命のフローチャート ―</div><div class="flow">';
   choices.forEach(c=>{
     let cls,note;
-    if(c.free){ cls='free'; note='<span class="fnote alt">どちらでも進めた場面</span>'; }
+    if(c.free){ cls='free'; note='<span class="fnote alt">どれを選んでも進めた</span>'; }
     else if(c.correct){ cls='ok'; note='<span class="fnote win">✓ 正しい選択だった</span>'; }
-    else if(c.i===firstWrong){ cls='die'; note='<span class="fnote die">✗ ここで運命が分かれた（正解は「'+c.other+'」）</span>'; }
-    else { cls='die'; note='<span class="fnote die">✗ 誤った選択（正解は「'+c.other+'」）</span>'; }
-    h+='<div class="fnode '+cls+'"><div class="ficon">'+SCENES[c.i].s+'</div><div class="fbody">'
-      +'<span class="ft">'+SCENES[c.i].title+'</span> <span class="fc">▶ '+c.chosen+'</span><span class="fx">'+c.other+'</span>'+note+'</div></div>';
+    else if(c.i===firstWrong){ cls='die'; note='<span class="fnote die">✗ ここで運命が分かれた（正解は「'+c.correctLabel+'」）</span>'; }
+    else { cls='die'; note='<span class="fnote die">✗ 誤り（正解は「'+c.correctLabel+'」）</span>'; }
+    h+='<div class="fnode '+cls+'"><div class="ficon">'+SCENES[c.i].emoji+'</div><div class="fbody">'
+      +'<span class="ft">'+SCENES[c.i].title+'</span> <span class="fc">▶ '+c.chosen+'</span>'+note+'</div></div>';
   });
   const reached=firstWrong<0;
   h+='<div class="fnode '+(reached?'goal':'die')+'"><div class="ficon">'+(reached?'👑':'👹')+'</div><div class="fbody">'
     +'<span class="ft">'+(reached?'魔王 討伐':'魔王 ザ・プロバビリティ')+'</span>'
-    +'<span class="fnote '+(reached?'win':'die')+'">'+(reached?'8/65,536 の奇跡を引き当てた！':'未討伐')+'</span></div></div>';
+    +'<span class="fnote '+(reached?'win':'die')+'">'+(reached?'1/8,192 の真エンドに到達！':'未討伐')+'</span></div></div>';
   return h+'</div></div>';
 }
-
 function lose(firstWrong){
   busy=false; sfxFail();
   const end=SCENES[firstWrong];
@@ -234,12 +239,12 @@ function lose(firstWrong){
     stage.innerHTML='<div class="center fade" style="padding-bottom:2px">'
       +'<div style="font-size:54px">💀</div>'
       +'<div style="font-size:21px;font-weight:900;color:#ff5c7a">'+end.fT+'</div>'
-      +'<div class="title-sub">'+end.fX+'<br>運命が分かれたのは <b>「'+end.title+'」</b>。あと <b>'+miss+'</b> 手の選択が正しければ、真の結末だった。</div>'
+      +'<div class="title-sub">'+end.fX+'<br>運命が分かれたのは <b>「'+end.title+'」</b>。あと <b>'+miss+'</b> 択、正しく選べていれば真の結末だった。</div>'
       +'<div class="stat-row">'
       +'<div class="stat"><div class="k">挑戦回数</div><div class="v gold">'+fmt(attempts)+'</div></div>'
-      +'<div class="stat"><div class="k">惜しさ</div><div class="v">あと'+miss+'手</div></div></div></div>'
+      +'<div class="stat"><div class="k">惜しさ</div><div class="v">あと'+miss+'択</div></div></div></div>'
       +buildFlow(firstWrong);
-    setMsg('あきらめるな。<b>8 / 65,536</b> の真エンドは、必ずいつか引ける。');
+    setMsg('あきらめるな。<b>1/8,192</b> の真エンドは、必ずいつか引ける。');
     setCmds([{html:'⚔ もう一度（'+fmt(attempts+1)+'回目）',primary:true,fn:startRun},{html:'タイトルへ',fn:showTitle}]);
   },650);
 }
@@ -249,19 +254,19 @@ function win(){
   stage.classList.add('scroll');
   stage.innerHTML='<div class="center fade" style="padding-bottom:2px">'
     +'<div style="font-size:60px">👑</div><div class="title-h">真の結末<br>魔王、討伐！</div>'
-    +'<div class="title-sub">全ての運命の分岐を、正しく選び抜いた。ルナ「やった…本当に、やったのね！」<br>あなたは 8/65,536 ＝ 1/8,192 を引き当てた、奇跡の勇者。</div>'
+    +'<div class="title-sub">全ての運命の選択を、正しく選び抜いた。ルナ「やった…本当に、やったのね！」<br>あなたは 1/8,192 を引き当てた、奇跡の勇者。</div>'
     +'<div class="stat-row">'
     +'<div class="stat"><div class="k">クリア時の挑戦</div><div class="v gold">'+fmt(attempts)+'回目</div></div>'
     +'<div class="stat"><div class="k">所要</div><div class="v">'+mm+'分'+ss+'秒</div></div>'
     +'<div class="stat"><div class="k">通算討伐</div><div class="v">'+fmt(clears)+'</div></div></div></div>'
     +buildFlow(-1);
   setMsg('🎉 累計 <b>'+fmt(attempts)+'</b> 回目の挑戦で快挙達成！この強運、自慢していい。');
-  const share='「8192分の1の勇者」をクリアした！🎉 '+attempts+'回目の挑戦で 8/65536 の真エンドを引き当てた。あなたは何回で引ける？ #8192分の1の勇者 #やまむー';
+  const share='「8192分の1の勇者」をクリアした！🎉 '+attempts+'回目の挑戦で 1/8192 の真エンドに到達。あなたは何回で引ける？ #8192分の1の勇者 #やまむー';
   setCmds([{html:'もう一度挑む',primary:true,fn:startRun},{html:'𝕏 で自慢する',fn:()=>{ window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(share),'_blank','noopener'); }}]);
 }
 
 // ---------- init ----------
-buildPips(); renderHud();
+buildPips();
 document.getElementById('mute').textContent=muted?'🔇':'🔊';
 document.getElementById('mute').onclick=()=>{ initAudio(); toggleMute(); };
 addEventListener('keydown',e=>{ if(e.key==='m'||e.key==='M'){ initAudio(); toggleMute(); }});
