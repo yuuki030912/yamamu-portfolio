@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>8192分の1の勇者</title>
+<style>
+  :root{
+    --bg:#0a0a1a; --panel:#10122b; --panel2:#171a3a;
+    --ink:#eef1ff; --sub:#9aa3d6; --line:#3a3f78;
+    --gold:#ffd23f; --good:#46e8a0; --bad:#ff5c7a; --mag:#b06bff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:radial-gradient(120% 90% at 50% -10%,#1a1c45 0%,var(--bg) 60%);
+    color:var(--ink);
+    font-family:"Hiragino Maru Gothic ProN","M PLUS Rounded 1c",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; user-select:none; -webkit-user-select:none; overflow:hidden;
+  }
+  #app{max-width:540px;margin:0 auto;height:100%;height:100dvh;display:flex;flex-direction:column;padding:12px;gap:10px}
+
+  .hud{background:linear-gradient(180deg,var(--panel2),var(--panel));border:2px solid var(--line);border-radius:14px;padding:10px 14px;box-shadow:0 6px 0 rgba(0,0,0,.35)}
+  .hud-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .hud-label{font-size:11px;color:var(--sub);letter-spacing:.06em}
+  .hud-prob{font-size:24px;font-weight:900;color:var(--gold);font-variant-numeric:tabular-nums;text-shadow:0 0 14px rgba(255,210,63,.4)}
+  .hud-prob small{font-size:13px;color:var(--sub);font-weight:700}
+  .pips{display:flex;gap:2px;margin-top:9px}
+  .pip{flex:1;height:6px;border-radius:2px;background:#23264f;transition:background .3s,box-shadow .3s}
+  .pip.on{background:linear-gradient(180deg,var(--gold),#e0a800);box-shadow:0 0 6px rgba(255,210,63,.6)}
+  .pip.now{background:linear-gradient(180deg,var(--mag),#7b3fd6);box-shadow:0 0 8px var(--mag)}
+  .pip-cap{font-size:11px;color:var(--good);text-align:center;margin-top:6px;font-weight:700}
+
+  .stage{flex:1;position:relative;display:flex;flex-direction:column;background:linear-gradient(180deg,#0e1030,#0a0b22);border:2px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 6px 0 rgba(0,0,0,.35)}
+  .stage.scroll{overflow-y:auto}
+  .scene{flex:1;display:flex;align-items:center;justify-content:center;font-size:80px;position:relative;background:radial-gradient(80% 60% at 50% 30%,rgba(176,107,255,.16),transparent 70%);min-height:130px}
+  .scene .ground{position:absolute;left:0;right:0;bottom:0;height:32%;background:linear-gradient(180deg,transparent,rgba(58,63,120,.35));border-top:2px solid rgba(120,130,220,.25)}
+  .scene .hero{position:absolute;left:24px;bottom:16%;font-size:42px;filter:drop-shadow(0 6px 6px rgba(0,0,0,.5))}
+  .scene .foe{font-size:80px;filter:drop-shadow(0 8px 8px rgba(0,0,0,.5));animation:bob 2.6s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  .badge{position:absolute;top:10px;right:12px;background:rgba(0,0,0,.5);border:1.5px solid var(--gold);color:var(--gold);font-weight:900;font-size:12px;padding:5px 10px;border-radius:999px}
+  .acttag{position:absolute;top:10px;left:12px;background:rgba(176,107,255,.18);border:1.5px solid var(--mag);color:#dcc6ff;font-weight:800;font-size:11px;padding:5px 10px;border-radius:999px}
+
+  .msg{background:#070815;border-top:2px solid var(--line);padding:12px 16px;min-height:78px;font-size:15px;line-height:1.6}
+  .msg .who{display:block;font-size:11px;color:var(--mag);font-weight:900;margin-bottom:3px;letter-spacing:.04em}
+  .msg b{color:var(--gold)} .msg .ok{color:var(--good);font-weight:900} .msg .ng{color:var(--bad);font-weight:900}
+  .msg .hint{color:var(--mag);font-weight:800;font-size:12px}
+
+  /* QTE timer */
+  .timer{height:0;overflow:hidden;transition:height .18s;position:relative;border-radius:9px}
+  .timer.on{height:22px;background:#0c0e22;border:2px solid var(--line)}
+  .timer-bar{position:absolute;left:0;top:0;bottom:0;width:100%;background:linear-gradient(90deg,var(--good),var(--gold));opacity:.85;border-radius:7px;transition:width .1s linear}
+  .timer-bar.warn{background:linear-gradient(90deg,var(--bad),#ff9a3c)}
+  .timer-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#0a0a1a}
+
+  .cmds{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .cmds.one{grid-template-columns:1fr}
+  button.cmd{font-family:inherit;font-size:15px;font-weight:800;color:var(--ink);background:linear-gradient(180deg,var(--panel2),var(--panel));border:2px solid var(--line);border-radius:13px;padding:15px 10px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.4);transition:transform .08s,box-shadow .08s,border-color .12s;-webkit-tap-highlight-color:transparent}
+  button.cmd:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.4)}
+  button.cmd:hover{border-color:var(--mag)}
+  button.cmd.primary{background:linear-gradient(180deg,#3a2d00,#241c00);border-color:var(--gold);color:var(--gold)}
+  button.cmd[disabled]{opacity:.5;pointer-events:none}
+
+  .center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:18px}
+  .title-h{font-size:28px;font-weight:900;line-height:1.2;background:linear-gradient(135deg,var(--gold),var(--mag));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .title-num{font-size:50px;font-weight:900;color:var(--gold);text-shadow:0 0 22px rgba(255,210,63,.45)}
+  .title-sub{font-size:13px;color:var(--sub);line-height:1.7;max-width:360px}
+  .stat-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:2px}
+  .stat{background:var(--panel);border:1.5px solid var(--line);border-radius:10px;padding:7px 12px;min-width:90px}
+  .stat .k{font-size:10px;color:var(--sub)} .stat .v{font-size:18px;font-weight:900;color:var(--ink)} .stat .v.gold{color:var(--gold)}
+
+  /* 分岐フローチャート */
+  .flowwrap{padding:12px 12px 4px}
+  .flowhead{font-size:13px;font-weight:900;color:var(--mag);text-align:center;margin-bottom:10px;letter-spacing:.05em}
+  .flow{position:relative;padding-left:4px}
+  .flow::before{content:'';position:absolute;left:21px;top:20px;bottom:20px;width:2px;background:var(--line);z-index:0}
+  .fnode{position:relative;z-index:1;display:flex;gap:10px;align-items:flex-start;padding:5px 4px}
+  .ficon{width:34px;height:34px;flex:none;display:flex;align-items:center;justify-content:center;font-size:18px;background:#13152f;border:2px solid var(--line);border-radius:9px}
+  .fnode.ok .ficon{border-color:var(--good)}
+  .fnode.die .ficon{border-color:var(--bad);background:#2a0e16}
+  .fnode.goal .ficon{border-color:var(--gold);background:#2a2400}
+  .fbody{flex:1;font-size:12px;line-height:1.45;padding-top:1px}
+  .fbody .ft{font-weight:800;color:#cfd4ff}
+  .fbody .fc{color:var(--gold);font-weight:800}
+  .fbody .fx{color:var(--sub);text-decoration:line-through;opacity:.65;margin-left:4px}
+  .fnote{display:block;font-size:11px;margin-top:1px;color:var(--sub)}
+  .fnote.win{color:var(--good)} .fnote.die{color:var(--bad)} .fnote.alt{color:var(--mag)}
+
+  .mute{position:fixed;top:8px;right:10px;background:none;border:none;color:var(--sub);font-size:20px;cursor:pointer;z-index:5}
+  .fade{animation:fade .3s ease} @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .shake{animation:shk .4s} @keyframes shk{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+</style>
+</head>
+<body>
+<button class="mute" id="mute">🔊</button>
+<div id="app">
+  <div class="hud" id="hud">
+    <div class="hud-top"><span class="hud-label">残り勝ち筋（ルート）</span><span class="hud-prob" id="prob">8<small>/65,536</small></span></div>
+    <div class="pips" id="pips"></div>
+    <div class="pip-cap" id="pipcap">= クリア確率 1/8,192</div>
+  </div>
+  <div class="stage" id="stage">
+    <div class="scene" id="scene"><div class="ground"></div></div>
+    <div class="msg" id="msg"></div>
+  </div>
+  <div class="timer" id="timer"><div class="timer-bar" id="timerBar"></div><span class="timer-num" id="timerNum"></span></div>
+  <div class="cmds" id="cmds"></div>
+</div>
+
+<script>
+'use strict';
+/* =======================================================
+   8192分の1の勇者 ── デトロイト風 物語分岐RPG
+   16の選択＝2^16＝65,536通り、勝ち筋8通り → 1/8,192。
+   序盤は分岐しても勝ち筋が残る／終盤は一本道。
+   制限時間QTE・キャラ会話・多重エンディング・分岐フローチャート。
+   ======================================================= */
+const DEPTH=16, START_W=8, START_T=Math.pow(2,DEPTH);
+const QTE_TIME=8.0; // 秒
+
+// ---------- audio ----------
+let AC=null,master=null,muted=!!localStorage.getItem('h8_mute');
+function initAudio(){ if(AC)return; try{AC=new(window.AudioContext||window.webkitAudioContext)();master=AC.createGain();master.gain.value=muted?0:0.4;master.connect(AC.destination);}catch(e){AC=null;} }
+function tone(f,d,t,v,sl){ if(!AC)return; const t0=AC.currentTime,o=AC.createOscillator(),g=AC.createGain(); o.type=t||'sine'; o.frequency.setValueAtTime(f,t0); if(sl)o.frequency.exponentialRampToValueAtTime(Math.max(20,sl),t0+d); g.gain.setValueAtTime(v||0.2,t0); g.gain.exponentialRampToValueAtTime(0.0001,t0+d); o.connect(g);g.connect(master);o.start(t0);o.stop(t0+d+0.05); }
+function sfxRoll(){ tone(300,0.08,'triangle',0.10,600); }
+function sfxSafe(){ tone(440,0.09,'sine',0.13); setTimeout(()=>tone(660,0.1,'sine',0.12),80); }
+function sfxUp(){ tone(523,0.1,'triangle',0.16); setTimeout(()=>tone(880,0.13,'triangle',0.15),90); }
+function sfxTick(){ tone(900,0.03,'square',0.05); }
+function sfxFail(){ tone(200,0.4,'sawtooth',0.22,50); tone(90,0.6,'sine',0.22,40); }
+function sfxWin(){ [523,659,784,1046,1318].forEach((f,i)=>setTimeout(()=>tone(f,0.22,'triangle',0.16),i*120)); }
+function toggleMute(){ muted=!muted; localStorage.setItem('h8_mute',muted?'1':''); if(master)master.gain.value=muted?0:0.4; document.getElementById('mute').textContent=muted?'🔇':'🔊'; }
+
+// ---------- scenes (16) ----------
+const SCENES=[
+ {act:'第一幕：旅立ち', who:'妖精ルナ', s:'🌅', title:'最後の朝', text:'ルナ「魔王を倒せる確率は、8192分の1。それでも——行くのね？」', a:'迷わず頷く', b:'震える手を、握りしめる'},
+ {act:'第一幕：旅立ち', who:'妖精ルナ', s:'🌲', title:'はじまりの森', text:'道が二手に分かれている。ルナ「勘を、信じて」', a:'木漏れ日の道へ', b:'霧の道へ'},
+ {act:'第一幕：旅立ち', who:'', s:'🐺', title:'森の牙', text:'飢えた狼の群れが、行く手を塞ぐ。', a:'剣を抜いて戦う', b:'隙を突いて駆け抜ける'},
+ {act:'第一幕：旅立ち', who:'老人', s:'🧙', title:'迷いの老人', text:'老人「この先は、もう戻れぬ。…それでも進むか？」', a:'進む', b:'道を尋ねる'},
+ {act:'第二幕：試練の地', who:'', s:'🕳️', title:'こだまの洞窟', text:'洞窟が二つの闇へ続く。どちらからか、水の音がする。', a:'下りの闇へ', b:'上りの闇へ'},
+ {act:'第二幕：試練の地', who:'妖精ルナ', s:'💎', title:'光る鉱脈', text:'ルナ「綺麗…でも、罠かも。どっちの光を信じる？」', a:'青い光へ', b:'赤い光へ'},
+ {act:'第二幕：試練の地', who:'', s:'🦇', title:'群れの帳', text:'天井を埋め尽くすコウモリ。松明の火が揺れる。', a:'火を掲げ堂々と', b:'火を消し息を潜め'},
+ {act:'第二幕：試練の地', who:'妖精ルナ', s:'⛲', title:'地底湖', text:'底の見えない湖。対岸に、出口の光。', a:'岩を伝って渡る', b:'泳いで渡る'},
+ {act:'第三幕：賭けの夜', who:'賭博師', s:'🌉', title:'賭博師の橋', text:'番人「通りたくば、賭けろ。二枚の札、運命はどちらだ？」', a:'太陽の札', b:'月の札'},
+ {act:'第三幕：賭けの夜', who:'賭博師', s:'🎲', title:'丁半', text:'番人「丁か、半か。お前の運、見せてみろ」', a:'丁（偶数）', b:'半（奇数）'},
+ {act:'第三幕：賭けの夜', who:'妖精ルナ', s:'🪙', title:'宙のコイン', text:'コインが高く舞い上がる。ルナ「…祈って！」', a:'表に賭ける', b:'裏に賭ける'},
+ {act:'第三幕：賭けの夜', who:'賭博師', s:'🃏', title:'最後の一枚', text:'番人「これで最後だ。色を当ててみろ」', a:'赤', b:'黒'},
+ {act:'第四幕：魔王城', who:'', s:'🏰', title:'魔王城', text:'二つの跳ね橋が、霧の奥へ伸びている。', a:'右の跳ね橋', b:'左の跳ね橋'},
+ {act:'第四幕：魔王城', who:'妖精ルナ', s:'🗝️', title:'二つの鍵穴', text:'ルナ「片方は…牢獄に繋がってる、はず」', a:'金の鍵穴', b:'銀の鍵穴'},
+ {act:'第四幕：魔王城', who:'', s:'🔥', title:'炎の回廊', text:'玉座へ続く、二筋の炎。熱が肌を焼く。', a:'蒼炎の回廊', b:'紅炎の回廊'},
+ {act:'最終決戦', who:'魔王', s:'👹', title:'魔王 ザ・プロバビリティ', text:'魔王「我が心臓を貫く確率、まさに8192分の1！さあ、引いてみろ！」', a:'右胸を狙う', b:'左胸を狙う', boss:true}
+];
+function failEnding(d){
+  if(d<=4) return {t:'森に消えた勇者', x:'旅は、始まったばかりだった。勇者の名は、誰の記憶にも残らなかった。'};
+  if(d<=8) return {t:'試練の地に散る', x:'あと少し、洞窟を抜ければ光だった。挑戦は、闇の中で途絶えた。'};
+  if(d<=12) return {t:'賭けに敗れて', x:'運命の賭けは、非情だった。賭博師は静かに、札を伏せた。'};
+  if(d<=15) return {t:'玉座の、手前で', x:'魔王の高笑いが響く。勇者は王の顔を見ることなく、膝をついた。'};
+  return {t:'心臓の、寸前で', x:'刃は魔王の心臓をかすめた。8192分の1は、今回も微笑まなかった。'};
+}
+
+// ---------- state ----------
+let depth=0,W=START_W,T=START_T,runStart=0,busy=false,path=[];
+let timerId=null,timeLeft=0;
+let attempts=+(localStorage.getItem('h8_attempts')||0);
+let bestDepth=+(localStorage.getItem('h8_bestdepth')||0);
+let clears=+(localStorage.getItem('h8_clears')||0);
+
+// ---------- dom ----------
+const $=id=>document.getElementById(id);
+const stage=$('stage'),scene=$('scene'),msg=$('msg'),cmds=$('cmds'),prob=$('prob'),pipsEl=$('pips'),pipcap=$('pipcap'),timerEl=$('timer'),timerBar=$('timerBar'),timerNum=$('timerNum');
+function fmt(n){ return n.toLocaleString('en-US'); }
+function buildPips(){ pipsEl.innerHTML=''; for(let i=0;i<DEPTH;i++){const d=document.createElement('div');d.className='pip';pipsEl.appendChild(d);} }
+function renderHud(){
+  prob.innerHTML=W+'<small>/'+fmt(T)+'</small>';
+  pipcap.textContent=W>0?('= クリア確率 1/'+fmt(Math.round(T/W))):'勝ち筋が尽きた…';
+  pipcap.style.color=W>0?'var(--good)':'var(--bad)';
+  const ps=pipsEl.children; for(let i=0;i<ps.length;i++) ps[i].className='pip'+(i<depth?' on':(i===depth?' now':''));
+}
+function setMsg(html){ msg.innerHTML=html; msg.classList.remove('fade'); void msg.offsetWidth; msg.classList.add('fade'); }
+function setCmds(items,cls){
+  cmds.className='cmds'+(cls?(' '+cls):''); cmds.innerHTML='';
+  items.forEach(it=>{ const b=document.createElement('button'); b.className='cmd'+(it.primary?' primary':''); b.innerHTML=it.html; if(it.dis)b.disabled=true;
+    b.onclick=()=>{ initAudio(); if(AC&&AC.state==='suspended')AC.resume(); it.fn(); }; cmds.appendChild(b); });
+}
+// ---------- timer ----------
+function startTimer(onExpire){
+  clearTimer(); timeLeft=QTE_TIME; timerEl.classList.add('on'); updateTimerUI();
+  timerId=setInterval(()=>{ timeLeft-=0.1; if(timeLeft<=3.05 && Math.abs(timeLeft%1)<0.06) sfxTick();
+    if(timeLeft<=0){ clearTimer(); onExpire(); } else updateTimerUI(); },100);
+}
+function clearTimer(){ if(timerId){clearInterval(timerId);timerId=null;} timerEl.classList.remove('on'); }
+function updateTimerUI(){ const r=Math.max(0,timeLeft/QTE_TIME); timerBar.style.width=(r*100)+'%'; timerBar.className='timer-bar'+(timeLeft<=3?' warn':''); timerNum.textContent='⏱ '+Math.ceil(Math.max(0,timeLeft))+'秒'; }
+
+// ---------- screens ----------
+function showTitle(){
+  clearTimer(); depth=0;W=START_W;T=START_T;busy=false;path=[]; stage.classList.remove('scroll'); renderHud();
+  const bestTxt=bestDepth>=DEPTH?'クリア済み👑':(bestDepth>0?('選択 '+bestDepth+'/'+DEPTH):'まだ無し');
+  stage.innerHTML='<div class="center fade">'
+    +'<div class="title-h">8192分の1の</div><div class="title-num">勇者</div>'
+    +'<div class="title-sub">全 <b>65,536</b> 通りの運命のうち、魔王に届くのは <b>8</b> 本だけ。= クリア確率 <b style="color:#ffd23f">1/8,192</b>。<br>選べ。迷うな。——時間は、待ってくれない。</div>'
+    +'<div class="stat-row">'
+    +'<div class="stat"><div class="k">最高到達</div><div class="v gold">'+bestTxt+'</div></div>'
+    +'<div class="stat"><div class="k">挑戦回数</div><div class="v">'+fmt(attempts)+'</div></div>'
+    +'<div class="stat"><div class="k">討伐数</div><div class="v">'+fmt(clears)+'</div></div></div>'
+    +'<div class="title-sub" style="color:#9aa3d6">妖精ルナと共に、魔王ザ・プロバビリティへ。<br>選択は連鎖し、結末を変える。</div></div>';
+  setCmds([{html:'⚔ 運命を始める',primary:true,fn:startRun}],'one');
+}
+function startRun(){
+  attempts++; localStorage.setItem('h8_attempts',attempts);
+  depth=0;W=START_W;T=START_T;busy=false;path=[];runStart=Date.now(); stage.classList.remove('scroll'); renderHud();
+  sfxSafe(); nextScene();
+}
+function nextScene(){
+  busy=false;
+  const f=SCENES[depth];
+  stage.innerHTML='<div class="scene" id="scene"><div class="ground"></div>'
+    +'<div class="acttag">'+f.act+'</div>'
+    +'<div class="badge">選択 '+(depth+1)+'/'+DEPTH+'</div>'
+    +'<div class="hero">🦸</div>'
+    +(f.boss?'<div class="foe">'+f.s+'</div>':'<div style="font-size:80px">'+f.s+'</div>')
+    +'</div><div class="msg" id="msg"></div>';
+  let hint = W>=2 ? '<span class="hint">勝ち筋は今 '+W+' 本。どちらを選んでも、まだ道は残る。</span>'
+                  : '<span class="hint">勝ち筋は残り 1 本。ここからは、選択がすべて。</span>';
+  $('msg').innerHTML=(f.who?'<span class="who">'+f.who+'</span>':'')+f.title+'｜'+f.text+'<br>'+hint;
+  setCmds([{html:f.a,fn:()=>choose('A')},{html:f.b,fn:()=>choose('B')}]);
+  startTimer(()=>{ // 時間切れ → ランダムで自動選択
+    const side=Math.random()<0.5?'A':'B';
+    setMsg('<span class="ng">時間切れ！</span> 勇者は迷い、とっさに動いた——');
+    setTimeout(()=>choose(side,true),500);
+  });
+}
+function choose(side,timeout){
+  if(busy) return; busy=true; clearTimer();
+  sfxRoll();
+  const f=SCENES[depth];
+  const chosenLabel=side==='A'?f.a:f.b, otherLabel=side==='A'?f.b:f.a;
+  setCmds([{html:'…',dis:true,fn:()=>{}},{html:'…',dis:true,fn:()=>{}}]);
+  if(!timeout) setMsg('「'+chosenLabel+'」——勇者は道を選んだ。');
+  const wBefore=W;
+  const big=Math.ceil(W/2), small=W-big, bigOnA=Math.random()<0.5;
+  const wA=bigOnA?big:small, wB=bigOnA?small:big, chosenW=side==='A'?wA:wB, otherW=side==='A'?wB:wA;
+  setTimeout(()=>{
+    W=chosenW; T=T/2; depth++; renderHud();
+    path.push({s:f.s,act:f.act,title:f.title,chosen:chosenLabel,other:otherLabel,wBefore:wBefore,chosenW:chosenW,otherW:otherW,decisive:wBefore<=1});
+    if(W===0){ lose(); return; }
+    if(depth>=DEPTH){ win(); return; }
+    if(W>=2){ sfxSafe(); setMsg('<span class="ok">道は続いた。</span> まだ <b>'+W+'</b> 本の勝ち筋（1/'+fmt(Math.round(T/W))+'）。'); }
+    else { sfxUp(); setMsg('<span class="ok">勝ち筋を、引き当てた！</span> クリア確率が <b>1/'+fmt(T)+'</b> に上昇。'); }
+    setTimeout(nextScene, 900);
+  },520);
+}
+
+// ---------- flowchart ----------
+function buildFlow(diedHere){
+  let h='<div class="flowwrap"><div class="flowhead">― 運命のフローチャート ―</div><div class="flow">';
+  path.forEach((e,i)=>{
+    const isDeath = diedHere && i===path.length-1;
+    const cls = isDeath?'die':'ok';
+    let note;
+    if(isDeath){ note='<span class="fnote die">✕ 勝ち筋を見失った。正解は「'+e.other+'」だった</span>'; }
+    else if(e.decisive){ note='<span class="fnote win">✓ こちらが正解。逆を選べば終わっていた</span>'; }
+    else { note='<span class="fnote alt">どちらでも道は残っていた（勝ち筋 '+e.wBefore+'本）</span>'; }
+    h+='<div class="fnode '+cls+'"><div class="ficon">'+e.s+'</div><div class="fbody">'
+      +'<span class="ft">'+e.title+'</span> <span class="fc">▶ '+e.chosen+'</span><span class="fx">'+e.other+'</span>'
+      +note+'</div></div>';
+  });
+  // ゴールノード
+  const reached = !diedHere && path.length>=DEPTH;
+  h+='<div class="fnode '+(reached?'goal':'')+'"><div class="ficon">'+(reached?'👑':'👹')+'</div><div class="fbody">'
+    +'<span class="ft">'+(reached?'魔王 討伐':'魔王 ザ・プロバビリティ')+'</span>'
+    +'<span class="fnote '+(reached?'win':'die')+'">'+(reached?'8/65,536 の奇跡に到達！':'未到達')+'</span></div></div>';
+  h+='</div></div>';
+  return h;
+}
+
+function lose(){
+  busy=false; sfxFail();
+  if(depth>bestDepth){ bestDepth=depth; localStorage.setItem('h8_bestdepth',bestDepth); }
+  scene && scene.classList && scene.classList.add('shake');
+  const end=failEnding(depth);
+  setMsg('<span class="ng">勝ち筋を見失った…</span> もう片方の道に、最後の1本があった。');
+  setTimeout(()=>{
+    stage.classList.add('scroll');
+    stage.innerHTML='<div class="center fade" style="padding-bottom:2px">'
+      +'<div style="font-size:54px">💀</div>'
+      +'<div style="font-size:21px;font-weight:900;color:#ff5c7a">'+end.t+'</div>'
+      +'<div class="title-sub">'+end.x+'<br><b>'+depth+' / '+DEPTH+'</b> の選択で、道は途絶えた。</div>'
+      +'<div class="stat-row">'
+      +'<div class="stat"><div class="k">挑戦回数</div><div class="v gold">'+fmt(attempts)+'</div></div>'
+      +'<div class="stat"><div class="k">最高到達</div><div class="v">'+bestDepth+' / '+DEPTH+'</div></div></div></div>'
+      +buildFlow(true);
+    setMsg('あきらめるな。<b>8 / 65,536</b> の奇跡は、必ずいつか掴める。');
+    setCmds([{html:'⚔ もう一度（'+fmt(attempts+1)+'回目）',primary:true,fn:startRun},{html:'タイトルへ',fn:showTitle}]);
+  },650);
+}
+function win(){
+  busy=false; clears++; localStorage.setItem('h8_clears',clears);
+  bestDepth=DEPTH; localStorage.setItem('h8_bestdepth',bestDepth); sfxWin();
+  const secs=Math.max(1,Math.round((Date.now()-runStart)/1000)), mm=Math.floor(secs/60), ss=secs%60;
+  stage.classList.add('scroll');
+  stage.innerHTML='<div class="center fade" style="padding-bottom:2px">'
+    +'<div style="font-size:60px">👑</div>'
+    +'<div class="title-h">8 / 65,536 の<br>奇跡を掴んだ！</div>'
+    +'<div class="title-sub">魔王 ザ・プロバビリティ を討伐！ルナ「やった…本当に、やったのね！」<br>1/8,192 を引き当てた、正真正銘の<b>奇跡の勇者</b>。</div>'
+    +'<div class="stat-row">'
+    +'<div class="stat"><div class="k">クリア時の挑戦</div><div class="v gold">'+fmt(attempts)+'回目</div></div>'
+    +'<div class="stat"><div class="k">所要</div><div class="v">'+mm+'分'+ss+'秒</div></div>'
+    +'<div class="stat"><div class="k">通算討伐</div><div class="v">'+fmt(clears)+'</div></div></div></div>'
+    +buildFlow(false);
+  setMsg('🎉 累計 <b>'+fmt(attempts)+'</b> 回目の挑戦で快挙達成！この強運、自慢していい。');
+  const share='「8192分の1の勇者」をクリアした！🎉 '+attempts+'回目の挑戦で 8/65536 の奇跡を掴んだ。あなたは何回で引ける？ #8192分の1の勇者 #やまむー';
+  setCmds([{html:'もう一度挑む',primary:true,fn:startRun},{html:'𝕏 で自慢する',fn:()=>{ window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(share),'_blank','noopener'); }}]);
+}
+
+// ---------- init ----------
+buildPips(); renderHud();
+document.getElementById('mute').textContent=muted?'🔇':'🔊';
+document.getElementById('mute').onclick=()=>{ initAudio(); toggleMute(); };
+addEventListener('keydown',e=>{ if(e.key==='m'||e.key==='M'){ initAudio(); toggleMute(); }});
+showTitle();
+</script>
+</body>
+</html>
