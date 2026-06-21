@@ -13,45 +13,45 @@
   .hud{background:linear-gradient(180deg,var(--panel2),var(--panel));border:2px solid var(--line);border-radius:14px;padding:9px 14px;box-shadow:0 6px 0 rgba(0,0,0,.35)}
   .hud-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
   .hud-label{font-size:11px;color:var(--sub);letter-spacing:.06em}
-  .hud-prob{font-size:18px;font-weight:900;color:var(--gold);font-variant-numeric:tabular-nums}
+  .hud-prob{font-size:15px;font-weight:900;color:var(--bad)}
   .pips{display:flex;gap:2px;margin-top:8px}
   .pip{flex:1;height:5px;border-radius:2px;background:#23264f;transition:background .3s}
-  .pip.on{background:linear-gradient(180deg,var(--gold),#e0a800)} .pip.now{background:var(--mag)}
+  .pip.on{background:linear-gradient(180deg,var(--gold),#e0a800)} .pip.now{background:var(--mag)} .pip.gate{outline:1px solid #5a3a3a}
   .pip-cap{font-size:11px;color:var(--sub);text-align:center;margin-top:5px;font-weight:700}
   .stage{flex:1;position:relative;display:flex;flex-direction:column;background:linear-gradient(180deg,#0e1030,#0a0b22);border:2px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 6px 0 rgba(0,0,0,.35)}
   .stage.scroll{overflow-y:auto}
-  .scene{flex:1;position:relative;min-height:130px;background:radial-gradient(80% 60% at 50% 30%,rgba(176,107,255,.16),transparent 70%)}
-  .artfb{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:80px}
+  .scene{flex:1;position:relative;min-height:120px;background:radial-gradient(80% 60% at 50% 30%,rgba(176,107,255,.16),transparent 70%)}
+  .artfb{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:76px}
   .art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
-  .scene .grad{position:absolute;left:0;right:0;bottom:0;height:42%;z-index:2;background:linear-gradient(180deg,transparent,rgba(7,8,21,.9))}
+  .scene .grad{position:absolute;left:0;right:0;bottom:0;height:44%;z-index:2;background:linear-gradient(180deg,transparent,rgba(7,8,21,.92))}
   .badge{position:absolute;top:10px;right:12px;z-index:3;background:rgba(0,0,0,.55);border:1.5px solid var(--gold);color:var(--gold);font-weight:900;font-size:12px;padding:5px 10px;border-radius:999px}
-  .badge.qte{border-color:var(--bad);color:var(--bad)}
+  .badge.qte{border-color:var(--bad);color:var(--bad)} .badge.talk{border-color:var(--mag);color:#dcc6ff}
   .acttag{position:absolute;top:10px;left:12px;z-index:3;background:rgba(0,0,0,.5);border:1.5px solid var(--mag);color:#dcc6ff;font-weight:800;font-size:11px;padding:5px 10px;border-radius:999px}
-  .msg{background:#070815;border-top:2px solid var(--line);padding:13px 16px;min-height:96px;font-size:15px;line-height:1.7;position:relative}
+  .msg{background:#070815;border-top:2px solid var(--line);padding:13px 16px;min-height:104px;font-size:15px;line-height:1.75;position:relative}
   .msg .who{display:block;font-size:12px;color:var(--mag);font-weight:900;margin-bottom:4px;letter-spacing:.04em}
   .msg b{color:var(--gold)} .msg .ok{color:var(--good);font-weight:900} .msg .ng{color:var(--bad);font-weight:900}
-  .msg.tapnext{cursor:pointer}
-  .msg .next-ind{position:absolute;right:12px;bottom:8px;font-size:12px;color:var(--mag);animation:blink 1s infinite}
+  .msg.tapnext{cursor:pointer} .msg .next-ind{position:absolute;right:12px;bottom:8px;font-size:12px;color:var(--mag);animation:blink 1s infinite}
   @keyframes blink{50%{opacity:.3}}
   .cmds{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-  .cmds.one{grid-template-columns:1fr}
-  button.cmd{font-family:inherit;font-size:15px;font-weight:800;color:var(--ink);background:linear-gradient(180deg,var(--panel2),var(--panel));border:2px solid var(--line);border-radius:13px;padding:14px 10px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.4);transition:transform .08s,box-shadow .08s,border-color .12s;-webkit-tap-highlight-color:transparent}
+  .cmds.one{grid-template-columns:1fr} .cmds.talk{grid-template-columns:1fr}
+  button.cmd{font-family:inherit;font-size:15px;font-weight:800;color:var(--ink);background:linear-gradient(180deg,var(--panel2),var(--panel));border:2px solid var(--line);border-radius:13px;padding:13px 12px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.4);transition:transform .08s,box-shadow .08s,border-color .12s;-webkit-tap-highlight-color:transparent;text-align:left}
+  .cmds.one button.cmd,.cmds:not(.talk) button.cmd[data-c]{text-align:center}
   button.cmd:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.4)}
-  button.cmd:hover{border-color:var(--mag)} button.cmd.primary{background:linear-gradient(180deg,#3a2d00,#241c00);border-color:var(--gold);color:var(--gold)}
-  button.cmd[disabled]{opacity:.5;pointer-events:none}
+  button.cmd:hover{border-color:var(--mag)} button.cmd.primary{background:linear-gradient(180deg,#3a2d00,#241c00);border-color:var(--gold);color:var(--gold);text-align:center}
+  button.cmd.talkopt{border-color:#4a4f8a} button.cmd[disabled]{opacity:.5;pointer-events:none}
   .timer{height:0;overflow:hidden;transition:height .18s;position:relative;border-radius:9px}
   .timer.on{height:22px;background:#0c0e22;border:2px solid var(--bad)}
   .timer-bar{position:absolute;left:0;top:0;bottom:0;width:100%;background:linear-gradient(90deg,var(--good),var(--gold));opacity:.85;border-radius:7px;transition:width .1s linear}
   .timer-bar.warn{background:linear-gradient(90deg,var(--bad),#ff9a3c)}
   .timer-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#0a0a1a}
   .center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;text-align:center;padding:18px}
-  .title-h{font-size:27px;font-weight:900;line-height:1.2;background:linear-gradient(135deg,var(--gold),var(--mag));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .title-num{font-size:48px;font-weight:900;color:var(--gold);text-shadow:0 0 22px rgba(255,210,63,.45)}
-  .title-sub{font-size:13px;color:var(--sub);line-height:1.75;max-width:370px}
+  .title-h{font-size:26px;font-weight:900;line-height:1.25;background:linear-gradient(135deg,var(--gold),var(--mag));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .title-num{font-size:46px;font-weight:900;color:var(--gold);text-shadow:0 0 22px rgba(255,210,63,.45)}
+  .title-sub{font-size:13px;color:var(--sub);line-height:1.8;max-width:380px}
   .stat-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:2px}
-  .stat{background:var(--panel);border:1.5px solid var(--line);border-radius:10px;padding:7px 12px;min-width:88px}
-  .stat .k{font-size:10px;color:var(--sub)} .stat .v{font-size:17px;font-weight:900;color:var(--ink)} .stat .v.gold{color:var(--gold)}
-  .ending-tag{font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--mag)}
+  .stat{background:var(--panel);border:1.5px solid var(--line);border-radius:10px;padding:7px 12px;min-width:84px}
+  .stat .k{font-size:10px;color:var(--sub)} .stat .v{font-size:16px;font-weight:900;color:var(--ink)} .stat .v.gold{color:var(--gold)}
+  .ending-tag{font-size:12px;font-weight:900;letter-spacing:.12em;color:var(--mag)}
   .flowwrap{padding:10px 12px 4px}
   .flowhead{font-size:12px;font-weight:900;color:var(--mag);text-align:center;margin-bottom:9px;letter-spacing:.05em}
   .flow{position:relative;padding-left:4px}
@@ -70,7 +70,7 @@
 <button class="mute" id="mute">🔊</button>
 <div id="app">
   <div class="hud" id="hud">
-    <div class="hud-top"><span class="hud-label">運命の物語</span><span class="hud-prob" id="prob">真エンドは 1/8,192 の奇跡</span></div>
+    <div class="hud-top"><span class="hud-label">ルナとの絆</span><span class="hud-prob" id="prob">♡♡♡♡♡</span></div>
     <div class="pips" id="pips"></div>
     <div class="pip-cap" id="pipcap">プロローグ</div>
   </div>
@@ -81,11 +81,11 @@
 <script>
 'use strict';
 /* =======================================================
-   8192分の1の勇者 ── 物語重視版（ノベル＋分岐＋多重エンド）
-   会話はタップで読み進める。道中に物語の山場を挿入。
-   選択は「4択・当たり2つ(=1/2)」。全ての関門を当てて初めて真エンド(=超レア=8192の難しさ)。
-   外した場所ごとに別エンディング。最後に運命のフローチャート。
-   伏線→どんでん返し：魔王=最初の勇者 / ルナ=8191の想い。
+   8192分の1の勇者 ── 長編ストーリー版
+   ・魔王の理：選んだ瞬間まで結末は定まらない＝誰にも先は視えない（ルナにも）。
+   ・ルナは「8191人の"想い"」だが記憶は持たず、試練は毎回変わる → 答えは誰も知らない。
+   ・type: story(会話のみ) / talk(結末に無関係な会話選択・絆増減) / gate(4択2正解=運命の関門)
+   ・全gate正解で真エンド。stance/絆で真エンドの結末が分岐。外した関門ごとにBAD END。
    ======================================================= */
 const QTE_TIME=9.0, CORRECT_PER=2;
 
@@ -95,109 +95,214 @@ function initAudio(){ if(AC)return; try{AC=new(window.AudioContext||window.webki
 function tone(f,d,t,v,sl){ if(!AC)return; const t0=AC.currentTime,o=AC.createOscillator(),g=AC.createGain(); o.type=t||'sine'; o.frequency.setValueAtTime(f,t0); if(sl)o.frequency.exponentialRampToValueAtTime(Math.max(20,sl),t0+d); g.gain.setValueAtTime(v||0.2,t0); g.gain.exponentialRampToValueAtTime(0.0001,t0+d); o.connect(g);g.connect(master);o.start(t0);o.stop(t0+d+0.05); }
 function sfxBlip(){ tone(620,0.04,'square',0.05); }
 function sfxPick(){ tone(420,0.06,'square',0.10,520); }
+function sfxTalk(){ tone(540,0.06,'sine',0.09); setTimeout(()=>tone(720,0.07,'sine',0.08),60); }
 function sfxStep(){ tone(440,0.07,'sine',0.10); }
 function sfxTick(){ tone(900,0.03,'square',0.05); }
 function sfxFail(){ tone(200,0.4,'sawtooth',0.22,50); tone(90,0.6,'sine',0.22,40); }
 function sfxWin(){ [523,659,784,1046,1318].forEach((f,i)=>setTimeout(()=>tone(f,0.22,'triangle',0.16),i*120)); }
 function toggleMute(){ muted=!muted; localStorage.setItem('h8_mute',muted?'1':''); if(master)master.gain.value=muted?0:0.4; document.getElementById('mute').textContent=muted?'🔇':'🔊'; }
 
-// ---------- story ----------
-// type:'story'=会話のみ(関門なし) / 'gate'=4択2正解の関門
-// lines:[{who,text}] をタップで送る。gateは opts(4) と fT/fX(外した時の結末)。
+// ====================== STORY ======================
 const SCENES=[
  {type:'story',chapter:'プロローグ',emoji:'🌙',art:'art/p.png',lines:[
-   {who:'',text:'8192年に一度、世界の理（ことわり）が緩み、魔王が目を覚ます。'},
-   {who:'',text:'魔王の名は——<b>ザ・プロバビリティ</b>。あらゆる結末を「運次第」に書き換える、確率の化身。'},
-   {who:'妖精ルナ',text:'「魔王を倒せる勇者が現れる確率は、<b>8192分の1</b>。…でも、あなたなら」'},
-   {who:'妖精ルナ',text:'「私はルナ。あなたの旅に、最後まで付き添う。——さあ、運命を始めよう」'}
+   {who:'',text:'——8192年に一度。世界の理（ことわり）が緩み、ひとつの存在が目を覚ます。'},
+   {who:'',text:'魔王、<b>ザ・プロバビリティ</b>。あらゆる結末を「運次第」に書き換える、確率そのものの化身。'},
+   {who:'',text:'その理のもとでは、<b>選んだ瞬間まで、どんな結末も定まらない</b>。——だから、誰にも先は視えない。'},
+   {who:'',text:'これまで挑んだ勇者は、8191人。全員が、あと一歩で散った。'},
+   {who:'妖精ルナ',text:'「目を覚ました？　私はルナ。あなたの旅に、最後まで付き添う妖精」'},
+   {who:'妖精ルナ',text:'「勝てる確率は8192分の1。…正直、無謀。それでも——行ってくれる？」'}
+ ]},
+ {type:'talk',chapter:'プロローグ',emoji:'🧚',art:'art/luna.png',lines:[
+   {who:'妖精ルナ',text:'「ねえ、ひとつだけ聞かせて。…どうして、こんな無謀な旅に出るの？」'}
+ ],opts:[
+   {label:'世界を救うため',bond:1,reply:[{who:'勇者',text:'「世界を、救いたいんだ」'},{who:'妖精ルナ',text:'「…まっすぐだね。そういう人、嫌いじゃない」'}]},
+   {label:'誰かに、信じてほしくて',bond:2,reply:[{who:'勇者',text:'「ただ、誰かに…信じてほしかったのかもしれない」'},{who:'妖精ルナ',text:'「……。じゃあ、私が信じる。最初の一人になる」'}]},
+   {label:'(答えず、ただ歩き出す)',bond:0,reply:[{who:'',text:'勇者は何も言わず、ただ前を見て歩き出した。'},{who:'妖精ルナ',text:'「…無口なんだ。ま、いっか。ついてく」'}]}
+ ]},
+ {type:'story',chapter:'第一章：旅立ち',emoji:'🏚️',art:'art/village.png',lines:[
+   {who:'',text:'最後の村。井戸端の老婆が、勇者にひとつの古い護符を握らせた。'},
+   {who:'老婆',text:'「これは、昔この村を出ていった勇者の忘れ形見でな。…あんたで、何人目だろうねえ」'},
+   {who:'老婆',text:'「ひとつだけ言っておく。魔王の道は、賢さでは越えられん。最後にものを言うのは——」'},
+   {who:'老婆',text:'「"それでも進む心"だけさ」'}
+ ]},
+ {type:'story',chapter:'第一章：旅立ち',emoji:'🌲',art:'art/forest.png',lines:[
+   {who:'',text:'村を出ると、森が四つに分かれていた。'},
+   {who:'妖精ルナ',text:'「言っておくね。——ここから先、"正解"は私にも視えない」'},
+   {who:'妖精ルナ',text:'「魔王の理。選ぶまで結末は決まらない。私が持ってるのは記憶じゃなくて、みんなの"想い"だけだから」'},
+   {who:'妖精ルナ',text:'「だから…ごめん。教えてあげられない。でも、あなたの選択を、私は誰より信じてる」'}
  ]},
  {type:'gate',chapter:'第一章：旅立ち',emoji:'🌲',art:'art/s1.png',lines:[
-   {who:'',text:'村を出てすぐ、森が四つに分かれていた。'},
-   {who:'妖精ルナ',text:'「二つは出口へ、二つは行き止まり。…勘を、信じて」'}
- ],opts:['木漏れ日の道','苔むした道','霧の道','獣道'],fT:'森の迷い子',fX:'選んだ道は行き止まり。勇者は森を彷徨い、二度と陽の下へ戻らなかった。'},
- {type:'gate',chapter:'第一章：旅立ち',emoji:'🐺',art:'art/s2.png',timed:true,lines:[
-   {who:'',text:'狼の群れ。低い唸りが、四方から近づく。'},
-   {who:'妖精ルナ',text:'「来る…！一瞬で決めて！」'}
- ],opts:['正面から斬る','木に登る','火を焚く','背を見せ逃げる'],fT:'牙にかかりて',fX:'選択は致命的だった。群れが旅の終わりを告げる。'},
- {type:'story',chapter:'第二章：語り部',emoji:'🧙',art:'art/old.png',lines:[
-   {who:'老兵',text:'「魔王に挑んだ勇者は、お前で…何人目だったかのう」'},
-   {who:'老兵',text:'「知っておるか。<b>魔王はかつて、最初の勇者だった</b>という伝説を」'},
-   {who:'老兵',text:'「誰にも救えなかった男が、絶望の果てに"確率"そのものになった、と…ただの噂じゃがな」'},
-   {who:'妖精ルナ',text:'「…っ」（ルナが、何か言いかけて口をつぐんだ）'}
+   {who:'',text:'二つは出口へ、二つは行き止まりへ。勘だけが頼り。'}
+ ],opts:['木漏れ日の道','苔むした道','霧の道','獣道'],fT:'森の迷い子',fX:'選んだ道は、底なしの霧の沼へ続いていた。勇者は森から、二度と出られなかった。'},
+ {type:'talk',chapter:'第一章：旅立ち',emoji:'🔥',art:'art/camp.png',lines:[
+   {who:'',text:'夜。小さな焚き火を囲む。ルナが火に手をかざす真似をした。'},
+   {who:'妖精ルナ',text:'「火、あったかそうでいいなあ。私、温度ってわからないんだ」'}
+ ],opts:[
+   {label:'隣に座って火を分ける',bond:2,reply:[{who:'',text:'勇者は火をルナのそばへ寄せた。'},{who:'妖精ルナ',text:'「……ふふ。気持ちだけ、あったかい。ありがと」'}]},
+   {label:'昔の勇者の話を聞く',bond:1,reply:[{who:'妖精ルナ',text:'「みんな、優しかったよ。誰かのために怒れる人ばっかり」'},{who:'妖精ルナ',text:'「…だから、悔しい。あと一歩だったのに、って」'}]},
+   {label:'黙って星を見る',bond:0,reply:[{who:'',text:'二人は何も言わず、同じ星を見上げていた。'},{who:'妖精ルナ',text:'「……こういうの、嫌いじゃないよ」'}]}
  ]},
- {type:'gate',chapter:'第二章：試練の地',emoji:'💎',art:'art/s3.png',lines:[
+ {type:'gate',chapter:'第一章：旅立ち',emoji:'🐺',art:'art/wolf.png',timed:true,lines:[
+   {who:'',text:'闇から、飢えた狼の群れ。低い唸りが四方を囲む。'},
+   {who:'妖精ルナ',text:'「来る…！考えてる暇はない、今すぐ動いて！」'}
+ ],opts:['正面から斬る','木に登る','火を投げる','背を見せ逃げる'],fT:'牙にかかりて',fX:'その一手は、致命的だった。群れが旅の終わりを告げる。'},
+ {type:'story',chapter:'第二章：流離いの者たち',emoji:'🧙',art:'art/old.png',lines:[
+   {who:'老兵',text:'「ほう、森を抜けたか。…なら聞かせてやろう。魔王の、本当の正体を」'},
+   {who:'老兵',text:'「あれはな、<b>はるか昔の、最初の勇者</b>だったという」'},
+   {who:'老兵',text:'「誰一人、あの男を信じてやれなかった。独りで魔王に挑み——独りで、堕ちた」'},
+   {who:'妖精ルナ',text:'「……」（ルナは、何か言いかけて、口をつぐんだ）'}
+ ]},
+ {type:'talk',chapter:'第二章：流離いの者たち',emoji:'🧙',art:'art/old.png',lines:[
+   {who:'老兵',text:'「何か、聞きたいことはあるかね」'}
+ ],opts:[
+   {label:'最初の勇者は、なぜ堕ちた？',bond:1,reply:[{who:'老兵',text:'「孤独さ。"誰も自分を信じない世界なら、いっそ全部運任せにしてやる"——そう願ったのだ、と」'}]},
+   {label:'勝った勇者はいないのか？',bond:0,reply:[{who:'老兵',text:'「8192分の1。…まだ、おらん。お前さんが最初になるかもしれんな」'}]},
+   {label:'(護符を握りしめる)',bond:1,reply:[{who:'',text:'手の中の護符が、かすかに温かい気がした。'},{who:'老兵',text:'「…その護符、お前さんを選んだのかもしれんな」'}]}
+ ]},
+ {type:'story',chapter:'第二章：流離いの者たち',emoji:'🧳',art:'art/kai.png',lines:[
+   {who:'',text:'廃道で、ひとりの旅人とすれ違う。フードの奥の目が、こちらを射抜いた。'},
+   {who:'旅人カイ',text:'「やめとけ。あの城に挑む奴は、みんな同じ顔で消えていく」'},
+   {who:'旅人カイ',text:'「俺も…昔は勇者だった。けど、途中で"降りた"。生きてるだけマシさ」'},
+   {who:'妖精ルナ',text:'「（…この人、戦って散ったわけじゃない。だから、私の中に居ない）」'}
+ ]},
+ {type:'talk',chapter:'第二章：流離いの者たち',emoji:'🧳',art:'art/kai.png',lines:[
+   {who:'旅人カイ',text:'「忠告だ。引き返すなら、今だぜ。…で、どうする？」'}
+ ],opts:[
+   {label:'それでも行く、と告げる',bond:1,reply:[{who:'勇者',text:'「それでも、行く」'},{who:'旅人カイ',text:'「…っ。はは。眩しいねえ、その目。…達者でな」'}]},
+   {label:'なぜ降りた？と問う',bond:1,reply:[{who:'旅人カイ',text:'「最後の選択で、信じきれなかった。"どうせ運なら"ってな。…後悔は、してるさ」'}]},
+   {label:'何も言わず先へ進む',bond:0,reply:[{who:'旅人カイ',text:'「…無視かよ。ま、いい。せいぜい、後悔しないようにな」'}]}
+ ]},
+ {type:'gate',chapter:'第三章：試練の地',emoji:'💎',art:'art/cave.png',lines:[
    {who:'',text:'洞窟の壁に、四色の鉱脈が脈打つように光る。'},
-   {who:'妖精ルナ',text:'「綺麗…でも半分は魔石の罠。触れれば石になる」'}
+   {who:'妖精ルナ',text:'「半分は魔石の罠。触れれば石になる。…これも、視えない。ごめんね」'}
  ],opts:['青の鉱石','赤の鉱石','緑の鉱石','金の鉱石'],fT:'偽りの輝き',fX:'それは魔石だった。石化の呪いが、勇者を静かな彫像に変えた。'},
- {type:'gate',chapter:'第二章：試練の地',emoji:'⛲',art:'art/s4.png',lines:[
+ {type:'gate',chapter:'第三章：試練の地',emoji:'⛲',art:'art/lake.png',lines:[
    {who:'',text:'底の見えない地底湖。対岸に、出口の光が滲む。'}
  ],opts:['岩を伝う','泳いで渡る','氷の上を行く','蔓を伝う'],fT:'湖の底に',fX:'冷たい水が勇者を引き込んだ。光は、もう届かない。'},
- {type:'gate',chapter:'第三章：賭けの夜',emoji:'🃏',art:'art/s5.png',lines:[
-   {who:'賭博師',text:'「橋を渡りたくば賭けろ。四枚のうち、"運命の札"は二枚だ」'},
-   {who:'妖精ルナ',text:'「この男…魔王の気配がする。気をつけて」'}
- ],opts:['太陽の札','月の札','星の札','嵐の札'],fT:'橋からの転落',fX:'番人は嗤った。「運が無かったな」。橋は音もなく崩れ落ちた。'},
- {type:'story',chapter:'第三章：ルナの告白',emoji:'🧚',art:'art/luna.png',lines:[
-   {who:'妖精ルナ',text:'「ねえ。…そろそろ、話しておくね」'},
-   {who:'妖精ルナ',text:'「私は妖精じゃない。<b>魔王に挑んで散った、8191人の勇者たちの想い</b>——その集まりなの」'},
-   {who:'妖精ルナ',text:'「みんな、あと一歩だった。だから今度こそ、あなたに勝ってほしい」'},
-   {who:'妖精ルナ',text:'「8192分の1。…その"1"に、なって」'}
+ {type:'story',chapter:'第三章：ルナの真実',emoji:'🧚',art:'art/luna.png',lines:[
+   {who:'妖精ルナ',text:'「ねえ。…そろそろ、本当のこと、話すね」'},
+   {who:'妖精ルナ',text:'「私は妖精じゃない。<b>魔王に挑んで散った、8191人の勇者の"想い"</b>——その集まりなの」'},
+   {who:'妖精ルナ',text:'「でも、覚えてるのは"気持ち"だけ。"こうすれば勝てた"なんて記憶は、誰も持って来られなかった」'},
+   {who:'妖精ルナ',text:'「だから私は、答えを言えない。…ただ、信じることだけは、8191人ぶん、できる」'},
+   {who:'妖精ルナ',text:'「あなたに、その"1"になってほしい。みんなの想いごと、勝ってほしいの」'}
  ]},
- {type:'gate',chapter:'第四章：魔王城',emoji:'🎲',art:'art/s6.png',timed:true,lines:[
+ {type:'talk',chapter:'第三章：ルナの真実',emoji:'🧚',art:'art/luna.png',lines:[
+   {who:'勇者',text:'「ルナは…怖くないのか。また、負けるのが」'}
+ ],opts:[
+   {label:'「君は一人じゃない」と伝える',bond:2,reply:[{who:'勇者',text:'「大丈夫。今度は、君は一人じゃない」'},{who:'妖精ルナ',text:'「……。うん。……うん！」'}]},
+   {label:'「一緒に終わらせよう」',bond:2,reply:[{who:'勇者',text:'「この長い夜を、一緒に終わらせよう」'},{who:'妖精ルナ',text:'「…ずるい。そんなの、頑張るしかないじゃない」'}]},
+   {label:'(そっと手を差し出す)',bond:1,reply:[{who:'',text:'勇者は、手のひらを上に向けて差し出した。ルナがそっと、その上に降りる。'},{who:'妖精ルナ',text:'「…あったかい、気がする。今だけ、特別に」'}]}
+ ]},
+ {type:'gate',chapter:'第四章：賭けの夜',emoji:'🃏',art:'art/gambler.png',lines:[
+   {who:'賭博師',text:'「橋を渡りたくば賭けろ。四枚のうち、"運命の札"は二枚だ」'},
+   {who:'妖精ルナ',text:'「この男…魔王の匂いがする。気をつけて」'}
+ ],opts:['太陽の札','月の札','星の札','嵐の札'],fT:'橋からの転落',fX:'番人は嗤った。「運が無かったな」。橋は音もなく崩れ落ちた。'},
+ {type:'story',chapter:'第四章：賭けの夜',emoji:'🃏',art:'art/gambler.png',lines:[
+   {who:'賭博師',text:'「ふん、運がいいな。…だがな、勇者よ」'},
+   {who:'賭博師',text:'「俺は魔王さまの"欠片"。あの方の絶望が、こうして方々で札を配ってる」'},
+   {who:'賭博師',text:'「世界中が、もう"運次第"なのさ。努力も、祈りも、全部ね」'}
+ ]},
+ {type:'talk',chapter:'第四章：賭けの夜',emoji:'👻',art:'art/child.png',lines:[
+   {who:'',text:'橋のたもとで、賭けに負けた子供の魂が、すすり泣いていた。'},
+   {who:'賭博師',text:'「そいつも"運が無かった"だけだ。…で、勇者さま。どうする？」'}
+ ],opts:[
+   {label:'自分の幸運を分け与える',bond:2,stance:'kind',reply:[{who:'',text:'勇者は護符を子供の魂にかざした。淡い光が、魂を空へ還した。'},{who:'妖精ルナ',text:'「…あなた、そういう人なんだね」'}]},
+   {label:'今は先を急ぐしかない',bond:0,stance:'cold',reply:[{who:'',text:'唇を噛み、勇者は前へ進んだ。背中で、泣き声が遠ざかる。'},{who:'妖精ルナ',text:'「……仕方ない、よね。…うん」'}]}
+ ]},
+ {type:'gate',chapter:'第四章：賭けの夜',emoji:'🎲',art:'art/dice.png',timed:true,lines:[
    {who:'賭博師',text:'「最後の余興だ。四つの賽、当たりは二つ。今すぐ選べ」'}
  ],opts:['一の賽','二の賽','三の賽','四の賽'],fT:'賽の目に泣く',fX:'賽は無情に転がった。城を前に、勇者の旅は途切れた。'},
- {type:'gate',chapter:'第四章：魔王城',emoji:'🏰',art:'art/s7.png',lines:[
+ {type:'story',chapter:'第五章：魔王城',emoji:'🏰',art:'art/castle.png',lines:[
+   {who:'',text:'霧の果てに、魔王城がそびえていた。空気が、重い。'},
+   {who:'妖精ルナ',text:'「…ここ、何度も来た。8191回。…全部、ここで、終わった」'},
+   {who:'妖精ルナ',text:'「ごめん、私…少し、怖い」'}
+ ]},
+ {type:'talk',chapter:'第五章：魔王城',emoji:'🤝',art:'art/castle.png',lines:[
+   {who:'',text:'ルナの光が、かすかに震えていた。'}
+ ],opts:[
+   {label:'「今度は最後まで一緒だ」',bond:2,reply:[{who:'勇者',text:'「大丈夫。今度は、最後まで一緒にいる」'},{who:'妖精ルナ',text:'「……うん。信じる。あなたを、信じる」'}]},
+   {label:'「8191人の分も、背負う」',bond:2,reply:[{who:'勇者',text:'「君の中のみんなの分も、背負って行く」'},{who:'妖精ルナ',text:'「…重いよ、それ。でも——ありがとう」'}]},
+   {label:'(無言で、城へ踏み出す)',bond:0,reply:[{who:'',text:'勇者は迷わず、城門へ足を踏み出した。ルナが慌ててついていく。'}]}
+ ]},
+ {type:'gate',chapter:'第五章：魔王城',emoji:'🚪',art:'art/doors.png',lines:[
    {who:'',text:'玉座へ続く扉は、四つ。'},
    {who:'妖精ルナ',text:'「本物は二つ。残りは…牢獄に繋がってる」'}
  ],opts:['鉄の扉','金の扉','銀の扉','黒曜の扉'],fT:'扉の向こうの牢',fX:'扉の先は地下牢。勇者は鎖に繋がれ、声も届かなくなった。'},
- {type:'gate',chapter:'第四章：魔王城',emoji:'🔥',art:'art/s8.png',lines:[
+ {type:'gate',chapter:'第五章：魔王城',emoji:'🔥',art:'art/hall.png',lines:[
    {who:'',text:'玉座の間へ続く、四筋の炎の回廊。'},
-   {who:'妖精ルナ',text:'「安全なのは二筋だけ。…信じて選んで」'}
+   {who:'妖精ルナ',text:'「安全なのは二筋だけ。…最後まで、信じて」'}
  ],opts:['蒼炎の道','紅炎の道','白炎の道','黒炎の道'],fT:'炎に焼かれて',fX:'炎が勇者を捉えた。玉座は、もう目の前だったのに。'},
- {type:'story',chapter:'最終章：玉座',emoji:'👤',art:'art/throne.png',lines:[
-   {who:'魔王',text:'「よく来た。8192分の1を、くぐり抜けてきたか」'},
-   {who:'魔王',text:'「教えてやろう。私はかつて——<b>最初の勇者</b>だった」'},
-   {who:'魔王',text:'「誰も私を救わなかった。だから私は、すべてを"運"に委ねた。努力も、想いも、無意味だと証明するために」'},
-   {who:'妖精ルナ',text:'「…ううん。みんな、あなたを諦めてなかった。私が——その証拠だよ」'},
-   {who:'魔王',text:'「黙れ。…さあ、最後の賭けだ。我が"核"を、見抜けるか！」'}
+ {type:'story',chapter:'最終章：玉座の孤独',emoji:'👤',art:'art/throne.png',lines:[
+   {who:'魔王',text:'「——よくぞ、ここまで。8192分の1を、くぐり抜けてきたか」'},
+   {who:'魔王',text:'「教えてやろう。私はかつて、<b>最初の勇者</b>だった」'},
+   {who:'魔王',text:'「誰も私を信じなかった。妖精もいない。仲間もいない。独りで挑み、独りで負けた」'},
+   {who:'魔王',text:'「だから願ったのだ。"努力も想いも無意味だ"と。世界よ、すべて運に堕ちろ、と」'},
+   {who:'妖精ルナ',text:'「（…この人だ。みんなが、ずっと——"助けたかった"のは）」'}
  ]},
- {type:'gate',chapter:'最終決戦',emoji:'👹',art:'art/s9.png',timed:true,boss:true,lines:[
-   {who:'魔王',text:'「四つのうち、真の核は二つ。当ててみせろ、勇者！」'},
-   {who:'妖精ルナ',text:'「あなたなら、できる。私たち8191人が、背中を押す！」'}
- ],opts:['頭上の王冠','胸の核','右手の杖','足元の影'],fT:'核を逸れて',fX:'刃は核を逸れた。魔王の哄笑が響く。8192分の1は、今回も微笑まなかった。'}
+ {type:'talk',chapter:'最終章：玉座の孤独',emoji:'👤',art:'art/throne.png',lines:[
+   {who:'魔王',text:'「さあ、剣を抜け。お前も、運に賭けるしかないのだから」'}
+ ],opts:[
+   {label:'「あなたを、救いに来た」',bond:0,stance:'save',reply:[{who:'勇者',text:'「僕は…あなたを、救いに来た」'},{who:'魔王',text:'「……何を、馬鹿なことを」（その声が、一瞬だけ揺れた）'}]},
+   {label:'「あなたは、独りじゃない」',bond:0,stance:'save',reply:[{who:'勇者',text:'「もう、独りじゃない。ここに、8191人の想いがいる」'},{who:'魔王',text:'「…やめろ。今さら、そんな……」'}]},
+   {label:'「世界のために、倒す」',bond:0,stance:'slay',reply:[{who:'勇者',text:'「悪いが——世界のために、ここで終わらせる」'},{who:'魔王',text:'「ふん。それでいい。それが、勇者というものだ」'}]}
+ ]},
+ {type:'story',chapter:'最終章：最後の光',emoji:'✨',art:'art/finale.png',lines:[
+   {who:'妖精ルナ',text:'「みんな、聞こえる？　…あの人を、まだ諦めてない人——手を貸して」'},
+   {who:'',text:'ルナを形作る8191の光が、いっせいに勇者の剣へ集まっていく。'},
+   {who:'魔王',text:'「無駄だ。…最後の最後も、結局は"運"。お前にも、視えはしまい！」'}
+ ]},
+ {type:'gate',chapter:'最終決戦',emoji:'👹',art:'art/boss.png',timed:true,boss:true,lines:[
+   {who:'魔王',text:'「我が核は四つのうち、二つ。当ててみせろ、最後の勇者！」'},
+   {who:'妖精ルナ',text:'「あなたなら、できる。…私たちが、視えなくても——信じてる！」'}
+ ],opts:['王冠の核','胸の核','杖の核','影の核'],fT:'核を、逸れて',fX:'刃は核を逸れた。哄笑が響く。8192分の1は、今回も微笑まなかった。'}
 ];
 const N=SCENES.length;
-const GATES=SCENES.reduce((a,s)=>a+(s.type==='gate'?1:0),0);
+const GATES=SCENES.filter(s=>s.type==='gate').length;
 
 // ---------- state ----------
-let depth=0,lineIdx=0,runStart=0,busy=false,choices=[],correctSet=[];
-let timerId=null,timeLeft=0;
+let depth=0,runStart=0,busy=false,choices=[],correctSet=[],bond=0,stance='';
+let timerId=null,timeLeft=0,lw={arr:[],idx:0,done:null};
 let attempts=+(localStorage.getItem('h8_attempts')||0);
 let clears=+(localStorage.getItem('h8_clears')||0);
 let bestMiss=localStorage.getItem('h8_bestmiss')!==null?+localStorage.getItem('h8_bestmiss'):99;
 
 // ---------- dom ----------
 const $=id=>document.getElementById(id);
-const stage=$('stage'),cmds=$('cmds'),pipsEl=$('pips'),pipcap=$('pipcap'),timerEl=$('timer'),timerBar=$('timerBar'),timerNum=$('timerNum');
+const stage=$('stage'),cmds=$('cmds'),prob=$('prob'),pipsEl=$('pips'),pipcap=$('pipcap'),timerEl=$('timer'),timerBar=$('timerBar'),timerNum=$('timerNum');
 function fmt(n){ return n.toLocaleString('en-US'); }
 function ri(n){ return Math.floor(Math.random()*n); }
 function pickSet(n,k){ const idx=[...Array(n).keys()]; for(let i=n-1;i>0;i--){const j=ri(i+1);const t=idx[i];idx[i]=idx[j];idx[j]=t;} return idx.slice(0,k).sort((a,b)=>a-b); }
-function buildPips(){ pipsEl.innerHTML=''; for(let i=0;i<N;i++){const d=document.createElement('div');d.className='pip';pipsEl.appendChild(d);} }
-function renderHud(){ const f=SCENES[depth]; pipcap.textContent=f?f.chapter:''; const ps=pipsEl.children; for(let i=0;i<ps.length;i++) ps[i].className='pip'+(i<depth?' on':(i===depth?' now':'')); }
-function setCmds(items,cls){ cmds.className='cmds'+(cls?(' '+cls):''); cmds.innerHTML=''; items.forEach(it=>{ const b=document.createElement('button'); b.className='cmd'+(it.primary?' primary':''); b.innerHTML=it.html; if(it.dis)b.disabled=true; b.onclick=()=>{ initAudio(); if(AC&&AC.state==='suspended')AC.resume(); it.fn(); }; cmds.appendChild(b); }); }
+function buildPips(){ pipsEl.innerHTML=''; for(let i=0;i<N;i++){const d=document.createElement('div');d.className='pip'+(SCENES[i].type==='gate'?' gate':'');pipsEl.appendChild(d);} }
+function hearts(b){ const full=Math.max(0,Math.min(5,Math.round(b/2))); return '♥'.repeat(full)+'♡'.repeat(5-full); }
+function renderHud(){ prob.textContent=hearts(bond); const f=SCENES[depth]; pipcap.textContent=f?f.chapter:''; const ps=pipsEl.children; for(let i=0;i<ps.length;i++){ const g=SCENES[i].type==='gate'?' gate':''; ps[i].className='pip'+g+(i<depth?' on':(i===depth?' now':'')); } }
+function setCmds(items,cls){ cmds.className='cmds'+(cls?(' '+cls):''); cmds.innerHTML=''; items.forEach(it=>{ const b=document.createElement('button'); b.className='cmd'+(it.primary?' primary':'')+(it.talk?' talkopt':''); if(it.center)b.setAttribute('data-c','1'); b.innerHTML=it.html; if(it.dis)b.disabled=true; b.onclick=()=>{ initAudio(); if(AC&&AC.state==='suspended')AC.resume(); it.fn(); }; cmds.appendChild(b); }); }
 function startTimer(onExpire){ clearTimer(); timeLeft=QTE_TIME; timerEl.classList.add('on'); updateTimerUI(); timerId=setInterval(()=>{ timeLeft-=0.1; if(timeLeft<=3.05 && Math.abs(timeLeft%1)<0.06) sfxTick(); if(timeLeft<=0){ clearTimer(); onExpire(); } else updateTimerUI(); },100); }
 function clearTimer(){ if(timerId){clearInterval(timerId);timerId=null;} timerEl.classList.remove('on'); }
 function updateTimerUI(){ const r=Math.max(0,timeLeft/QTE_TIME); timerBar.style.width=(r*100)+'%'; timerBar.className='timer-bar'+(timeLeft<=3?' warn':''); timerNum.textContent='⏱ '+Math.ceil(Math.max(0,timeLeft))+'秒'; }
 function sceneArt(f){ return '<div class="artfb">'+(f.emoji||'⚔️')+'</div>'+(f.art?'<img class="art" src="'+f.art+'" alt="" onerror="this.remove()">':'')+'<div class="grad"></div>'; }
 function lineHtml(l){ return (l.who?'<span class="who">'+l.who+'</span>':'')+l.text; }
 
-// ---------- screens ----------
+// ----- line walker (tap to advance) -----
+function walk(lines,onDone){ lw={arr:lines,idx:0,done:onDone}; showLW(); }
+function showLW(){
+  const m=$('msg'); if(!m){ if(lw.done)lw.done(); return; }
+  m.innerHTML=lineHtml(lw.arr[lw.idx]); m.classList.remove('fade'); void m.offsetWidth; m.classList.add('fade');
+  const last=lw.idx>=lw.arr.length-1;
+  if(!last){
+    m.classList.add('tapnext'); m.insertAdjacentHTML('beforeend','<span class="next-ind">▼ タップ</span>');
+    m.onclick=()=>{ sfxBlip(); m.onclick=null; lw.idx++; showLW(); };
+    setCmds([{html:'▼ つぎへ',center:true,fn:()=>{ sfxBlip(); lw.idx++; showLW(); }}],'one');
+  } else { m.classList.remove('tapnext'); m.onclick=null; if(lw.done) lw.done(); }
+}
+
+// ----- flow -----
 function showTitle(){
-  clearTimer(); depth=0;busy=false;choices=[]; stage.classList.remove('scroll'); renderHud(); pipcap.textContent='プロローグ';
-  const missTxt = bestMiss>=99?'まだ無し':(bestMiss===0?'真エンド到達👑':('真エンドまであと'+bestMiss+'択'));
+  clearTimer(); depth=0;busy=false;choices=[];bond=0;stance=''; stage.classList.remove('scroll'); renderHud(); pipcap.textContent='プロローグ';
+  const missTxt = bestMiss>=99?'まだ無し':(bestMiss===0?'真エンド到達👑':('真エンドまで あと'+bestMiss+'択'));
   stage.innerHTML='<div class="scene" id="scene">'+sceneArt({emoji:'🌙',art:'art/title.png'})+'</div><div class="msg" id="msg"></div>';
   $('scene').insertAdjacentHTML('beforeend','<div style="position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px;gap:6px">'
     +'<div class="title-h">8192分の1の</div><div class="title-num">勇者</div>'
-    +'<div class="title-sub" style="color:#e7ebff">妖精ルナと往く、運命に抗う物語。<br>関門を選び抜き、<b style="color:#ffd23f">真エンド＝8192分の1の奇跡</b>へ。</div></div>');
+    +'<div class="title-sub" style="color:#e7ebff">妖精ルナと往く、運命に抗う物語。<br>会話で<b style="color:#b06bff">絆</b>を、関門で<b style="color:#ffd23f">運命</b>を選び抜け。</div></div>');
   $('msg').innerHTML='<div style="text-align:center"><div class="stat-row" style="justify-content:center">'
     +'<div class="stat"><div class="k">ベスト</div><div class="v gold">'+missTxt+'</div></div>'
     +'<div class="stat"><div class="k">挑戦回数</div><div class="v">'+fmt(attempts)+'</div></div>'
@@ -206,64 +311,49 @@ function showTitle(){
 }
 function startRun(){
   attempts++; localStorage.setItem('h8_attempts',attempts);
-  depth=0;busy=false;choices=[];runStart=Date.now(); stage.classList.remove('scroll');
+  depth=0;busy=false;choices=[];bond=0;stance='';runStart=Date.now(); stage.classList.remove('scroll');
   correctSet=SCENES.map(sc=> sc.type==='gate'?pickSet(sc.opts.length,CORRECT_PER):null);
   renderHud(); sfxStep(); enterScene();
 }
 function enterScene(){
-  busy=false; lineIdx=0;
+  busy=false;
   const f=SCENES[depth];
+  const tag = f.type==='gate'?(f.timed?'⏱ 制限時間':'運命の関門'):(f.type==='talk'?'会話':'物語');
+  const bcls = f.timed?' qte':(f.type==='talk'?' talk':'');
   stage.innerHTML='<div class="scene" id="scene">'+sceneArt(f)
-    +'<div class="acttag">'+f.chapter+'</div>'
-    +'<div class="badge'+(f.timed?' qte':'')+'">'+(f.timed?'⏱ 制限時間':(f.type==='gate'?'運命の選択':'物語'))+'</div>'
+    +'<div class="acttag">'+f.chapter+'</div><div class="badge'+bcls+'">'+tag+'</div>'
     +'</div><div class="msg" id="msg"></div>';
-  showLine();
+  walk(f.lines, ()=>afterLines(f));
 }
-function showLine(){
-  const f=SCENES[depth];
-  const m=$('msg');
-  m.innerHTML=lineHtml(f.lines[lineIdx]);
-  m.classList.remove('fade'); void m.offsetWidth; m.classList.add('fade');
-  const last = lineIdx>=f.lines.length-1;
-  if(!last){
-    m.classList.add('tapnext'); m.insertAdjacentHTML('beforeend','<span class="next-ind">▼ タップ</span>');
-    m.onclick=()=>{ sfxBlip(); lineIdx++; m.onclick=null; showLine(); };
-    setCmds([{html:'▼ つぎへ',fn:()=>{ sfxBlip(); lineIdx++; showLine(); }}],'one');
-  } else {
-    m.classList.remove('tapnext'); m.onclick=null;
-    presentChoices(f);
-  }
-}
-function presentChoices(f){
-  if(f.type==='story'){
-    const isLast = depth>=N-1;
-    setCmds([{html:isLast?'…':'▶ 進む',primary:true,fn:()=>advance()}],'one');
-    return;
-  }
+function afterLines(f){
+  if(f.type==='story'){ setCmds([{html:(depth>=N-1?'…':'▶ 進む'),primary:true,center:true,fn:advance}],'one'); return; }
+  if(f.type==='talk'){ setCmds(f.opts.map(o=>({html:o.label,talk:true,fn:()=>pickTalk(f,o)})),'talk'); return; }
   // gate
-  setCmds(f.opts.map((o,i)=>({html:o,fn:()=>choose(i)})));
+  setCmds(f.opts.map((o,i)=>({html:o,center:true,fn:()=>choose(i)})));
   if(f.timed){ startTimer(()=>{ const i=ri(f.opts.length); $('msg').innerHTML='<span class="ng">時間切れ！</span> 勇者は迷い、とっさに動いた——'; setTimeout(()=>choose(i,true),450); }); }
+}
+function pickTalk(f,o){
+  sfxTalk(); if(o.bond) bond+=o.bond; if(o.stance) stance=o.stance; renderHud();
+  setCmds([{html:'…',dis:true,fn:()=>{}}],'one');
+  walk(o.reply||[{who:'',text:'…'}], ()=>{ setCmds([{html:(depth>=N-1?'…':'▶ 進む'),primary:true,center:true,fn:advance}],'one'); });
 }
 function advance(){ depth++; if(depth>=N){ finish(); return; } sfxStep(); enterScene(); }
 function choose(idx,timeout){
   if(busy) return; busy=true; clearTimer(); sfxPick();
   const f=SCENES[depth], set=correctSet[depth], correct=set.indexOf(idx)>=0;
   choices.push({i:depth, chosen:f.opts[idx], correctLabels:set.map(k=>f.opts[k]), correct:correct});
-  setCmds(f.opts.map(()=>({html:'…',dis:true,fn:()=>{}})));
-  if(!timeout) $('msg').innerHTML='「'+f.opts[idx]+'」——勇者は、道を選んだ。';
-  setTimeout(()=>{ depth++; if(depth>=N){ finish(); return; } sfxStep(); enterScene(); }, timeout?600:680);
+  setCmds(f.opts.map(()=>({html:'…',center:true,dis:true,fn:()=>{}})));
+  if(!timeout) $('msg').innerHTML='「'+f.opts[idx]+'」——勇者は、運命を選んだ。';
+  setTimeout(()=>{ depth++; if(depth>=N){ finish(); return; } sfxStep(); enterScene(); }, timeout?650:720);
 }
 function finish(){
   let firstWrong=-1, miss=0;
-  for(const c of choices){ if(!c.correct){ miss++; if(firstWrong<0) firstWrong=SCENES.indexOf(SCENES[c.i]); } }
-  // firstWrong as scene index of first wrong gate
-  firstWrong=-1;
-  for(const c of choices){ if(!c.correct){ firstWrong=c.i; break; } }
+  for(const c of choices){ if(!c.correct){ miss++; if(firstWrong<0) firstWrong=c.i; } }
   if(miss<bestMiss){ bestMiss=miss; localStorage.setItem('h8_bestmiss',bestMiss); }
   if(firstWrong<0) win(); else lose(firstWrong);
 }
 
-// ---------- flowchart ----------
+// ----- flowchart -----
 function buildFlow(firstWrong){
   let h='<div class="flowwrap"><div class="flowhead">― 運命のフローチャート ―</div><div class="flow">';
   choices.forEach(c=>{
@@ -276,25 +366,21 @@ function buildFlow(firstWrong){
   });
   const reached=firstWrong<0;
   h+='<div class="fnode '+(reached?'goal':'die')+'"><div class="ficon">'+(reached?'👑':'👹')+'</div><div class="fbody">'
-    +'<span class="ft">'+(reached?'魔王 ザ・プロバビリティ 討伐':'魔王 ザ・プロバビリティ')+'</span>'
-    +'<span class="fnote '+(reached?'win':'die')+'">'+(reached?'8192分の1の奇跡に到達！':'未討伐')+'</span></div></div>';
+    +'<span class="ft">魔王 ザ・プロバビリティ</span><span class="fnote '+(reached?'win':'die')+'">'+(reached?'8192分の1の真エンドに到達！':'未討伐')+'</span></div></div>';
   return h+'</div></div>';
 }
 function lose(firstWrong){
   busy=false; sfxFail();
-  const end=SCENES[firstWrong];
-  const miss=choices.filter(c=>!c.correct).length;
+  const end=SCENES[firstWrong]; const miss=choices.filter(c=>!c.correct).length;
   $('msg').innerHTML='<span class="ng">物語は、終わった。</span> 真実を確かめよう——';
   setTimeout(()=>{
     stage.classList.add('scroll');
     stage.innerHTML='<div class="center fade" style="padding-bottom:2px">'
-      +'<div class="ending-tag">BAD END</div>'
-      +'<div style="font-size:48px">💀</div>'
+      +'<div class="ending-tag">BAD END</div><div style="font-size:46px">💀</div>'
       +'<div style="font-size:20px;font-weight:900;color:#ff5c7a">'+end.fT+'</div>'
-      +'<div class="title-sub">'+end.fX+'<br>運命が分かれたのは <b>「'+end.chapter+'」</b>。あと <b>'+miss+'</b> 択、当たりを選べていれば。</div>'
-      +'<div class="stat-row">'
-      +'<div class="stat"><div class="k">挑戦回数</div><div class="v gold">'+fmt(attempts)+'</div></div>'
-      +'<div class="stat"><div class="k">惜しさ</div><div class="v">あと'+miss+'択</div></div></div>'
+      +'<div class="title-sub">'+end.fX+'<br>運命が分かれたのは <b>「'+end.chapter+'」</b>。あと <b>'+miss+'</b> 択、当たれば真の結末だった。</div>'
+      +'<div class="stat-row"><div class="stat"><div class="k">挑戦回数</div><div class="v gold">'+fmt(attempts)+'</div></div>'
+      +'<div class="stat"><div class="k">ルナとの絆</div><div class="v">'+hearts(bond)+'</div></div></div>'
       +'<div style="font-size:13px;color:#b06bff;font-weight:700;margin-top:6px">ルナ「…まだ。まだ、終わってない。もう一度、運命を」</div></div>'
       +buildFlow(firstWrong);
     setCmds([{html:'⚔ もう一度（'+fmt(attempts+1)+'回目）',primary:true,fn:startRun},{html:'タイトルへ',fn:showTitle}]);
@@ -303,15 +389,26 @@ function lose(firstWrong){
 function win(){
   busy=false; clears++; localStorage.setItem('h8_clears',clears); sfxWin();
   const secs=Math.max(1,Math.round((Date.now()-runStart)/1000)),mm=Math.floor(secs/60),ss=secs%60;
+  // 結末分岐：stance(救う/倒す) × 絆
+  let etag,story;
+  if(stance==='slay'){
+    etag='TRUE END ― 討ち果たす者';
+    story='勇者の刃が、核を撃ち抜いた。最初の勇者は、安堵にも似た顔で崩れていく。「これで…やっと、終われる」。世界から理不尽な"運次第"は消えた。だが玉座には、誰も救えなかった男の、小さな灰だけが残った。';
+  } else {
+    etag='TRUE END ― 確率を覆した者';
+    story='勇者は剣を収め、代わりに手を差し伸べた。8191の光が、最初の勇者をそっと包む。「…ずっと、誰かに、こうして欲しかったのか」。彼の頬を、何千年ぶりかの涙が伝う。確率の呪いが解け、努力と想いが報われる朝が、世界に還った。';
+  }
+  if(bond>=8) story+='<br><br>ルナの光が、ほどけていく。「ありがとう。あなたのおかげで、8191人、やっと眠れる」。最後に彼女は、確かに"温かい"と笑った。';
+  else if(bond>=4) story+='<br><br>ルナ「…やったね。本当に、やったね」。その声は、もう震えていなかった。';
+  else story+='<br><br>ルナ「…さよなら、勇者。あなたのこと、忘れない」。光は静かに、空へ還った。';
   stage.classList.add('scroll');
   stage.innerHTML='<div class="center fade" style="padding-bottom:2px">'
-    +'<div class="ending-tag" style="color:#ffd23f">TRUE END ― 確率を覆した者</div>'
-    +'<div style="font-size:54px">👑</div><div class="title-h">運命に、勝った。</div>'
-    +'<div class="title-sub">核を撃ち抜かれた魔王は、最初の勇者の顔で微笑んだ。「…そうか。誰かが、最後まで信じてくれたのか」<br>ルナを形作っていた8191の光が、勇者にそっと溶けていく。「ありがとう。あなたが、8192分の1だよ」<br>世界から理不尽な"運次第"が消え、努力と想いが報われる朝が訪れた。</div>'
-    +'<div class="stat-row">'
-    +'<div class="stat"><div class="k">クリア時の挑戦</div><div class="v gold">'+fmt(attempts)+'回目</div></div>'
+    +'<div class="ending-tag" style="color:#ffd23f">'+etag+'</div>'
+    +'<div style="font-size:52px">👑</div><div class="title-h">運命に、勝った。</div>'
+    +'<div class="title-sub">'+story+'</div>'
+    +'<div class="stat-row"><div class="stat"><div class="k">クリア時の挑戦</div><div class="v gold">'+fmt(attempts)+'回目</div></div>'
     +'<div class="stat"><div class="k">所要</div><div class="v">'+mm+'分'+ss+'秒</div></div>'
-    +'<div class="stat"><div class="k">真エンド到達</div><div class="v">'+fmt(clears)+'</div></div></div>'
+    +'<div class="stat"><div class="k">ルナとの絆</div><div class="v">'+hearts(bond)+'</div></div></div>'
     +'<div style="font-size:13px;color:#ffd23f;font-weight:800;margin-top:6px">🎉 累計 '+fmt(attempts)+' 回目で、この物語を引き当てた。</div></div>'
     +buildFlow(-1);
   const share='「8192分の1の勇者」で真エンドに到達！🎉 '+attempts+'回目の挑戦で確率を覆した。あなたは何回で辿り着ける？ #8192分の1の勇者 #やまむー';
