@@ -190,31 +190,58 @@ let bestLv=+(localStorage.getItem('h8_bestlv')||0);
 
 // ===== journey =====
 const JOURNEY=[
- {type:'class'},
  {type:'story',loc:'始まりの村',emoji:'🏘️',lines:[
-   {who:'ギルド長',text:'「魔王を倒せる勇者は8192年に一度…倒せる確率は<b>8192分の1</b>と言われる」'},
-   {who:'ギルド長',text:'「だが、その確率は道中の備えで動く。よく戦い、よく選べ」'}
+   {who:'',text:'——8192年に一度、世界の理(ことわり)が歪み、ひとつの魔王が目を覚ます。'},
+   {who:'',text:'その名は<b>ザ・プロバビリティ</b>。努力も祈りも、すべてを"運次第"に書き換える、確率の魔王。'},
+   {who:'',text:'だから言い伝えは囁く。『勇者が魔王を倒せる確率は、<b>8192分の1</b>』と。'},
+   {who:'妖精ルナ',text:'「——あなたが、次の挑戦者ね。私はルナ。最後まで付き添う妖精よ」'},
+   {who:'妖精ルナ',text:'「無謀なのは分かってる。でも確率は、"備え"で動かせる。よく戦って、よく選んで」'},
+   {who:'妖精ルナ',text:'「さあ、まずは——あなたが何者かを、決めて」'}
  ]},
- {type:'battle',enemy:'goblin',loc:'平原',flee:true,intro:[{who:'',text:'平原でゴブリンが襲ってきた。'}]},
+ {type:'class'},
+ {type:'story',loc:'旅立ち',emoji:'🌅',lines:[
+   {who:'妖精ルナ',text:'「いい目をしてる。…魔王城は遥か北。道中の戦いが、あなたを鍛えるわ」'},
+   {who:'',text:'※ 戦闘で経験値→レベルUP・装備や薬で強くなる。寄り道の選択で勝率が上下する。'}
+ ]},
+ {type:'battle',enemy:'goblin',loc:'平原',flee:true,intro:[
+   {who:'',text:'平原に出てすぐ、ゴブリンが牙を剥いた。'},
+   {who:'妖精ルナ',text:'「肩慣らしね。…いける？」'}
+ ]},
  {type:'choice',loc:'分かれ道',emoji:'🪧',prompt:'二つの道。鍛えて行くか、備えて行くか。',options:[
    {label:'山道で訓練する',sub:'レベル+1（攻撃・HP↑）',apply:{level:1},res:[{who:'',text:'険しい山道で魔物と打ち合い、腕を上げた。<b>レベルが上がった</b>。'}]},
    {label:'近道で薬草を集める',sub:'回復薬+1（粘りUP）',apply:{potions:1},res:[{who:'',text:'近道沿いで薬草を摘み、回復薬を補充した。<b>ポーション+1</b>。'}]}
  ]},
- {type:'choice',loc:'鍛冶屋',emoji:'⚒️',prompt:'鍛冶屋。装備を一つだけ整えられる。',options:[
-   {label:'鋭い剣を買う',sub:'攻撃+7（有利）',apply:{weapon:1},res:[{who:'',text:'よく斬れる剣を手に入れた。<b>攻撃が上がった</b>。'}]},
-   {label:'頑丈な鎧を買う',sub:'防御+3 HP+14（有利）',apply:{armor:1},res:[{who:'',text:'頑丈な鎧を身につけた。<b>守りが固くなった</b>。'}]}
+ {type:'battle',enemy:'orc',loc:'山道',flee:true,intro:[
+   {who:'',text:'山道で、巨漢のオークが立ち塞がる。'},
+   {who:'妖精ルナ',text:'「本気で殺(や)りに来てる…油断しないで！」'}
  ]},
- {type:'battle',enemy:'orc',loc:'山道',flee:true,intro:[{who:'',text:'山道で、巨漢のオークが立ち塞がる。'}]},
+ {type:'story',loc:'峠の老兵',emoji:'🧙',lines:[
+   {who:'老兵',text:'「魔王に挑む若いの…ひとつ、昔話をしてやろう」'},
+   {who:'老兵',text:'「魔王はな、元々<b>世界で最初の勇者</b>だったという。誰にも信じてもらえず、独りで挑み——独りで、堕ちた」'},
+   {who:'老兵',text:'「"努力など無意味だ"。その絶望が、世界を運任せに変えてしまった。…ま、ただの伝説さ」'},
+   {who:'妖精ルナ',text:'「…（最初の、勇者。…そんな話、初めて聞いた）」'}
+ ]},
+ {type:'choice',loc:'鍛冶屋',emoji:'⚒️',prompt:'鍛冶屋。装備を一つだけ整えられる。',options:[
+   {label:'鋭い剣を買う',sub:'攻撃↑（短期決戦）',apply:{weapon:1},res:[{who:'',text:'よく斬れる剣を手に入れた。<b>攻撃が上がった</b>。'}]},
+   {label:'頑丈な鎧を買う',sub:'防御・HP↑（粘り）',apply:{armor:1},res:[{who:'',text:'頑丈な鎧を身につけた。<b>守りが固くなった</b>。'}]}
+ ]},
  {type:'choice',loc:'岐路',emoji:'🔮',prompt:'城へ向かう前に、できることは一つ。',options:[
-   {label:'魔王の弱点を調べる',sub:'与ダメ大UP（有利）',apply:{weak:1},res:[{who:'',text:'古文書から、魔王の核の弱点を掴んだ。<b>与えるダメージが上がる</b>。'}]},
-   {label:'回復薬を蓄える',sub:'ポーション+2（有利）',apply:{potions:2},res:[{who:'',text:'回復薬を買い込んだ。<b>ポーションが増えた</b>。'}]}
+   {label:'魔王の弱点を調べる',sub:'与ダメ↑（弱点◎）',apply:{weak:1},res:[
+     {who:'',text:'古文書を読み解く。魔王の核は、ただ一つ——<b>「信じる心の光」</b>に弱いという。'},
+     {who:'妖精ルナ',text:'「…光。あの孤独な魔王に、一番効くもの、なのかもね」'}
+   ]},
+   {label:'回復薬を蓄える',sub:'ポーション+2（粘り）',apply:{potions:2},res:[{who:'',text:'回復薬を買い込んだ。<b>ポーション+2</b>。'}]}
  ]},
  {type:'story',loc:'魔王城',emoji:'🏰',lines:[
-   {who:'',text:'魔王城の最奥。空気が、ざわめく。'},
-   {who:'',text:'勇者は傷を癒やし、<b>HPを全回復</b>して扉を開けた。'}
+   {who:'',text:'魔王城、最奥の扉の前。空気が、重くざわめく。'},
+   {who:'妖精ルナ',text:'「ねえ。…無事に、帰ろうね。約束だよ」'},
+   {who:'',text:'勇者は傷を癒やし、<b>HPを全回復</b>して扉を押し開けた。'}
  ]},
  {type:'boss',enemy:'boss',loc:'玉座の間',intro:[
-   {who:'魔王',text:'「ここまで来たか。だが——勝率は8192分の1。運に祈れ」'}
+   {who:'魔王',text:'「よくぞ来た。…8192分の1を、くぐり抜けてきたか」'},
+   {who:'魔王',text:'「私はかつて、最初の勇者だった。誰も信じてはくれなかった。だから世界を、運に委ねたのだ」'},
+   {who:'魔王',text:'「さあ、お前も運に祈れ。それが、この世界の理(ことわり)！」'},
+   {who:'妖精ルナ',text:'「違う…！運じゃない。あなたが今日まで戦い、選んできた——その全部が、今の勝率になる！」'}
  ]}
 ];
 
@@ -362,9 +389,12 @@ function loseBattle(){
 function winGame(){
   clears++; localStorage.setItem('h8_clears',clears); sfxWin();
   stage.classList.add('scroll');
+  const story = p.weak
+    ? '「信じる心の光」を宿した最後の一撃が、魔王の核を撃ち砕いた。崩れゆく魔王は、最初の勇者の顔で静かに微笑む。「…そうか。誰かが、最後まで諦めずに来てくれたのか」。確率の呪いが解け、努力が報われる世界が還った。ルナ「やった…！ありがとう。あの人を、救ってくれて」'
+    : '幾度の死線を越え、祈るような一撃が魔王の核を捉えた。まさに約1/8192の奇跡。最初の勇者だった魔王は崩れ、世界に朝が還る。ルナ「信じられない…本当に、引き当てたのね。あなたは、伝説だよ」';
   stage.innerHTML='<div class="center fade"><div class="ending-tag" style="color:#ffd23f">TRUE END ― 8192分の1の勇者</div>'
     +'<div style="font-size:54px">👑</div><div class="title-h">魔王、討伐！</div>'
-    +'<div class="title-sub">幾度の死線を越え、最後の一撃が魔王の核を撃ち砕いた。確率にして約1/8192——準備と、わずかな幸運の果てに掴んだ勝利。お前は、伝説になった。</div>'
+    +'<div class="title-sub">'+story+'</div>'
     +'<div class="stat-row"><div class="stat"><div class="k">職業/Lv</div><div class="v">'+p.cls.emoji+' Lv'+p.lv+'</div></div>'
     +'<div class="stat"><div class="k">クリア時の挑戦</div><div class="v gold">'+fmt(attempts)+'回目</div></div>'
     +'<div class="stat"><div class="k">通算討伐</div><div class="v">'+fmt(clears)+'</div></div></div>'
