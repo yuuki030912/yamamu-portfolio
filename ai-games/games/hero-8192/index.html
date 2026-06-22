@@ -196,9 +196,9 @@ const JOURNEY=[
    {who:'ギルド長',text:'「だが、その確率は道中の備えで動く。よく戦い、よく選べ」'}
  ]},
  {type:'battle',enemy:'goblin',loc:'平原',flee:true,intro:[{who:'',text:'平原でゴブリンが襲ってきた。'}]},
- {type:'choice',loc:'分かれ道',emoji:'🪧',prompt:'先を急ぐ？　それとも寄り道で力をつける？',options:[
-   {label:'訓練して力をつける',sub:'Lv+1（有利）',apply:{level:1},res:[{who:'',text:'魔物と打ち合い、腕を上げた。<b>レベルが上がった</b>。'}]},
-   {label:'先を急ぐ',sub:'そのまま（不利）',apply:{},res:[{who:'',text:'時間を惜しみ、足早に進んだ。'}]}
+ {type:'choice',loc:'分かれ道',emoji:'🪧',prompt:'二つの道。鍛えて行くか、備えて行くか。',options:[
+   {label:'山道で訓練する',sub:'レベル+1（攻撃・HP↑）',apply:{level:1},res:[{who:'',text:'険しい山道で魔物と打ち合い、腕を上げた。<b>レベルが上がった</b>。'}]},
+   {label:'近道で薬草を集める',sub:'回復薬+1（粘りUP）',apply:{potions:1},res:[{who:'',text:'近道沿いで薬草を摘み、回復薬を補充した。<b>ポーション+1</b>。'}]}
  ]},
  {type:'choice',loc:'鍛冶屋',emoji:'⚒️',prompt:'鍛冶屋。装備を一つだけ整えられる。',options:[
    {label:'鋭い剣を買う',sub:'攻撃+7（有利）',apply:{weapon:1},res:[{who:'',text:'よく斬れる剣を手に入れた。<b>攻撃が上がった</b>。'}]},
