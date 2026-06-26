@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>YOMI DUEL ─ クロードと心理決闘</title>
+<style>
+  :root{
+    --bg0:#070611; --bg1:#120f26; --accent:#ff7a3c; --accent2:#ffb066;
+    --cyan:#4fd6ff; --pink:#ff5c8a; --good:#56e39f; --bad:#ff5a5a;
+    --gold:#ffd24a; --ink:#fdf6ee; --muted:#9aa0c0;
+    --panel:rgba(255,255,255,.05); --line:rgba(255,255,255,.12);
+    --glass:rgba(14,12,30,.55);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;height:100%;}
+  body{
+    background:#000; color:var(--ink);
+    font-family:"Segoe UI","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+    overflow:hidden; user-select:none;
+  }
+  #app{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#05040c;}
+  .stage{
+    position:relative; width:min(100vw,520px); height:min(100vh,920px);
+    aspect-ratio:520/920; overflow:hidden; background:var(--bg0);
+    box-shadow:0 0 80px rgba(255,122,60,.12), 0 0 1px rgba(255,255,255,.2);
+  }
+  /* CRTスキャンライン + ビネット（全画面の上に薄く） */
+  .stage:after{
+    content:""; position:absolute; inset:0; pointer-events:none; z-index:60;
+    background:repeating-linear-gradient(0deg, rgba(0,0,0,0) 0 2px, rgba(0,0,0,.05) 2px 3px);
+    box-shadow:inset 0 0 140px rgba(0,0,0,.75);
+    mix-blend-mode:multiply;
+  }
+  .hidden{display:none!important;}
+  .center{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:22px; text-align:center;}
+
+  /* 背景画像レイヤー（各画面） */
+  #title{
+    background:linear-gradient(180deg, rgba(7,6,17,.62), rgba(7,6,17,.5) 38%, rgba(7,6,17,.9)),
+              url(art/bg_title2.png) center/cover no-repeat;
+  }
+  #battle{
+    background:linear-gradient(180deg, rgba(7,6,17,.72), rgba(7,6,17,.42) 38%, rgba(7,6,17,.92)),
+              url(art/bg_battle.png) center/cover no-repeat;
+  }
+  #end{
+    background:linear-gradient(180deg, rgba(7,6,17,.7), rgba(7,6,17,.62) 50%, rgba(7,6,17,.92)),
+              url(art/bg_end.png) center/cover no-repeat;
+  }
+
+  /* ---------- TITLE ---------- */
+  .t-eyebrow{
+    color:var(--cyan); font-weight:900; letter-spacing:10px; font-size:13px; margin-bottom:6px;
+    text-shadow:0 0 14px rgba(79,214,255,.7); padding-left:10px;
+  }
+  .hero{position:relative; width:128px; height:128px; margin:4px 0 12px;}
+  .hero .heroImg{
+    position:absolute; inset:6px; width:calc(100% - 12px); height:calc(100% - 12px);
+    object-fit:cover; border-radius:50%; object-position:center 16%;
+    border:2px solid rgba(255,122,60,.6); box-shadow:0 0 26px rgba(255,122,60,.45), inset 0 0 18px rgba(0,0,0,.6);
+  }
+  .hero .ring{
+    position:absolute; inset:0; border-radius:50%;
+    border:2px solid rgba(79,214,255,.55); box-shadow:0 0 22px rgba(79,214,255,.45);
+    animation:spin 9s linear infinite;
+    background:conic-gradient(from 0deg, transparent, rgba(79,214,255,.35), transparent 30%, transparent 60%, rgba(255,122,60,.4), transparent 90%);
+    -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
+            mask:radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  #title .pre{color:var(--accent2); font-weight:800; font-size:15px; letter-spacing:3px; margin-bottom:-2px; text-shadow:0 0 10px rgba(255,122,60,.5);}
+  #title h1{
+    font-size:50px; line-height:1; margin:0 0 8px; letter-spacing:3px; font-weight:900;
+    background:linear-gradient(180deg,#fff 10%,var(--accent2) 60%,var(--accent)); -webkit-background-clip:text; background-clip:text; color:transparent;
+    filter:drop-shadow(0 0 18px rgba(255,122,60,.55)) drop-shadow(0 2px 1px rgba(0,0,0,.6));
+  }
+  #title .lead{color:#cfd3ea; font-size:12.5px; line-height:1.7; max-width:360px; margin:0 0 12px; text-shadow:0 1px 6px rgba(0,0,0,.8);}
+  .rps{display:flex; gap:9px; margin:2px 0 14px;}
+  .rps .c{
+    background:var(--glass); border:1px solid var(--line); border-radius:14px; padding:9px 8px; width:92px;
+    backdrop-filter:blur(6px); box-shadow:0 6px 18px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.06);
+  }
+  .rps .c .ic{font-size:22px; height:28px; min-height:0; flex:0 0 28px; display:flex; align-items:center; justify-content:center; overflow:hidden; filter:drop-shadow(0 0 8px currentColor);}
+  .rps .c.s{color:#ff8e8e;} .rps .c.g{color:var(--cyan);} .rps .c.h{color:var(--gold);}
+  .rps .c .nm{font-size:12px; font-weight:800; margin-top:3px; color:var(--ink);}
+  .rps .c .tx{font-size:9.5px; color:var(--muted); margin-top:3px; line-height:1.3;}
+
+  .btn{
+    cursor:pointer; border:none; border-radius:999px; font-weight:900; letter-spacing:2px;
+    padding:15px 42px; font-size:18px; color:#221016; position:relative;
+    background:linear-gradient(180deg,var(--accent2),var(--accent));
+    box-shadow:0 10px 30px rgba(255,122,60,.5), inset 0 1px 0 rgba(255,255,255,.55), 0 0 0 1px rgba(255,180,120,.5);
+    transition:transform .08s ease, filter .15s; animation:ctaPulse 2.2s ease-in-out infinite;
+  }
+  @keyframes ctaPulse{50%{box-shadow:0 10px 38px rgba(255,122,60,.8), inset 0 1px 0 rgba(255,255,255,.55), 0 0 0 1px rgba(255,180,120,.7);}}
+  .btn:active{transform:translateY(2px) scale(.98);}
+  .btn.ghost{background:var(--glass); color:var(--ink); border:1px solid var(--line); box-shadow:none; padding:10px 22px; font-size:13px; letter-spacing:1px; animation:none; backdrop-filter:blur(6px);}
+  .modeRow{display:flex; gap:8px; margin-bottom:8px;}
+  .modeBtn{cursor:pointer; border:1px solid var(--line); background:var(--glass); color:var(--muted); border-radius:999px; padding:9px 15px; font-size:12.5px; font-weight:800; transition:all .15s; backdrop-filter:blur(6px);}
+  .modeBtn.active{color:#221016; background:linear-gradient(180deg,var(--accent2),var(--accent)); border-color:transparent; box-shadow:0 4px 16px rgba(255,122,60,.5);}
+  .modeBtn.locked{opacity:.4; cursor:not-allowed;}
+  .modeNote{color:var(--cyan); font-size:11px; margin-bottom:14px; min-height:15px; font-weight:700; text-shadow:0 1px 6px rgba(0,0,0,.8);}
+  .record{
+    margin-top:16px; color:var(--muted); font-size:12px; font-weight:700;
+    background:var(--glass); border:1px solid var(--line); border-radius:999px; padding:7px 16px; backdrop-filter:blur(6px);
+  }
+  .record b{color:var(--gold); text-shadow:0 0 8px rgba(255,210,74,.5);}
+  .credit{position:absolute; bottom:9px; left:0; right:0; text-align:center; color:var(--muted); font-size:9.5px; opacity:.6;}
+
+  /* ---------- BATTLE ---------- */
+  #battle{position:absolute; inset:0; display:flex; flex-direction:column;}
+  .foe{position:relative; height:44%; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding-top:34px;}
+  .foeArt{
+    position:relative; width:204px; height:248px; margin-bottom:8px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:18px; overflow:hidden;
+    border:2px solid rgba(255,122,60,.5);
+    box-shadow:0 12px 36px rgba(0,0,0,.6), 0 0 34px rgba(255,122,60,.3), inset 0 0 0 1px rgba(255,255,255,.06);
+    background:linear-gradient(180deg,#161228,#0d0a1c);
+  }
+  .foeArt:before{content:""; position:absolute; inset:-2px; border-radius:18px; pointer-events:none; z-index:3;
+    box-shadow:inset 0 0 28px rgba(255,122,60,.2);}
+  .foeArt:after{content:""; position:absolute; inset:0; border-radius:16px; pointer-events:none;
+    background:linear-gradient(180deg, transparent 52%, rgba(11,10,20,.6) 100%);}
+  .foeArt img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 16%; transition:opacity .2s;}
+  .foeArt canvas{position:absolute; inset:0; width:100%; height:100%; object-fit:contain;}
+  .foeArt.flinch{animation:shake .4s;}
+  .speech{
+    position:absolute; top:34px; left:50%; transform:translateX(-50%);
+    max-width:290px; background:rgba(18,14,36,.94); border:1px solid rgba(79,214,255,.4);
+    border-radius:14px; padding:9px 15px; font-size:13px; line-height:1.4; font-weight:700; color:#eaf6ff;
+    box-shadow:0 6px 22px rgba(0,0,0,.5), 0 0 18px rgba(79,214,255,.2); z-index:7; opacity:0; transition:opacity .25s, transform .25s;
+  }
+  .speech.show{opacity:1;}
+  .speech:after{content:""; position:absolute; bottom:-8px; left:50%; transform:translateX(-50%); border:8px solid transparent; border-top-color:rgba(18,14,36,.94); border-bottom:0;}
+
+  .me{position:relative; height:56%; display:flex; flex-direction:column; justify-content:flex-end; padding:0 0 16px;}
+
+  /* 格ゲー風 HUDバー */
+  .hpRow{display:flex; align-items:center; gap:10px; padding:0 16px; width:100%;}
+  .hpRow .who{
+    font-size:11px; font-weight:900; width:72px; flex:0 0 auto; letter-spacing:1px;
+    text-shadow:0 1px 4px #000; text-transform:uppercase;
+  }
+  .hpWrap{flex:1; position:relative;}
+  .hpbar{
+    position:relative; height:17px; border-radius:5px; background:rgba(0,0,0,.55);
+    border:1px solid var(--line); overflow:hidden;
+    box-shadow:inset 0 1px 3px rgba(0,0,0,.6), 0 0 0 1px rgba(0,0,0,.4);
+  }
+  .hpbar>div{position:absolute; top:0; bottom:0; left:0; height:100%;}
+  .hpghost{width:100%; background:rgba(255,255,255,.55); transition:width .55s ease .22s;}
+  .hpfill{width:100%; border-radius:0; transition:width .18s cubic-bezier(.3,.9,.3,1);}
+  .hpfill.foe{background:linear-gradient(90deg,#ff3d6e,#ff9a3c); box-shadow:0 0 12px rgba(255,90,120,.6);}
+  .hpfill.me{background:linear-gradient(90deg,#37d98a,#4fd6ff); box-shadow:0 0 12px rgba(79,214,255,.55);}
+  .hpbar:after{content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(180deg,rgba(255,255,255,.25),transparent 45%);}
+  .hpnum{position:absolute; right:4px; top:-1px; font-size:12px; font-weight:900; text-shadow:0 1px 3px #000, 0 0 6px rgba(0,0,0,.8);}
+  .gauge{display:flex; gap:5px; margin-top:6px;}
+  .pip{flex:1; height:7px; border-radius:3px; background:rgba(255,255,255,.09); border:1px solid var(--line);}
+  .pip.on{background:linear-gradient(90deg,var(--gold),#fff6cf); box-shadow:0 0 12px var(--gold); border-color:rgba(255,210,74,.6);}
+  .pip.full{animation:pulse .8s infinite;}
+  @keyframes pulse{50%{filter:brightness(1.6);}}
+
+  .arena{flex:1; position:relative; display:flex; align-items:center; justify-content:center;}
+  .clash{display:flex; align-items:center; gap:18px; opacity:0; transition:opacity .2s;}
+  .clash.show{opacity:1;}
+  .pick{
+    position:relative; width:86px; height:86px; min-height:86px; max-height:86px; border-radius:16px;
+    background:rgba(14,12,30,.6); border:2px solid var(--line); backdrop-filter:blur(4px);
+    box-shadow:0 8px 22px rgba(0,0,0,.5); overflow:hidden;
+  }
+  /* 絵文字ごとの高さ差を無視：line-heightで縦中央＋overflow hiddenで高さを完全固定 */
+  .pick .ic{position:absolute; top:6px; left:0; right:0; height:52px; line-height:52px; text-align:center; font-size:30px; overflow:hidden;}
+  .pick .lb{position:absolute; bottom:9px; left:0; right:0; text-align:center; font-size:11px; font-weight:800;}
+  .pick.foe{border-color:var(--pink); box-shadow:0 0 20px rgba(255,92,138,.35), 0 8px 22px rgba(0,0,0,.5);}
+  .pick.me{border-color:var(--cyan); box-shadow:0 0 20px rgba(79,214,255,.35), 0 8px 22px rgba(0,0,0,.5);}
+  .vs{font-weight:900; font-size:20px; color:#fff; text-shadow:0 0 12px rgba(255,122,60,.7); font-style:italic;}
+  .verdict{position:absolute; top:6px; left:0; right:0; text-align:center; font-weight:900; font-size:19px; letter-spacing:1px; opacity:0; transition:opacity .2s; text-shadow:0 2px 10px #000;}
+  .verdict.show{opacity:1; animation:vpop .3s ease;}
+  @keyframes vpop{0%{transform:scale(.7);}60%{transform:scale(1.12);}100%{transform:scale(1);}}
+  .roundTag{position:absolute; top:-4px; right:4px; font-size:11px; color:var(--cyan); font-weight:900; letter-spacing:1px; text-shadow:0 0 8px rgba(79,214,255,.5);}
+  /* ラウンド開始バナー */
+  .roundBanner{
+    position:absolute; left:50%; top:42%; transform:translate(-50%,-50%); z-index:8;
+    font-weight:900; font-size:34px; letter-spacing:3px; color:#fff; pointer-events:none; opacity:0;
+    text-shadow:0 0 22px rgba(255,122,60,.9), 0 3px 8px #000; font-style:italic; white-space:nowrap;
+  }
+  .roundBanner.fire{animation:bannerPop 1.05s ease forwards;}
+  @keyframes bannerPop{0%{opacity:0; transform:translate(-50%,-50%) scale(.4);}25%{opacity:1; transform:translate(-50%,-50%) scale(1);}75%{opacity:1;}100%{opacity:0; transform:translate(-50%,-50%) scale(1.25);}}
+
+  .actions{display:flex; gap:10px; justify-content:center; padding:0 16px;}
+  .act{
+    flex:1; max-width:140px; cursor:pointer; padding:13px 6px 11px; position:relative;
+    background:linear-gradient(180deg, rgba(28,24,52,.85), rgba(14,12,30,.85));
+    border:2px solid var(--line); text-align:center; transition:transform .08s, border-color .15s, box-shadow .15s, background .15s;
+    clip-path:polygon(0 0, 100% 0, 100% 78%, 88% 100%, 0 100%);
+    backdrop-filter:blur(4px);
+  }
+  .act:hover{transform:translateY(-2px);}
+  .act:active{transform:translateY(2px) scale(.97);}
+  .act .ic{font-size:27px; height:36px; min-height:0; flex:0 0 36px; display:flex; align-items:center; justify-content:center; overflow:hidden; filter:drop-shadow(0 0 8px currentColor);}
+  .act .nm{font-weight:900; font-size:14px; margin-top:2px; color:var(--ink);}
+  .act .tx{font-size:9.5px; color:var(--muted); margin-top:2px; line-height:1.25;}
+  .act .key{position:absolute; top:5px; left:7px; font-size:9px; font-weight:900; color:var(--muted); border:1px solid var(--line); border-radius:4px; padding:0 4px; opacity:.8;}
+  .act[data-a="strike"]{border-color:rgba(255,90,90,.55); color:#ff8e8e; box-shadow:0 6px 18px rgba(0,0,0,.4), inset 0 0 16px rgba(255,90,90,.08);}
+  .act[data-a="guard"]{border-color:rgba(79,214,255,.55); color:var(--cyan); box-shadow:0 6px 18px rgba(0,0,0,.4), inset 0 0 16px rgba(79,214,255,.08);}
+  .act[data-a="charge"]{border-color:rgba(255,210,74,.55); color:var(--gold); box-shadow:0 6px 18px rgba(0,0,0,.4), inset 0 0 16px rgba(255,210,74,.08);}
+  .act[data-a="strike"]:hover{box-shadow:0 8px 22px rgba(255,90,90,.35), inset 0 0 20px rgba(255,90,90,.15);}
+  .act[data-a="guard"]:hover{box-shadow:0 8px 22px rgba(79,214,255,.35), inset 0 0 20px rgba(79,214,255,.15);}
+  .act[data-a="charge"]:hover{box-shadow:0 8px 22px rgba(255,210,74,.35), inset 0 0 20px rgba(255,210,74,.15);}
+  .act.ult{border-color:var(--gold); color:var(--gold); background:linear-gradient(180deg,rgba(255,210,74,.3),rgba(255,122,60,.18)); animation:pulse 1s infinite; box-shadow:0 0 24px rgba(255,210,74,.5);}
+  .act.dis{opacity:.32; pointer-events:none; filter:grayscale(.6);}
+  .hint{text-align:center; color:#cfd3ea; font-size:12px; min-height:18px; margin:9px 0; font-weight:800; text-shadow:0 1px 6px rgba(0,0,0,.8);}
+
+  .topbar{position:absolute; top:8px; left:10px; right:10px; display:flex; justify-content:space-between; align-items:center; z-index:9;}
+  .iconbtn{cursor:pointer; background:rgba(8,6,18,.6); border:1px solid var(--line); color:var(--ink); border-radius:10px; padding:6px 11px; font-size:13px; font-weight:800; backdrop-filter:blur(6px);}
+
+  /* ---------- END ---------- */
+  #end h1{font-size:50px; margin:0; font-weight:900; letter-spacing:3px; font-style:italic; filter:drop-shadow(0 0 22px rgba(255,122,60,.5)) drop-shadow(0 3px 4px #000);}
+  #end .res{font-size:15px; color:#cfd3ea; margin:10px 0 4px; text-shadow:0 1px 6px #000;}
+  #end .endPortrait{
+    width:170px; height:170px; border-radius:18px; overflow:hidden; margin:6px 0;
+    border:2px solid rgba(255,122,60,.5); box-shadow:0 0 30px rgba(255,122,60,.35), 0 12px 30px rgba(0,0,0,.5);
+    background:linear-gradient(180deg,#161228,#0d0a1c); display:flex; align-items:center; justify-content:center;
+  }
+  #end .endPortrait img{width:100%; height:100%; object-fit:cover; object-position:center 16%;}
+  #end .stat{font-size:13px; color:var(--muted); margin:14px 0; background:var(--glass); border:1px solid var(--line); border-radius:12px; padding:9px 16px; backdrop-filter:blur(6px);}
+  #end .stat b{color:var(--ink);}
+
+  .flash{position:absolute; inset:0; pointer-events:none; opacity:0; z-index:50;}
+  .flash.fire{animation:flash .35s ease;}
+  @keyframes flash{0%{opacity:.7;}100%{opacity:0;}}
+  .shake{animation:shake .4s;}
+  @keyframes shake{0%,100%{transform:translate(0,0);}20%{transform:translate(-7px,3px);}40%{transform:translate(7px,-3px);}60%{transform:translate(-5px,2px);}80%{transform:translate(5px,-2px);}}
+  .dmgPop{position:absolute; font-weight:900; font-size:30px; pointer-events:none; z-index:9; text-shadow:0 2px 6px #000, 0 0 10px rgba(255,90,90,.6); animation:dmgUp .9s ease forwards;}
+  @keyframes dmgUp{0%{opacity:0; transform:translateY(0) scale(.6);}20%{opacity:1; transform:translateY(-10px) scale(1.2);}100%{opacity:0; transform:translateY(-60px) scale(1);}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="stage" id="stage">
+
+    <!-- TITLE -->
+    <div id="title" class="center">
+      <div class="t-eyebrow">YOMI&nbsp;DUEL</div>
+      <div class="hero">
+        <img class="heroImg" src="art/claude_idle.png" alt="">
+        <div class="ring"></div>
+      </div>
+      <div class="pre">クロードと</div>
+      <h1>心理決闘</h1>
+      <p class="lead">読み合いの3すくみで僕に挑め。<br>君の手の癖、ぜんぶ読んでるよ。</p>
+      <div class="rps">
+        <div class="c s"><div class="ic">⚔️</div><div class="nm">攻撃</div><div class="tx">溜め中に刺さる</div></div>
+        <div class="c g"><div class="ic">🛡️</div><div class="nm">防御</div><div class="tx">攻撃に反撃</div></div>
+        <div class="c h"><div class="ic">🌀</div><div class="nm">溜め</div><div class="tx">必殺を育てる</div></div>
+      </div>
+      <div class="modeRow" id="modeRow">
+        <button class="modeBtn active" data-mode="local">👻 ゴースト・クロード</button>
+        <button class="modeBtn" data-mode="online">🌐 本物のクロード</button>
+      </div>
+      <div class="modeNote" id="modeNote">EV計算で読み合う"僕のコピー"と対戦（無料・オフライン）</div>
+      <button class="btn" id="startBtn">クロードに挑戦</button>
+      <div class="record">対戦成績 ── <b><span id="recW">0</span></b> 勝 <b><span id="recL">0</span></b> 敗　最大連勝 <b><span id="recStreak">0</span></b></div>
+      <button class="btn ghost" id="muteBtn2" style="margin-top:13px;">🔊 サウンド ON</button>
+      <div class="credit">illust: NovelAI　/　voice: Fish Audio　/　sound: ElevenLabs　/　AI: Claude</div>
+    </div>
+
+    <!-- BATTLE -->
+    <div id="battle" class="hidden">
+      <div class="topbar">
+        <div class="iconbtn" id="quitBtn">‹ やめる</div>
+        <div class="iconbtn" id="muteBtn">🔊</div>
+      </div>
+
+      <div class="foe">
+        <div class="speech" id="speech"></div>
+        <div class="foeArt" id="foeArt">
+          <canvas id="foeCanvas" width="460" height="460"></canvas>
+          <img id="foeImg" alt="" style="display:none">
+        </div>
+      </div>
+
+      <div class="hpRow" style="margin-top:-4px;">
+        <div class="who" style="color:var(--pink);">クロード</div>
+        <div class="hpWrap">
+          <div class="hpbar"><div class="hpghost" id="foeHpGhost"></div><div class="hpfill foe" id="foeHp"></div></div>
+          <div class="hpnum" id="foeHpN">100</div>
+          <div class="gauge" id="foeGauge"></div>
+        </div>
+      </div>
+
+      <div class="me">
+        <div class="arena">
+          <div class="roundTag" id="roundTag">ROUND 1</div>
+          <div class="roundBanner" id="roundBanner"></div>
+          <div class="verdict" id="verdict"></div>
+          <div class="clash" id="clash">
+            <div class="pick foe" id="pickFoe"><div class="ic">❔</div><div class="lb">クロード</div></div>
+            <div class="vs">VS</div>
+            <div class="pick me" id="pickMe"><div class="ic">❔</div><div class="lb">あなた</div></div>
+          </div>
+        </div>
+
+        <div class="hpRow">
+          <div class="who" style="color:var(--cyan);">あなた</div>
+          <div class="hpWrap">
+            <div class="hpbar"><div class="hpghost" id="myHpGhost"></div><div class="hpfill me" id="myHp"></div></div>
+            <div class="hpnum" id="myHpN">100</div>
+            <div class="gauge" id="myGauge"></div>
+          </div>
+        </div>
+
+        <div class="hint" id="hint">手を選べ</div>
+        <div class="actions" id="actions">
+          <div class="act" data-a="strike"><div class="key">1</div><div class="ic">⚔️</div><div class="nm">攻撃</div><div class="tx">溜めに刺さる</div></div>
+          <div class="act" data-a="guard"><div class="key">2</div><div class="ic">🛡️</div><div class="nm">防御</div><div class="tx">攻撃に反撃</div></div>
+          <div class="act" data-a="charge"><div class="key">3</div><div class="ic">🌀</div><div class="nm">溜め</div><div class="tx">ゲージ＋1</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- END -->
+    <div id="end" class="center hidden">
+      <h1 id="endTitle">WIN</h1>
+      <div class="res" id="endRes"></div>
+      <div class="endPortrait"><img id="endImg" alt="" style="display:none;"></div>
+      <div class="stat" id="endStat"></div>
+      <button class="btn" id="againBtn">もう一度挑戦</button>
+      <button class="btn ghost" id="toTitleBtn" style="margin-top:12px;">タイトルへ</button>
+    </div>
+
+    <div class="flash" id="flash"></div>
+  </div>
+</div>
+
+<script src="game.js?v=20260626e"></script>
+</body>
+</html>
