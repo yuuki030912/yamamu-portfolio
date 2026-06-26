@@ -103,6 +103,11 @@
     .fs-btn{display:none;margin:14px auto 0}
     @media(max-width:767px){.fs-btn{display:block;width:100%;padding:13px 0;font-weight:800;font-size:16px;border:none;border-radius:14px;background:var(--text);color:var(--bg);cursor:pointer;box-shadow:var(--shadow)}}
     .game-frame-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+    /* 全画面（ネイティブ不可なiOS等向けの擬似全画面フォールバック含む） */
+    .game-frame-wrap.pseudo-fs{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;max-width:none;margin:0;aspect-ratio:auto;border-radius:0;border-width:0;z-index:99999}
+    .fs-exit{display:none}
+    .game-frame-wrap.pseudo-fs .fs-exit{display:flex;position:absolute;top:12px;right:12px;z-index:10;width:42px;height:42px;align-items:center;justify-content:center;border:0;border-radius:50%;background:rgba(0,0,0,0.55);color:#fff;font-size:20px;font-weight:900;line-height:1;cursor:pointer}
+    .game-frame-wrap:fullscreen .fs-exit{display:flex;position:absolute;top:12px;right:12px;z-index:10;width:42px;height:42px;align-items:center;justify-content:center;border:0;border-radius:50%;background:rgba(0,0,0,0.55);color:#fff;font-size:20px;font-weight:900;line-height:1;cursor:pointer}
     .play-hint{margin:12px 0 0;text-align:center;font-size:13px;color:var(--text-soft)}
     section.content-section{max-width:1100px;margin:48px auto;padding:0 24px}
     section.content-section h2{font-size:clamp(22px,4vw,30px);font-weight:900;margin-bottom:16px;display:flex;align-items:center;gap:10px}
@@ -192,9 +197,10 @@
 
   <section class="game-section">
     <div class="game-frame-wrap">
-      <iframe src="../games/yomi-duel/index.html" title="YOMI DUEL（心理決闘）" sandbox="allow-scripts allow-same-origin" loading="lazy"></iframe>
+      <iframe src="../games/yomi-duel/index.html" title="YOMI DUEL（心理決闘）" sandbox="allow-scripts allow-same-origin" allow="fullscreen" allowfullscreen loading="lazy"></iframe>
+      <button type="button" class="fs-exit" aria-label="全画面を閉じる" onclick="ydExitFs(this)">✕</button>
     </div>
-    <button type="button" class="fs-btn" onclick="var w=this.parentNode.querySelector('.game-frame-wrap');(w.requestFullscreen||w.webkitRequestFullscreen||function(){}).call(w)">⛶ 全画面でプレイ</button>
+    <button type="button" class="fs-btn" onclick="ydToggleFs(this)">⛶ 全画面でプレイ</button>
     <p class="play-hint">💡 攻撃・防御・溜めをタップ／クリック（1・2・3キー対応）・ゲージ満タンで必殺技／モバイル・PC両対応</p>
   </section>
 
@@ -289,6 +295,34 @@
       <div class="foot-copy">&copy; 2026 やまむー【yamamu】 / AIが作ったゲーム ポータル</div>
     </div>
   </footer>
+
+  <script>
+  /* 全画面プレイ：ネイティブFullscreen API → 不可な端末(iOS等)はCSS擬似全画面にフォールバック */
+  (function(){
+    var IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    function wrapOf(el){ return (el.closest && el.closest('.game-section') ? el.closest('.game-section').querySelector('.game-frame-wrap') : null) || (el.closest ? el.closest('.game-frame-wrap') : null) || document.querySelector('.game-frame-wrap'); }
+    function enterPseudo(w){ w.classList.add('pseudo-fs'); document.body.style.overflow = 'hidden'; }
+    window.ydToggleFs = function(btn){
+      var w = wrapOf(btn);
+      if (!w) return;
+      if (w.classList.contains('pseudo-fs')) { window.ydExitFs(w); return; }
+      var req = w.requestFullscreen || w.webkitRequestFullscreen;
+      if (req && !IOS) {
+        try { var p = req.call(w); if (p && p.catch) p.catch(function(){ enterPseudo(w); }); }
+        catch(e){ enterPseudo(w); }
+      } else { enterPseudo(w); }
+    };
+    window.ydExitFs = function(el){
+      var w = (el.classList && el.classList.contains('game-frame-wrap')) ? el : wrapOf(el);
+      if (document.fullscreenElement || document.webkitFullscreenElement) {
+        (document.exitFullscreen || document.webkitExitFullscreen || function(){}).call(document);
+      }
+      if (w) w.classList.remove('pseudo-fs');
+      document.body.style.overflow = '';
+    };
+    document.addEventListener('fullscreenchange', function(){ if (!document.fullscreenElement) document.body.style.overflow = ''; });
+  })();
+  </script>
 
 </body>
 </html>
