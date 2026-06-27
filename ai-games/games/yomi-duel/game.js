@@ -77,6 +77,30 @@ function loadRec(){ try{return JSON.parse(localStorage.getItem(REC_KEY))||{w:0,l
 function saveRec(r){ try{localStorage.setItem(REC_KEY,JSON.stringify(r));}catch(e){} }
 function paintRec(){ const r=loadRec(); $('#recW').textContent=r.w; $('#recL').textContent=r.l; $('#recStreak').textContent=r.streak; }
 
+/* ===== 全プレイヤー戦績（Google Apps Script Web App / CORS回避：記録=Image GET, 取得=JSONP） ===== */
+const STATS_URL='https://script.google.com/macros/s/AKfycbxjFlul50d-RcTCXjw54OBal46CC_rdnzStzjUJrCJ7uH7lbyTA0690NrRxE6AgTY2NWQ/exec'; // 全プレイヤー戦績(GAS Web App)
+function recordGlobal(win){
+  if(!STATS_URL) return;
+  try{ new Image().src = STATS_URL+'?mode=record&r='+(win?'win':'lose')+'&_='+Date.now(); }catch(e){}
+}
+function loadGlobalStats(){
+  if(!STATS_URL) return;
+  const cb='ydStats_'+Date.now();
+  window[cb]=(d)=>{ try{ paintGlobal(d); }finally{ try{ delete window[cb]; }catch(e){} } };
+  const s=document.createElement('script');
+  s.src=STATS_URL+'?mode=stats&callback='+cb+'&_='+Date.now();
+  s.onerror=()=>{ try{ delete window[cb]; }catch(e){} };
+  document.head.appendChild(s);
+}
+function paintGlobal(d){
+  const el=$('#globalRec'); if(!el) return;
+  const pw=(d&&d.playerWins)||0, gw=(d&&d.ghostWins)||0, tot=pw+gw;
+  if(tot<1){ el.style.display='none'; return; }
+  const rate=Math.round(pw/tot*100);
+  el.style.display='';
+  el.innerHTML='🌐 全プレイヤー ── <b>'+pw+'</b> 勝 <b>'+gw+'</b> 敗　みんなの勝率 <b>'+rate+'%</b>';
+}
+
 /* =========================================================
    AUDIO  ── ElevenLabs製mp3を優先、無ければWebAudio合成
    ========================================================= */
@@ -663,6 +687,7 @@ function endGame(){
   if(finalWin){ rec.w++; rec.cur++; rec.streak=Math.max(rec.streak,rec.cur); }
   else { rec.l++; rec.cur=0; }
   saveRec(rec);
+  recordGlobal(finalWin); // 全プレイヤー集計に送信
 
   show('end');
   const tt=$('#endTitle'), res=$('#endRes');
@@ -692,8 +717,8 @@ function setEndImg(mood){
 function bind(){
   $('#startBtn').addEventListener('click',()=>{ Audio2.init(); Audio2.resume(); startGame(); });
   $('#againBtn').addEventListener('click',()=>{ startGame(); });
-  $('#toTitleBtn').addEventListener('click',()=>{ paintRec(); show('title'); Audio2.stopBgm(); });
-  $('#quitBtn').addEventListener('click',()=>{ S.over=true; Audio2.stopBgm(); paintRec(); show('title'); });
+  $('#toTitleBtn').addEventListener('click',()=>{ paintRec(); loadGlobalStats(); show('title'); Audio2.stopBgm(); });
+  $('#quitBtn').addEventListener('click',()=>{ S.over=true; Audio2.stopBgm(); paintRec(); loadGlobalStats(); show('title'); });
   $$('#actions .act').forEach(a=>a.addEventListener('click',()=>onPick(a.dataset.a)));
   const toggleMute=()=>{ const m=!Audio2.isMuted(); Audio2.setMuted(m); const lbl=m?'🔇':'🔊'; $('#muteBtn').textContent=lbl; $('#muteBtn2').textContent=(m?'🔇 サウンド OFF':'🔊 サウンド ON'); };
   $('#muteBtn').addEventListener('click',toggleMute);
@@ -730,6 +755,7 @@ async function initModes(){
 }
 
 paintRec();
+loadGlobalStats(); // 全プレイヤー戦績を取得して表示
 Face.start();
 bind();
 initModes();
