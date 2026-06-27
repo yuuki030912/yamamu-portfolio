@@ -260,6 +260,8 @@ const Brain = (()=>{
   const T0=4.2, LOWT=1.0, SHARP=17; // 温度: 予測的中率が高いほど鋭く決め打ち(搾取)、外すほど散らす
   const TURTLE_W=70, DENYULT_W=40;  // タートル割り/必殺ゲージ献上防止の重み（sim Z2）
   const LETHAL_LOW=140, DESP_W=14, DESP_T=9; // 窮地(低HP＆相手必殺間近)は決め打ちせず攻撃/防御を混合＝パリィ確定キルを防ぐ（sim）
+  const STREAK_CAP=0.5, STREAK_INC=0.07;     // 連打検知の確信度（"2連打→絶対狩る"を確率的に。低いほど読まれにくい）
+  const LOWHP_SCATTER=7;                      // 低HPほど手を散らす（防御に固まって読まれるのを防ぐ）
   const META_W=0.5;                 // 読み手対策(レベル3)の強さ（sim B2）
   const COUNTER={strike:'guard',charge:'strike',guard:'charge'}; // 鬼の手に対し相手が得する手
   const clampG = g=>Math.max(0,Math.min(GAUGE_MAX,g));
@@ -323,7 +325,7 @@ const Brain = (()=>{
       S.recent.forEach((m,i)=>{ const wt=i+1; rc[m]+=wt; ws+=wt; });
       p=mix(p,{strike:rc.strike/ws,guard:rc.guard/ws,charge:rc.charge/ws},0.25); }
     // 連打ブースト
-    if(S.streak.n>=2 && S.streak.move){ p[S.streak.move]=Math.min(0.92, p[S.streak.move]+0.16*Math.min(S.streak.n,3));
+    if(S.streak.n>=2 && S.streak.move){ p[S.streak.move]=Math.min(STREAK_CAP, p[S.streak.move]+STREAK_INC*Math.min(S.streak.n,3));
       const t=p.strike+p.guard+p.charge; p.strike/=t; p.guard/=t; p.charge/=t; }
     // 相手が必殺を撃てるなら ult の確率を切り出す（満タンなら撃ちがち）
     let dist={strike:p.strike,guard:p.guard,charge:p.charge,ult:0};
@@ -366,7 +368,8 @@ const Brain = (()=>{
     }
     // 温度：予測が当たってる(相手を読めてる)ほど鋭く決め打ちして搾取、外してる(読まれてる)ほど散らす
     let T=T0-(S.acc-0.45)*SHARP; const net=S.exWins-S.exLoss; if(net<0) T+=Math.min(4,-net*0.7);
-    T=Math.max(LOWT,Math.min(18,T));
+    T+=LOWHP_SCATTER*Math.max(0,(42-S.foeHp))/42; // 低HPほど散らす(防御固定で読まれるのを防ぐ)
+    T=Math.max(LOWT,Math.min(24,T));
     if(desperate) T=Math.max(T,DESP_T); // 窮地は固まらず散らす
     // ソフトマックスでサンプリング（混合戦略＝搾取されにくい）
     let maxE=-1e9; for(const c of cands) maxE=Math.max(maxE,ev[c]);
