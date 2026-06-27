@@ -99,6 +99,11 @@
     .game-section{max-width:1100px;margin:0 auto;padding:0 24px}
     .game-frame-wrap{background:#000;border:4px solid var(--text);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);position:relative;aspect-ratio:16/10}
     @media(max-width:767px){.game-frame-wrap{aspect-ratio:auto;height:82vh;height:82svh;min-height:480px}}
+    /* 全画面（ネイティブ不可なiOS等向けの擬似全画面フォールバック） */
+    .game-frame-wrap.pseudo-fs{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;max-width:none;max-height:none;margin:0;aspect-ratio:auto;border-radius:0;border-width:0;z-index:99999}
+    .fs-exit{display:none}
+    .game-frame-wrap.pseudo-fs .fs-exit{display:flex;position:absolute;top:12px;right:12px;z-index:10;width:42px;height:42px;align-items:center;justify-content:center;border:0;border-radius:50%;background:rgba(0,0,0,0.55);color:#fff;font-size:20px;font-weight:900;line-height:1;cursor:pointer}
+    .game-frame-wrap:fullscreen .fs-exit{display:flex;position:absolute;top:12px;right:12px;z-index:10;width:42px;height:42px;align-items:center;justify-content:center;border:0;border-radius:50%;background:rgba(0,0,0,0.55);color:#fff;font-size:20px;font-weight:900;line-height:1;cursor:pointer}
     .fs-btn{display:none;margin:14px auto 0}
     @media(max-width:767px){.fs-btn{display:block;width:100%;padding:13px 0;font-weight:800;font-size:16px;border:none;border-radius:14px;background:var(--text);color:var(--bg);cursor:pointer;box-shadow:var(--shadow)}}
     .game-frame-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
@@ -197,8 +202,9 @@
   <section class="game-section">
     <div class="game-frame-wrap">
       <iframe src="../games/guild-master-tactics/index.html" title="ギルドマスター・タクティクス" sandbox="allow-scripts allow-same-origin" loading="lazy"></iframe>
+      <button type="button" class="fs-exit" aria-label="全画面を閉じる" onclick="ydExitFs(this)">✕</button>
     </div>
-    <button type="button" class="fs-btn" onclick="var w=this.parentNode.querySelector('.game-frame-wrap');(w.requestFullscreen||w.webkitRequestFullscreen||function(){}).call(w)">⛶ 全画面でプレイ</button>
+    <button type="button" class="fs-btn" onclick="ydToggleFs(this)">⛶ 全画面でプレイ</button>
     <p class="play-hint">💡 じっくり戦略を練りたい本格SRPG / PC推奨</p>
   </section>
 
@@ -318,6 +324,18 @@
       <div class="foot-copy">&copy; 2026 やまむー【yamamu】 / AIが作ったゲーム ポータル</div>
     </div>
   </footer>
+
+  <script>
+  /* 全画面プレイ：ネイティブFullscreen API → 不可な端末(iOS等)はCSS擬似全画面にフォールバック */
+  (function(){
+    var IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    function wrapOf(el){ return (el.closest && el.closest('.game-section') ? el.closest('.game-section').querySelector('.game-frame-wrap') : null) || (el.closest ? el.closest('.game-frame-wrap') : null) || document.querySelector('.game-frame-wrap'); }
+    function enterPseudo(w){ w.classList.add('pseudo-fs'); document.body.style.overflow = 'hidden'; }
+    window.ydToggleFs = function(btn){ var w = wrapOf(btn); if(!w) return; if(w.classList.contains('pseudo-fs')){ window.ydExitFs(w); return; } var req = w.requestFullscreen || w.webkitRequestFullscreen; if(req && !IOS){ try{ var p=req.call(w); if(p&&p.catch) p.catch(function(){ enterPseudo(w); }); }catch(e){ enterPseudo(w); } } else { enterPseudo(w); } };
+    window.ydExitFs = function(el){ var w = (el.classList && el.classList.contains('game-frame-wrap')) ? el : wrapOf(el); if(document.fullscreenElement || document.webkitFullscreenElement){ (document.exitFullscreen || document.webkitExitFullscreen || function(){}).call(document); } if(w) w.classList.remove('pseudo-fs'); document.body.style.overflow=''; };
+    document.addEventListener('fullscreenchange', function(){ if(!document.fullscreenElement) document.body.style.overflow=''; });
+  })();
+  </script>
 
 </body>
 </html>
