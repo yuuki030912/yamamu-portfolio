@@ -21,6 +21,8 @@
   #hud{display:flex;align-items:center;gap:9px;padding:7px 11px;
     background:linear-gradient(180deg,#0c1326,#0a1020);border-bottom:1px solid var(--line);
     flex-wrap:wrap;}
+  /* when embedded in the site iframe, reserve a top-left gap for the play page's ✕ fullscreen-exit button */
+  body.embed #hud{padding-left:50px;}
   .stat{display:flex;align-items:center;gap:5px;font-weight:700;font-size:15px;}
   .stat .ic{font-size:16px;}
   #goldS{color:var(--gold);} #lifeS{color:var(--red);} #waveS{color:var(--blu);}
@@ -197,6 +199,23 @@
     font-weight:700;font-size:14px;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap;}
   #toast.show{opacity:1;}
   .hint{color:var(--dim);font-size:12px;margin-top:12px;}
+
+  /* narrow screens (phone / non-fullscreen iframe): keep the 3 draft cards in one visible row */
+  @media(max-width:620px){
+    #draftOv{padding:14px 8px;overflow-y:auto;}
+    #draftOv h2{font-size:20px;}
+    #draftOv .dh{font-size:12px;margin-bottom:12px;}
+    .cards{gap:7px;max-width:100%;flex-wrap:nowrap;width:100%;}
+    .card{flex:1 1 0;min-width:0;width:auto;padding:11px 7px 9px;border-radius:12px;}
+    .cicimg{width:40px;height:40px;}
+    .card .cic{font-size:30px;margin-bottom:5px;}
+    .card .cnm{font-size:12.5px;margin-bottom:4px;}
+    .card .cds{font-size:10.5px;line-height:1.4;min-height:0;}
+    .card .crar{font-size:8px;top:6px;right:6px;}
+    .card .cown{font-size:8px;top:6px;left:6px;}
+    #rerollBtn{margin-top:12px;padding:9px 16px;font-size:13px;}
+    #rerollBtn small{display:none;}
+  }
 </style>
 </head>
 <body>
@@ -298,7 +317,6 @@
 
   <div id="dock"></div>
 </div>
-<audio id="bgm" src="assets/bgm.mp3" loop preload="auto"></audio>
 
 <script>
 "use strict";
@@ -306,6 +324,7 @@
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
 const $ = id => document.getElementById(id);
+try{ if(window.self!==window.top) document.body.classList.add('embed'); }catch(e){ document.body.classList.add('embed'); }
 const BEST_KEY='prismtower_best';
 
 // ---- Grid / maps ----
@@ -474,22 +493,24 @@ const SFX={
   card:()=>{[523,659,784].forEach((f,i)=>setTimeout(()=>blip(f,0.12,'square',0.08),i*60));},
   lose:()=>{ if(!playSnd('lose',0.55)) [440,330,247,165].forEach((f,i)=>setTimeout(()=>blip(f,0.25,'sawtooth',0.1,f*0.7),i*150)); },
 };
-// BGM ── route through Web Audio GainNode so volume works on ALL platforms
-// (HTMLAudioElement.volume is ignored on iOS/Safari; a GainNode is not)
-const bgm=$('bgm'); bgm.volume=1; let bgmGain=null,bgmSrc=null;
-function setupBgmGraph(){ const a=ac(); if(!a||bgmSrc)return;
-  try{ if(a.state==='suspended')a.resume();
-    bgmSrc=a.createMediaElementSource(bgm); bgmGain=a.createGain(); bgmGain.gain.value=vcurve(bgmVol);
-    bgmSrc.connect(bgmGain).connect(a.destination); }catch(e){} }
-function setBgmVol(){ if(bgmGain)bgmGain.gain.value=vcurve(bgmVol); else bgm.volume=vcurve(bgmVol); }
-function startBGM(){ ac(); setupBgmGraph(); setBgmVol(); if(bgmVol>0){ bgm.play().catch(()=>{}); } }
+// BGM ── decode the mp3 into an AudioBuffer and play it through a GainNode.
+// (Pure Web Audio; does NOT use <audio>.volume, which iOS/Safari ignores.)
+let bgmGain=null, bgmBuffer=null, bgmNode=null, bgmLoading=false;
+function ensureBgmGain(){ const a=ac(); if(a&&!bgmGain){ bgmGain=a.createGain(); bgmGain.gain.value=vcurve(bgmVol); bgmGain.connect(a.destination); } return bgmGain; }
+function setBgmVol(){ if(bgmGain)bgmGain.gain.value=vcurve(bgmVol); }
+function startBgmNode(){ const a=ac(); if(!a||!bgmBuffer||bgmNode)return; ensureBgmGain();
+  bgmNode=a.createBufferSource(); bgmNode.buffer=bgmBuffer; bgmNode.loop=true; bgmNode.connect(bgmGain); try{bgmNode.start(0);}catch(e){} }
+function loadBgm(){ const a=ac(); if(!a||bgmBuffer||bgmLoading)return; bgmLoading=true;
+  fetch('assets/bgm.mp3').then(r=>r.arrayBuffer()).then(function(b){
+    a.decodeAudioData(b, function(buf){ bgmBuffer=buf; bgmLoading=false; startBgmNode(); }, function(){ bgmLoading=false; });
+  }).catch(function(){ bgmLoading=false; }); }
+function startBGM(){ const a=ac(); if(!a)return; ensureBgmGain(); setBgmVol(); if(!bgmBuffer)loadBgm(); else startBgmNode(); }
 // ===== sound settings panel (separate BGM / SFX sliders) =====
-function applyBgm(){ ac(); setupBgmGraph(); setBgmVol();
-  if(bgmVol>0)bgm.play().catch(()=>{}); else bgm.pause();
+function applyBgm(){ ac(); ensureBgmGain(); setBgmVol(); if(bgmVol>0)startBGM();
   $('muteBtn').textContent=(bgmVol<=0&&sfxVol<=0)?'🔇':'🔊'; }
 function syncSndUI(){ $('bgmRange').value=Math.round(bgmVol*100); $('sfxRange').value=Math.round(sfxVol*100);
   $('bgmPct').textContent=Math.round(bgmVol*100)+'%'; $('sfxPct').textContent=Math.round(sfxVol*100)+'%'; }
-$('muteBtn').addEventListener('click',e=>{ e.stopPropagation(); ac(); setupBgmGraph(); $('sndPanel').classList.toggle('show'); syncSndUI(); });
+$('muteBtn').addEventListener('click',e=>{ e.stopPropagation(); ac(); startBGM(); $('sndPanel').classList.toggle('show'); syncSndUI(); });
 $('bgmRange').addEventListener('input',e=>{ bgmVol=e.target.value/100; $('bgmPct').textContent=e.target.value+'%'; applyBgm(); saveSnd(); });
 $('sfxRange').addEventListener('input',e=>{ sfxVol=e.target.value/100; $('sfxPct').textContent=e.target.value+'%'; SFX.place(); saveSnd();
   $('muteBtn').textContent=(bgmVol<=0&&sfxVol<=0)?'🔇':'🔊'; });
@@ -910,7 +931,7 @@ function saveBest(){ const b=getBest(); let nw=false;
   return nw; }
 function showBestTitle(){ const b=getBest(); $('bestTitle').textContent=b.wave?`🏆 自己ベスト：WAVE ${b.wave} ・ ${b.score} pt`:''; }
 function lose(){
-  G.state='over'; SFX.lose(); bgm.pause();
+  G.state='over'; SFX.lose(); if(bgmNode){try{bgmNode.stop();}catch(e){} bgmNode=null;}
   const isNew=saveBest(); const b=getBest();
   $('endTitle').textContent='CORE LOST'; $('endTitle').className='big biglose';
   $('endSub').innerHTML=`WAVE <b style="color:#39b6ff">${G.wave}</b> で陥落…<br>SCORE <b style="color:#ffd45e">${G.score}</b> pt`;
