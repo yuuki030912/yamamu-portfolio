@@ -218,8 +218,8 @@
 
   <div id="sndPanel">
     <h4>🎚 音量設定</h4>
-    <div class="srow"><span>🎵 BGM</span><input type="range" id="bgmRange" min="0" max="100" value="20"><b id="bgmPct">20%</b></div>
-    <div class="srow"><span>🔊 効果音</span><input type="range" id="sfxRange" min="0" max="100" value="55"><b id="sfxPct">55%</b></div>
+    <div class="srow"><span>🎵 BGM</span><input type="range" id="bgmRange" min="0" max="100" value="45"><b id="bgmPct">45%</b></div>
+    <div class="srow"><span>🔊 効果音</span><input type="range" id="sfxRange" min="0" max="100" value="74"><b id="sfxPct">74%</b></div>
   </div>
 
   <div id="stage">
@@ -416,19 +416,20 @@ window.addEventListener('resize',resize);
 
 // ===== audio (separate BGM / SFX volumes, saved) =====
 let AC=null;
-let bgmVol=0.20, sfxVol=0.55;   // 0..1, user-adjustable
+let bgmVol=0.45, sfxVol=0.74;   // 0..1 slider position
+const vcurve=v=>v*v;            // perceptual taper: linear slider feels natural to the ear (amplitude = slider^2)
 try{ const s=JSON.parse(localStorage.getItem('prismtower_snd')); if(s){ if(typeof s.bgm==='number')bgmVol=s.bgm; if(typeof s.sfx==='number')sfxVol=s.sfx; } }catch(e){}
 function saveSnd(){ try{ localStorage.setItem('prismtower_snd',JSON.stringify({bgm:bgmVol,sfx:sfxVol})); }catch(e){} }
 function ac(){ if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}} return AC; }
 function blip(f,d,t='square',v=0.12,to=null){ if(sfxVol<=0)return; const a=ac(); if(!a)return;
   const o=a.createOscillator(),g=a.createGain(); o.type=t; o.frequency.setValueAtTime(f,a.currentTime);
   if(to)o.frequency.exponentialRampToValueAtTime(to,a.currentTime+d);
-  g.gain.setValueAtTime(v*sfxVol,a.currentTime); g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+d);
+  g.gain.setValueAtTime(v*vcurve(sfxVol),a.currentTime); g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+d);
   o.connect(g).connect(a.destination); o.start(); o.stop(a.currentTime+d); }
 function noise(d,v=.18){ if(sfxVol<=0)return; const a=ac(); if(!a)return;
   const n=a.createBufferSource(),b=a.createBuffer(1,a.sampleRate*d,a.sampleRate),dd=b.getChannelData(0);
   for(let i=0;i<dd.length;i++)dd[i]=(Math.random()*2-1)*(1-i/dd.length);
-  n.buffer=b; const g=a.createGain(); g.gain.value=v*sfxVol; g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+d);
+  n.buffer=b; const g=a.createGain(); g.gain.value=v*vcurve(sfxVol); g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+d);
   n.connect(g).connect(a.destination); n.start(); }
 // ---- ElevenLabs SFX (mp3, pooled; fallback to WebAudio synth if missing) ----
 const SND={};
@@ -440,7 +441,7 @@ function loadSnd(name,pool){ const o={pool:[],i:0,ok:false,last:0}; SND[name]=o;
 function playSnd(name,vol,minGap){ if(sfxVol<=0)return true; const s=SND[name]; if(!s||!s.ok)return false;
   const t=performance.now(); if(minGap){ if(t-s.last<minGap)return true; s.last=t; }
   const a=s.pool[s.i]; s.i=(s.i+1)%s.pool.length;
-  try{a.currentTime=0;a.volume=Math.min(1,(vol==null?0.5:vol)*sfxVol);a.play().catch(()=>{});}catch(e){} return true; }
+  try{a.currentTime=0;a.volume=Math.min(1,(vol==null?0.5:vol)*vcurve(sfxVol));a.play().catch(()=>{});}catch(e){} return true; }
 
 // ---- images (NovelAI sprites/map; fallback to vector drawing if missing) ----
 const IMG={};
@@ -473,10 +474,10 @@ const SFX={
   lose:()=>{ if(!playSnd('lose',0.55)) [440,330,247,165].forEach((f,i)=>setTimeout(()=>blip(f,0.25,'sawtooth',0.1,f*0.7),i*150)); },
 };
 // BGM
-const bgm=$('bgm'); bgm.volume=bgmVol;
+const bgm=$('bgm'); bgm.volume=vcurve(bgmVol);
 function startBGM(){ if(bgmVol>0){ bgm.play().catch(()=>{}); } }
 // ===== sound settings panel (separate BGM / SFX sliders) =====
-function applyBgm(){ bgm.volume=bgmVol; if(bgmVol>0)bgm.play().catch(()=>{}); else bgm.pause();
+function applyBgm(){ bgm.volume=vcurve(bgmVol); if(bgmVol>0)bgm.play().catch(()=>{}); else bgm.pause();
   $('muteBtn').textContent=(bgmVol<=0&&sfxVol<=0)?'🔇':'🔊'; }
 function syncSndUI(){ $('bgmRange').value=Math.round(bgmVol*100); $('sfxRange').value=Math.round(sfxVol*100);
   $('bgmPct').textContent=Math.round(bgmVol*100)+'%'; $('sfxPct').textContent=Math.round(sfxVol*100)+'%'; }
