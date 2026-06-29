@@ -420,7 +420,8 @@ let bgmVol=0.45, sfxVol=0.74;   // 0..1 slider position
 const vcurve=v=>v*v;            // perceptual taper: linear slider feels natural to the ear (amplitude = slider^2)
 try{ const s=JSON.parse(localStorage.getItem('prismtower_snd')); if(s){ if(typeof s.bgm==='number')bgmVol=s.bgm; if(typeof s.sfx==='number')sfxVol=s.sfx; } }catch(e){}
 function saveSnd(){ try{ localStorage.setItem('prismtower_snd',JSON.stringify({bgm:bgmVol,sfx:sfxVol})); }catch(e){} }
-function ac(){ if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}} return AC; }
+function ac(){ if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}}
+  if(AC&&AC.state==='suspended'){try{AC.resume();}catch(e){}} return AC; }
 function blip(f,d,t='square',v=0.12,to=null){ if(sfxVol<=0)return; const a=ac(); if(!a)return;
   const o=a.createOscillator(),g=a.createGain(); o.type=t; o.frequency.setValueAtTime(f,a.currentTime);
   if(to)o.frequency.exponentialRampToValueAtTime(to,a.currentTime+d);
@@ -473,15 +474,22 @@ const SFX={
   card:()=>{[523,659,784].forEach((f,i)=>setTimeout(()=>blip(f,0.12,'square',0.08),i*60));},
   lose:()=>{ if(!playSnd('lose',0.55)) [440,330,247,165].forEach((f,i)=>setTimeout(()=>blip(f,0.25,'sawtooth',0.1,f*0.7),i*150)); },
 };
-// BGM
-const bgm=$('bgm'); bgm.volume=vcurve(bgmVol);
-function startBGM(){ if(bgmVol>0){ bgm.play().catch(()=>{}); } }
+// BGM ── route through Web Audio GainNode so volume works on ALL platforms
+// (HTMLAudioElement.volume is ignored on iOS/Safari; a GainNode is not)
+const bgm=$('bgm'); bgm.volume=1; let bgmGain=null,bgmSrc=null;
+function setupBgmGraph(){ const a=ac(); if(!a||bgmSrc)return;
+  try{ if(a.state==='suspended')a.resume();
+    bgmSrc=a.createMediaElementSource(bgm); bgmGain=a.createGain(); bgmGain.gain.value=vcurve(bgmVol);
+    bgmSrc.connect(bgmGain).connect(a.destination); }catch(e){} }
+function setBgmVol(){ if(bgmGain)bgmGain.gain.value=vcurve(bgmVol); else bgm.volume=vcurve(bgmVol); }
+function startBGM(){ ac(); setupBgmGraph(); setBgmVol(); if(bgmVol>0){ bgm.play().catch(()=>{}); } }
 // ===== sound settings panel (separate BGM / SFX sliders) =====
-function applyBgm(){ bgm.volume=vcurve(bgmVol); if(bgmVol>0)bgm.play().catch(()=>{}); else bgm.pause();
+function applyBgm(){ ac(); setupBgmGraph(); setBgmVol();
+  if(bgmVol>0)bgm.play().catch(()=>{}); else bgm.pause();
   $('muteBtn').textContent=(bgmVol<=0&&sfxVol<=0)?'🔇':'🔊'; }
 function syncSndUI(){ $('bgmRange').value=Math.round(bgmVol*100); $('sfxRange').value=Math.round(sfxVol*100);
   $('bgmPct').textContent=Math.round(bgmVol*100)+'%'; $('sfxPct').textContent=Math.round(sfxVol*100)+'%'; }
-$('muteBtn').addEventListener('click',e=>{ e.stopPropagation(); $('sndPanel').classList.toggle('show'); syncSndUI(); });
+$('muteBtn').addEventListener('click',e=>{ e.stopPropagation(); ac(); setupBgmGraph(); $('sndPanel').classList.toggle('show'); syncSndUI(); });
 $('bgmRange').addEventListener('input',e=>{ bgmVol=e.target.value/100; $('bgmPct').textContent=e.target.value+'%'; applyBgm(); saveSnd(); });
 $('sfxRange').addEventListener('input',e=>{ sfxVol=e.target.value/100; $('sfxPct').textContent=e.target.value+'%'; SFX.place(); saveSnd();
   $('muteBtn').textContent=(bgmVol<=0&&sfxVol<=0)?'🔇':'🔊'; });
