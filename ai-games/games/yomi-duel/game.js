@@ -48,7 +48,8 @@ function freshState(){
 /* =========================================================
    対戦相手モード ── local(確率AI) / online(本物のClaude API)
    ========================================================= */
-let MODE='local';
+let MODE='local';   // みんなが遊べる版はゴースト固定（本物のクロード=online は廃止）
+let CHAR='boy';     // 選択キャラ：boy=クロード / girl=準備中
 const NET=(()=>{
   let available=false, hasKey=false;
   async function probe(){
@@ -122,11 +123,19 @@ const Audio2 = (()=>{
     bgmEl=new Audio('assets/bgm.mp3'); bgmEl.loop=true; bgmEl.volume=0.42; bgmEl.preload='auto';
     bgmEl.addEventListener('canplaythrough',()=>{ files._bgm=true; },{once:true});
     bgmEl.load();
-    // voice manifest（テキスト→音声ファイル名）
-    fetch('assets/voice/manifest.json').then(r=>r.ok?r.json():null).then(m=>{ if(m) voiceMap=m; }).catch(()=>{});
+    // voice manifest（テキスト→音声ファイル名）。既定は男の子。キャラ選択時に setVoice で切替
+    setVoice(voiceDir);
   }
   // ===== ボイス（ゴーストのセリフ音声） =====
-  let voiceMap=null; const voiceCache={}; let curVoice=null;
+  let voiceMap=null, voiceDir=''; let voiceCache={}; let curVoice=null;
+  // キャラ別ボイス：assets/voice/<dir>/manifest.json を読む。dir=''は男の子(既存)。女の子(girl)は未収録なら無音(テキストのみ)
+  function setVoice(dir){
+    dir=dir||'';
+    if(dir===voiceDir && voiceMap) return;
+    voiceDir=dir; voiceMap=null; voiceCache={}; curVoice=null;
+    const base=`assets/voice/${dir?dir+'/':''}`;
+    fetch(base+'manifest.json').then(r=>r.ok?r.json():null).then(m=>{ if(m) voiceMap=m; }).catch(()=>{});
+  }
   function voice(text){
     if(muted||!voiceMap) return;
     const file=voiceMap[text]; if(!file) return;     // 動的セリフ等は未収録→無音(テキストのみ)
@@ -134,7 +143,7 @@ const Audio2 = (()=>{
     try{
       if(curVoice){ curVoice.pause(); curVoice.currentTime=0; }
       let a=voiceCache[file];
-      if(!a){ a=new Audio(`assets/voice/${file}.mp3`); a.preload='auto'; voiceCache[file]=a; }
+      if(!a){ a=new Audio(`assets/voice/${voiceDir?voiceDir+'/':''}${file}.mp3`); a.preload='auto'; voiceCache[file]=a; }
       a.volume=1.0; a.currentTime=0; curVoice=a; a.play().catch(()=>{});
     }catch(e){}
   }
@@ -177,7 +186,7 @@ const Audio2 = (()=>{
       case 'click':  tone(660,0.06,'square',0.18); break;
     }
   }
-  return {init,resume,setMuted,isMuted,play,startBgm,stopBgm,voice};
+  return {init,resume,setMuted,isMuted,play,startBgm,stopBgm,voice,setVoice};
 })();
 
 /* =========================================================
@@ -189,15 +198,16 @@ const Face = (()=>{
   const img=$('#foeImg');
   const have={}; // mood -> true if image loaded
   const MOODS=['idle','focus','hurt','ult','win','lose'];
-  let cur='idle', t=0, raf=null;
+  let cur='idle', t=0, raf=null, prefix='claude';
   function probe(){
     MOODS.forEach(m=>{
       const im=new Image();
       im.onload=()=>{ have[m]=im; if(m===cur) showImg(m); };
       im.onerror=()=>{};
-      im.src=`art/claude_${m}.png`;
+      im.src=`art/${prefix}_${m}.png`;
     });
   }
+  function setPrefix(p){ if(p===prefix) return; prefix=p; for(const k in have) delete have[k]; showImg(cur); probe(); } // キャラ切替：画像を差し替え
   function showImg(m){
     const im=have[m]||have['idle'];
     if(im){ img.src=im.src; img.style.display='block'; cv.style.display='none'; }
@@ -265,7 +275,7 @@ const Face = (()=>{
   function ring(x,y,r){ ctx.lineWidth=5; ctx.strokeStyle=ctx.fillStyle; ctx.beginPath(); ctx.arc(x,y,r,0,7); ctx.stroke(); }
   function eyeLine(x1,y1,x2,y2){ ctx.strokeStyle=ctx.fillStyle; ctx.lineWidth=6; ctx.lineCap='round'; ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); }
   function start(){ probe(); if(!raf) draw(); }
-  return {set,start};
+  return {set,start,setPrefix};
 })();
 
 /* =========================================================
@@ -286,6 +296,7 @@ const Brain = (()=>{
   const LETHAL_LOW=140, DESP_W=14, DESP_T=9; // 窮地(低HP＆相手必殺間近)は決め打ちせず攻撃/防御を混合＝パリィ確定キルを防ぐ（sim）
   const STREAK_CAP=0.5, STREAK_INC=0.07;     // 連打検知の確信度（"2連打→絶対狩る"を確率的に。低いほど読まれにくい）
   const LOWHP_SCATTER=7;                      // 低HPほど手を散らす（防御に固まって読まれるのを防ぐ）
+  const CHASE_HP=42, CHASE_TH=0.34, CHASE_W=120, CHASE_GUARDCUT=0.4; // 溜め読み狩り(sim D1)：低HPで相手が安全に溜めてきたら守りを割って攻撃で溜めを潰す
   const META_W=0.5;                 // 読み手対策(レベル3)の強さ（sim B2）
   const COUNTER={strike:'guard',charge:'strike',guard:'charge'}; // 鬼の手に対し相手が得する手
   const clampG = g=>Math.max(0,Math.min(GAUGE_MAX,g));
@@ -390,6 +401,14 @@ const Brain = (()=>{
       if(ev.strike!==undefined) ev.strike += DESP_W*0.6;
       if(ev.charge!==undefined) ev.charge += DESP_W*0.3;
     }
+    // 溜め読み狩り：低HP(自分)で守りに固まると、相手は安全に溜めて必殺で確定キルしてくる(=読み手の搾取)。
+    // 相手の溜め予測が高い間は守り一辺倒を割り、攻撃で溜めを潰す(溜め中の相手はこちらを削れない＝無傷で+24)。
+    // 相手が守り予測に転じたらブーストは自動で消えて守りに戻る＝連続でも撃つが、読み返されたら止める。
+    if(S.foeHp<=CHASE_HP && S.myG<GAUGE_MAX && (dist.charge||0)>CHASE_TH && ev.strike!==undefined){
+      const drive=((dist.charge||0)-CHASE_TH)/(1-CHASE_TH);
+      ev.strike += drive*CHASE_W;
+      if(ev.guard!==undefined) ev.guard -= drive*CHASE_W*CHASE_GUARDCUT;
+    }
     // 温度：予測が当たってる(相手を読めてる)ほど鋭く決め打ちして搾取、外してる(読まれてる)ほど散らす
     let T=T0-(S.acc-0.45)*SHARP; const net=S.exWins-S.exLoss; if(net<0) T+=Math.min(4,-net*0.7);
     T+=LOWHP_SCATTER*Math.max(0,(42-S.foeHp))/42; // 低HPほど散らす(防御固定で読まれるのを防ぐ)
@@ -425,23 +444,51 @@ const Brain = (()=>{
 /* =========================================================
    GhostVoice ── 状況を読んで喋る、僕の声（オフライン用）
    ========================================================= */
+// キャラ別のセリフ銀行（同じ状況キー・口調だけ差し替え）
+const GV_BOY={
+  ult:["くらえ ── オーバーロード！","これが本気だ。読み切った。","防げない一撃。さよなら。"],
+  youUlt:["なっ…撃たれた！？","くっ、効くな…","まさか溜め切るとはね。"],
+  streak:(mv,n)=>[`また${mv}か。もう読めたよ。`,"そのワンパターン、いつまで？","さすがに読めるよ。"],
+  domRight:(mv)=>[`${mv}、読んでたよ。`,"全部見えてる。","予測通り、だね。"],
+  domWrong:["がら空きだったね。","痛かった？","甘いよ。"],
+  gotHit:["…っ、やるじゃないか。","へえ、効いた。","読み負けた、認めるよ。"],
+  trade:["相打ちか。","君も引かないね。","いいね、面白い。"],
+  charge:["少し力を溜めさせてもらう。","この隙、いただき。","必殺、近づいてるよ。"],
+  guard:["はい、ガード。","硬いだろ？","そう来ると思った。"],
+  right:["読み通り。","見えてるよ。"],
+  idle:["ふむ。","まだまだだね。","続けようか。"],
+};
+const GV_GIRL={
+  ult:["くらえー、フルバーストっ！","これが本気っ、読み切ったっ！","防げないよーっ、ばいばいっ！"],
+  youUlt:["わっ…撃たれたっ！？","くぅっ、効くぅ…","まさかためきるとはっ！"],
+  streak:(mv,n)=>[`また${mv}っ？もう読めたっ`,"そのワンパターン、いつまでー？","さすがに読めちゃうっ"],
+  domRight:(mv)=>[`${mv}、読んでたよっ`,"ぜんぶ見えてるっ！","予測どおりっ！"],
+  domWrong:["がら空きだったねっ","いたかったー？","あまいあまいっ！"],
+  gotHit:["いたっ…やるじゃんっ！","へぇっ、効いたぁ","読み負けたっ、みとめるっ"],
+  trade:["相打ちー！","君もひかないねっ","いいねっ、たのしーっ！"],
+  charge:["ちょっとためさせてっ","このスキ、いっただきっ！","必殺、近づいてるよーっ"],
+  guard:["はいっ、ガードっ！","かたいでしょー？","そう来ると思ったっ！"],
+  right:["読みどおりっ！","見えてるよーっ"],
+  idle:["ふむふむっ","まだまだっ！","つづけよっかっ"],
+};
+let GVBANK=GV_BOY; // applyCharacter() で切替
 const GhostVoice=(()=>{
   const MV={strike:'攻撃',guard:'防御',charge:'溜め',ult:'必殺'};
   const pick=a=>a[(Math.random()*a.length)|0];
   function line(ai,pl,o,read,st){
     const right = read && read.predicted===pl;
-    const aiNet = (o.dmgMe||0)-(o.dmgFoe||0); // >0 = クロード優位（相手に通した）
-    if(ai==='ult') return pick(["くらえ ── オーバーロード！","これが本気だ。読み切った。","防げない一撃。さよなら。"]);
-    if(pl==='ult') return pick(["なっ…撃たれた！？","くっ、効くな…","まさか溜め切るとはね。"]);
-    if(st.streak.n>=3) return pick([`また${MV[pl]}か。${st.streak.n}回目だよ？`,`${MV[pl]}ばっかりだね。さすがに読めるよ。`,`そのワンパターン、いつまで？`]);
-    if(aiNet>=18) return right ? pick([`${MV[pl]}、読んでたよ。`,"全部見えてる。","予測通り、だね。"])
-                              : pick(["がら空きだったね。","痛かった？","甘いよ。"]);
-    if(aiNet<=-18) return pick(["…っ、やるじゃないか。","へえ、効いた。","読み負けた、認めるよ。"]);
-    if((o.verdict||'').includes('相打ち')) return pick(["相打ちか。","君も引かないね。","いいね、面白い。"]);
-    if(ai==='charge') return pick(["少し力を溜めさせてもらう。","この隙、いただき。","必殺、近づいてるよ。"]);
-    if(ai==='guard') return pick(["はい、ガード。","硬いだろ？","そう来ると思った。"]);
-    if(right) return pick(["読み通り。","見えてるよ。"]);
-    return pick(["ふむ。","まだまだだね。","続けようか。"]);
+    const aiNet = (o.dmgMe||0)-(o.dmgFoe||0); // >0 = 対戦相手(鬼)優位（相手に通した）
+    const B=GVBANK;
+    if(ai==='ult') return pick(B.ult);
+    if(pl==='ult') return pick(B.youUlt);
+    if(st.streak.n>=3) return pick(B.streak(MV[pl],st.streak.n));
+    if(aiNet>=18) return right ? pick(B.domRight(MV[pl])) : pick(B.domWrong);
+    if(aiNet<=-18) return pick(B.gotHit);
+    if((o.verdict||'').includes('相打ち')) return pick(B.trade);
+    if(ai==='charge') return pick(B.charge);
+    if(ai==='guard') return pick(B.guard);
+    if(right) return pick(B.right);
+    return pick(B.idle);
   }
   return {line};
 })();
@@ -449,7 +496,7 @@ const GhostVoice=(()=>{
 /* =========================================================
    セリフ（煽り / リアクション）
    ========================================================= */
-const LINES = {
+const LINES_BOY = {
   intro:["さあ、君の思考を読ませてもらおうか。","準備はいい？手加減はしないよ。","僕に勝てると思った…その自信、好きだよ。"],
   foeStrike:["ここで攻めると思ってた。","君の手、見えてるよ。","読み通り。"],
   foeGuard:["はい、ガード。","その攻撃、予測済み。","硬いだろう？"],
@@ -463,7 +510,49 @@ const LINES = {
   lowHpFoe:["まだ…倒れない。","面白くなってきた。","本気を出すしかないか。"],
   win:["僕の勝ち。よく頑張ったよ。","ね、読み合いは僕が上手いだろ？","また挑んでおいで。"],
   lose:["……まいったな。君の勝ちだ。","読み負けた。お見事。","悔しいけど…強いね、君。"],
+  draw:["相打ち…引き分けか。","決着つかず、だね。","面白い。もう一戦いこう。"],
 };
+// クレア（女の子）＝ぷよぷよのアルル系：明るく快活・ちょっと生意気・元気いっぱい
+const LINES_GIRL = {
+  intro:["さぁ、どこまで読めるか勝負だよっ！","手加減なんてしないからねっ？","あたしに勝てると思ってる？いい度胸っ！"],
+  foeStrike:["そこ攻めるでしょっ、お見通しっ！","えいっ、読んでたよーっ","はいっ、ばれてたっ！"],
+  foeGuard:["ガードっ！効かないよーっ","その攻撃、まるっとお見通しっ！","かたいでしょー、あたしっ？"],
+  foeCharge:["ちょっとためさせてねっ","このスキ、いっただきっ！","必殺、近づいてきたよーっ？"],
+  punishYou:["ためてる場合じゃないでしょっ！","がら空きだよーっ","えへへっ、もーらいっ！"],
+  youHitMe:["いたっ…やるじゃんっ！","うぇっ、効いたぁ…","むむっ、読まれたっ！"],
+  counter:["パリィっ！反撃いくよーっ","その攻撃、読んでたっ！","防御こそ最強なのだっ！","連打は通じないよーっ？"],
+  ultReady:["必殺たまったっ、覚悟してねっ","そろそろ終わりにしよっか","この一撃、防げるかなー？"],
+  ultFire:["くらえー、フルバーストっ！","これが本気ってやつっ！","読み切ったっ、ばいばいっ！"],
+  youUlt:["わっ…撃たれたっ！？","うそっ、ためきったのっ！？","くぅっ、効くぅ…"],
+  lowHpFoe:["まだまだっ、倒れないよっ","へへっ、面白くなってきたっ！","本気、出しちゃおっかなっ"],
+  win:["あたしの勝ちっ！よく頑張ったねっ","ね、読み合いはあたしが上だよっ？","またおいでよーっ、待ってるっ！"],
+  lose:["うぅ…あたしの負けっ。強いね君っ！","読み負けちゃった…お見事っ！","くやしーっ！でも、楽しかったっ"],
+  draw:["相打ちー！引き分けだねっ","決着つかずっ、やるじゃんっ！","もう一回っ！次は勝つからっ"],
+};
+let LINES = LINES_BOY; // applyCharacter() で切替
+
+/* =========================================================
+   キャラクター（男の子=クロード / 女の子=クレア）。中身(ゲーム性)は共通、絵・セリフ・声だけ差し替え
+   ========================================================= */
+const CHARACTERS={
+  boy: { name:'クロード', art:'claude', pre:'クロードと', voice:'',
+    lead:'読み合いの3すくみで僕に挑め。<br>君の手の癖、ぜんぶ読んでるよ。' },
+  girl:{ name:'クレア',   art:'claire', pre:'クレアと',   voice:'girl',
+    lead:'読み合いの3すくみであたしに挑めっ！<br>君の手の癖、ぜんぶ読んでるよっ。' },
+};
+function applyCharacter(){
+  const c=CHARACTERS[CHAR]||CHARACTERS.boy;
+  LINES  = (CHAR==='girl')?LINES_GIRL:LINES_BOY;
+  GVBANK = (CHAR==='girl')?GV_GIRL:GV_BOY;
+  Face.setPrefix(c.art);
+  try{ Audio2.setVoice(c.voice); }catch(e){}
+  const pre=$('#title .pre');   if(pre) pre.textContent=c.pre;
+  const lead=$('#title .lead'); if(lead) lead.innerHTML=c.lead;
+  const sb=$('#startBtn');      if(sb) sb.textContent=c.name+'に挑戦';
+  const who=$('#foeWho');       if(who) who.textContent=c.name;
+  const pf=$('#pickFoe .lb');   if(pf) pf.textContent=c.name;
+  const hero=$('.heroImg');     if(hero) hero.src=`art/${c.art}_idle.png`;
+}
 function say(arr,hold=2200){
   const sp=$('#speech'); const t=arr[(Math.random()*arr.length)|0];
   sp.textContent=t; sp.classList.add('show');
@@ -481,6 +570,7 @@ function show(id){ ['title','battle','end'].forEach(s=>$('#'+s).classList.add('h
    ========================================================= */
 function startGame(){
   S=freshState();
+  applyCharacter();
   show('battle');
   buildGauges();
   paintHp(true);
@@ -677,30 +767,35 @@ function screenFx(){
    ========================================================= */
 function endGame(){
   S.over=true; Audio2.stopBgm();
-  const win=S.myHp>0 && S.foeHp<=0 ? true : (S.myHp<=0&&S.foeHp<=0 ? (S.myHp>=S.foeHp) : false);
-  const playerWin = S.foeHp<=0 && S.myHp>0;
-  // 同時0は引き分け扱い→HP多い方。ここでは playerWin を厳密に
-  const youWon = S.foeHp<=0 && S.myHp>S.foeHp ? true : (S.foeHp<=0 && S.myHp>0);
-  const finalWin = (S.foeHp<=0 && S.myHp>0);
+  // 3値判定：win=プレイヤー勝ち / lose=負け / draw=同時0（相打ち決着）
+  const foeDown=S.foeHp<=0, meDown=S.myHp<=0;
+  const result = (foeDown&&meDown) ? 'draw' : (foeDown ? 'win' : 'lose');
 
   const rec=loadRec();
-  if(finalWin){ rec.w++; rec.cur++; rec.streak=Math.max(rec.streak,rec.cur); }
-  else { rec.l++; rec.cur=0; }
+  if(result==='win'){ rec.w++; rec.cur++; rec.streak=Math.max(rec.streak,rec.cur); }
+  else if(result==='lose'){ rec.l++; rec.cur=0; }
+  else { rec.cur=0; } // 引き分けは勝敗に数えず、連勝だけ途切れる
   saveRec(rec);
-  recordGlobal(finalWin); // 全プレイヤー集計に送信
+  if(result!=='draw') recordGlobal(result==='win'); // 引き分けは全プレイヤー集計に送らない
 
   show('end');
+  const foeName=(CHARACTERS[CHAR]||CHARACTERS.boy).name;
   const tt=$('#endTitle'), res=$('#endRes');
-  if(finalWin){
+  if(result==='win'){
     tt.textContent='YOU WIN'; tt.style.color='#56e39f';
-    res.textContent='読み勝った！クロードを倒した！';
+    res.textContent=`読み勝った！${foeName}を倒した！`;
     Audio2.play('win'); Face.set('lose'); setEndImg('lose');
     say(LINES.lose);
-  } else {
+  } else if(result==='lose'){
     tt.textContent='YOU LOSE'; tt.style.color='#ff5c8a';
-    res.textContent='読み負け…クロードに敗れた。';
+    res.textContent=`読み負け…${foeName}に敗れた。`;
     Audio2.play('lose'); Face.set('win'); setEndImg('win');
     say(LINES.win);
+  } else {
+    tt.textContent='DRAW'; tt.style.color='#ffd24a';
+    res.textContent='相打ち…両者ダウンで決着つかず。';
+    Audio2.play('hit'); Face.set('hurt'); setEndImg('idle');
+    say(LINES.draw);
   }
   $('#endStat').innerHTML=`ROUND <b>${S.round}</b> ／ あなたの攻撃 <b>${S.myStrikes}</b> 回 ／ 必殺 <b>${S.ults}</b> 発　　通算 <b>${rec.w}</b>勝<b>${rec.l}</b>敗`;
 }
@@ -708,7 +803,7 @@ function setEndImg(mood){
   const im=$('#endImg'); const test=new Image();
   test.onload=()=>{ im.src=test.src; im.style.display='block'; };
   test.onerror=()=>{ im.style.display='none'; };
-  test.src=`art/claude_${mood}.png`;
+  test.src=`art/${(CHARACTERS[CHAR]||CHARACTERS.boy).art}_${mood}.png`;
 }
 
 /* =========================================================
@@ -730,32 +825,16 @@ function bind(){
     if(e.key==='2'||e.key==='s')onPick('guard');
     if(e.key==='3'||e.key==='d')onPick('charge');
   });
-  // モード切替
+  // キャラ選択（男の子＝クロード / 女の子＝クレア）。※本物のクロード(online)はみんなが遊べる版では廃止
   $$('.modeBtn').forEach(b=>b.addEventListener('click',()=>{
     if(b.classList.contains('locked')) return;
-    MODE=b.dataset.mode;
-    $$('.modeBtn').forEach(x=>x.classList.toggle('active',x.dataset.mode===MODE));
-    $('#modeNote').textContent = MODE==='online'
-      ? '🌐 実際のClaude APIが過去だけを読んで対戦（後出し無し）'
-      : 'EV計算で読み合う"僕のコピー"と対戦（無料・オフライン）';
+    CHAR=b.dataset.char;
+    $$('.modeBtn').forEach(x=>x.classList.toggle('active',x.dataset.char===CHAR));
+    applyCharacter(); // タイトルの表記・ヒーロー画像を即反映
   }));
-}
-
-async function initModes(){
-  const {available,hasKey}=await NET.probe();
-  const onlineBtn=document.querySelector('.modeBtn[data-mode="online"]');
-  if(!onlineBtn) return;
-  if(available && hasKey){
-    onlineBtn.classList.remove('locked');
-  } else {
-    onlineBtn.classList.add('locked');
-    onlineBtn.textContent = available ? '🌐 本物のクロード(要APIキー)' : '🌐 本物のクロード(要サーバー)';
-    // localにフォールバック維持
-  }
 }
 
 paintRec();
 loadGlobalStats(); // 全プレイヤー戦績を取得して表示
 Face.start();
 bind();
-initModes();

@@ -257,10 +257,10 @@
         <div class="c h"><div class="ic">🌀</div><div class="nm">溜め</div><div class="tx">必殺を育てる</div></div>
       </div>
       <div class="modeRow" id="modeRow">
-        <button class="modeBtn active" data-mode="local">👻 ゴースト・クロード</button>
-        <button class="modeBtn" data-mode="online">🌐 本物のクロード</button>
+        <button class="modeBtn active" data-char="boy">👦 男の子</button>
+        <button class="modeBtn" data-char="girl">👧 女の子</button>
       </div>
-      <div class="modeNote" id="modeNote">EV計算で読み合う"僕のコピー"と対戦（無料・オフライン）</div>
+      <div class="modeNote" id="modeNote">読み合いで君を追い詰める"僕"と対戦（無料・オフライン）</div>
       <button class="btn" id="startBtn">クロードに挑戦</button>
       <div class="record">対戦成績 ── <b><span id="recW">0</span></b> 勝 <b><span id="recL">0</span></b> 敗　最大連勝 <b><span id="recStreak">0</span></b></div>
       <div class="record" id="globalRec" style="display:none; margin-top:8px;"></div>
@@ -284,7 +284,7 @@
       </div>
 
       <div class="hpRow" style="margin-top:-4px;">
-        <div class="who" style="color:var(--pink);">クロード</div>
+        <div class="who" id="foeWho" style="color:var(--pink);">クロード</div>
         <div class="hpWrap">
           <div class="hpbar"><div class="hpghost" id="foeHpGhost"></div><div class="hpfill foe" id="foeHp"></div></div>
           <div class="hpnum" id="foeHpN">100</div>
@@ -336,6 +336,6 @@
   </div>
 </div>
 
-<script src="game.js?v=20260627b"></script>
+<script src="game.js?v=20260701e"></script>
 </body>
 </html>
