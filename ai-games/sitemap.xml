@@ -122,4 +122,16 @@
     </image:image>
   </url>
 
+  <!-- CHAIN BURST -->
+  <url>
+    <loc>https://yamamu-youtube.jp/ai-games/play/chain-burst.html</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://yamamu-youtube.jp/ai-games/assets/ogp-chain-burst.png</image:loc>
+      <image:title>CHAIN BURST ─ 連鎖バースト</image:title>
+    </image:image>
+  </url>
+
 </urlset>

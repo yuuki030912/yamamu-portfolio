@@ -52,8 +52,20 @@
     "@context": "https://schema.org",
     "@type": "ItemList",
     "name": "AIが作ったブラウザゲーム",
-    "numberOfItems": 9,
+    "numberOfItems": 10,
     "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 10,
+        "item": {
+          "@type": "VideoGame",
+          "name": "CHAIN BURST ─ 連鎖バースト",
+          "url": "https://yamamu-youtube.jp/ai-games/play/chain-burst.html",
+          "genre": "落ち物パズル・回転連鎖・オンライン対戦",
+          "operatingSystem": "Browser",
+          "applicationCategory": "Game"
+        }
+      },
       {
         "@type": "ListItem",
         "position": 9,
@@ -439,6 +451,7 @@
     .game-thumb.t7 { background-image: url("assets/ogp-neon-drifter.png"); }
     .game-thumb.t8 { background-image: url("assets/ogp-yomi-duel.png"); }
     .game-thumb.t9 { background-image: url("assets/ogp-prism-tower.png"); }
+    .game-thumb.t10 { background-image: url("assets/ogp-chain-burst.png"); }
     .game-thumb .badge {
       position: absolute; top: 12px; left: 12px;
       background: var(--text); color: #fff;
@@ -617,6 +630,22 @@
     </div>
 
     <div class="game-grid">
+      <!-- GAME 10: CHAIN BURST -->
+      <a href="play/chain-burst.html" class="game-card">
+        <div class="game-thumb t10">
+          <span class="badge new">NEW</span>
+        </div>
+        <div class="game-body">
+          <div class="game-tags">
+            <span class="game-tag">落ち物パズル</span>
+            <span class="game-tag">オンライン対戦</span>
+          </div>
+          <h3 class="game-title">CHAIN BURST ─ 連鎖バースト</h3>
+          <p class="game-desc">同じ色を4つで消す落ち物パズル。本命は"盤ごと回転"で全オーブを落として大連鎖！ランダム／合言葉でオンライン1対1対戦もできる。</p>
+          <span class="game-cta">▶ プレイする</span>
+        </div>
+      </a>
+
       <!-- GAME 9: PRISM TOWER -->
       <a href="play/prism-tower.html" class="game-card">
         <div class="game-thumb t9">
