@@ -11,6 +11,7 @@
 </head>
 <body>
 <canvas id="cv"></canvas>
+<button id="lbFloat" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();window.LBW&&LBW.gameover(window.__lbScore||0)" style="display:none;position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:99999;padding:10px 20px;font-size:15px;font-weight:800;border:none;border-radius:12px;background:linear-gradient(95deg,#ff8a3c,#ffba4c);color:#241000;box-shadow:0 4px 14px rgba(0,0,0,.4);cursor:pointer;font-family:sans-serif">🏆 ランキング</button>
 <script>
 'use strict';
 /* =========================================================
@@ -321,6 +322,7 @@ for(let i=0;i<70;i++) stars.push({x:Math.random(),y:Math.random(),s:rnd(0.5,1.8)
 function multOf(){ return (1+Math.floor(combo/5)) * (fever>0?2:1) * (boostT>0?2:1); }
 
 function reset(m){
+  try{var _lf=document.getElementById('lbFloat'); if(_lf) _lf.style.display='none';}catch(_e){}
   mode=m||'endless';
   rng = mode==='daily' ? mulberry32(dayStamp()) : Math.random;
   dailyNewBest=false; noFlipT=0;
@@ -480,6 +482,7 @@ function die(cause,hx,hy){
     return;
   }
   state='dead'; deathT=0;
+  window.__lbScore=score; try{var _lf=document.getElementById('lbFloat'); if(_lf) _lf.style.display='block';}catch(_e){}
   deathInfo={label:cause, x:hx, y:hy};
   firstPlay=false; localStorage.setItem('od_played','1');
   hitstop=0.05; shake=18; flash=1;
@@ -1178,5 +1181,7 @@ function frame(now){
 }
 requestAnimationFrame(frame);
 </script>
+<script>window.LB_GAME='orbit-dash';</script>
+<script src="/ai-games/lb-widget.js" defer></script>
 </body>
 </html>

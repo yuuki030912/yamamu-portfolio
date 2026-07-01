@@ -105,6 +105,7 @@
     <div class="statline">スコア <span class="gold" id="overScore">0</span></div>
     <div class="statline" id="overBest"></div>
     <button class="btn" id="retryBtn">↻ RETRY</button>
+    <button class="btn" id="lbRankBtn" onclick="window.LBW&&LBW.gameover(window.__lbScore||0)">🏆 ランキング</button>
   </div>
 </div>
 
@@ -732,6 +733,7 @@ function gameOver(win){
   AudioSys.stopMusic(); AudioSys.stopBGM();
   const bestScore=Math.max(G.score, +(localStorage.getItem('nd_best')||0));
   const bestRound=Math.max(G.round, +(localStorage.getItem('nd_best_round')||0));
+  window.__lbScore=G.score;
   localStorage.setItem('nd_best', bestScore);
   localStorage.setItem('nd_best_round', bestRound);
   document.getElementById('overTitle').textContent='GAME OVER';
@@ -971,5 +973,7 @@ document.getElementById('muteBtn').onclick=function(){ AudioSys.init(); const m=
 
 requestAnimationFrame(loop);
 </script>
+<script>window.LB_GAME='neon-drifter';</script>
+<script src="/ai-games/lb-widget.js" defer></script>
 </body>
 </html>
