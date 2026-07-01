@@ -293,6 +293,7 @@
       <p class="sub" id="endSub"></p>
       <div class="best" id="bestEnd"></div>
       <button class="play" id="retryBtn">↻ もう一度</button>
+      <button class="play" id="lbRankBtn" onclick="window.LBW&&LBW.gameover(window.__lbScore||0)">🏆 ランキング</button>
     </div>
 
     <!-- Tutorial / Help -->
@@ -936,6 +937,7 @@ function lose(){
   $('endTitle').textContent='CORE LOST'; $('endTitle').className='big biglose';
   $('endSub').innerHTML=`WAVE <b style="color:#39b6ff">${G.wave}</b> で陥落…<br>SCORE <b style="color:#ffd45e">${G.score}</b> pt`;
   $('bestEnd').innerHTML=isNew?'✨ 自己ベスト更新！':`🏆 ベスト：WAVE ${b.wave} ・ ${b.score} pt`;
+  window.__lbScore=G.score;
   $('endOv').classList.remove('hide');
 }
 
@@ -1147,5 +1149,7 @@ newGame(); buildPath(); resize(); buildDock(); updateHUD(); showBestTitle();
 requestAnimationFrame(loop);
 })();
 </script>
+<script>window.LB_GAME='prism-tower';</script>
+<script src="/ai-games/lb-widget.js" defer></script>
 </body>
 </html>
