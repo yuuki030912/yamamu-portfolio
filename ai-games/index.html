@@ -52,8 +52,32 @@
     "@context": "https://schema.org",
     "@type": "ItemList",
     "name": "AIが作ったブラウザゲーム",
-    "numberOfItems": 10,
+    "numberOfItems": 12,
     "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 12,
+        "item": {
+          "@type": "VideoGame",
+          "name": "YOMI DUEL・改 ─ AI心理決闘",
+          "url": "https://yamamu-youtube.jp/ai-games/play/yomi-duel-kai.html",
+          "genre": "心理戦カードバトル・読み合い・AI対戦",
+          "operatingSystem": "Browser",
+          "applicationCategory": "Game"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 11,
+        "item": {
+          "@type": "VideoGame",
+          "name": "ネオン百鬼夜行 3D",
+          "url": "https://yamamu-youtube.jp/ai-games/play/neon-hyakki.html",
+          "genre": "サバイバー・ローグライト・和風ネオン3D",
+          "operatingSystem": "Browser",
+          "applicationCategory": "Game"
+        }
+      },
       {
         "@type": "ListItem",
         "position": 10,
@@ -452,6 +476,8 @@
     .game-thumb.t8 { background-image: url("assets/ogp-yomi-duel.png?v=2"); }
     .game-thumb.t9 { background-image: url("assets/ogp-prism-tower.png"); }
     .game-thumb.t10 { background-image: url("assets/ogp-chain-burst.png"); }
+    .game-thumb.t11 { background-image: url("assets/ogp-neon-hyakki.png"); }
+    .game-thumb.t12 { background-image: url("assets/ogp-yomi-duel-kai.png"); }
     .game-thumb .badge {
       position: absolute; top: 12px; left: 12px;
       background: var(--text); color: #fff;
@@ -630,6 +656,38 @@
     </div>
 
     <div class="game-grid">
+      <!-- GAME 12: YOMI DUEL・改 -->
+      <a href="play/yomi-duel-kai.html" class="game-card">
+        <div class="game-thumb t12">
+          <span class="badge new">NEW</span>
+        </div>
+        <div class="game-body">
+          <div class="game-tags">
+            <span class="game-tag">心理戦カード</span>
+            <span class="game-tag">AI読み合い</span>
+          </div>
+          <h3 class="game-title">YOMI DUEL・改 ─ AI心理決闘</h3>
+          <p class="game-desc">攻撃・防御・チャージの3すくみ＋必殺＋予測・フェイントの心理戦。AIはあなたの癖を解析し"裏の裏"まで読み、対戦するほど強くなる。読み勝て。</p>
+          <span class="game-cta">▶ プレイする</span>
+        </div>
+      </a>
+
+      <!-- GAME 11: NEON HYAKKI YAGYO 3D -->
+      <a href="play/neon-hyakki.html" class="game-card">
+        <div class="game-thumb t11">
+          <span class="badge new">NEW</span>
+        </div>
+        <div class="game-body">
+          <div class="game-tags">
+            <span class="game-tag">サバイバー</span>
+            <span class="game-tag">和風ネオン 3D</span>
+          </div>
+          <h3 class="game-title">ネオン百鬼夜行 3D</h3>
+          <p class="game-desc">和風ネオンの妖怪大群を自動攻撃で斬り伏せる3Dサバイバー。無敵の回避斬りと画面全体を薙ぐ必殺「百鬼夜行」で捌け。外部ライブラリ0・生WebGL制作。</p>
+          <span class="game-cta">▶ プレイする</span>
+        </div>
+      </a>
+
       <!-- GAME 10: CHAIN BURST -->
       <a href="play/chain-burst.html" class="game-card">
         <div class="game-thumb t10">
