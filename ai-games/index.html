@@ -6,15 +6,15 @@
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
 
   <!-- SEO基本タグ -->
-  <title>AIが作ったゲーム ポータル | ブラウザで遊べる7本【やまむー】</title>
-  <meta name="description" content="AIで毎日制作されたぶっ飛びゲーム7本がブラウザで遊べる。仏像レース・満員電車おじさんガチャ・おじいちゃん宇宙大冒険・TIMESTOP HERO・ギルドマスタータクティクス・ORBIT DASH・NEON DRIFTER。DL不要、無料。Claude / NovelAI / Sunoで制作中のyamamu公式ポータル。">
+  <title>AIが作ったゲーム ポータル | ブラウザで遊べる全13作【やまむー】</title>
+  <meta name="description" content="AIで毎日制作されたぶっ飛びゲーム全13作がブラウザで遊べる。仏像レース・満員電車おじさんガチャ・おじいちゃん宇宙大冒険・TIMESTOP HERO・ギルドマスタータクティクス・ORBIT DASH・NEON DRIFTER。DL不要、無料。Claude / NovelAI / Sunoで制作中のyamamu公式ポータル。">
   <meta name="keywords" content="AIゲーム,ブラウザゲーム,無料ゲーム,HTML5,やまむー,AI制作,Claude,NovelAI,仏像レース,満員電車ガチャ,ORBIT DASH,NEON DRIFTER">
   <link rel="canonical" href="https://yamamu-youtube.jp/ai-games/">
 
   <!-- OGP -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="AIが作ったゲーム ポータル | ブラウザで遊べる7本【やまむー】">
-  <meta property="og:description" content="AIで毎日制作されたぶっ飛びゲーム7本がブラウザで遊べる。DL不要、無料。">
+  <meta property="og:title" content="AIが作ったゲーム ポータル | ブラウザで遊べる全13作【やまむー】">
+  <meta property="og:description" content="AIで毎日制作されたぶっ飛びゲーム全13作がブラウザで遊べる。DL不要、無料。">
   <meta property="og:image" content="https://yamamu-youtube.jp/ai-games/assets/ogp-portal.png">
   <meta property="og:url" content="https://yamamu-youtube.jp/ai-games/">
   <meta property="og:site_name" content="やまむー【yamamu】">
@@ -22,7 +22,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="AIが作ったゲーム ポータル | やまむー公式">
-  <meta name="twitter:description" content="AIで作ったぶっ飛びゲーム7本がブラウザで無料プレイ可能">
+  <meta name="twitter:description" content="AIで作ったぶっ飛びゲーム全13作がブラウザで無料プレイ可能">
   <meta name="twitter:image" content="https://yamamu-youtube.jp/ai-games/assets/ogp-portal.png">
 
   <!-- JSON-LD: WebSite -->
@@ -54,6 +54,18 @@
     "name": "AIが作ったブラウザゲーム",
     "numberOfItems": 12,
     "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 13,
+        "item": {
+          "@type": "VideoGame",
+          "name": "WOBBLY CUP ─ ドタバタ物理サッカー",
+          "url": "https://yamamu-youtube.jp/ai-games/play/wobbly-cup.html",
+          "genre": "物理サッカー・1対1・オンライン対戦",
+          "operatingSystem": "Browser",
+          "applicationCategory": "Game"
+        }
+      },
       {
         "@type": "ListItem",
         "position": 12,
@@ -478,6 +490,7 @@
     .game-thumb.t10 { background-image: url("assets/ogp-chain-burst.png"); }
     .game-thumb.t11 { background-image: url("assets/ogp-neon-hyakki.png"); }
     .game-thumb.t12 { background-image: url("assets/ogp-yomi-duel-kai.png"); }
+    .game-thumb.t13 { background-image: url("assets/ogp-wobbly-cup.png"); }
     .game-thumb .badge {
       position: absolute; top: 12px; left: 12px;
       background: var(--text); color: #fff;
@@ -485,6 +498,15 @@
       border-radius: 999px;
     }
     .game-thumb .badge.new { background: var(--primary); }
+    .game-thumb .game-no {
+      position: absolute; top: 12px; right: 12px;
+      background: var(--bg-card); color: var(--text);
+      padding: 3px 11px; font-size: 12px; font-weight: 900;
+      border: 2px solid var(--text);
+      border-radius: 999px;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+      letter-spacing: 0.02em;
+    }
     .game-body {
       padding: 20px; flex: 1;
       display: flex; flex-direction: column;
@@ -511,6 +533,48 @@
       transition: background 0.15s;
     }
     .game-card:hover .game-cta { background: var(--primary); }
+    .game-tag.log { background: var(--accent); color: var(--text); }
+
+    /* ====================== DEVLOG (note) ====================== */
+    .devlog { position: relative; z-index: 1; padding: 8px 24px 48px; }
+    .devlog-grid {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px;
+    }
+    .devlog-card {
+      position: relative;
+      background: var(--bg-card);
+      border: 3px solid var(--text);
+      border-radius: var(--radius-lg);
+      padding: 24px 22px 20px;
+      box-shadow: var(--shadow);
+      display: flex; flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .devlog-card:hover { transform: translate(-4px,-4px); box-shadow: 12px 12px 0 var(--text); }
+    .devlog-price {
+      position: absolute; top: -13px; right: 18px;
+      background: var(--text); color: #fff;
+      padding: 4px 13px; font-size: 13px; font-weight: 900;
+      border-radius: 999px; border: 2px solid var(--text);
+    }
+    .devlog-price.free { background: var(--accent-2); }
+    .devlog-no {
+      display: inline-block; align-self: flex-start;
+      background: var(--bg-soft); color: var(--text-soft);
+      padding: 2px 10px; font-size: 11px; font-weight: 800;
+      border-radius: 999px; margin-bottom: 10px;
+    }
+    .devlog-card h3 { font-size: 17px; font-weight: 900; margin-bottom: 8px; line-height: 1.4; }
+    .devlog-card p { font-size: 13px; color: var(--text-soft); flex: 1; margin-bottom: 16px; }
+    .devlog-cta {
+      display: inline-block; text-align: center;
+      background: var(--text); color: #fff;
+      padding: 10px 16px; font-size: 14px; font-weight: 900;
+      border-radius: 999px;
+    }
+    .devlog-card:hover .devlog-cta { background: var(--primary); }
+    .devlog-foot { max-width: 1100px; margin: 22px auto 0; text-align: center; font-size: 12px; color: var(--text-soft); }
 
     /* ====================== ABOUT ====================== */
     .about {
@@ -603,7 +667,7 @@
         AIだから作れた発想を、そのままお届け。
       </p>
       <div class="hero-stats">
-        <div class="stat"><div class="num">7</div><div class="label">遊べるゲーム</div></div>
+        <div class="stat"><div class="num">13</div><div class="label">遊べるゲーム</div></div>
         <div class="stat"><div class="num">100%</div><div class="label">AI制作</div></div>
         <div class="stat"><div class="num">0円</div><div class="label">完全無料</div></div>
         <div class="stat"><div class="num">DL</div><div class="label">不要</div></div>
@@ -651,20 +715,39 @@
   <!-- GAME GRID -->
   <section class="games" id="games">
     <div class="section-head">
-      <h2><span class="emoji">🎯</span> 今すぐ遊べるゲーム</h2>
-      <p>クリック→即プレイ。所要時間 各5〜15分</p>
+      <h2><span class="emoji">🎯</span> 全13作、今すぐ遊べる</h2>
+      <p>ジャンルはぜんぶバラバラ。AIと作った13本コレクション。クリック→即プレイ（各5〜15分）</p>
     </div>
 
     <div class="game-grid">
+      <!-- GAME 13: WOBBLY CUP -->
+      <a href="play/wobbly-cup.html" class="game-card">
+        <div class="game-thumb t13">
+          <span class="game-no">#13</span>
+          <span class="badge new">NEW</span>
+        </div>
+        <div class="game-body">
+          <div class="game-tags">
+            <span class="game-tag">物理サッカー</span>
+            <span class="game-tag">オンライン対戦</span>
+          </div>
+          <h3 class="game-title">WOBBLY CUP ─ ドタバタ物理サッカー</h3>
+          <p class="game-desc">ふにゃふにゃ物理の選手をドラッグで動かしJUMPで蹴る1対1。60秒で多く取った方が勝ち、同点なら延長サドンデス。キーパーもいる本格ドタバタ。合言葉でオンライン対戦も。</p>
+          <span class="game-cta">▶ プレイする</span>
+        </div>
+      </a>
+
       <!-- GAME 12: YOMI DUEL・改 -->
       <a href="play/yomi-duel-kai.html" class="game-card">
         <div class="game-thumb t12">
+          <span class="game-no">#12</span>
           <span class="badge new">NEW</span>
         </div>
         <div class="game-body">
           <div class="game-tags">
             <span class="game-tag">心理戦カード</span>
             <span class="game-tag">AI読み合い</span>
+            <span class="game-tag log">📝 制作ログ</span>
           </div>
           <h3 class="game-title">YOMI DUEL・改 ─ AI心理決闘</h3>
           <p class="game-desc">攻撃・防御・チャージの3すくみ＋必殺＋予測・フェイントの心理戦。AIはあなたの癖を解析し"裏の裏"まで読み、対戦するほど強くなる。読み勝て。</p>
@@ -675,12 +758,14 @@
       <!-- GAME 11: NEON HYAKKI YAGYO 3D -->
       <a href="play/neon-hyakki.html" class="game-card">
         <div class="game-thumb t11">
+          <span class="game-no">#11</span>
           <span class="badge new">NEW</span>
         </div>
         <div class="game-body">
           <div class="game-tags">
             <span class="game-tag">サバイバー</span>
             <span class="game-tag">和風ネオン 3D</span>
+            <span class="game-tag log">📝 制作ログ</span>
           </div>
           <h3 class="game-title">ネオン百鬼夜行 3D</h3>
           <p class="game-desc">和風ネオンの妖怪大群を自動攻撃で斬り伏せる3Dサバイバー。無敵の回避斬りと画面全体を薙ぐ必殺「百鬼夜行」で捌け。外部ライブラリ0・生WebGL制作。</p>
@@ -691,6 +776,7 @@
       <!-- GAME 10: CHAIN BURST -->
       <a href="play/chain-burst.html" class="game-card">
         <div class="game-thumb t10">
+          <span class="game-no">#10</span>
           <span class="badge new">NEW</span>
         </div>
         <div class="game-body">
@@ -707,6 +793,7 @@
       <!-- GAME 9: PRISM TOWER -->
       <a href="play/prism-tower.html" class="game-card">
         <div class="game-thumb t9">
+          <span class="game-no">#09</span>
           <span class="badge new">NEW</span>
         </div>
         <div class="game-body">
@@ -723,6 +810,7 @@
       <!-- GAME 8: YOMI DUEL -->
       <a href="play/yomi-duel.html" class="game-card">
         <div class="game-thumb t8">
+          <span class="game-no">#08</span>
           <span class="badge new">NEW</span>
         </div>
         <div class="game-body">
@@ -739,6 +827,7 @@
       <!-- GAME 7: NEON DRIFTER -->
       <a href="play/neon-drifter.html" class="game-card">
         <div class="game-thumb t7">
+          <span class="game-no">#07</span>
           <span class="badge new">NEW</span>
         </div>
         <div class="game-body">
@@ -755,6 +844,7 @@
       <!-- GAME 6: ORBIT DASH -->
       <a href="play/orbit-dash.html" class="game-card">
         <div class="game-thumb t6">
+          <span class="game-no">#06</span>
           <span class="badge new">NEW</span>
         </div>
         <div class="game-body">
@@ -771,6 +861,7 @@
       <!-- GAME 1: 仏像レース -->
       <a href="play/butsuzou-race.html" class="game-card">
         <div class="game-thumb t1">
+          <span class="game-no">#01</span>
           <span class="badge">🏁 レース</span>
         </div>
         <div class="game-body">
@@ -787,6 +878,7 @@
       <!-- GAME 2: 満員電車おじさんガチャ -->
       <a href="play/manin-densha-gacha.html" class="game-card">
         <div class="game-thumb t2">
+          <span class="game-no">#02</span>
           <span class="badge">⭐ 人気</span>
         </div>
         <div class="game-body">
@@ -803,6 +895,7 @@
       <!-- GAME 3: おじいちゃん宇宙大冒険 -->
       <a href="play/ojiichan-space.html" class="game-card">
         <div class="game-thumb t3">
+          <span class="game-no">#03</span>
         </div>
         <div class="game-body">
           <div class="game-tags">
@@ -818,6 +911,7 @@
       <!-- GAME 4: TIMESTOP HERO -->
       <a href="play/timestop-hero.html" class="game-card">
         <div class="game-thumb t4">
+          <span class="game-no">#04</span>
           <span class="badge">⚡ アクション</span>
         </div>
         <div class="game-body">
@@ -834,6 +928,7 @@
       <!-- GAME 5: ギルドマスター・タクティクス -->
       <a href="play/guild-master-tactics.html" class="game-card">
         <div class="game-thumb t5">
+          <span class="game-no">#05</span>
           <span class="badge">v0.6 β</span>
         </div>
         <div class="game-body">
@@ -847,6 +942,42 @@
         </div>
       </a>
     </div>
+  </section>
+
+  <!-- 制作ログ (note) -->
+  <section class="devlog" id="devlog">
+    <div class="section-head">
+      <h2><span class="emoji">📝</span> 制作の裏側（note）</h2>
+      <p>「これAIでどう作ったの？」を、投げたプロンプト全文つきで公開中。まずは無料版から。</p>
+    </div>
+    <div class="devlog-grid">
+
+      <a href="https://note.com/yamau_vlog/n/na4bd1492abc1" class="devlog-card" target="_blank" rel="noopener">
+        <span class="devlog-price free">無料</span>
+        <span class="devlog-no">はじめての人へ</span>
+        <h3>Claude Code、最初の30分</h3>
+        <p>コードは1行も書かない。未経験がAIに日本語で指示して"動くものが出てくる"最初の衝撃までを完全再現。まずはここから。</p>
+        <span class="devlog-cta">▶ 無料で読む</span>
+      </a>
+
+      <a href="https://note.com/yamau_vlog/n/n4be8b35d7475" class="devlog-card" target="_blank" rel="noopener">
+        <span class="devlog-price">¥500</span>
+        <span class="devlog-no">#11 の制作ログ</span>
+        <h3>ネオン百鬼夜行 3D ─ 全記録</h3>
+        <p>外部ライブラリ0・生WebGLの3Dゲームを、"ダメ出し"だけで完成させた全手順。投げたプロンプト全文＋公開までコピペで辿れる。</p>
+        <span class="devlog-cta">▶ note で読む</span>
+      </a>
+
+      <a href="https://note.com/yamau_vlog/n/nc9c912484149" class="devlog-card" target="_blank" rel="noopener">
+        <span class="devlog-price">¥500</span>
+        <span class="devlog-no">#12 の制作ログ</span>
+        <h3>YOMI DUEL・改 ─ 全記録</h3>
+        <p>「AIが弱すぎ」とダメ出しして、人間の"裏の裏"まで読む対戦AIに育てた全記録。認知階層(level-k)AIの作り方・後出し防止まで公開。</p>
+        <span class="devlog-cta">▶ note で読む</span>
+      </a>
+
+    </div>
+    <p class="devlog-foot">※ 新作の制作ログは、完成し次第ここに追加していきます。</p>
   </section>
 
   <!-- AD SLOT 2 -->

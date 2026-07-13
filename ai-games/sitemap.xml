@@ -146,4 +146,16 @@
     </image:image>
   </url>
 
+  <!-- WOBBLY CUP -->
+  <url>
+    <loc>https://yamamu-youtube.jp/ai-games/play/wobbly-cup.html</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://yamamu-youtube.jp/ai-games/assets/ogp-wobbly-cup.png</image:loc>
+      <image:title>WOBBLY CUP ─ ドタバタ物理サッカー</image:title>
+    </image:image>
+  </url>
+
 </urlset>
