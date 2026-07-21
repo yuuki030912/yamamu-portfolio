@@ -1383,3 +1383,1149 @@ body {
   .yt-cta-btns { flex-direction: column; }
   .yt-cta-btn { justify-content: center; }
 }
+
+/* ===== YAMAMU PLAYGROUND RENEWAL ===== */
+/*
+ * YAMAMU PLAYGROUND renewal prototype
+ * Existing HTML, URLs and SEO data stay intact; this file only refreshes presentation.
+ */
+
+:root,
+html[data-theme="light"],
+html[data-theme="dark"] {
+  --renew-bg: #07100a;
+  --renew-bg-deep: #030705;
+  --renew-surface: #0d1710;
+  --renew-surface-2: #132019;
+  --renew-line: rgba(226, 255, 214, 0.16);
+  --renew-line-strong: rgba(128, 255, 72, 0.52);
+  --renew-text: #f3f7ef;
+  --renew-muted: #aab8ab;
+  --renew-accent: #80ff48;
+  --renew-accent-dark: #3d9f1d;
+  --renew-cyan: #57e8ff;
+  --renew-warn: #ffd166;
+  --renew-radius: 18px;
+  --renew-shadow: 0 22px 60px rgba(0, 0, 0, 0.34);
+
+  --bg-color: var(--renew-bg);
+  --card-bg: var(--renew-surface);
+  --text-color: var(--renew-text);
+  --text-secondary: var(--renew-muted);
+  --border-color: var(--renew-line);
+  --accent: var(--renew-accent);
+  --chip-bg: var(--renew-surface-2);
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 24px;
+  background: var(--renew-bg-deep);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--renew-text) !important;
+  background:
+    linear-gradient(rgba(128, 255, 72, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128, 255, 72, 0.035) 1px, transparent 1px),
+    radial-gradient(circle at 80% 0%, rgba(128, 255, 72, 0.11), transparent 30rem),
+    var(--renew-bg) !important;
+  background-size: 34px 34px, 34px 34px, auto, auto !important;
+  font-family: "Noto Sans JP", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif !important;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.025), transparent 42%);
+}
+
+::selection {
+  color: #071006;
+  background: var(--renew-accent);
+}
+
+a {
+  color: var(--renew-cyan);
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--renew-accent);
+}
+
+:focus-visible {
+  outline: 3px solid var(--renew-accent);
+  outline-offset: 3px;
+}
+
+/* Header and navigation */
+.header {
+  position: relative !important;
+  z-index: 20;
+  min-height: 76px !important;
+  padding: 13px clamp(16px, 4vw, 54px) !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--renew-line) !important;
+  background: rgba(3, 7, 5, 0.93) !important;
+  backdrop-filter: blur(16px);
+}
+
+.header-left {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 12px;
+  color: var(--renew-text) !important;
+}
+
+.header-icon {
+  width: 44px !important;
+  height: 44px !important;
+  border: 1px solid var(--renew-line-strong);
+  border-radius: 12px !important;
+  box-shadow: 0 0 22px rgba(128, 255, 72, 0.18);
+}
+
+.logo-text {
+  font-family: "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif !important;
+  font-size: clamp(18px, 2.2vw, 25px) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.035em;
+}
+
+.logo-text::after {
+  content: "  / YAMAMU PLAYGROUND";
+  color: var(--renew-accent);
+  font-family: "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
+  font-weight: 800;
+  font-size: 0.46em;
+  letter-spacing: 0.12em;
+  vertical-align: middle;
+}
+
+.header-center {
+  max-width: 520px !important;
+}
+
+.search-box {
+  overflow: hidden;
+  border: 1px solid var(--renew-line) !important;
+  border-radius: 999px !important;
+  background: var(--renew-surface) !important;
+}
+
+.search-box input {
+  color: var(--renew-text) !important;
+  background: transparent !important;
+}
+
+.search-box input::placeholder {
+  color: #7f8d80;
+}
+
+.search-btn,
+.theme-toggle {
+  color: var(--renew-text) !important;
+  border-color: var(--renew-line) !important;
+  background: var(--renew-surface-2) !important;
+}
+
+.search-btn path,
+.theme-toggle path {
+  fill: var(--renew-accent) !important;
+}
+
+.game-nav,
+.wiki-nav {
+  display: flex !important;
+  justify-content: center;
+  gap: 7px !important;
+  padding: 9px clamp(12px, 3vw, 36px) !important;
+  overflow-x: auto;
+  border: 0 !important;
+  border-bottom: 1px solid var(--renew-line) !important;
+  background: rgba(7, 16, 10, 0.96) !important;
+  scrollbar-width: thin;
+}
+
+.game-nav-link,
+.wiki-nav-link {
+  flex: 0 0 auto;
+  padding: 7px 13px !important;
+  color: var(--renew-muted) !important;
+  border: 1px solid transparent !important;
+  border-radius: 999px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  transition: 160ms ease;
+}
+
+.game-nav-link:hover,
+.wiki-nav-link:hover {
+  color: var(--renew-text) !important;
+  border-color: var(--renew-line) !important;
+  background: var(--renew-surface-2) !important;
+}
+
+.game-nav-link.active,
+.wiki-nav-link.active {
+  color: #071006 !important;
+  border-color: var(--renew-accent) !important;
+  background: var(--renew-accent) !important;
+  box-shadow: 0 0 18px rgba(128, 255, 72, 0.16);
+}
+
+.breadcrumb {
+  max-width: 1120px !important;
+  margin: 24px auto 0 !important;
+  padding: 0 22px !important;
+  color: var(--renew-muted) !important;
+  font-size: 12px !important;
+  background: transparent !important;
+}
+
+.breadcrumb a {
+  color: var(--renew-muted) !important;
+}
+
+.breadcrumb span {
+  margin: 0 8px;
+  color: var(--renew-accent) !important;
+}
+
+/* Wiki landing page */
+.portal-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(72px, 10vw, 132px) 22px !important;
+  text-align: left !important;
+  border-bottom: 1px solid var(--renew-line) !important;
+  background:
+    radial-gradient(circle at 80% 35%, rgba(128, 255, 72, 0.2), transparent 28rem),
+    linear-gradient(120deg, #07100a, #0c1710) !important;
+}
+
+.portal-hero::after {
+  content: "PLAY / MASTER / CREATE";
+  position: absolute;
+  right: -12px;
+  bottom: -24px;
+  color: rgba(128, 255, 72, 0.055);
+  font: 900 clamp(54px, 10vw, 138px)/1 "Arial Black", sans-serif;
+  white-space: nowrap;
+}
+
+.portal-hero-title,
+.portal-hero-sub,
+.portal-section {
+  width: min(1120px, calc(100% - 36px)) !important;
+  max-width: none !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+.portal-hero-title {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 20px !important;
+  color: var(--renew-text) !important;
+  font-family: "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif !important;
+  font-size: clamp(42px, 7vw, 82px) !important;
+  font-weight: 800 !important;
+  line-height: 1.12 !important;
+  letter-spacing: 0 !important;
+}
+
+.portal-hero-title::before {
+  content: "YAMAMU PLAYGROUND";
+  display: block;
+  margin-bottom: 14px;
+  color: var(--renew-accent);
+  font: 800 12px/1 "Yu Gothic UI", sans-serif;
+  letter-spacing: 0.2em;
+}
+
+.portal-hero-sub {
+  position: relative;
+  z-index: 1;
+  color: var(--renew-muted) !important;
+  font-size: clamp(14px, 2vw, 18px) !important;
+}
+
+.portal-section {
+  padding: 64px 0 90px !important;
+}
+
+.portal-section-title {
+  margin: 0 0 28px !important;
+  color: var(--renew-text) !important;
+  font-family: "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif !important;
+  font-size: clamp(28px, 4vw, 42px) !important;
+  font-weight: 800 !important;
+}
+
+.portal-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+}
+
+.portal-card {
+  display: grid !important;
+  grid-template-columns: minmax(130px, 34%) 1fr !important;
+  min-height: 220px !important;
+  overflow: hidden;
+  color: var(--renew-text) !important;
+  border: 1px solid var(--renew-line) !important;
+  border-radius: var(--renew-radius) !important;
+  background: linear-gradient(145deg, var(--renew-surface-2), var(--renew-surface)) !important;
+  box-shadow: none !important;
+  transition: transform 170ms ease, border-color 170ms ease !important;
+}
+
+.portal-card:hover {
+  transform: translateY(-5px) !important;
+  border-color: var(--renew-line-strong) !important;
+}
+
+.portal-card-thumb {
+  display: grid !important;
+  place-items: center;
+  min-height: 100% !important;
+  padding: 20px !important;
+  color: #fff !important;
+  font-size: clamp(20px, 2.7vw, 32px) !important;
+  font-weight: 900 !important;
+  text-align: center;
+}
+
+.portal-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 26px !important;
+}
+
+.portal-card-title {
+  color: var(--renew-text) !important;
+  font-size: clamp(18px, 2.2vw, 25px) !important;
+  font-weight: 800 !important;
+}
+
+.portal-card-desc {
+  margin-top: 12px !important;
+  color: var(--renew-muted) !important;
+  font-size: 13px !important;
+  line-height: 1.75 !important;
+}
+
+.portal-badge {
+  margin-top: 18px !important;
+  padding: 5px 10px !important;
+  color: #071006 !important;
+  border-radius: 999px !important;
+  background: var(--renew-accent) !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+}
+
+.portal-badge.coming-soon {
+  color: var(--renew-muted) !important;
+  border: 1px solid var(--renew-line) !important;
+  background: transparent !important;
+}
+
+.wiki-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(56px, 9vw, 108px) 22px !important;
+  border-bottom: 1px solid var(--renew-line) !important;
+  background:
+    linear-gradient(110deg, rgba(7, 16, 10, 0.96), rgba(7, 16, 10, 0.68)),
+    radial-gradient(circle at 78% 40%, rgba(128, 255, 72, 0.23), transparent 30rem) !important;
+}
+
+.wiki-hero::after {
+  content: "PLAY / GUIDE / CREATE";
+  position: absolute;
+  right: -16px;
+  bottom: -32px;
+  color: rgba(128, 255, 72, 0.055);
+  font-family: Impact, "Arial Black", sans-serif;
+  font-size: clamp(58px, 11vw, 150px);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.wiki-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1120px !important;
+  margin: 0 auto;
+}
+
+.wiki-hero-title {
+  max-width: 850px;
+  margin: 0 !important;
+  color: var(--renew-text) !important;
+  font-family: "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif !important;
+  font-size: clamp(42px, 7vw, 88px) !important;
+  line-height: 0.98 !important;
+  font-weight: 800 !important;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+
+.wiki-hero-title::before {
+  content: "YAMAMU'S FIELD NOTES";
+  display: block;
+  margin-bottom: 14px;
+  color: var(--renew-accent);
+  font: 800 12px/1 "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
+  letter-spacing: 0.2em;
+}
+
+.wiki-hero-subtitle {
+  margin: 20px 0 0 !important;
+  color: var(--renew-muted) !important;
+  font-size: clamp(14px, 2vw, 18px) !important;
+}
+
+.wiki-layout {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 280px !important;
+  gap: 30px !important;
+  width: min(1120px, calc(100% - 36px)) !important;
+  max-width: none !important;
+  margin: 40px auto 72px !important;
+  padding: 0 !important;
+}
+
+.wiki-main {
+  min-width: 0;
+}
+
+.section-title,
+.related-title,
+.video-content-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 20px !important;
+  color: var(--renew-text) !important;
+  font-family: "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif !important;
+  font-size: clamp(24px, 3vw, 34px) !important;
+  line-height: 1.2;
+  font-weight: 800 !important;
+  letter-spacing: 0;
+}
+
+.section-title::before,
+.related-title::before,
+.video-content-heading::before {
+  content: "";
+  width: 7px;
+  height: 1.1em;
+  border-radius: 99px;
+  background: var(--renew-accent);
+  box-shadow: 0 0 20px rgba(128, 255, 72, 0.35);
+}
+
+.pickup-section,
+.guide-section,
+.shorts-section,
+.seo-content {
+  margin: 0 0 42px !important;
+}
+
+.pickup-list,
+.guide-grid,
+.shorts-grid,
+.related-grid {
+  gap: 14px !important;
+}
+
+.guide-card,
+.video-card,
+.sidebar-box,
+.search-results-area {
+  color: var(--renew-text) !important;
+  border: 1px solid var(--renew-line) !important;
+  border-radius: var(--renew-radius) !important;
+  background: linear-gradient(145deg, rgba(19, 32, 25, 0.96), rgba(10, 19, 13, 0.96)) !important;
+  box-shadow: none !important;
+  transition: transform 170ms ease, border-color 170ms ease, box-shadow 170ms ease !important;
+}
+
+.guide-card:hover,
+.video-card:hover {
+  transform: translateY(-4px) !important;
+  border-color: var(--renew-line-strong) !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28) !important;
+}
+
+.guide-card-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--renew-line-strong);
+  border-radius: 14px;
+  background: rgba(128, 255, 72, 0.08);
+}
+
+.guide-card-title,
+.video-title,
+.sidebar-title {
+  color: var(--renew-text) !important;
+  font-weight: 800 !important;
+}
+
+.guide-card-desc,
+.video-meta,
+.shorts-description,
+.seo-content,
+.sidebar-link {
+  color: var(--renew-muted) !important;
+}
+
+.wiki-sidebar {
+  min-width: 0;
+}
+
+.sidebar-box {
+  overflow: hidden;
+  padding: 20px !important;
+}
+
+.sidebar-title {
+  padding-bottom: 11px;
+  border-bottom: 1px solid var(--renew-line);
+}
+
+.sidebar-link {
+  border-color: var(--renew-line) !important;
+}
+
+/* Long-form guide articles */
+.guide-article,
+.video-detail,
+.video-content-section,
+.related-section,
+.category-nav-section,
+.faq-section {
+  width: min(900px, calc(100% - 36px)) !important;
+  max-width: none !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+.guide-article {
+  margin-top: 24px !important;
+  margin-bottom: 74px !important;
+  padding: clamp(24px, 5vw, 58px) !important;
+  border: 1px solid var(--renew-line) !important;
+  border-radius: clamp(18px, 3vw, 28px) !important;
+  background: rgba(10, 19, 13, 0.94) !important;
+  box-shadow: var(--renew-shadow) !important;
+}
+
+.guide-article > h1,
+.video-detail-title {
+  margin: 0 0 18px !important;
+  color: var(--renew-text) !important;
+  font-family: "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif !important;
+  font-size: clamp(30px, 5vw, 52px) !important;
+  font-weight: 800 !important;
+  line-height: 1.24 !important;
+  letter-spacing: 0;
+  text-wrap: pretty;
+}
+
+.guide-article > h1::before,
+.video-detail-title::before {
+  content: "PLAYER'S GUIDE";
+  display: block;
+  margin-bottom: 14px;
+  color: var(--renew-accent);
+  font: 800 11px/1 "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
+  letter-spacing: 0.2em;
+}
+
+.guide-meta,
+.video-detail-meta {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 8px !important;
+  margin: 0 0 28px !important;
+  color: var(--renew-muted) !important;
+  font-size: 12px !important;
+}
+
+.guide-meta span,
+.video-detail-meta span,
+.video-category-tag,
+.video-tag {
+  padding: 5px 10px !important;
+  color: var(--renew-muted) !important;
+  border: 1px solid var(--renew-line) !important;
+  border-radius: 999px !important;
+  background: var(--renew-surface-2) !important;
+}
+
+.guide-toc {
+  margin: 32px 0 42px !important;
+  padding: 24px clamp(18px, 4vw, 30px) !important;
+  border: 1px solid var(--renew-line) !important;
+  border-left: 5px solid var(--renew-accent) !important;
+  border-radius: 4px var(--renew-radius) var(--renew-radius) 4px !important;
+  background: var(--renew-surface-2) !important;
+}
+
+.guide-toc h2 {
+  margin: 0 0 12px !important;
+  padding: 0 !important;
+  color: var(--renew-text) !important;
+  border: 0 !important;
+  font-size: 18px !important;
+}
+
+.guide-toc ol {
+  margin: 0 !important;
+  padding-left: 1.4em !important;
+}
+
+.guide-toc li + li {
+  margin-top: 7px;
+}
+
+.guide-toc a {
+  color: var(--renew-text) !important;
+  text-decoration-color: rgba(128, 255, 72, 0.45);
+}
+
+.guide-body {
+  color: var(--renew-text) !important;
+}
+
+.guide-body p,
+.guide-body li,
+.video-content-body p,
+.video-content-body li {
+  color: #d9e1d8 !important;
+  font-size: clamp(15px, 1.7vw, 17px) !important;
+  line-height: 1.95 !important;
+}
+
+.guide-body p,
+.video-content-body p {
+  margin: 0 0 1.35em !important;
+}
+
+.guide-body ul,
+.guide-body ol,
+.video-content-body ul,
+.video-content-body ol {
+  margin: 0 0 1.6em !important;
+  padding-left: 1.5em !important;
+}
+
+.guide-body li + li,
+.video-content-body li + li {
+  margin-top: 0.45em;
+}
+
+.guide-body h2,
+.video-content-body h2 {
+  margin: 64px 0 22px !important;
+  padding: 14px 0 14px 20px !important;
+  color: var(--renew-text) !important;
+  border: 0 !important;
+  border-left: 7px solid var(--renew-accent) !important;
+  background: linear-gradient(90deg, rgba(128, 255, 72, 0.11), transparent 72%) !important;
+  font-family: "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif !important;
+  font-size: clamp(25px, 3.5vw, 35px) !important;
+  font-weight: 800 !important;
+  line-height: 1.35 !important;
+}
+
+.guide-body h3,
+.video-content-body h3 {
+  margin: 40px 0 16px !important;
+  padding: 0 0 10px !important;
+  color: var(--renew-text) !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--renew-line-strong) !important;
+  font-size: clamp(20px, 2.7vw, 25px) !important;
+  line-height: 1.45 !important;
+}
+
+.guide-body strong,
+.video-content-body strong,
+.result-box strong {
+  color: var(--renew-accent) !important;
+}
+
+.info-box,
+.result-box {
+  position: relative;
+  margin: 28px 0 !important;
+  padding: 22px 24px 22px 58px !important;
+  color: var(--renew-text) !important;
+  border-radius: 14px !important;
+  background: var(--renew-surface-2) !important;
+}
+
+.info-box {
+  border: 1px solid rgba(87, 232, 255, 0.36) !important;
+}
+
+.result-box {
+  border: 1px solid var(--renew-line-strong) !important;
+  box-shadow: inset 0 0 36px rgba(128, 255, 72, 0.04);
+}
+
+.info-box::before,
+.result-box::before {
+  position: absolute;
+  top: 20px;
+  left: 21px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-weight: 900;
+}
+
+.info-box::before {
+  content: "i";
+  color: #061014;
+  background: var(--renew-cyan);
+}
+
+.result-box::before {
+  content: "✓";
+  color: #071006;
+  background: var(--renew-accent);
+}
+
+.result-box h3 {
+  margin: 0 0 8px !important;
+  padding: 0 !important;
+  color: var(--renew-accent) !important;
+  border: 0 !important;
+  font-size: 18px !important;
+}
+
+.result-box p {
+  margin-bottom: 0 !important;
+  color: #e5ece3 !important;
+}
+
+.compare-table {
+  display: table;
+  width: 100% !important;
+  margin: 28px 0 !important;
+  overflow: hidden;
+  border: 1px solid var(--renew-line) !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border-radius: 14px;
+  color: var(--renew-text) !important;
+  background: var(--renew-surface) !important;
+}
+
+.compare-table th {
+  padding: 13px 14px !important;
+  color: #071006 !important;
+  border: 0 !important;
+  background: var(--renew-accent) !important;
+  font-weight: 800 !important;
+}
+
+.compare-table td {
+  padding: 13px 14px !important;
+  color: #d9e1d8 !important;
+  border-color: var(--renew-line) !important;
+  background: transparent !important;
+}
+
+.compare-table tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.025) !important;
+}
+
+.guide-video-embed {
+  overflow: hidden;
+  border: 1px solid var(--renew-line);
+  border-radius: var(--renew-radius) !important;
+}
+
+.related-guides {
+  margin-top: 54px !important;
+  padding-top: 26px !important;
+  border-color: var(--renew-line) !important;
+}
+
+.related-guides-list a {
+  color: var(--renew-text) !important;
+}
+
+/* Category and archive pages */
+.category-hero,
+.category-main,
+.pw-main,
+.pw-seo {
+  width: min(1040px, calc(100% - 36px)) !important;
+  max-width: none !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+.category-hero {
+  margin-top: 24px !important;
+  padding: clamp(30px, 5vw, 54px) !important;
+  border: 1px solid var(--renew-line) !important;
+  border-radius: 24px !important;
+  background: linear-gradient(135deg, var(--renew-surface-2), rgba(10, 19, 13, 0.96)) !important;
+}
+
+.category-hero h1 {
+  margin: 0 0 15px !important;
+  color: var(--renew-text) !important;
+  font-family: "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif !important;
+  font-size: clamp(32px, 5vw, 54px) !important;
+  font-weight: 800 !important;
+  line-height: 1.25 !important;
+}
+
+.category-hero p,
+.category-seo-text,
+.pw-seo {
+  color: var(--renew-muted) !important;
+  line-height: 1.9 !important;
+}
+
+.category-stats {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 8px !important;
+}
+
+.category-stats span,
+.pw-badge {
+  padding: 5px 10px !important;
+  color: var(--renew-accent) !important;
+  border: 1px solid var(--renew-line-strong) !important;
+  border-radius: 999px !important;
+  background: rgba(128, 255, 72, 0.06) !important;
+}
+
+.category-main,
+.pw-main {
+  margin-top: 24px !important;
+  margin-bottom: 72px !important;
+}
+
+.theme-section,
+.related-themes,
+.faq-list,
+.category-seo-text,
+.pw-guide-card,
+.pw-video-card,
+.pw-seo {
+  border-color: var(--renew-line) !important;
+  background: rgba(10, 19, 13, 0.94) !important;
+}
+
+.theme-section,
+.related-themes,
+.category-seo-text,
+.pw-seo {
+  padding: clamp(20px, 4vw, 34px) !important;
+  border: 1px solid var(--renew-line) !important;
+  border-radius: var(--renew-radius) !important;
+}
+
+.theme-section-header h2,
+.pw-section-title {
+  color: var(--renew-text) !important;
+  font-family: "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif !important;
+  font-weight: 800 !important;
+}
+
+.category-bar {
+  display: flex !important;
+  gap: 8px !important;
+  overflow-x: auto;
+  padding: 4px 0 14px !important;
+}
+
+.category-chip,
+.build-tab-chip {
+  flex: 0 0 auto;
+  color: var(--renew-muted) !important;
+  border: 1px solid var(--renew-line) !important;
+  border-radius: 999px !important;
+  background: var(--renew-surface-2) !important;
+}
+
+.category-chip.active,
+.build-tab-chip.active {
+  color: #071006 !important;
+  border-color: var(--renew-accent) !important;
+  background: var(--renew-accent) !important;
+}
+
+.theme-video-list .video-card,
+.pw-guide-card,
+.pw-video-card {
+  border: 1px solid var(--renew-line) !important;
+  border-radius: 14px !important;
+  background: var(--renew-surface) !important;
+}
+
+.pw-section-title {
+  border-color: var(--renew-accent) !important;
+}
+
+/* Video detail pages */
+.video-player-section {
+  width: min(1040px, calc(100% - 36px)) !important;
+  max-width: none !important;
+  margin: 26px auto 0 !important;
+  padding: 0 !important;
+}
+
+.video-player-container {
+  overflow: hidden;
+  border: 1px solid var(--renew-line-strong) !important;
+  border-radius: clamp(16px, 2vw, 24px) !important;
+  background: #000 !important;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.46), 0 0 40px rgba(128, 255, 72, 0.07) !important;
+}
+
+.video-detail {
+  margin-top: 28px !important;
+  padding: clamp(22px, 4vw, 40px) !important;
+  border: 1px solid var(--renew-line) !important;
+  border-radius: var(--renew-radius) !important;
+  background: rgba(10, 19, 13, 0.94) !important;
+}
+
+.video-detail-title::before {
+  content: "WATCH & LEARN";
+}
+
+.video-detail-description {
+  color: #d9e1d8 !important;
+  font-size: 16px !important;
+  line-height: 1.85 !important;
+}
+
+.video-tags {
+  gap: 7px !important;
+}
+
+.video-tag {
+  color: var(--renew-accent) !important;
+  font-size: 12px !important;
+}
+
+.video-content-section,
+.related-section,
+.category-nav-section,
+.faq-section {
+  margin-top: 24px !important;
+  padding: clamp(22px, 4vw, 38px) !important;
+  color: var(--renew-text) !important;
+  border: 1px solid var(--renew-line) !important;
+  border-radius: var(--renew-radius) !important;
+  background: rgba(10, 19, 13, 0.94) !important;
+}
+
+.video-content-body {
+  color: var(--renew-text) !important;
+}
+
+.video-thumbnail {
+  overflow: hidden;
+  border-radius: 13px !important;
+}
+
+.video-duration {
+  color: #071006 !important;
+  background: var(--renew-accent) !important;
+  font-weight: 800 !important;
+}
+
+/* Footer */
+.footer {
+  margin-top: 70px !important;
+  padding: 44px 20px !important;
+  color: var(--renew-muted) !important;
+  border-top: 1px solid var(--renew-line) !important;
+  background: var(--renew-bg-deep) !important;
+}
+
+.footer a,
+.footer-nav a {
+  color: var(--renew-muted) !important;
+}
+
+@media (max-width: 900px) {
+  .header-center {
+    display: none !important;
+  }
+
+  .game-nav,
+  .wiki-nav {
+    justify-content: flex-start;
+  }
+
+  .wiki-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .wiki-sidebar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .portal-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .header {
+    min-height: 64px !important;
+    padding: 10px 14px !important;
+  }
+
+  .header-icon {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  .logo-text::after {
+    display: none;
+  }
+
+  .game-nav,
+  .wiki-nav {
+    padding-right: 12px !important;
+    padding-left: 12px !important;
+  }
+
+  .game-nav-link,
+  .wiki-nav-link {
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+  }
+
+  .wiki-hero {
+    padding: 52px 18px 58px !important;
+  }
+
+  .portal-hero {
+    padding: 58px 18px 66px !important;
+  }
+
+  .portal-section {
+    width: min(100% - 24px, 1120px) !important;
+    padding: 42px 0 70px !important;
+  }
+
+  .portal-card {
+    grid-template-columns: 1fr !important;
+  }
+
+  .portal-card-thumb {
+    min-height: 150px !important;
+  }
+
+  .wiki-layout,
+  .guide-article,
+  .video-detail,
+  .video-content-section,
+  .video-player-section,
+  .related-section,
+  .category-nav-section,
+  .faq-section {
+    width: min(100% - 24px, 1120px) !important;
+  }
+
+  .wiki-layout {
+    margin-top: 28px !important;
+  }
+
+  .wiki-sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-article {
+    padding: 24px 18px !important;
+    border-radius: 16px !important;
+  }
+
+  .guide-body h2,
+  .video-content-body h2 {
+    margin-top: 48px !important;
+    padding-left: 14px !important;
+  }
+
+  .info-box,
+  .result-box {
+    padding: 52px 18px 20px !important;
+  }
+
+  .info-box::before,
+  .result-box::before {
+    top: 17px;
+    left: 18px;
+  }
+
+  .compare-table {
+    display: block !important;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .video-detail,
+  .video-content-section,
+  .related-section,
+  .category-nav-section,
+  .faq-section {
+    padding: 22px 18px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
