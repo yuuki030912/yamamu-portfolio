@@ -3,7 +3,14 @@
 ## プロジェクト概要
 GitHub Pagesで運営するマルチゲーム攻略サイト。サブディレクトリ方式で複数ゲーム対応。
 ドメイン: yamamu-youtube.jp
-対応ゲーム: イナイレV (`/inazuma/`), ポケポケ (`/pokepoke/` 準備中)
+対応ゲーム: イナイレV (`/inazuma/`), ポケポケ (`/pokepoke/` 準備中), ぽこポケ (`/pocoapokemon/`), パルワールド (`/palworld/`)
+英語版: `/en/` — 英語記事のホーム。日本語記事の英語リライト版を置く（hreflangで日英相互リンク）。動画→記事化サービスのショーケースを兼ねる
+
+## パルワールド (`/palworld/`) の構成ルール
+- 動画カードは**YouTube直リンクではなく、必ず動画記事ページ（video-palworld-<id>.html）に飛ばす**。記事から動画を見たい人だけがプレーヤーで見る（サイト全体の方針）
+- 動画記事ページの構成はイナイレVの video-inazuma-*.html と同じ: yt-lazyプレーヤー → video-detail → AI Overviews最適化リード文 → 動画の内容まとめ（テキスト記事）→ FAQ（details）→ 関連記事 → footer
+- 新しい動画を記事化する時: ①動画の説明文・字幕から video-palworld-<id>.html を作成 ②index.htmlの攻略動画グリッドにカード追加 ③videos.jsonに追記 ④sitemap.xmlにURL追加 ⑤（英語版も作るなら）/en/ に記事追加＋hreflang相互リンク＋/en/index.htmlにカード追加
+- guide-beginner.html は MSr1f_02oDA（序盤完全ガイド動画）の記事を兼ねる
 
 ## イナイレV用語集（正確な定義）
 
