@@ -1,0 +1,53 @@
+name: New video → article draft
+
+# 新着YouTube動画を検知して「記事の下書き」をPRで用意する（承認あり運用）。
+# パルワールド動画は下書き記事＋カード＋sitemapを自動生成、全ゲームは
+# drafts/pending-videos.md に追記。下書きは noindex なので、
+# 未完成のままマージしても検索には出ない（安全）。
+
+on:
+  schedule:
+    - cron: "23 */3 * * *"   # 3時間おき
+  workflow_dispatch:          # 手動実行も可
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: new-video-article-draft
+  cancel-in-progress: false
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Generate drafts for new videos
+        id: gen
+        run: node scripts/new-video-article-draft.mjs
+      - name: Open PR if drafts were created
+        if: steps.gen.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: auto/new-video-drafts
+          delete-branch: true
+          title: ${{ steps.gen.outputs.pr_title }}
+          commit-message: "draft: 新着動画の記事下書きを追加"
+          body: |
+            ## 🎬 新着動画の記事下書き
+
+            新しくアップされた動画を検知して、記事の下書きを用意しました。
+
+            ### レビュー手順
+            - [ ] パルワールドの下書き記事（`palworld/video-palworld-*.html`）の本文を執筆
+            - [ ] 事実確認（動画と照らして攻略情報が正しいか）
+            - [ ] 完成したら各記事の `noindex` メタ・「🚧下書き」バナー・元説明文ブロックを削除
+            - [ ] （任意）英語版を `/en/` に作成し hreflang を相互リンク
+            - [ ] `drafts/pending-videos.md` で対応済みの動画にチェック
+
+            > 💡 Claude に「このPRの下書きを仕上げて」と伝えれば本文の執筆まで対応します。
+            > **本文が未完成のままマージしても `noindex` で検索には出ません。** 安心してレビューできます。
