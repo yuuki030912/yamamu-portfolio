@@ -95,6 +95,9 @@ async function fetchTranscript(videoId) {
     // GitHub-hosted runners are sometimes blocked by YouTube. Try the official
     // yt-dlp client fallbacks without passing a creator account cookie.
     const clients = [
+      "web_embedded;player_skip=webpage,configs",
+      "mweb;player_skip=webpage,configs;fetch_pot=always",
+      "android_vr;player_skip=webpage,configs",
       "web;fetch_pot=always",
       "mweb;fetch_pot=always",
       "web_embedded",
