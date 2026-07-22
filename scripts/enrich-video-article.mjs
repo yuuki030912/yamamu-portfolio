@@ -28,7 +28,7 @@ const MIN_DESCRIPTION_CHAPTERS = 3;
 const MIN_ARTICLE_CHARS = 2800;
 const MIN_DESCRIPTION_ARTICLE_CHARS = 1800;
 
-const GAME_DIRS = ["inazuma", "palworld", "pokepoke"];
+const GAME_DIRS = ["palworld", "pokepoke"];
 
 function decodeHtml(value) {
   return String(value || "")

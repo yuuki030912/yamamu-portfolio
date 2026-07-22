@@ -1,7 +1,5 @@
 // ===== DOM要素 =====
 // videos は videos.js から読み込み済み
-// 自動生成された下書きは、本人確認後に draft:false へ変えるまで一覧へ出さない。
-var visibleVideos = videos.filter(function(v) { return !v.draft; });
 var searchInput = document.getElementById("searchInput");
 var searchBtn = document.getElementById("searchBtn");
 var themeToggle = document.getElementById("themeToggle");
@@ -98,7 +96,7 @@ function renderPickup() {
   var pickupList = document.getElementById("pickupList");
   if (!pickupList) return;
 
-  var inazumaVideos = visibleVideos.filter(function(v) { return v.category === "inazuma" && !isShortVideo(v); });
+  var inazumaVideos = videos.filter(function(v) { return v.category === "inazuma" && !isShortVideo(v); });
   var sorted = inazumaVideos.slice().sort(function(a, b) { return parseViews(b) - parseViews(a); });
   var top3 = sorted.slice(0, 3);
 
@@ -141,7 +139,7 @@ function renderThemeSections() {
   var container = document.getElementById("themeSections");
   if (!container) return;
 
-  var inazumaVideos = visibleVideos.filter(function(v) { return v.category === "inazuma" && !isShortVideo(v); });
+  var inazumaVideos = videos.filter(function(v) { return v.category === "inazuma" && !isShortVideo(v); });
 
   // テーマ別に分類
   var themed = {};
@@ -194,7 +192,7 @@ function renderPopularArticles() {
   var container = document.getElementById("popularArticles");
   if (!container) return;
 
-  var inazumaVideos = visibleVideos.filter(function(v) { return v.category === "inazuma" && !isShortVideo(v); });
+  var inazumaVideos = videos.filter(function(v) { return v.category === "inazuma" && !isShortVideo(v); });
   var sorted = inazumaVideos.slice().sort(function(a, b) { return parseViews(b) - parseViews(a); });
   var top5 = sorted.slice(0, 5);
 
@@ -232,7 +230,7 @@ function renderSeoArticleLists() {
   var restList = document.getElementById("seoArticleListRest");
   if (!topList || !restList) return;
 
-  visibleVideos.slice(0, 10).forEach(function(v) {
+  videos.slice(0, 10).forEach(function(v) {
     var li = document.createElement("li");
     var a = document.createElement("a");
     a.href = "video-" + v.category + "-" + v.id + ".html";
@@ -241,7 +239,7 @@ function renderSeoArticleLists() {
     topList.appendChild(li);
   });
 
-  visibleVideos.slice(10).forEach(function(v) {
+  videos.slice(10).forEach(function(v) {
     var li = document.createElement("li");
     var a = document.createElement("a");
     a.href = "video-" + v.category + "-" + v.id + ".html";
@@ -256,7 +254,7 @@ function renderShortVideos() {
   var container = document.getElementById("shortVideosGrid");
   if (!container) return;
 
-  var shorts = visibleVideos.filter(function(v) {
+  var shorts = videos.filter(function(v) {
     return v.category === "inazuma" && isShortVideo(v);
   });
   shorts.sort(function(a, b) { return parseViews(b) - parseViews(a); });
@@ -286,7 +284,7 @@ function performSearch() {
     return;
   }
 
-  var matched = visibleVideos.filter(function(v) {
+  var matched = videos.filter(function(v) {
     return v.title.toLowerCase().indexOf(query) >= 0 ||
       (v.description || "").toLowerCase().indexOf(query) >= 0 ||
       (v.tags || []).join(" ").toLowerCase().indexOf(query) >= 0;
