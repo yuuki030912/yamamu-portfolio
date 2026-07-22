@@ -6,12 +6,30 @@ name: New video → article draft
 # 本人が確認して公開操作をするまでは検索に出ない（安全）。
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/new-video-article-draft.yml"
+      - "scripts/new-video-article-draft.mjs"
+      - "scripts/enrich-video-article.mjs"
+      - "prompts/video-article-system.md"
+      - "tests/article-enrichment.test.mjs"
   schedule:
     - cron: "23 */3 * * *"   # 3時間おき
   workflow_dispatch:          # 手動実行も可
     inputs:
       since:
         description: "この日付(YYYY-MM-DD)以降の動画を対象にする（テスト用。空なら既定の2026-07-22以降）"
+        required: false
+        default: ""
+      rebuild_existing:
+        description: "公開済みのポケポケ／パルワールド記事も字幕・説明文から再生成する"
+        required: false
+        type: boolean
+        default: false
+      only_video:
+        description: "特定のYouTube動画IDだけを再生成する（空なら全対象）"
         required: false
         default: ""
 
@@ -48,7 +66,9 @@ jobs:
         env:
           GH_MODELS_TOKEN: ${{ github.token }}
           ARTICLE_MODEL: openai/gpt-4.1
-          ALLOW_DESCRIPTION_FALLBACK: ${{ github.event_name == 'workflow_dispatch' && '1' || '0' }}
+          ALLOW_DESCRIPTION_FALLBACK: "1"
+          REBUILD_EXISTING: ${{ (github.event_name == 'push' || inputs.rebuild_existing) && '1' || '0' }}
+          ONLY_VIDEO: ${{ inputs.only_video }}
           YOUTUBE_OAUTH_CLIENT_ID: ${{ secrets.YOUTUBE_OAUTH_CLIENT_ID }}
           YOUTUBE_OAUTH_CLIENT_SECRET: ${{ secrets.YOUTUBE_OAUTH_CLIENT_SECRET }}
           YOUTUBE_OAUTH_REFRESH_TOKEN: ${{ secrets.YOUTUBE_OAUTH_REFRESH_TOKEN }}
@@ -67,7 +87,7 @@ jobs:
             ## 🎬 字幕をもとにした動画記事の下書き
 
             新着動画を検知し、字幕と動画説明文を一次情報として、内容の濃い攻略記事を用意しました。
-            本文はAIによる事実校閲と品質ゲート（字幕あり2,800文字以上／説明文のみ1,800文字以上・4見出し以上・FAQ 3件以上・弱点の明記）を通過したものだけ追加しています。
+            本文はAIによる事実校閲と品質ゲート（字幕あり2,800文字以上／説明文のみ2,200文字以上・4見出し以上・FAQ 3件以上・弱点の明記）を通過したものだけ追加しています。
 
             ### レビュー手順
             - [ ] 数値・固有名詞・勝敗を動画と照合
@@ -78,4 +98,4 @@ jobs:
             - [ ] `drafts/pending-videos.md` で対応済みの動画にチェック
 
             > **記事は自動公開されません。** `noindex` のままPRに出るため、本人が確認してから公開できます。
-            > 字幕が取得できない場合は、250文字以上かつ3チャプター以上の詳しい説明文がある動画だけを記事化します。材料不足の動画は、事実を作らないため従来の下書きのまま残します。
+            > 字幕が取得できない場合は、250文字以上かつ3チャプター以上の詳しい説明文がある動画だけを記事化します。このフォールバックは定期実行でも有効です。材料不足の動画は、事実を作らないため従来の下書きのまま残します。

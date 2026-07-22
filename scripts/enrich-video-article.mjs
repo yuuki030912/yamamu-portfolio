@@ -21,12 +21,13 @@ const YOUTUBE_CLIENT_SECRET = process.env.YOUTUBE_OAUTH_CLIENT_SECRET || "";
 const YOUTUBE_REFRESH_TOKEN = process.env.YOUTUBE_OAUTH_REFRESH_TOKEN || "";
 const DRY_RUN = process.env.ARTICLE_DRY_RUN === "1";
 const ALLOW_DESCRIPTION_FALLBACK = process.env.ALLOW_DESCRIPTION_FALLBACK === "1";
+const REBUILD_EXISTING = process.env.REBUILD_EXISTING === "1";
 const ONLY_VIDEO = process.env.ONLY_VIDEO || "";
 const MIN_TRANSCRIPT_CHARS = 800;
 const MIN_DESCRIPTION_CHARS = 250;
 const MIN_DESCRIPTION_CHAPTERS = 3;
 const MIN_ARTICLE_CHARS = 2800;
-const MIN_DESCRIPTION_ARTICLE_CHARS = 1800;
+const MIN_DESCRIPTION_ARTICLE_CHARS = 2200;
 
 const GAME_DIRS = ["palworld", "pokepoke"];
 
@@ -98,6 +99,33 @@ export function selectCaptionTrack(tracks) {
         + Number(!item?.snippet?.isDraft) * 2 + Number(item?.snippet?.trackKind !== "ASR");
       return score(b) - score(a);
     })[0];
+}
+
+export function extractWatchDescription(html) {
+  const match = String(html || "").match(/"shortDescription":"((?:\\.|[^"\\])*)"/);
+  if (!match) return "";
+  try {
+    return JSON.parse(`"${match[1]}"`).trim();
+  } catch {
+    return "";
+  }
+}
+
+async function fetchWatchDescription(videoId) {
+  try {
+    const response = await fetch(`https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}`, {
+      signal: AbortSignal.timeout(30_000),
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36",
+        "Accept-Language": "ja,en-US;q=0.9,en;q=0.8",
+      },
+    });
+    if (!response.ok) throw new Error(`watch page ${response.status}`);
+    return extractWatchDescription(await response.text());
+  } catch (error) {
+    console.warn(`  ⚠ YouTube説明文の取得失敗: ${error.message}`);
+    return "";
+  }
 }
 
 async function youtubeAccessToken() {
@@ -331,7 +359,7 @@ async function generateArticle(draft, transcript, previousErrors = []) {
   const transcriptText = transcript.map((cue) => `[${clock(cue.start)}] ${cue.text}`).join("\n").slice(0, 60_000);
   const sourceMode = transcript.length
     ? "字幕あり。字幕を最優先の根拠にして、3,000〜5,000文字を目安にする。"
-    : "字幕なし。説明文とチャプター名だけを根拠にして、1,800〜2,800文字を目安にする。説明文にない対戦の細部や結果は補わない。";
+    : "字幕なし。説明文とチャプター名だけを根拠にして、2,200〜3,000文字を目安にする。説明文にない対戦の細部や結果は補わない。";
   const retry = previousErrors.length ? `\n前回の出力は次の品質基準を満たしませんでした。必ず修正してください。\n- ${previousErrors.join("\n- ")}` : "";
   const userPrompt = `次のYouTube動画を攻略記事にしてください。\n\n【情報源の状態】\n${sourceMode}\n\n【動画タイトル】\n${draft.title}\n\n【公開日】\n${draft.published}\n\n【動画説明文】\n${draft.description || "（説明文なし）"}\n\n【字幕】\n${transcriptText || "（取得できなかったため使用不可）"}${retry}`;
   return requestModel({ model: MODEL, temperature: 0.2, max_tokens: 8000, response_format: { type: "json_object" }, messages: [{ role: "system", content: systemPrompt }, { role: "user", content: userPrompt }] }, "GitHub Models");
@@ -429,7 +457,7 @@ async function relatedArticles(path) {
   return result;
 }
 
-function applyArticle(html, article, rendered, { sourceKind = "captions" } = {}) {
+export function applyArticle(html, article, rendered, { sourceKind = "captions" } = {}) {
   const safeTitle = escapeHtml(article.seoTitle);
   const safeDescription = escapeHtml(article.metaDescription);
   let updated = html
@@ -441,6 +469,9 @@ function applyArticle(html, article, rendered, { sourceKind = "captions" } = {})
     .replace(/<div class="draft-banner">[\s\S]*?<\/div>/, `<div class="draft-banner">🚧 <strong>${sourceKind === "captions" ? "字幕と説明文" : "動画説明文とチャプター"}をもとにAIが作成した記事下書きです。</strong> 数値・固有名詞・プレイ結果を動画と照合してください。確認後に noindex、このバナー、元説明文ブロックを削除して公開します。</div>`);
   if (/<!-- AI_ARTICLE_START -->[\s\S]*?<!-- AI_ARTICLE_END -->/.test(updated)) {
     updated = updated.replace(/<!-- AI_ARTICLE_START -->[\s\S]*?<!-- AI_ARTICLE_END -->/, rendered);
+  } else if (/<section class="video-lead-section"[\s\S]*?(?=\s*<footer class="footer">)/.test(updated)) {
+    // 旧方式で書かれた公開記事は、導入から関連記事までを新しい本文へ置換する。
+    updated = updated.replace(/<section class="video-lead-section"[\s\S]*?(?=\s*<footer class="footer">)/, `${rendered}\n`);
   } else {
     updated = updated.replace(/\s*<!-- TODO:[\s\S]*?-->\s*/, `\n\n${rendered}\n\n`);
   }
@@ -456,7 +487,7 @@ async function findDrafts() {
       if (!/^video-.*\.html$/.test(file)) continue;
       const path = join(full, file);
       const html = await readFile(path, "utf8");
-      if (!html.includes('<meta name="robots" content="noindex"')) continue;
+      if (!REBUILD_EXISTING && !html.includes('<meta name="robots" content="noindex"')) continue;
       if (html.includes("<!-- AI_ARTICLE_START -->")) continue;
       const draft = extractDraft(html, path);
       if (!draft.id || !draft.title || (ONLY_VIDEO && draft.id !== ONLY_VIDEO)) continue;
@@ -476,6 +507,11 @@ async function main() {
   let changed = 0;
   for (const draft of drafts) {
     console.log(`\n記事化: ${relative(ROOT, draft.path)} (${draft.id})`);
+    const watchDescription = await fetchWatchDescription(draft.id);
+    if (watchDescription.replace(/\s/g, "").length > draft.description.replace(/\s/g, "").length) {
+      draft.description = watchDescription;
+      console.log(`  説明文取得: YouTubeページから${watchDescription.replace(/\s/g, "").length}文字`);
+    }
     const transcript = await fetchTranscript(draft.id);
     const transcriptChars = transcript.map((cue) => cue.text).join("").length;
     console.log(`  字幕: ${transcript.length}区間 / ${transcriptChars}文字`);
