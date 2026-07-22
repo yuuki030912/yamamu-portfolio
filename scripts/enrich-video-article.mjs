@@ -191,6 +191,8 @@ const DESCRIPTION_GROUNDING_TERMS = [
   "HP", "耐久", "火力", "手札事故", "手札依存", "サーチ", "状態異常", "相性",
   "プレッシャー", "盤面を制圧", "妨害", "引きやす", "ダメージが伸び", "安定",
   "対応力", "有利", "不利", "展開力", "進化カード", "序盤", "運要素", "トラブル",
+  "柔軟", "今後", "予想", "決まりにく", "通りにく", "容易", "ベンチが少ない",
+  "ベンチポケモンが少ない",
 ];
 
 export function validateDescriptionGrounding(input, description) {
@@ -207,6 +209,32 @@ function validateForSource(input, { minChars, sourceKind, description }) {
   if (sourceKind === "description") quality.errors.push(...validateDescriptionGrounding(quality.article, description));
   quality.ok = quality.errors.length === 0;
   return quality;
+}
+
+function applyDescriptionOnlySafety(input, description) {
+  const article = normalizeArticle(input);
+  const riskLines = String(description || "").split("\n").map((line) => line.trim())
+    .filter((line) => line && /(事故|負け|弱点|注意|苦戦|大波乱|改善)/.test(line));
+  article.limitations = riskLines.length
+    ? {
+      heading: "正直な弱点・確認ポイント",
+      paragraphs: [
+        `動画説明文では「${riskLines.slice(0, 2).join(" ")}」と明記されています。強みだけでなく、この失敗や波乱も含めて判断する必要があります。`,
+        "ただし、説明文だけでは事故の原因や各対戦での細かな判断までは断定できません。公開前に動画本編と照合し、必要なら本人の実感を追記する前提の下書きです。",
+      ],
+    }
+    : {
+      heading: "正直な弱点・確認ポイント",
+      paragraphs: [
+        "動画説明文には、このデッキの明確な弱点や不利な相手までは書かれていません。そのため、説明文にない弱点を推測で追加していません。",
+        "各対戦で困った場面や構築上の注意点は、公開前に動画本編と照合し、本人が実際に感じた内容だけを追記する必要があります。",
+      ],
+    };
+  article.notRecommendedFor = [
+    "動画説明文にないカード採用理由まで、記事だけで断定したい人",
+    "各対戦の細かな判断を、動画を見ずにすべて確認したい人",
+  ];
+  return article;
 }
 
 function safeJson(text) {
@@ -274,7 +302,9 @@ async function generateAndAuditArticle(draft, transcript, previousErrors = []) {
   const generated = await generateArticle(draft, transcript, previousErrors);
   const audited = await auditArticle(draft, transcript, generated);
   if (audited.correctedClaims.length) console.warn(`  事実校閲: 根拠外の主張を${audited.correctedClaims.length}件修正`);
-  return audited.article;
+  return transcript.map((cue) => cue.text).join("").length >= MIN_TRANSCRIPT_CHARS
+    ? audited.article
+    : applyDescriptionOnlySafety(audited.article, draft.description);
 }
 
 function list(items) {
