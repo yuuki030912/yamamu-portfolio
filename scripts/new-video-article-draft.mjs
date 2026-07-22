@@ -4,7 +4,7 @@
 //   1. チャンネルRSSから最新動画を取得
 //   2. カットオフ日(PROCESS_SINCE)以降の動画だけを対象にする（既存カタログの遡り処理を防ぐ）
 //   3. すべての新着を drafts/pending-videos.md に追記（どのゲームでも取りこぼさない）
-//   4. テンプレ対応ゲーム(パルワールド・ポケポケ)は、加えて記事の下書きHTML＋カード＋sitemapを自動生成
+//   4. テンプレ対応ゲーム(イナイレV・パルワールド・ポケポケ)は、加えて記事の下書きHTML＋カード＋sitemapを自動生成
 //
 // 下書きHTMLは noindex + 「🚧下書き」バナー付き。このスクリプトの後に
 // enrich-video-article.mjs が字幕を取得し、内容の濃い本文を生成する。
@@ -72,8 +72,33 @@ function pokeTags(title) {
   t.push("やまむー");
   return [...new Set(t)];
 }
+function inazumaTags(title) {
+  const t = ["イナズマイレブン", "イナイレV", "イナイレ攻略"];
+  if (/BASARA|バサラ/i.test(title)) t.push("BASARA", "アップデート");
+  if (/パッシブ|ビルド|構成/i.test(title)) t.push("パッシブ", "ビルド");
+  if (/装備|ビーンズ/i.test(title)) t.push("装備", "ビーンズ");
+  if (/対戦|ランクマ|フォーカス|勝率|戦法/i.test(title)) t.push("対戦", "戦い方");
+  if (/周回|HERO|クロニクル|効率/i.test(title)) t.push("周回", "効率");
+  if (/初心者|方法|やり方|解説/i.test(title)) t.push("初心者");
+  if (/クイズ|企画|チャレンジ/i.test(title)) t.push("面白企画");
+  t.push("やまむー");
+  return [...new Set(t)];
+}
 
 export const GAMES = {
+  inazuma: {
+    key: "inazuma", label: "イナイレV", dir: "inazuma",
+    logo: "イナイレV攻略Wiki", navActive: "inazuma",
+    match: (t) => /イナズマ|イナイレ|inazuma/i.test(t),
+    tags: inazumaTags,
+    catalog: "videos-json",
+    homeLinks: [
+      ["index.html", "ホーム"], ["category-build.html", "ビルド攻略"],
+      ["category-equipment.html", "装備・ビーンズ"], ["category-battle.html", "対戦テクニック"],
+      ["category-farming.html", "周回効率"], ["guide-beginner.html", "初心者ガイド"],
+      ["category-update.html", "アプデ情報"], ["category-fun.html", "面白企画"],
+    ],
+  },
   palworld: {
     key: "palworld", label: "パルワールド", dir: "palworld",
     logo: "パルワールド攻略Wiki", navActive: "palworld",
@@ -92,7 +117,6 @@ export const GAMES = {
 
 function classify(title) {
   for (const g of Object.values(GAMES)) if (g.match(title)) return g;
-  if (/イナズマ|イナイレ|inazuma/i.test(title)) return { key: "inazuma", label: "イナイレV", templated: false };
   if (/ぽこ.?あ.?ポケモン|ぽこポケ/i.test(title)) return { key: "pocoapokemon", label: "ぽこポケ", templated: false };
   return { key: "other", label: "その他", templated: false };
 }
@@ -265,6 +289,39 @@ function sitemapEntry(cfg, id) {
 `;
 }
 
+export function buildCatalogEntry(cfg, video) {
+  const description = String(video.description || "").split("\n").find((line) => line.trim())?.trim() || video.title;
+  return {
+    id: video.id,
+    title: video.title,
+    category: cfg.key,
+    date: (video.published || "").slice(0, 10),
+    views: "",
+    duration: "",
+    description,
+    content: "",
+    tags: cfg.tags(video.title),
+    draft: true,
+  };
+}
+
+async function addToVideosCatalog(cfg, video) {
+  const jsonPath = join(ROOT, cfg.dir, "videos.json");
+  const jsPath = join(ROOT, cfg.dir, "videos.js");
+  const catalog = JSON.parse(await readFile(jsonPath, "utf8"));
+  if (catalog.some((item) => item.id === video.id)) {
+    console.log("  → videos.json / videos.js は登録済み");
+    return;
+  }
+  catalog.unshift(buildCatalogEntry(cfg, video));
+  if (!DRY_RUN) {
+    const json = `${JSON.stringify(catalog, null, 2)}\n`;
+    await writeFile(jsonPath, json, "utf8");
+    await writeFile(jsPath, `const videos = ${JSON.stringify(catalog, null, 2)};\n`, "utf8");
+  }
+  console.log("  → videos.json / videos.js に下書き登録");
+}
+
 // ---- メイン ---------------------------------------------------------------
 
 async function main() {
@@ -328,15 +385,19 @@ async function main() {
     if (!DRY_RUN) await writeFile(draftPath, buildDraft(cfg, v), "utf8");
     console.log(`下書き生成: ${cfg.dir}/video-${cfg.dir}-${v.id}.html`);
 
-    const indexPath = join(ROOT, cfg.dir, "index.html");
-    const idx = await readFile(indexPath, "utf8");
-    const anchor = '<div class="pw-video-grid">';
-    if (idx.includes(anchor) && !idx.includes(`video-${cfg.dir}-${v.id}.html`)) {
-      const updated = idx.replace(anchor, `${anchor}\n${videoCard(cfg, v.id, v.title)}`);
-      if (!DRY_RUN) await writeFile(indexPath, updated, "utf8");
-      console.log("  → index.html にカード挿入");
+    if (cfg.catalog === "videos-json") {
+      await addToVideosCatalog(cfg, v);
     } else {
-      console.log("  ⚠ index.html のグリッドが見つからない or カード既出。手動確認。");
+      const indexPath = join(ROOT, cfg.dir, "index.html");
+      const idx = await readFile(indexPath, "utf8");
+      const anchor = '<div class="pw-video-grid">';
+      if (idx.includes(anchor) && !idx.includes(`video-${cfg.dir}-${v.id}.html`)) {
+        const updated = idx.replace(anchor, `${anchor}\n${videoCard(cfg, v.id, v.title)}`);
+        if (!DRY_RUN) await writeFile(indexPath, updated, "utf8");
+        console.log("  → index.html にカード挿入");
+      } else {
+        console.log("  ⚠ index.html のグリッドが見つからない or カード既出。手動確認。");
+      }
     }
 
     const smPath = join(ROOT, "sitemap.xml");

@@ -25,10 +25,10 @@ const ONLY_VIDEO = process.env.ONLY_VIDEO || "";
 const MIN_TRANSCRIPT_CHARS = 800;
 const MIN_DESCRIPTION_CHARS = 250;
 const MIN_DESCRIPTION_CHAPTERS = 3;
-const MIN_ARTICLE_CHARS = 2200;
+const MIN_ARTICLE_CHARS = 2800;
 const MIN_DESCRIPTION_ARTICLE_CHARS = 1800;
 
-const GAME_DIRS = ["palworld", "pokepoke"];
+const GAME_DIRS = ["inazuma", "palworld", "pokepoke"];
 
 function decodeHtml(value) {
   return String(value || "")
