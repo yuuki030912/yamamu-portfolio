@@ -40,7 +40,7 @@ permissions:
 
 concurrency:
   group: new-video-article-draft
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   draft:

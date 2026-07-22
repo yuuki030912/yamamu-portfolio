@@ -175,9 +175,13 @@ async function fetchOfficialTranscript(videoId) {
   }
 }
 
-async function fetchTranscript(videoId) {
+async function fetchTranscript(videoId, { allowSlowFallback = true } = {}) {
   const official = await fetchOfficialTranscript(videoId);
   if (official.length) return official;
+  if (!allowSlowFallback) {
+    console.log("  字幕取得: 詳しい説明文があるため、時間のかかる外部字幕取得は省略");
+    return [];
+  }
   const temp = await mkdtemp(join(tmpdir(), "yamamu-captions-"));
   try {
     const output = join(temp, "%(id)s.%(ext)s");
@@ -512,7 +516,8 @@ async function main() {
       draft.description = watchDescription;
       console.log(`  説明文取得: YouTubeページから${watchDescription.replace(/\s/g, "").length}文字`);
     }
-    const transcript = await fetchTranscript(draft.id);
+    const descriptionBeforeTranscript = canUseDescriptionSource(draft.description);
+    const transcript = await fetchTranscript(draft.id, { allowSlowFallback: !descriptionBeforeTranscript.ok });
     const transcriptChars = transcript.map((cue) => cue.text).join("").length;
     console.log(`  字幕: ${transcript.length}区間 / ${transcriptChars}文字`);
     const sourceKind = transcriptChars >= MIN_TRANSCRIPT_CHARS ? "captions" : "description";
