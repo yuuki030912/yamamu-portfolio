@@ -86,17 +86,39 @@ async function fetchTranscript(videoId) {
   const temp = await mkdtemp(join(tmpdir(), "yamamu-captions-"));
   try {
     const output = join(temp, "%(id)s.%(ext)s");
-    await execFileAsync("yt-dlp", [
+    const commonArgs = [
       "--no-playlist", "--skip-download", "--write-subs", "--write-auto-subs",
       "--sub-langs", "ja.*,ja,en.*", "--sub-format", "vtt", "--no-warnings",
-      "-o", output, `https://www.youtube.com/watch?v=${videoId}`,
-    ], { timeout: 120_000, maxBuffer: 4 * 1024 * 1024 });
-    const files = (await readdir(temp)).filter((file) => file.endsWith(".vtt"))
-      .sort((a, b) => Number(!/\.ja(?:[.-]|$)/i.test(a)) - Number(!/\.ja(?:[.-]|$)/i.test(b)));
-    if (!files.length) return [];
-    return parseVtt(await readFile(join(temp, files[0]), "utf8"));
-  } catch (error) {
-    console.warn(`  ⚠ 字幕取得失敗: ${error.message}`);
+      "--extractor-args", "youtubepot-bgutilhttp:base_url=http://127.0.0.1:4416",
+      "-o", output,
+    ];
+    // GitHub-hosted runners are sometimes blocked by YouTube. Try the official
+    // yt-dlp client fallbacks without passing a creator account cookie.
+    const clients = [
+      "web;fetch_pot=always",
+      "mweb;fetch_pot=always",
+      "web_embedded",
+      "android_vr",
+    ];
+    let lastError;
+    for (const client of clients) {
+      try {
+        await execFileAsync("yt-dlp", [
+          ...commonArgs,
+          "--extractor-args", `youtube:player_client=${client}`,
+          `https://www.youtube.com/watch?v=${videoId}`,
+        ], { timeout: 120_000, maxBuffer: 4 * 1024 * 1024 });
+        const files = (await readdir(temp)).filter((file) => file.endsWith(".vtt"))
+          .sort((a, b) => Number(!/\.ja(?:[.-]|$)/i.test(a)) - Number(!/\.ja(?:[.-]|$)/i.test(b)));
+        if (files.length) {
+          console.log(`  字幕取得クライアント: ${client.split(";")[0]}`);
+          return parseVtt(await readFile(join(temp, files[0]), "utf8"));
+        }
+      } catch (error) {
+        lastError = error;
+      }
+    }
+    if (lastError) console.warn(`  ⚠ 字幕取得失敗: ${lastError.message}`);
     return [];
   } finally {
     await rm(temp, { recursive: true, force: true });
