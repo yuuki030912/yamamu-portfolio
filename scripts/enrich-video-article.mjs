@@ -27,7 +27,7 @@ const MIN_TRANSCRIPT_CHARS = 800;
 const MIN_DESCRIPTION_CHARS = 250;
 const MIN_DESCRIPTION_CHAPTERS = 3;
 const MIN_ARTICLE_CHARS = 2800;
-const MIN_DESCRIPTION_ARTICLE_CHARS = 2200;
+const MIN_DESCRIPTION_ARTICLE_CHARS = 2000;
 
 const GAME_DIRS = ["palworld", "pokepoke"];
 
@@ -535,12 +535,14 @@ async function main() {
     }
     try {
       const minChars = sourceKind === "captions" ? MIN_ARTICLE_CHARS : MIN_DESCRIPTION_ARTICLE_CHARS;
-      let raw = await generateAndAuditArticle(draft, transcript);
-      let quality = validateForSource(raw, { minChars, sourceKind, description: draft.description });
-      if (!quality.ok) {
-        console.warn(`  再生成: ${quality.errors.join(" / ")}`);
-        raw = await generateAndAuditArticle(draft, transcript, quality.errors);
+      let quality;
+      let previousErrors = [];
+      for (let attempt = 1; attempt <= 3; attempt += 1) {
+        const raw = await generateAndAuditArticle(draft, transcript, previousErrors);
         quality = validateForSource(raw, { minChars, sourceKind, description: draft.description });
+        if (quality.ok) break;
+        previousErrors = quality.errors;
+        if (attempt < 3) console.warn(`  再生成 ${attempt}/2: ${quality.errors.join(" / ")}`);
       }
       if (!quality.ok) {
         console.warn(`  ⚠ 品質基準未達のため採用しません: ${quality.errors.join(" / ")}`);

@@ -226,7 +226,7 @@ ${tags}
   <!-- TODO: ここに「動画の内容まとめ」記事本文（リード文→見出し→表→FAQ）を書く。
        構成の型は同ディレクトリの既存 video-*.html を参照。 -->
 
-  <section class="draft-src">
+  <section class="draft-src" hidden data-article-source="youtube-description">
     <h2>▼ 元動画の説明文（記事化の素材・公開前に削除）</h2>
         ${descBlock}
   </section>

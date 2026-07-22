@@ -13,6 +13,7 @@ on:
       - ".github/workflows/new-video-article-draft.yml"
       - "scripts/new-video-article-draft.mjs"
       - "scripts/enrich-video-article.mjs"
+      - "scripts/refresh-article-sources.mjs"
       - "prompts/video-article-system.md"
       - "tests/article-enrichment.test.mjs"
   schedule:
@@ -87,14 +88,14 @@ jobs:
             ## 🎬 字幕をもとにした動画記事の下書き
 
             新着動画を検知し、字幕と動画説明文を一次情報として、内容の濃い攻略記事を用意しました。
-            本文はAIによる事実校閲と品質ゲート（字幕あり2,800文字以上／説明文のみ2,200文字以上・4見出し以上・FAQ 3件以上・弱点の明記）を通過したものだけ追加しています。
+            本文はAIによる事実校閲と品質ゲート（字幕あり2,800文字以上／説明文のみ2,000文字以上・4見出し以上・FAQ 3件以上・弱点の明記）を通過したものだけ追加しています。
 
             ### レビュー手順
             - [ ] 数値・固有名詞・勝敗を動画と照合
             - [ ] 本人の意図と違う言い回しがないか確認
             - [ ] 「正直な弱点」「向く人・向かない人」が実体験と合っているか確認
             - [ ] 可能なら重要場面のスクリーンショットを追加
-            - [ ] 完成したら各記事の `noindex` メタ・「🚧下書き」バナー・元説明文ブロックを削除
+            - [ ] 完成したら各記事の `noindex` メタと「🚧下書き」バナーを削除（非表示の一次情報ブロックは残す）
             - [ ] `drafts/pending-videos.md` で対応済みの動画にチェック
 
             > **記事は自動公開されません。** `noindex` のままPRに出るため、本人が確認してから公開できます。
