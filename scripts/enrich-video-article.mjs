@@ -22,6 +22,7 @@ const MIN_TRANSCRIPT_CHARS = 800;
 const MIN_DESCRIPTION_CHARS = 250;
 const MIN_DESCRIPTION_CHAPTERS = 3;
 const MIN_ARTICLE_CHARS = 2200;
+const MIN_DESCRIPTION_ARTICLE_CHARS = 1800;
 
 const GAME_DIRS = ["palworld", "pokepoke"];
 
@@ -168,7 +169,7 @@ function articleText(article) {
   return [article.lead, ...article.summaryPoints, ...article.moments.flatMap((m) => [m.label, m.description]), ...article.sections.flatMap((s) => [s.heading, ...s.paragraphs, ...s.bullets]), ...article.limitations.paragraphs, ...article.recommendedFor, ...article.notRecommendedFor, ...article.faq.flatMap((f) => [f.question, f.answer]), article.conclusion].join("\n");
 }
 
-export function validateArticle(input) {
+export function validateArticle(input, { minChars = MIN_ARTICLE_CHARS } = {}) {
   const article = normalizeArticle(input);
   const errors = [];
   const length = articleText(article).replace(/\s/g, "").length;
@@ -182,7 +183,7 @@ export function validateArticle(input) {
   if (article.recommendedFor.length < 2 || article.notRecommendedFor.length < 2) errors.push("向く人・向かない人が不足");
   if (article.faq.length < 3) errors.push("FAQが3件未満");
   if (article.conclusion.length < 100) errors.push("結論が短すぎる");
-  if (length < MIN_ARTICLE_CHARS) errors.push(`本文が短すぎる（${length}文字 / 最低${MIN_ARTICLE_CHARS}文字）`);
+  if (length < minChars) errors.push(`本文が短すぎる（${length}文字 / 最低${minChars}文字）`);
   return { ok: errors.length === 0, errors, article, length };
 }
 
@@ -197,7 +198,7 @@ async function generateArticle(draft, transcript, previousErrors = []) {
   const transcriptText = transcript.map((cue) => `[${clock(cue.start)}] ${cue.text}`).join("\n").slice(0, 60_000);
   const sourceMode = transcript.length
     ? "字幕あり。字幕を最優先の根拠にして、3,000〜5,000文字を目安にする。"
-    : "字幕なし。説明文とチャプター名だけを根拠にして、2,200〜3,500文字を目安にする。説明文にない対戦の細部や結果は補わない。";
+    : "字幕なし。説明文とチャプター名だけを根拠にして、1,800〜2,800文字を目安にする。説明文にない対戦の細部や結果は補わない。";
   const retry = previousErrors.length ? `\n前回の出力は次の品質基準を満たしませんでした。必ず修正してください。\n- ${previousErrors.join("\n- ")}` : "";
   const userPrompt = `次のYouTube動画を攻略記事にしてください。\n\n【情報源の状態】\n${sourceMode}\n\n【動画タイトル】\n${draft.title}\n\n【公開日】\n${draft.published}\n\n【動画説明文】\n${draft.description || "（説明文なし）"}\n\n【字幕】\n${transcriptText || "（取得できなかったため使用不可）"}${retry}`;
   const response = await fetch("https://models.github.ai/inference/chat/completions", {
@@ -208,6 +209,44 @@ async function generateArticle(draft, transcript, previousErrors = []) {
   if (!response.ok) throw new Error(`GitHub Models ${response.status}: ${(await response.text()).slice(0, 500)}`);
   const data = await response.json();
   return safeJson(data.choices?.[0]?.message?.content);
+}
+
+async function auditArticle(draft, transcript, article) {
+  const transcriptText = transcript.map((cue) => `[${clock(cue.start)}] ${cue.text}`).join("\n").slice(0, 60_000);
+  const systemPrompt = `あなたはゲーム攻略記事の厳格なファクトチェッカーです。入力された記事を、動画タイトル・説明文・字幕だけで検証し、根拠のない文を削除または根拠内の表現へ直してください。
+
+最重要ルール:
+- チャプター名は、その時刻にその話題があることだけを示す。チャプター名にない戦況・理由・効果・勝敗を補わない。
+- カードや特性の一般知識を使わない。効果、HP、火力、耐久、サーチ、手札操作、相性、因果関係は情報源に明記された場合だけ残す。
+- 「有利」「安定」「対応できる」「妨害できる」「プレッシャー」などの評価も、情報源に明記されていなければ断定しない。
+- 情報が限られる箇所は「動画では○○を検証している」「説明文では○○と評価している」のように事実の範囲へ戻す。
+- 記事のJSON構造、結論ファースト、弱点、向く人・向かない人、FAQは維持する。新しい事実は追加しない。
+- 出力は {"article": 修正後の記事JSON, "correctedClaims": [削除・修正した主張]} のJSONだけにする。`;
+  const response = await fetch("https://models.github.ai/inference/chat/completions", {
+    method: "POST",
+    headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${TOKEN}`, "Content-Type": "application/json", "X-GitHub-Api-Version": "2026-03-10" },
+    body: JSON.stringify({
+      model: MODEL,
+      temperature: 0,
+      max_tokens: 8000,
+      response_format: { type: "json_object" },
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: `【動画タイトル】\n${draft.title}\n\n【動画説明文】\n${draft.description || "（なし）"}\n\n【字幕】\n${transcriptText || "（なし）"}\n\n【検証対象の記事JSON】\n${JSON.stringify(article)}` },
+      ],
+    }),
+  });
+  if (!response.ok) throw new Error(`GitHub Models audit ${response.status}: ${(await response.text()).slice(0, 500)}`);
+  const result = safeJson((await response.json()).choices?.[0]?.message?.content);
+  if (!result.article || typeof result.article !== "object") throw new Error("ファクトチェック結果に article がありません");
+  return { article: result.article, correctedClaims: Array.isArray(result.correctedClaims) ? result.correctedClaims.map(String) : [] };
+}
+
+async function generateAndAuditArticle(draft, transcript, previousErrors = []) {
+  const generated = await generateArticle(draft, transcript, previousErrors);
+  const audited = await auditArticle(draft, transcript, generated);
+  if (audited.correctedClaims.length) console.warn(`  事実校閲: 根拠外の主張を${audited.correctedClaims.length}件修正`);
+  return audited.article;
 }
 
 function list(items) {
@@ -268,7 +307,7 @@ async function relatedArticles(path) {
   return result;
 }
 
-function applyArticle(html, article, rendered) {
+function applyArticle(html, article, rendered, { sourceKind = "captions" } = {}) {
   const safeTitle = escapeHtml(article.seoTitle);
   const safeDescription = escapeHtml(article.metaDescription);
   let updated = html
@@ -277,7 +316,7 @@ function applyArticle(html, article, rendered) {
     .replace(/<meta property="og:title" content="[^"]*">/, `<meta property="og:title" content="${safeTitle}">`)
     .replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${safeDescription}">`)
     .replace(/<h1 class="video-detail-title">[\s\S]*?<\/h1>/, `<h1 class="video-detail-title">${safeTitle}</h1>`)
-    .replace(/<div class="draft-banner">[\s\S]*?<\/div>/, `<div class="draft-banner">🚧 <strong>字幕をもとにAIが作成した記事下書きです。</strong> 数値・固有名詞・プレイ結果を動画と照合してください。確認後に noindex、このバナー、元説明文ブロックを削除して公開します。</div>`);
+    .replace(/<div class="draft-banner">[\s\S]*?<\/div>/, `<div class="draft-banner">🚧 <strong>${sourceKind === "captions" ? "字幕と説明文" : "動画説明文とチャプター"}をもとにAIが作成した記事下書きです。</strong> 数値・固有名詞・プレイ結果を動画と照合してください。確認後に noindex、このバナー、元説明文ブロックを削除して公開します。</div>`);
   if (/<!-- AI_ARTICLE_START -->[\s\S]*?<!-- AI_ARTICLE_END -->/.test(updated)) {
     updated = updated.replace(/<!-- AI_ARTICLE_START -->[\s\S]*?<!-- AI_ARTICLE_END -->/, rendered);
   } else {
@@ -318,6 +357,7 @@ async function main() {
     const transcript = await fetchTranscript(draft.id);
     const transcriptChars = transcript.map((cue) => cue.text).join("").length;
     console.log(`  字幕: ${transcript.length}区間 / ${transcriptChars}文字`);
+    const sourceKind = transcriptChars >= MIN_TRANSCRIPT_CHARS ? "captions" : "description";
     if (transcriptChars < MIN_TRANSCRIPT_CHARS) {
       const descriptionSource = canUseDescriptionSource(draft.description);
       if (!descriptionSource.ok) {
@@ -327,12 +367,13 @@ async function main() {
       console.warn(`  ↪ 説明文フォールバック: ${descriptionSource.chars}文字・${descriptionSource.chapters}チャプターを根拠に生成します。`);
     }
     try {
-      let raw = await generateArticle(draft, transcript);
-      let quality = validateArticle(raw);
+      const minChars = sourceKind === "captions" ? MIN_ARTICLE_CHARS : MIN_DESCRIPTION_ARTICLE_CHARS;
+      let raw = await generateAndAuditArticle(draft, transcript);
+      let quality = validateArticle(raw, { minChars });
       if (!quality.ok) {
         console.warn(`  再生成: ${quality.errors.join(" / ")}`);
-        raw = await generateArticle(draft, transcript, quality.errors);
-        quality = validateArticle(raw);
+        raw = await generateAndAuditArticle(draft, transcript, quality.errors);
+        quality = validateArticle(raw, { minChars });
       }
       if (!quality.ok) {
         console.warn(`  ⚠ 品質基準未達のため採用しません: ${quality.errors.join(" / ")}`);
@@ -340,7 +381,7 @@ async function main() {
       }
       const related = await relatedArticles(draft.path);
       const rendered = renderArticle(quality.article, { videoId: draft.id, related });
-      const updated = applyArticle(draft.html, quality.article, rendered);
+      const updated = applyArticle(draft.html, quality.article, rendered, { sourceKind });
       if (!DRY_RUN) await writeFile(draft.path, updated, "utf8");
       changed += 1;
       console.log(`  ✓ ${quality.length}文字・${quality.article.sections.length}見出し・FAQ ${quality.article.faq.length}件`);
