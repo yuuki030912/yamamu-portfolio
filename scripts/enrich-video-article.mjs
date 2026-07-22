@@ -22,6 +22,7 @@ const YOUTUBE_REFRESH_TOKEN = process.env.YOUTUBE_OAUTH_REFRESH_TOKEN || "";
 const DRY_RUN = process.env.ARTICLE_DRY_RUN === "1";
 const ALLOW_DESCRIPTION_FALLBACK = process.env.ALLOW_DESCRIPTION_FALLBACK === "1";
 const REBUILD_EXISTING = process.env.REBUILD_EXISTING === "1";
+const FORCE_REBUILD_AI = process.env.FORCE_REBUILD_AI === "1";
 const ONLY_VIDEO = process.env.ONLY_VIDEO || "";
 const MIN_TRANSCRIPT_CHARS = 800;
 const MIN_DESCRIPTION_CHARS = 250;
@@ -342,6 +343,122 @@ function applyDescriptionOnlySafety(input, description) {
   return article;
 }
 
+function descriptionLines(description) {
+  return String(description || "").split("\n").map((line) => line.trim()).filter(Boolean);
+}
+
+function chapterFromLine(line) {
+  const match = line.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?\s+(.+)$/);
+  if (!match) return null;
+  const seconds = match[3]
+    ? Number(match[1]) * 3600 + Number(match[2]) * 60 + Number(match[3])
+    : Number(match[1]) * 60 + Number(match[2]);
+  return { timeSeconds: seconds, label: match[4].trim() };
+}
+
+function clip(text, max) {
+  const value = String(text || "").replace(/\s+/g, " ").trim();
+  return value.length <= max ? value : `${value.slice(0, max - 1)}…`;
+}
+
+export function buildGroundedFallbackArticle(draft) {
+  const lines = descriptionLines(draft.description);
+  const chapters = lines.map(chapterFromLine).filter(Boolean);
+  const facts = lines.filter((line) => {
+    if (chapterFromLine(line)) return false;
+    return !/^(?:▼|■|#|https?:\/\/|─|🎮|※?チャンネル登録|最後まで見て|みんなの|デッキの感想|感想・応援)/.test(line)
+      && !/(?:コメントで教えて|教えてください|どっちがいい|何に変える|高評価|ブラウザゲームで遊べ|自作ゲーム宣伝)/.test(line);
+  });
+  const usefulFacts = facts.flatMap((line) => {
+    const cleaned = line.replace(/^・/, "").trim();
+    if (/^[^。！？!?]{1,45}[:：][^。！？!?]{2,}$/.test(cleaned)) return [cleaned];
+    return cleaned.split(/(?<=[。！？!?])\s*/).map((part) => part.trim()).filter((part) => part.length >= 8);
+  });
+  if (!usefulFacts.length) usefulFacts.push(draft.title);
+  const factText = usefulFacts.slice(0, 8).join(" ");
+  const topic = clip(draft.title.replace(/^【[^】]+】/, ""), 54);
+  const seoTitle = topic.length >= 15 ? topic : `${topic}｜動画攻略まとめ`;
+  const lead = `結論：この動画では「${topic}」をテーマに、${clip(factText, 240)}。この記事は動画説明文と${chapters.length}件の公式チャプターだけを一次情報にして、最初に押さえたい結論、見るべき場面、注意点を順番に整理しました。説明欄にない対戦経過や数値は推測せず、詳しいプレイは該当時刻から動画で確認できる構成です。`;
+  const summaryPoints = [
+    clip(usefulFacts[0], 220),
+    clip(usefulFacts[1] || `動画は「${chapters[0]?.label || topic}」から始まり、テーマを順に確認できます。`, 220),
+    clip(usefulFacts[2] || `公式チャプターは${chapters.length}件あり、気になる内容へ直接移動できます。`, 220),
+    clip(usefulFacts[3] || "記事では説明欄に明記された内容だけを扱い、細かな判断は動画本編へつなぎます。", 220),
+  ];
+  const moments = chapters.slice(0, 8).map((chapter) => ({
+    ...chapter,
+    description: `公式説明欄では${clock(chapter.timeSeconds)}から「${chapter.label}」を扱う構成です。見たい話題へ直接移動して、実際の画面と本人の説明を確認できます。`,
+  }));
+
+  const sections = [{
+    heading: "動画の結論と、最初に押さえたいこと",
+    paragraphs: [
+      `動画説明欄の冒頭では「${clip(usefulFacts.slice(0, 2).join(" "), 420)}」と説明されています。まず確認したいのは、この一文に含まれるテーマと結果です。検索から来た人はここを起点にすると、動画が何を検証し、どこを見せようとしているのかを短時間でつかめます。`,
+      `さらに説明欄には「${clip(usefulFacts.slice(2, 5).join(" ") || factText, 420)}」とあります。この記事では、この公式説明を越えてゲーム内の効果や勝敗を補っていません。詳しい理由、操作、場面ごとの判断は動画本編で確かめる前提にすることで、要約の読みやすさと情報の正確さを両立しています。`,
+    ],
+    bullets: summaryPoints.slice(0, 3),
+  }, {
+    heading: "説明欄から分かる具体的なポイント",
+    paragraphs: [
+      `公式説明では「${clip(usefulFacts.slice(1, 5).join(" ") || usefulFacts[0], 460)}」と明記されています。ここは動画を見る前に押さえておきたい具体情報です。カード名、パル名、数値、結果などは説明欄に書かれた表現だけを残しているため、検索で知りたかった答えを先に確認できます。`,
+      `そのうえで、説明欄の後半には「${clip(usefulFacts.slice(5, 9).join(" ") || chapters.slice(0, 4).map((item) => item.label).join("、"), 460)}」という内容も並びます。これらは動画内で扱われる論点を整理したもので、記事では効果や理由を勝手に補っていません。実際の使い方や場面のつながりは、下の時刻リンクから映像と合わせて確認できます。`,
+    ],
+    bullets: usefulFacts.slice(1, 8).map((fact) => clip(fact, 220)),
+  }];
+
+  const groupSize = Math.max(1, Math.ceil(chapters.length / 3));
+  for (let index = 0; index < chapters.length; index += groupSize) {
+    const group = chapters.slice(index, index + groupSize);
+    const first = group[0];
+    const last = group[group.length - 1];
+    const labels = group.map((item) => `「${item.label}」`).join("、");
+    sections.push({
+      heading: `${clock(first.timeSeconds)}から見る：${clip(group.map((item) => item.label).join("／"), 46)}`,
+      paragraphs: [
+        `${clock(first.timeSeconds)}から${clock(last.timeSeconds)}までの範囲では、公式チャプターに${labels}と記載されています。チャプター名そのものに対戦相手、扱う機能、結果が書かれている場合は、それがこの区間で確認できる要点です。短い見出しだけでは分からない操作や判断理由は補わず、動画で確かめられるように時刻を対応させています。`,
+        `この区間を見る前の前提として、説明欄には「${clip(usefulFacts[Math.min(Math.floor(index / groupSize) + 1, usefulFacts.length - 1)], 300)}」とあります。まず「${first.label}」から再生し、${group.length > 1 ? `続く「${last.label}」までの流れ` : "そのチャプター内の流れ"}を画面と本人の説明で確認してください。記事で結論を把握してから見ることで、注目したい場面を見失わずに済みます。`,
+      ],
+      bullets: group.map((item) => `${clock(item.timeSeconds)} ${item.label}`),
+    });
+  }
+
+  const riskFacts = usefulFacts.filter((line) => /(事故|負け|弱点|注意|苦戦|大波乱|死|終了|万能では|変更)/.test(line));
+  const limitations = {
+    heading: "正直な弱点・確認ポイント",
+    paragraphs: [
+      riskFacts.length
+        ? `説明欄には「${clip(riskFacts.slice(0, 3).join(" "), 420)}」という注意点や失敗も明記されています。良い場面だけを切り取らず、うまくいかなかった部分も含めて判断できるのが、この動画を確認する価値です。`
+        : "動画説明文には、明確な弱点や向かない相手までは書かれていません。そのため、記事側で弱点を推測して追加せず、公式説明から確認できるテーマとチャプター案内に限定しています。",
+      "説明文とチャプターだけでは、操作の細部、場面ごとの判断理由、本人がプレイ中に感じたことのすべては分かりません。公開前の確認では動画本編と照合し、必要なら本人の実感や補足を追記すると、さらに一次情報の強い攻略記事になります。",
+    ],
+  };
+  const firstMoment = chapters[0];
+  const lastMoment = chapters[chapters.length - 1];
+  const faq = [
+    { question: "この動画では何が分かりますか？", answer: `説明欄では「${clip(usefulFacts.slice(0, 3).join(" "), 430)}」と案内されています。まずはこの結論を押さえ、細かな画面や本人の説明を動画で確認してください。` },
+    { question: "どこから見始めればいいですか？", answer: firstMoment ? `${clock(firstMoment.timeSeconds)}の「${firstMoment.label}」から始まり、最後は${clock(lastMoment.timeSeconds)}の「${lastMoment.label}」まで進みます。気になる見出しの時刻を押せば、その場面から再生できます。` : "埋め込まれた動画を最初から確認してください。" },
+    { question: "失敗や注意点も分かりますか？", answer: riskFacts.length ? `説明欄には「${clip(riskFacts.join(" "), 380)}」と書かれています。成功した場面だけでなく、この点も含めて動画で確認できます。` : "説明欄だけでは明確な弱点を断定できません。記事では推測せず、動画本編での確認が必要だと明記しています。" },
+    { question: "記事だけで動画の内容をすべて確認できますか？", answer: "結論、公式説明、チャプター構成は記事で確認できます。ただし、場面ごとの操作や発言は短い説明欄だけでは再現できないため、詳しい内容はリンクした時刻から動画を見るのが確実です。" },
+  ];
+  const article = {
+    seoTitle,
+    metaDescription: clip(`「${topic}」の動画内容を、公式説明文と${chapters.length}件のチャプターから整理。結論、重要場面、正直な注意点、見るべき時刻を推測なしでまとめています。`, 165),
+    lead,
+    summaryPoints,
+    moments,
+    sections: sections.slice(0, 7),
+    limitations,
+    recommendedFor: [
+      `「${clip(chapters[0]?.label || topic, 80)}」の内容を先に把握してから動画を見たい人`,
+      `公式チャプターから「${clip(chapters[Math.min(1, chapters.length - 1)]?.label || topic, 80)}」へすぐ移動したい人`,
+    ],
+    notRecommendedFor: ["説明欄にない対戦経過や判断まで、記事だけで断定してほしい人", "本人の操作や反応を見ず、短い要約だけですべてを判断したい人"],
+    faq,
+    conclusion: `結論として、この動画は「${topic}」を扱い、説明欄では「${clip(usefulFacts.slice(0, 2).join(" "), 300)}」とまとめられています。まず記事で結論とチャプター構成を確認し、そのうえで気になる時刻から動画を再生するのが最短です。記事は説明欄にない事実を足していないため、実際の操作、対戦の流れ、本人の詳しい評価は動画本編で確かめてください。`,
+  };
+  return applyDescriptionOnlySafety(article, draft.description);
+}
+
 function safeJson(text) {
   const cleaned = String(text || "").trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
   return JSON.parse(cleaned);
@@ -473,7 +590,12 @@ async function relatedArticles(path) {
   return result;
 }
 
-export function applyArticle(html, article, rendered, { sourceKind = "captions" } = {}) {
+function renderSourceBlock(description) {
+  const paragraphs = descriptionLines(description).map((line) => `    <p>${escapeHtml(line)}</p>`).join("\n");
+  return paragraphs ? `<section class="draft-src" hidden data-article-source="youtube-description">\n${paragraphs}\n  </section>` : "";
+}
+
+export function applyArticle(html, article, rendered, { sourceKind = "captions", description = "" } = {}) {
   const safeTitle = escapeHtml(article.seoTitle);
   const safeDescription = escapeHtml(article.metaDescription);
   let updated = html
@@ -482,7 +604,7 @@ export function applyArticle(html, article, rendered, { sourceKind = "captions" 
     .replace(/<meta property="og:title" content="[^"]*">/, `<meta property="og:title" content="${safeTitle}">`)
     .replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${safeDescription}">`)
     .replace(/<h1 class="video-detail-title">[\s\S]*?<\/h1>/, `<h1 class="video-detail-title">${safeTitle}</h1>`)
-    .replace(/<div class="draft-banner">[\s\S]*?<\/div>/, `<div class="draft-banner">🚧 <strong>${sourceKind === "captions" ? "字幕と説明文" : "動画説明文とチャプター"}をもとにAIが作成した記事下書きです。</strong> 数値・固有名詞・プレイ結果を動画と照合してください。確認後に noindex、このバナー、元説明文ブロックを削除して公開します。</div>`);
+    .replace(/<div class="draft-banner">[\s\S]*?<\/div>/, `<div class="draft-banner">🚧 <strong>${sourceKind === "captions" ? "字幕と説明文" : "動画説明文とチャプター"}をもとに自動作成した記事下書きです。</strong> 数値・固有名詞・プレイ結果を動画と照合してください。確認後に noindex、このバナー、元説明文ブロックを削除して公開します。</div>`);
   if (/<!-- AI_ARTICLE_START -->[\s\S]*?<!-- AI_ARTICLE_END -->/.test(updated)) {
     updated = updated.replace(/<!-- AI_ARTICLE_START -->[\s\S]*?<!-- AI_ARTICLE_END -->/, rendered);
   } else if (/<section class="video-lead-section"[\s\S]*?(?=\s*<footer class="footer">)/.test(updated)) {
@@ -490,6 +612,9 @@ export function applyArticle(html, article, rendered, { sourceKind = "captions" 
     updated = updated.replace(/<section class="video-lead-section"[\s\S]*?(?=\s*<footer class="footer">)/, `${rendered}\n`);
   } else {
     updated = updated.replace(/\s*<!-- TODO:[\s\S]*?-->\s*/, `\n\n${rendered}\n\n`);
+  }
+  if (!/<section\b[^>]*class=["'][^"']*\bdraft-src\b/.test(updated) && description) {
+    updated = updated.replace(/(?=\s*<footer class="footer">)/, `${renderSourceBlock(description)}\n\n`);
   }
   return updated;
 }
@@ -504,7 +629,7 @@ async function findDrafts() {
       const path = join(full, file);
       const html = await readFile(path, "utf8");
       if (!REBUILD_EXISTING && !html.includes('<meta name="robots" content="noindex"')) continue;
-      if (html.includes("<!-- AI_ARTICLE_START -->")) continue;
+      if (html.includes("<!-- AI_ARTICLE_START -->") && !FORCE_REBUILD_AI) continue;
       const draft = extractDraft(html, path);
       if (!draft.id || !draft.title || (ONLY_VIDEO && draft.id !== ONLY_VIDEO)) continue;
       drafts.push({ ...draft, html });
@@ -545,9 +670,10 @@ async function main() {
       }
       console.warn(`  ↪ 説明文フォールバック: ${descriptionSource.chars}文字・${descriptionSource.chapters}チャプターを根拠に生成します。`);
     }
+    const minChars = sourceKind === "captions" ? MIN_ARTICLE_CHARS : MIN_DESCRIPTION_ARTICLE_CHARS;
+    let quality;
+    let generationMode = "AI";
     try {
-      const minChars = sourceKind === "captions" ? MIN_ARTICLE_CHARS : MIN_DESCRIPTION_ARTICLE_CHARS;
-      let quality;
       let previousErrors = [];
       const maxArticleAttempts = sourceKind === "description" ? 2 : 3;
       for (let attempt = 1; attempt <= maxArticleAttempts; attempt += 1) {
@@ -557,19 +683,24 @@ async function main() {
         previousErrors = quality.errors;
         if (attempt < maxArticleAttempts) console.warn(`  再生成 ${attempt}/${maxArticleAttempts - 1}: ${quality.errors.join(" / ")}`);
       }
-      if (!quality.ok) {
-        console.warn(`  ⚠ 品質基準未達のため採用しません: ${quality.errors.join(" / ")}`);
-        continue;
-      }
-      const related = await relatedArticles(draft.path);
-      const rendered = renderArticle(quality.article, { videoId: draft.id, related });
-      const updated = applyArticle(draft.html, quality.article, rendered, { sourceKind });
-      if (!DRY_RUN) await writeFile(draft.path, updated, "utf8");
-      changed += 1;
-      console.log(`  ✓ ${quality.length}文字・${quality.article.sections.length}見出し・FAQ ${quality.article.faq.length}件`);
     } catch (error) {
       console.warn(`  ⚠ 記事生成失敗: ${error.message}`);
     }
+    if (!quality?.ok && sourceKind === "description") {
+      generationMode = "ローカル予備エンジン";
+      quality = validateForSource(buildGroundedFallbackArticle(draft), { minChars, sourceKind, description: draft.description });
+      console.warn(`  ↪ 外部AIを使わない予備記事へ切り替え: ${quality.length}文字`);
+    }
+    if (!quality?.ok) {
+      console.warn(`  ⚠ 品質基準未達のため採用しません: ${(quality?.errors || ["記事を生成できませんでした"]).join(" / ")}`);
+      continue;
+    }
+    const related = await relatedArticles(draft.path);
+    const rendered = renderArticle(quality.article, { videoId: draft.id, related });
+    const updated = applyArticle(draft.html, quality.article, rendered, { sourceKind, description: draft.description });
+    if (!DRY_RUN) await writeFile(draft.path, updated, "utf8");
+    changed += 1;
+    console.log(`  ✓ ${quality.length}文字・${quality.article.sections.length}見出し・FAQ ${quality.article.faq.length}件（${generationMode}）`);
   }
   if (process.env.GITHUB_OUTPUT) await writeFile(process.env.GITHUB_OUTPUT, `has_changes=${changed > 0}\nenriched_count=${changed}\n`, { flag: "a" });
   console.log(`\n内容の濃い記事下書きを ${changed} 件生成しました。${DRY_RUN ? "（DRY_RUN）" : ""}`);
