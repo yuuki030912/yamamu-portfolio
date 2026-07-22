@@ -2,6 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { readdirSync } from "node:fs";
 
 const root = new URL("../", import.meta.url);
+const themeVersion = "20260722-2";
 const portalPath = new URL("ai-games/index.html", root);
 const playDir = new URL("ai-games/play/", root);
 const playPaths = readdirSync(playDir, { withFileTypes: true })
@@ -25,8 +26,12 @@ async function updatePage(path, { bodyClass, stylesheet }) {
   const original = await readFile(path, "utf8");
   let html = original;
 
-  if (!html.includes(stylesheet)) {
-    html = html.replace("</head>", `  <link rel="stylesheet" href="${stylesheet}?v=20260722">\n</head>`);
+  const escapedStylesheet = stylesheet.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const themeLink = new RegExp(`href="${escapedStylesheet}(?:\\?v=[^"]*)?"`);
+  if (themeLink.test(html)) {
+    html = html.replace(themeLink, `href="${stylesheet}?v=${themeVersion}"`);
+  } else {
+    html = html.replace("</head>", `  <link rel="stylesheet" href="${stylesheet}?v=${themeVersion}">\n</head>`);
   }
 
   html = html.replace(/<body(?:\s+class="[^"]*")?>/, `<body class="${bodyClass}">`);
