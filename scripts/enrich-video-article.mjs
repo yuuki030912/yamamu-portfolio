@@ -293,7 +293,16 @@ const DESCRIPTION_GROUNDING_TERMS = [
 
 export function validateDescriptionGrounding(input, description) {
   const article = normalizeArticle(input);
-  const body = articleText(article).toLowerCase();
+  // 「説明文には不利な相手が書かれていない」のような注意書きまで
+  // 根拠外の断定として誤検知しないよう、主張を行う本文だけを検査する。
+  const body = [
+    article.lead,
+    ...article.summaryPoints,
+    ...article.moments.flatMap((moment) => [moment.label, moment.description]),
+    ...article.sections.flatMap((section) => [section.heading, ...section.paragraphs, ...section.bullets]),
+    ...article.faq.flatMap((item) => [item.question, item.answer]),
+    article.conclusion,
+  ].join("\n").toLowerCase();
   const source = String(description || "").toLowerCase();
   return DESCRIPTION_GROUNDING_TERMS
     .filter((term) => body.includes(term.toLowerCase()) && !source.includes(term.toLowerCase()))
@@ -396,11 +405,14 @@ async function auditArticle(draft, transcript, article) {
 
 async function generateAndAuditArticle(draft, transcript, previousErrors = []) {
   const generated = await generateArticle(draft, transcript, previousErrors);
+  if (transcript.map((cue) => cue.text).join("").length < MIN_TRANSCRIPT_CHARS) {
+    // 説明文だけの記事は、プロンプトとローカルの根拠チェックで検証する。
+    // もう一度AIへ全文を渡す校閲はAPI制限と文章の短縮を招くため行わない。
+    return applyDescriptionOnlySafety(generated, draft.description);
+  }
   const audited = await auditArticle(draft, transcript, generated);
   if (audited.correctedClaims.length) console.warn(`  事実校閲: 根拠外の主張を${audited.correctedClaims.length}件修正`);
-  return transcript.map((cue) => cue.text).join("").length >= MIN_TRANSCRIPT_CHARS
-    ? audited.article
-    : applyDescriptionOnlySafety(audited.article, draft.description);
+  return audited.article;
 }
 
 function list(items) {
@@ -537,12 +549,13 @@ async function main() {
       const minChars = sourceKind === "captions" ? MIN_ARTICLE_CHARS : MIN_DESCRIPTION_ARTICLE_CHARS;
       let quality;
       let previousErrors = [];
-      for (let attempt = 1; attempt <= 3; attempt += 1) {
+      const maxArticleAttempts = sourceKind === "description" ? 2 : 3;
+      for (let attempt = 1; attempt <= maxArticleAttempts; attempt += 1) {
         const raw = await generateAndAuditArticle(draft, transcript, previousErrors);
         quality = validateForSource(raw, { minChars, sourceKind, description: draft.description });
         if (quality.ok) break;
         previousErrors = quality.errors;
-        if (attempt < 3) console.warn(`  再生成 ${attempt}/2: ${quality.errors.join(" / ")}`);
+        if (attempt < maxArticleAttempts) console.warn(`  再生成 ${attempt}/${maxArticleAttempts - 1}: ${quality.errors.join(" / ")}`);
       }
       if (!quality.ok) {
         console.warn(`  ⚠ 品質基準未達のため採用しません: ${quality.errors.join(" / ")}`);

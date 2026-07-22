@@ -41,7 +41,8 @@ permissions:
 
 concurrency:
   group: new-video-article-draft
-  cancel-in-progress: true
+  # 定期実行と手動・push実行が重なっても、生成途中の記事を破棄しない。
+  cancel-in-progress: false
 
 jobs:
   draft:
