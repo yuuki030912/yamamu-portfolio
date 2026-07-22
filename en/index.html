@@ -8,13 +8,12 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <title>Yamamu's Game Guides — English Edition</title>
-  <meta name="description" content="English game guides by Yamamu, a Japanese gaming YouTuber (32,000+ subscribers). In-depth Palworld guides based on first-hand play, rewritten for global readers.">
+  <meta name="description" content="English game guides by Yamamu, a Japanese gaming YouTuber (32,000+ subscribers). Pick a game: Palworld or Pokémon TCG Pocket. In-depth guides rewritten from first-hand play.">
   <link rel="canonical" href="https://yamamu-youtube.jp/en/">
 
-  <!-- OGP -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Yamamu's Game Guides — English Edition">
-  <meta property="og:description" content="English game guides by Japanese gaming YouTuber Yamamu. Palworld and more.">
+  <meta property="og:description" content="English game guides by Japanese gaming YouTuber Yamamu. Palworld and Pokémon TCG Pocket.">
   <meta property="og:url" content="https://yamamu-youtube.jp/en/">
   <meta property="og:site_name" content="やまむー【yamamu】">
   <meta property="og:image" content="https://yamamu-youtube.jp/icon.png">
@@ -39,32 +38,31 @@
   }
   </script>
 
-  <!-- パフォーマンス: 事前接続 -->
   <link rel="preconnect" href="https://img.youtube.com">
   <link rel="preconnect" href="https://www.youtube.com">
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
   <link rel="dns-prefetch" href="https://i.ytimg.com">
-  <!-- FOUC防止: 描画前にテーマ確定（async/defer無し） -->
   <script src="/theme-init.js"></script>
   <link rel="stylesheet" href="../style.css">
-  <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1697281908647985" crossorigin="anonymous"></script>
   <style>
-    .en-main { max-width: 900px; margin: 0 auto; padding: 24px; }
-    .en-section-title { font-size: 20px; font-weight: 700; color: var(--text-primary); margin: 32px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
-    .en-card { display: flex; gap: 16px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; text-decoration: none; transition: background 0.2s; margin-bottom: 14px; }
-    .en-card:hover { background: var(--chip-bg); }
-    .en-card img { width: 200px; aspect-ratio: 16/9; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
-    .en-card .t { font-size: 16px; font-weight: 700; color: var(--text-primary); line-height: 1.4; margin-bottom: 6px; }
-    .en-card .d { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
-    .en-card .tag { display: inline-block; font-size: 11px; font-weight: 700; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 1px 10px; margin-bottom: 6px; }
-    .en-about { font-size: 14px; color: var(--text-secondary); line-height: 1.9; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 18px 22px; margin-top: 32px; }
+    .portal-section { max-width: 900px; margin: 0 auto; padding: 8px 24px 40px; }
+    .portal-section-title { font-size: 20px; font-weight: 700; color: var(--text-primary); margin: 24px 0 16px; }
+    .portal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .portal-card { display: block; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px; overflow: hidden; text-decoration: none; transition: transform 0.15s, border-color 0.2s; }
+    .portal-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+    .portal-card-thumb { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .portal-card-body { padding: 16px 18px 20px; }
+    .portal-card-title { font-size: 18px; font-weight: 800; color: var(--text-primary); margin-bottom: 6px; }
+    .portal-card-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 12px; }
+    .portal-badge { display: inline-block; font-size: 11px; font-weight: 700; color: #fff; background: var(--accent); border-radius: 999px; padding: 3px 12px; }
+    .en-about { max-width: 900px; margin: 0 auto; padding: 0 24px; font-size: 14px; color: var(--text-secondary); line-height: 1.9; }
+    .en-about div { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 18px 22px; }
     .en-about a { color: var(--accent); }
-    @media (max-width: 640px) { .en-card { flex-direction: column; } .en-card img { width: 100%; } }
+    @media (max-width: 640px) { .portal-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
-  <!-- ヘッダー -->
   <header class="header">
     <a href="index.html" class="header-left" style="text-decoration:none">
       <img src="../icon.png" alt="Yamamu" class="header-icon" width="32" height="32">
@@ -81,74 +79,56 @@
 
   <nav class="game-nav" aria-label="English navigation">
     <a href="index.html" class="game-nav-link active">English Home</a>
-    <a href="index.html#palworld" class="game-nav-link">Palworld</a>
-    <a href="index.html#pokepoke" class="game-nav-link">Poképoke</a>
+    <a href="palworld.html" class="game-nav-link">Palworld</a>
+    <a href="pokepoke.html" class="game-nav-link">Poképoke</a>
     <a href="../index.html" class="game-nav-link">日本語サイト</a>
   </nav>
 
   <section class="wiki-hero">
     <div class="wiki-hero-inner">
       <h1 class="wiki-hero-title">Yamamu's Game Guides</h1>
-      <p class="wiki-hero-subtitle">English editions of our guides — rewritten for global readers, based on 1,200+ hours of actual play</p>
+      <p class="wiki-hero-subtitle">English editions — rewritten for global readers, based on 1,200+ hours of actual play</p>
     </div>
   </section>
 
-  <main class="en-main">
+  <section class="portal-section">
+    <h2 class="portal-section-title">Choose a game</h2>
+    <div class="portal-grid">
 
-    <h2 class="en-section-title" id="palworld">Palworld</h2>
+      <a class="portal-card" href="palworld.html">
+        <img class="portal-card-thumb" src="https://img.youtube.com/vi/MSr1f_02oDA/hqdefault.jpg" alt="Palworld guides" loading="lazy">
+        <div class="portal-card-body">
+          <div class="portal-card-title">Palworld</div>
+          <div class="portal-card-desc">Best settings, fast leveling, the 10 best early-game Pals, and a hardcore permadeath series — everything for a strong Palworld 1.0 start.</div>
+          <span class="portal-badge">3 guides ›</span>
+        </div>
+      </a>
 
-    <a class="en-card" href="palworld-beginner-guide.html">
-      <img src="https://img.youtube.com/vi/MSr1f_02oDA/hqdefault.jpg" alt="Palworld beginner guide" loading="lazy">
-      <div>
-        <span class="tag">Beginner Guide</span>
-        <div class="t">Palworld 1.0 Beginner's Guide: Best Settings, Fast Leveling, and the Base-Building Trap</div>
-        <div class="d">The world settings to change before you start (20x EXP), the catch-everything leveling strategy, Palbox base building, and the foundation mistake that collapses entire bases. With the full 28-minute video walkthrough.</div>
-      </div>
-    </a>
+      <a class="portal-card" href="pokepoke.html">
+        <img class="portal-card-thumb" src="https://img.youtube.com/vi/dWAmgyJa9d0/hqdefault.jpg" alt="Poképoke (Pokémon TCG Pocket) guides" loading="lazy">
+        <div class="portal-card-body">
+          <div class="portal-card-title">Poképoke <span style="font-size:12px;color:var(--text-secondary);font-weight:600;">(Pokémon TCG Pocket)</span></div>
+          <div class="portal-card-desc">Deck guides rewritten from first-hand ranked play, starting with the Arceus &amp; Crobat item-lock control deck.</div>
+          <span class="portal-badge">1 guide ›</span>
+        </div>
+      </a>
 
-    <a class="en-card" href="palworld-best-early-pals.html">
-      <img src="https://img.youtube.com/vi/vtSrUX9xuxQ/hqdefault.jpg" alt="Best early-game Pals" loading="lazy">
-      <div>
-        <span class="tag">Tier List</span>
-        <div class="t">10 Best Early-Game Pals in Palworld 1.0 — And Where to Find Them</div>
-        <div class="d">The Pals that automate handiwork, mining, transporting and watering from hour one — including Pengullet's boss form you can farm at level 15, and the night-shift Pals that keep your base running 24/7.</div>
-      </div>
-    </a>
-
-    <a class="en-card" href="palworld-hardcore-mode-ep1.html">
-      <img src="https://img.youtube.com/vi/Ik6zF3ErgTw/hqdefault.jpg" alt="Palworld hardcore mode" loading="lazy">
-      <div>
-        <span class="tag">Series</span>
-        <div class="t">What Is Palworld's Hardcore Mode? Permadeath Rules Explained — Episode 1</div>
-        <div class="d">One death deletes your save. XP and capture rates cut to 0.8x. How the hardest way to play Palworld works, how to survive day one — and the disaster that struck our first attempt.</div>
-      </div>
-    </a>
-    <h2 class="en-section-title" id="pokepoke">Poképoke</h2>
-    <a class="en-card" href="pokepoke-arceus-crobat-deck.html">
-      <img src="https://img.youtube.com/vi/dWAmgyJa9d0/hqdefault.jpg" alt="Arceus and Crobat item-lock deck" loading="lazy">
-      <div>
-        <span class="tag">Deck Guide</span>
-        <div class="t">Arceus &amp; Crobat Item-Lock Deck Guide (Pokémon TCG Pocket)</div>
-        <div class="d">Chip the Bench with Crobat, lock the opponent&#39;s Items with Chingling, and grind out the win — a top-tier control deck, with its Rare Candy weakness explained.</div>
-      </div>
-    </a>
-
-    <div class="en-about">
-      <strong>About this section:</strong> every article here is a rewritten English edition of a Japanese guide from <a href="../index.html">やまむーゲーム攻略Wiki</a> — not a machine translation. Same first-hand testing, restructured for English search. Watch the gameplay behind the articles on <a href="https://www.youtube.com/channel/UCZoSz5BvUCPaFP7BPUKZVUQ" rel="noopener noreferrer" target="_blank">YouTube</a>.
     </div>
+  </section>
 
-  </main>
+  <div class="en-about">
+    <div>
+      <strong>About this site:</strong> the English edition of <a href="../index.html">やまむーゲーム攻略Wiki</a>. Every guide is a rewritten English version of a Japanese original — not a machine translation — with the same first-hand testing, restructured for English search. Watch the gameplay behind the guides on <a href="https://www.youtube.com/channel/UCZoSz5BvUCPaFP7BPUKZVUQ" rel="noopener noreferrer" target="_blank">YouTube</a>.
+    </div>
+  </div>
 
-  <!-- フッター -->
   <footer class="footer">
     <nav class="footer-nav" aria-label="Footer navigation">
+      <a href="palworld.html">Palworld (EN)</a>
+      <a href="pokepoke.html">Poképoke (EN)</a>
       <a href="../index.html">日本語サイト</a>
-      <a href="palworld-beginner-guide.html">Palworld Beginner's Guide</a>
-      <a href="palworld-best-early-pals.html">Best Early Pals</a>
-      <a href="palworld-hardcore-mode-ep1.html">Hardcore Mode</a>
       <a href="../about.html">About</a>
       <a href="../privacy.html">Privacy</a>
-      <a href="../contact.html">Contact</a>
       <a href="https://www.youtube.com/@yamamu" rel="noopener noreferrer" target="_blank">YouTube</a>
       <a href="https://twitter.com/YamamuGaming" rel="noopener noreferrer" target="_blank">X (Twitter)</a>
     </nav>
