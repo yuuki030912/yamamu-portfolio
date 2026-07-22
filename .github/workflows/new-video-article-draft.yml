@@ -48,6 +48,9 @@ jobs:
         env:
           GH_MODELS_TOKEN: ${{ github.token }}
           ARTICLE_MODEL: openai/gpt-4.1
+          YOUTUBE_OAUTH_CLIENT_ID: ${{ secrets.YOUTUBE_OAUTH_CLIENT_ID }}
+          YOUTUBE_OAUTH_CLIENT_SECRET: ${{ secrets.YOUTUBE_OAUTH_CLIENT_SECRET }}
+          YOUTUBE_OAUTH_REFRESH_TOKEN: ${{ secrets.YOUTUBE_OAUTH_REFRESH_TOKEN }}
         run: node scripts/enrich-video-article.mjs
       - name: Test the article quality gate
         run: node --test tests/article-enrichment.test.mjs

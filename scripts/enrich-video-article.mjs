@@ -16,6 +16,9 @@ const ROOT = join(__dirname, "..");
 const PROMPT_PATH = join(ROOT, "prompts", "video-article-system.md");
 const MODEL = process.env.ARTICLE_MODEL || "openai/gpt-4.1";
 const TOKEN = process.env.GH_MODELS_TOKEN || process.env.GITHUB_TOKEN || "";
+const YOUTUBE_CLIENT_ID = process.env.YOUTUBE_OAUTH_CLIENT_ID || "";
+const YOUTUBE_CLIENT_SECRET = process.env.YOUTUBE_OAUTH_CLIENT_SECRET || "";
+const YOUTUBE_REFRESH_TOKEN = process.env.YOUTUBE_OAUTH_REFRESH_TOKEN || "";
 const DRY_RUN = process.env.ARTICLE_DRY_RUN === "1";
 const ONLY_VIDEO = process.env.ONLY_VIDEO || "";
 const MIN_TRANSCRIPT_CHARS = 800;
@@ -85,7 +88,67 @@ export function parseVtt(raw) {
   return cues;
 }
 
+let youtubeAccessTokenPromise;
+
+export function selectCaptionTrack(tracks) {
+  return (Array.isArray(tracks) ? tracks : []).filter((item) => item?.snippet?.status === "serving")
+    .sort((a, b) => {
+      const score = (item) => Number(/^ja(?:-|$)/i.test(item?.snippet?.language || "")) * 4
+        + Number(!item?.snippet?.isDraft) * 2 + Number(item?.snippet?.trackKind !== "ASR");
+      return score(b) - score(a);
+    })[0];
+}
+
+async function youtubeAccessToken() {
+  if (!YOUTUBE_CLIENT_ID || !YOUTUBE_CLIENT_SECRET || !YOUTUBE_REFRESH_TOKEN) return "";
+  if (!youtubeAccessTokenPromise) {
+    youtubeAccessTokenPromise = fetch("https://oauth2.googleapis.com/token", {
+      method: "POST",
+      signal: AbortSignal.timeout(30_000),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        client_id: YOUTUBE_CLIENT_ID,
+        client_secret: YOUTUBE_CLIENT_SECRET,
+        refresh_token: YOUTUBE_REFRESH_TOKEN,
+        grant_type: "refresh_token",
+      }),
+    }).then(async (response) => {
+      if (!response.ok) throw new Error(`OAuth ${response.status}: ${(await response.text()).slice(0, 300)}`);
+      return (await response.json()).access_token || "";
+    });
+  }
+  return youtubeAccessTokenPromise;
+}
+
+async function fetchOfficialTranscript(videoId) {
+  try {
+    const accessToken = await youtubeAccessToken();
+    if (!accessToken) return [];
+    const headers = { Authorization: `Bearer ${accessToken}` };
+    const listResponse = await fetch(`https://www.googleapis.com/youtube/v3/captions?part=snippet&videoId=${encodeURIComponent(videoId)}`, {
+      headers,
+      signal: AbortSignal.timeout(30_000),
+    });
+    if (!listResponse.ok) throw new Error(`captions.list ${listResponse.status}: ${(await listResponse.text()).slice(0, 300)}`);
+    const track = selectCaptionTrack((await listResponse.json()).items);
+    if (!track?.id) return [];
+    const downloadResponse = await fetch(`https://www.googleapis.com/youtube/v3/captions/${encodeURIComponent(track.id)}?tfmt=vtt`, {
+      headers,
+      signal: AbortSignal.timeout(30_000),
+    });
+    if (!downloadResponse.ok) throw new Error(`captions.download ${downloadResponse.status}: ${(await downloadResponse.text()).slice(0, 300)}`);
+    const cues = parseVtt(await downloadResponse.text());
+    if (cues.length) console.log(`  字幕取得元: YouTube Data API (${track.snippet.language || "unknown"})`);
+    return cues;
+  } catch (error) {
+    console.warn(`  ⚠ YouTube公式字幕APIの取得失敗: ${error.message}`);
+    return [];
+  }
+}
+
 async function fetchTranscript(videoId) {
+  const official = await fetchOfficialTranscript(videoId);
+  if (official.length) return official;
   const temp = await mkdtemp(join(tmpdir(), "yamamu-captions-"));
   try {
     const output = join(temp, "%(id)s.%(ext)s");
