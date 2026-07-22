@@ -38,7 +38,11 @@ jobs:
           PROCESS_SINCE: ${{ inputs.since }}
         run: node scripts/new-video-article-draft.mjs
       - name: Install YouTube caption extractor
-        run: python -m pip install --disable-pip-version-check yt-dlp
+        run: |
+          python -m pip install --disable-pip-version-check yt-dlp bgutil-ytdlp-pot-provider==1.3.1
+          docker run --rm --detach --init --name bgutil-provider -p 4416:4416 brainicism/bgutil-ytdlp-pot-provider:1.3.1
+          sleep 3
+          docker ps --filter name=bgutil-provider
       - name: Turn captions into detailed article drafts
         id: enrich
         env:
