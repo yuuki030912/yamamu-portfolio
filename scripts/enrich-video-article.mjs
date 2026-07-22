@@ -20,6 +20,7 @@ const YOUTUBE_CLIENT_ID = process.env.YOUTUBE_OAUTH_CLIENT_ID || "";
 const YOUTUBE_CLIENT_SECRET = process.env.YOUTUBE_OAUTH_CLIENT_SECRET || "";
 const YOUTUBE_REFRESH_TOKEN = process.env.YOUTUBE_OAUTH_REFRESH_TOKEN || "";
 const DRY_RUN = process.env.ARTICLE_DRY_RUN === "1";
+const ALLOW_DESCRIPTION_FALLBACK = process.env.ALLOW_DESCRIPTION_FALLBACK === "1";
 const ONLY_VIDEO = process.env.ONLY_VIDEO || "";
 const MIN_TRANSCRIPT_CHARS = 800;
 const MIN_DESCRIPTION_CHARS = 250;
@@ -483,6 +484,10 @@ async function main() {
       const descriptionSource = canUseDescriptionSource(draft.description);
       if (!descriptionSource.ok) {
         console.warn(`  ⚠ 字幕がなく、説明文も記事化には不足しています（${descriptionSource.chars}文字・${descriptionSource.chapters}チャプター）。noindex 下書きを維持します。`);
+        continue;
+      }
+      if (!ALLOW_DESCRIPTION_FALLBACK) {
+        console.warn("  ↪ 定期実行では説明文だけのAI生成を省略します。公式字幕の設定後、または手動実行時に再処理します。");
         continue;
       }
       console.warn(`  ↪ 説明文フォールバック: ${descriptionSource.chars}文字・${descriptionSource.chapters}チャプターを根拠に生成します。`);
