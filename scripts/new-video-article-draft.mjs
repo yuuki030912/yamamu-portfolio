@@ -72,7 +72,7 @@ function pokeTags(title) {
   return [...new Set(t)];
 }
 
-const GAMES = {
+export const GAMES = {
   palworld: {
     key: "palworld", label: "パルワールド", dir: "palworld",
     logo: "パルワールド攻略Wiki", navActive: "palworld",
