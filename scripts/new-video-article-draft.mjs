@@ -6,8 +6,9 @@
 //   3. すべての新着を drafts/pending-videos.md に追記（どのゲームでも取りこぼさない）
 //   4. テンプレ対応ゲーム(パルワールド・ポケポケ)は、加えて記事の下書きHTML＋カード＋sitemapを自動生成
 //
-// 下書きHTMLは noindex + 「🚧下書き」バナー付き。本文は未執筆なので、
-// 公開前に人間（またはClaude）が本文を書いて noindex とバナーを外す運用。
+// 下書きHTMLは noindex + 「🚧下書き」バナー付き。このスクリプトの後に
+// enrich-video-article.mjs が字幕を取得し、内容の濃い本文を生成する。
+// 本人が事実確認して noindex とバナーを外すまでは公開しない運用。
 //
 // ゲーム追加方法: GAMES にエントリを足す（match/dir/label/logo/homeLinks/tags）。
 //

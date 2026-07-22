@@ -1,9 +1,9 @@
 name: New video → article draft
 
 # 新着YouTube動画を検知して「記事の下書き」をPRで用意する（承認あり運用）。
-# パルワールド動画は下書き記事＋カード＋sitemapを自動生成、全ゲームは
-# drafts/pending-videos.md に追記。下書きは noindex なので、
-# 未完成のままマージしても検索には出ない（安全）。
+# 対応ゲームは下書きHTML＋カード＋sitemapを作り、字幕から詳しい本文まで生成。
+# 全ゲームを drafts/pending-videos.md に追記する。下書きは noindex なので、
+# 本人が確認して公開操作をするまでは検索に出ない（安全）。
 
 on:
   schedule:
@@ -18,6 +18,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  models: read
 
 concurrency:
   group: new-video-article-draft
@@ -36,25 +37,37 @@ jobs:
         env:
           PROCESS_SINCE: ${{ inputs.since }}
         run: node scripts/new-video-article-draft.mjs
-      - name: Open PR if drafts were created
-        if: steps.gen.outputs.has_changes == 'true'
+      - name: Install YouTube caption extractor
+        run: python -m pip install --disable-pip-version-check yt-dlp
+      - name: Turn captions into detailed article drafts
+        id: enrich
+        env:
+          GH_MODELS_TOKEN: ${{ github.token }}
+          ARTICLE_MODEL: openai/gpt-4.1
+        run: node scripts/enrich-video-article.mjs
+      - name: Test the article quality gate
+        run: node --test tests/article-enrichment.test.mjs
+      - name: Open PR if drafts were created or enriched
+        if: steps.gen.outputs.has_changes == 'true' || steps.enrich.outputs.has_changes == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
           branch: auto/new-video-drafts
           delete-branch: true
-          title: ${{ steps.gen.outputs.pr_title }}
-          commit-message: "draft: 新着動画の記事下書きを追加"
+          title: "🎬 新着動画を内容の濃い攻略記事へ変換"
+          commit-message: "draft: 字幕から詳しい動画記事を生成"
           body: |
-            ## 🎬 新着動画の記事下書き
+            ## 🎬 字幕をもとにした動画記事の下書き
 
-            新しくアップされた動画を検知して、記事の下書きを用意しました。
+            新着動画を検知し、字幕と動画説明文を一次情報として、内容の濃い攻略記事を用意しました。
+            本文は品質ゲート（2,200文字以上・4見出し以上・FAQ 3件以上・弱点の明記）を通過したものだけ追加しています。
 
             ### レビュー手順
-            - [ ] パルワールドの下書き記事（`palworld/video-palworld-*.html`）の本文を執筆
-            - [ ] 事実確認（動画と照らして攻略情報が正しいか）
+            - [ ] 数値・固有名詞・勝敗を動画と照合
+            - [ ] 本人の意図と違う言い回しがないか確認
+            - [ ] 「正直な弱点」「向く人・向かない人」が実体験と合っているか確認
+            - [ ] 可能なら重要場面のスクリーンショットを追加
             - [ ] 完成したら各記事の `noindex` メタ・「🚧下書き」バナー・元説明文ブロックを削除
-            - [ ] （任意）英語版を `/en/` に作成し hreflang を相互リンク
             - [ ] `drafts/pending-videos.md` で対応済みの動画にチェック
 
-            > 💡 Claude に「このPRの下書きを仕上げて」と伝えれば本文の執筆まで対応します。
-            > **本文が未完成のままマージしても `noindex` で検索には出ません。** 安心してレビューできます。
+            > **記事は自動公開されません。** `noindex` のままPRに出るため、本人が確認してから公開できます。
+            > 字幕が取得できない・短すぎる動画は、事実を作らないため本文を生成せず、従来の下書きのまま残します。
