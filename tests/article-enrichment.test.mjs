@@ -3,6 +3,11 @@ import assert from "node:assert/strict";
 import { applyArticle, canUseDescriptionSource, extractDraft, extractWatchDescription, parseVtt, renderArticle, selectCaptionTrack, validateArticle, validateDescriptionGrounding } from "../scripts/enrich-video-article.mjs";
 import { buildDraft, GAMES } from "../scripts/new-video-article-draft.mjs";
 
+test("hidden属性付きの動画説明欄も記事ソースとして読み取る", () => {
+  const draft = extractDraft(`<div data-video-id="hidden-source"></div><h1 class="video-detail-title">検証動画</h1><section class="draft-src" hidden data-article-source="youtube-description"><p>公式説明文</p><p>0:00 はじめに</p></section>`);
+  assert.equal(draft.description, "公式説明文\n0:00 はじめに");
+});
+
 const paragraph = "実際の動画内で確認できるプレイ結果をもとに、強みだけでなく事故が起きた場面と判断理由まで具体的に整理します。検索から来た人が動画を見なくても結論を理解でき、詳しい動きを動画で確認できる内容です。";
 const article = {
   seoTitle: "序盤攻略で失敗しないパートナーの選び方と実戦結果",

@@ -230,7 +230,7 @@ async function fetchTranscript(videoId, { allowSlowFallback = true } = {}) {
 export function extractDraft(html, path = "") {
   const id = html.match(/data-video-id="([^"]+)"/)?.[1] || "";
   const title = stripHtml(html.match(/<h1 class="video-detail-title">([\s\S]*?)<\/h1>/)?.[1] || "");
-  const descriptionBlock = html.match(/<section class="draft-src">([\s\S]*?)<\/section>/)?.[1] || "";
+  const descriptionBlock = html.match(/<section\b[^>]*class=["'][^"']*\bdraft-src\b[^"']*["'][^>]*>([\s\S]*?)<\/section>/i)?.[1] || "";
   const description = [...descriptionBlock.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)]
     .map((match) => stripHtml(match[1])).filter(Boolean).join("\n");
   const published = html.match(/<div class="video-detail-meta">[\s\S]*?<span>(\d{4}-\d{2}-\d{2})<\/span>/)?.[1] || "";
