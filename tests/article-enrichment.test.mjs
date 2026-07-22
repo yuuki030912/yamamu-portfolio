@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { canUseDescriptionSource, extractDraft, parseVtt, renderArticle, validateArticle } from "../scripts/enrich-video-article.mjs";
+import { canUseDescriptionSource, extractDraft, parseVtt, renderArticle, validateArticle, validateDescriptionGrounding } from "../scripts/enrich-video-article.mjs";
 
 const paragraph = "実際の動画内で確認できるプレイ結果をもとに、強みだけでなく事故が起きた場面と判断理由まで具体的に整理します。検索から来た人が動画を見なくても結論を理解でき、詳しい動きを動画で確認できる内容です。";
 const article = {
@@ -41,6 +41,13 @@ test("内容の薄い記事は品質ゲートで落とす", () => {
   const result = validateArticle({ seoTitle: "短い", metaDescription: "短い", lead: "短い" });
   assert.equal(result.ok, false);
   assert.ok(result.errors.length >= 5);
+});
+
+test("説明文にないゲーム効果や評価語を検出する", () => {
+  const errors = validateDescriptionGrounding({ ...article, conclusion: `${article.conclusion} 高耐久の相手には火力不足です。` }, "動画では対戦結果を紹介します。");
+  assert.ok(errors.some((error) => error.includes("耐久")));
+  assert.ok(errors.some((error) => error.includes("火力")));
+  assert.deepEqual(validateDescriptionGrounding({ ...article, conclusion: `${article.conclusion} 高耐久です。` }, "高耐久の動きを検証します。"), []);
 });
 
 test("十分な記事をHTMLへ安全に変換する", () => {

@@ -187,9 +187,50 @@ export function validateArticle(input, { minChars = MIN_ARTICLE_CHARS } = {}) {
   return { ok: errors.length === 0, errors, article, length };
 }
 
+const DESCRIPTION_GROUNDING_TERMS = [
+  "HP", "耐久", "火力", "手札事故", "手札依存", "サーチ", "状態異常", "相性",
+  "プレッシャー", "盤面を制圧", "妨害", "引きやす", "ダメージが伸び", "安定",
+  "対応力", "有利", "不利", "展開力", "進化カード", "序盤", "運要素", "トラブル",
+];
+
+export function validateDescriptionGrounding(input, description) {
+  const article = normalizeArticle(input);
+  const body = articleText(article).toLowerCase();
+  const source = String(description || "").toLowerCase();
+  return DESCRIPTION_GROUNDING_TERMS
+    .filter((term) => body.includes(term.toLowerCase()) && !source.includes(term.toLowerCase()))
+    .map((term) => `説明文にない要注意表現「${term}」`);
+}
+
+function validateForSource(input, { minChars, sourceKind, description }) {
+  const quality = validateArticle(input, { minChars });
+  if (sourceKind === "description") quality.errors.push(...validateDescriptionGrounding(quality.article, description));
+  quality.ok = quality.errors.length === 0;
+  return quality;
+}
+
 function safeJson(text) {
   const cleaned = String(text || "").trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
   return JSON.parse(cleaned);
+}
+
+async function requestModel(body, label) {
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const response = await fetch("https://models.github.ai/inference/chat/completions", {
+      method: "POST",
+      signal: AbortSignal.timeout(120_000),
+      headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${TOKEN}`, "Content-Type": "application/json", "X-GitHub-Api-Version": "2026-03-10" },
+      body: JSON.stringify(body),
+    });
+    const responseText = await response.text();
+    if (response.ok) return safeJson(JSON.parse(responseText).choices?.[0]?.message?.content);
+    if (response.status !== 429 || attempt === 2) throw new Error(`${label} ${response.status}: ${responseText.slice(0, 500)}`);
+    const retryAfter = Number(response.headers.get("retry-after"));
+    const waitMs = Math.min(45_000, Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter * 1000 : 20_000 * (attempt + 1));
+    console.warn(`  API混雑のため${Math.round(waitMs / 1000)}秒後に再試行します（${attempt + 1}/2）`);
+    await new Promise((resolve) => setTimeout(resolve, waitMs));
+  }
+  throw new Error(`${label}: 応答を取得できませんでした`);
 }
 
 async function generateArticle(draft, transcript, previousErrors = []) {
@@ -201,14 +242,7 @@ async function generateArticle(draft, transcript, previousErrors = []) {
     : "字幕なし。説明文とチャプター名だけを根拠にして、1,800〜2,800文字を目安にする。説明文にない対戦の細部や結果は補わない。";
   const retry = previousErrors.length ? `\n前回の出力は次の品質基準を満たしませんでした。必ず修正してください。\n- ${previousErrors.join("\n- ")}` : "";
   const userPrompt = `次のYouTube動画を攻略記事にしてください。\n\n【情報源の状態】\n${sourceMode}\n\n【動画タイトル】\n${draft.title}\n\n【公開日】\n${draft.published}\n\n【動画説明文】\n${draft.description || "（説明文なし）"}\n\n【字幕】\n${transcriptText || "（取得できなかったため使用不可）"}${retry}`;
-  const response = await fetch("https://models.github.ai/inference/chat/completions", {
-    method: "POST",
-    headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${TOKEN}`, "Content-Type": "application/json", "X-GitHub-Api-Version": "2026-03-10" },
-    body: JSON.stringify({ model: MODEL, temperature: 0.2, max_tokens: 8000, response_format: { type: "json_object" }, messages: [{ role: "system", content: systemPrompt }, { role: "user", content: userPrompt }] }),
-  });
-  if (!response.ok) throw new Error(`GitHub Models ${response.status}: ${(await response.text()).slice(0, 500)}`);
-  const data = await response.json();
-  return safeJson(data.choices?.[0]?.message?.content);
+  return requestModel({ model: MODEL, temperature: 0.2, max_tokens: 8000, response_format: { type: "json_object" }, messages: [{ role: "system", content: systemPrompt }, { role: "user", content: userPrompt }] }, "GitHub Models");
 }
 
 async function auditArticle(draft, transcript, article) {
@@ -222,22 +256,16 @@ async function auditArticle(draft, transcript, article) {
 - 情報が限られる箇所は「動画では○○を検証している」「説明文では○○と評価している」のように事実の範囲へ戻す。
 - 記事のJSON構造、結論ファースト、弱点、向く人・向かない人、FAQは維持する。新しい事実は追加しない。
 - 出力は {"article": 修正後の記事JSON, "correctedClaims": [削除・修正した主張]} のJSONだけにする。`;
-  const response = await fetch("https://models.github.ai/inference/chat/completions", {
-    method: "POST",
-    headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${TOKEN}`, "Content-Type": "application/json", "X-GitHub-Api-Version": "2026-03-10" },
-    body: JSON.stringify({
-      model: MODEL,
-      temperature: 0,
-      max_tokens: 8000,
-      response_format: { type: "json_object" },
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: `【動画タイトル】\n${draft.title}\n\n【動画説明文】\n${draft.description || "（なし）"}\n\n【字幕】\n${transcriptText || "（なし）"}\n\n【検証対象の記事JSON】\n${JSON.stringify(article)}` },
-      ],
-    }),
-  });
-  if (!response.ok) throw new Error(`GitHub Models audit ${response.status}: ${(await response.text()).slice(0, 500)}`);
-  const result = safeJson((await response.json()).choices?.[0]?.message?.content);
+  const result = await requestModel({
+    model: MODEL,
+    temperature: 0,
+    max_tokens: 8000,
+    response_format: { type: "json_object" },
+    messages: [
+      { role: "system", content: systemPrompt },
+      { role: "user", content: `【動画タイトル】\n${draft.title}\n\n【動画説明文】\n${draft.description || "（なし）"}\n\n【字幕】\n${transcriptText || "（なし）"}\n\n【検証対象の記事JSON】\n${JSON.stringify(article)}` },
+    ],
+  }, "GitHub Models audit");
   if (!result.article || typeof result.article !== "object") throw new Error("ファクトチェック結果に article がありません");
   return { article: result.article, correctedClaims: Array.isArray(result.correctedClaims) ? result.correctedClaims.map(String) : [] };
 }
@@ -369,11 +397,11 @@ async function main() {
     try {
       const minChars = sourceKind === "captions" ? MIN_ARTICLE_CHARS : MIN_DESCRIPTION_ARTICLE_CHARS;
       let raw = await generateAndAuditArticle(draft, transcript);
-      let quality = validateArticle(raw, { minChars });
+      let quality = validateForSource(raw, { minChars, sourceKind, description: draft.description });
       if (!quality.ok) {
         console.warn(`  再生成: ${quality.errors.join(" / ")}`);
         raw = await generateAndAuditArticle(draft, transcript, quality.errors);
-        quality = validateArticle(raw, { minChars });
+        quality = validateForSource(raw, { minChars, sourceKind, description: draft.description });
       }
       if (!quality.ok) {
         console.warn(`  ⚠ 品質基準未達のため採用しません: ${quality.errors.join(" / ")}`);
