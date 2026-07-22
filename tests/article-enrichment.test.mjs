@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { extractDraft, parseVtt, renderArticle, validateArticle } from "../scripts/enrich-video-article.mjs";
+import { canUseDescriptionSource, extractDraft, parseVtt, renderArticle, validateArticle } from "../scripts/enrich-video-article.mjs";
 
 const paragraph = "実際の動画内で確認できるプレイ結果をもとに、強みだけでなく事故が起きた場面と判断理由まで具体的に整理します。検索から来た人が動画を見なくても結論を理解でき、詳しい動きを動画で確認できる内容です。";
 const article = {
@@ -27,6 +27,14 @@ test("下書きHTMLから動画情報を抽出する", () => {
   assert.equal(draft.id, "abc123");
   assert.equal(draft.title, "タイトル&検証");
   assert.equal(draft.description, "説明1\n説明2");
+});
+
+test("十分な説明文とチャプターだけを字幕なし記事の根拠にできる", () => {
+  const detailed = `${"具体的な動画説明です。".repeat(30)}\n0:00 デッキ紹介\n1:20 対戦1\n5:40 対戦2`;
+  const source = canUseDescriptionSource(detailed);
+  assert.equal(source.ok, true);
+  assert.equal(source.chapters, 3);
+  assert.equal(canUseDescriptionSource("短い説明\n0:00 紹介").ok, false);
 });
 
 test("内容の薄い記事は品質ゲートで落とす", () => {

@@ -19,6 +19,8 @@ const TOKEN = process.env.GH_MODELS_TOKEN || process.env.GITHUB_TOKEN || "";
 const DRY_RUN = process.env.ARTICLE_DRY_RUN === "1";
 const ONLY_VIDEO = process.env.ONLY_VIDEO || "";
 const MIN_TRANSCRIPT_CHARS = 800;
+const MIN_DESCRIPTION_CHARS = 250;
+const MIN_DESCRIPTION_CHAPTERS = 3;
 const MIN_ARTICLE_CHARS = 2200;
 
 const GAME_DIRS = ["palworld", "pokepoke"];
@@ -138,6 +140,13 @@ export function extractDraft(html, path = "") {
   return { id, title, description, published, path };
 }
 
+export function canUseDescriptionSource(description) {
+  const text = String(description || "");
+  const chars = text.replace(/\s/g, "").length;
+  const chapters = text.split("\n").filter((line) => /^\d{1,2}:\d{2}(?::\d{2})?\s+/.test(line.trim())).length;
+  return { ok: chars >= MIN_DESCRIPTION_CHARS && chapters >= MIN_DESCRIPTION_CHAPTERS, chars, chapters };
+}
+
 function normalizeArticle(value) {
   const a = value && typeof value === "object" ? value : {};
   return {
@@ -186,8 +195,11 @@ async function generateArticle(draft, transcript, previousErrors = []) {
   if (!TOKEN) throw new Error("GH_MODELS_TOKEN がありません");
   const systemPrompt = await readFile(PROMPT_PATH, "utf8");
   const transcriptText = transcript.map((cue) => `[${clock(cue.start)}] ${cue.text}`).join("\n").slice(0, 60_000);
+  const sourceMode = transcript.length
+    ? "字幕あり。字幕を最優先の根拠にして、3,000〜5,000文字を目安にする。"
+    : "字幕なし。説明文とチャプター名だけを根拠にして、2,200〜3,500文字を目安にする。説明文にない対戦の細部や結果は補わない。";
   const retry = previousErrors.length ? `\n前回の出力は次の品質基準を満たしませんでした。必ず修正してください。\n- ${previousErrors.join("\n- ")}` : "";
-  const userPrompt = `次のYouTube動画を攻略記事にしてください。\n\n【動画タイトル】\n${draft.title}\n\n【公開日】\n${draft.published}\n\n【動画説明文】\n${draft.description || "（説明文なし）"}\n\n【字幕】\n${transcriptText}${retry}`;
+  const userPrompt = `次のYouTube動画を攻略記事にしてください。\n\n【情報源の状態】\n${sourceMode}\n\n【動画タイトル】\n${draft.title}\n\n【公開日】\n${draft.published}\n\n【動画説明文】\n${draft.description || "（説明文なし）"}\n\n【字幕】\n${transcriptText || "（取得できなかったため使用不可）"}${retry}`;
   const response = await fetch("https://models.github.ai/inference/chat/completions", {
     method: "POST",
     headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${TOKEN}`, "Content-Type": "application/json", "X-GitHub-Api-Version": "2026-03-10" },
@@ -307,8 +319,12 @@ async function main() {
     const transcriptChars = transcript.map((cue) => cue.text).join("").length;
     console.log(`  字幕: ${transcript.length}区間 / ${transcriptChars}文字`);
     if (transcriptChars < MIN_TRANSCRIPT_CHARS) {
-      console.warn(`  ⚠ 字幕が短いため本文を生成しません。noindex 下書きを維持します。`);
-      continue;
+      const descriptionSource = canUseDescriptionSource(draft.description);
+      if (!descriptionSource.ok) {
+        console.warn(`  ⚠ 字幕がなく、説明文も記事化には不足しています（${descriptionSource.chars}文字・${descriptionSource.chapters}チャプター）。noindex 下書きを維持します。`);
+        continue;
+      }
+      console.warn(`  ↪ 説明文フォールバック: ${descriptionSource.chars}文字・${descriptionSource.chapters}チャプターを根拠に生成します。`);
     }
     try {
       let raw = await generateArticle(draft, transcript);
