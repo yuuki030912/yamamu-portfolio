@@ -106,7 +106,14 @@
     .related-guides-list { display: flex; flex-direction: column; gap: 8px; }
     .related-guides-list a { display: block; padding: 12px 16px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); text-decoration: none; font-size: 14px; transition: background 0.2s; }
     .related-guides-list a:hover { background: var(--chip-bg); }
-    @media (max-width: 768px) { .guide-article { padding: 20px 16px; } .guide-article h1 { font-size: 20px; } }
+    .card-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; margin: 20px 0 10px; }
+    .card-gallery figure { margin: 0; text-align: center; }
+    .card-gallery img { width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border-color); display: block; background: #fff; }
+    .card-gallery figcaption { font-size: 12px; font-weight: 600; color: var(--text-primary); margin-top: 6px; line-height: 1.4; }
+    .card-gallery .rar { color: var(--accent); font-weight: 700; }
+    .card-note { font-size: 12px; color: var(--text-secondary); margin: 0 0 20px; }
+    @media (max-width: 768px) { .guide-article { padding: 20px 16px; } .guide-article h1 { font-size: 20px; } .card-gallery { grid-template-columns: repeat(3, 1fr); gap: 10px; } }
+    @media (max-width: 420px) { .card-gallery { grid-template-columns: repeat(2, 1fr); } }
   </style>
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1697281908647985" crossorigin="anonymous"></script>
@@ -194,6 +201,18 @@
       <p><strong>青天井級の火力が出る一方、撃った後はエネルギーが空になるリスクとの引き換え</strong>という、原作TCGのメガレックウザらしいド派手な設計です。エネルギー4枚トラッシュなら200ダメージでほぼ全ポケモンをワンパン圏内。炎・雷の2色エネルギー管理をどう安定させるかがデッキ構築の腕の見せどころになりそうです。ドラゴンタイプなので弱点を突かれにくい点も対戦環境では地味に強い要素です。</p>
 
       <h2 id="cards">3. 判明している収録カード（公式カード紹介・紹介映像より）</h2>
+      <div class="card-gallery">
+        <figure><img src="cards/megametagross_ex.png" alt="メガメタグロスex" width="212" height="294" loading="lazy"><figcaption>メガメタグロスex<br><span class="rar">♦♦♦♦</span></figcaption></figure>
+        <figure><img src="cards/megarayquaza_ex.png" alt="メガレックウザex" width="212" height="294" loading="lazy"><figcaption>メガレックウザex<br><span class="rar">♦♦♦♦</span></figcaption></figure>
+        <figure><img src="cards/megagallade_ex.png" alt="メガエルレイドex" width="212" height="294" loading="lazy"><figcaption>メガエルレイドex<br><span class="rar">♦♦♦♦</span></figcaption></figure>
+        <figure><img src="cards/koduck.png" alt="コダック" width="212" height="289" loading="lazy"><figcaption>コダック<br><span class="rar">♦</span></figcaption></figure>
+        <figure><img src="cards/absol.png" alt="アブソル" width="212" height="289" loading="lazy"><figcaption>アブソル<br><span class="rar">♦♦</span></figcaption></figure>
+        <figure><img src="cards/genosect.png" alt="ゲノセクト" width="212" height="289" loading="lazy"><figcaption>ゲノセクト<br><span class="rar">★</span></figcaption></figure>
+        <figure><img src="cards/fuuro.png" alt="フウロ" width="230" height="290" loading="lazy"><figcaption>フウロ<br><span class="rar">♦♦</span></figcaption></figure>
+        <figure><img src="cards/mitsuru.png" alt="ミツル" width="212" height="290" loading="lazy"><figcaption>ミツル<br><span class="rar">♦♦</span></figcaption></figure>
+        <figure><img src="cards/niji_cave.png" alt="にじいろの洞窟" width="268" height="290" loading="lazy"><figcaption>にじいろの洞窟<br><span class="rar">♦♦</span></figcaption></figure>
+      </div>
+      <p class="card-note">▲ 公式サイトで公開された収録カード9枚（画像は公式サイトより）。このほか<strong>ハクリュー</strong>・<strong>スワンナex</strong>が紹介映像で確認できています。下の表に全カードの性能をまとめました。</p>
       <table>
         <tr><th>カード</th><th>レア</th><th>判明している性能</th></tr>
         <tr><td><strong>メガレックウザex</strong></td><td>♦4</td><td>HP180・ドラゴン。メガバースト＝炎雷エネ全トラッシュ×50ダメージ</td></tr>
