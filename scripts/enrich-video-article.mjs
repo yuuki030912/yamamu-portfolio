@@ -342,8 +342,8 @@ function applyDescriptionOnlySafety(input, description) {
       ],
     };
   article.notRecommendedFor = [
-    "動画説明文にないカード採用理由まで、記事だけで断定したい人",
-    "各対戦の細かな判断を、動画を見ずにすべて確認したい人",
+    "カード1枚ごとの採用理由まで文章だけで確認したい人",
+    "各対戦の細かな判断を、映像を見ずにすべて確認したい人",
   ];
   return article;
 }
@@ -387,6 +387,13 @@ function fallbackIntent(title) {
   return "play";
 }
 
+function fallbackFocusKeyword(title, intent) {
+  const brackets = [...String(title || "").matchAll(/【([^】]+)】/g)].map((match) => match[1].trim())
+    .filter((value) => !/^(?:ポケポケ|ポケカポケット|パルワールド|palworld)$/i.test(value));
+  if (intent === "deck" && brackets.length) return `${brackets.at(-1)}デッキ`;
+  return clip(String(title || "").replace(/【[^】]+】/g, " ").replace(/[！!？?]+/g, " ").replace(/\s+/g, " ").trim(), 42);
+}
+
 function fallbackHeadings(intent, topic) {
   if (intent === "list") return [`${topic}の選び方`, "目的別に見るおすすめ候補", "実際に使う前の注意点"];
   if (intent === "deck") return [`${topic}の狙い`, "基本の回し方と対戦の流れ", "勝てた場面と苦戦した場面"];
@@ -411,15 +418,21 @@ export function buildGroundedFallbackArticle(draft) {
   const factText = usefulFacts.slice(0, 8).join(" ");
   const topic = clip(draft.title.replace(/^【[^】]+】/, ""), 54);
   const intent = fallbackIntent(draft.title);
+  const focusKeyword = fallbackFocusKeyword(draft.title, intent) || topic;
+  const resultKeywords = [
+    factText.match(/ハイパーボールランク\d+→\d+/)?.[0],
+    factText.match(/\d+連勝(?:で[^。！？!?]{0,16})?/)?.[0],
+  ].filter(Boolean).join("・");
   const intentSuffix = { list: "選び方とおすすめ候補", deck: "回し方と実戦結果", review: "対戦結果と勝敗のポイント", play: "ルールと序盤の進め方" }[intent];
-  const seoTitle = clip(topic.length >= 15 ? `${topic}｜${intentSuffix}` : `${topic}｜${intentSuffix}を解説`, 60);
-  const intentHeadings = fallbackHeadings(intent, topic);
-  const lead = `結論：${clip(factText, 300)}。「${topic}」について先に知りたい答えを整理し、${chapters.length}個の場面から実際のプレイへ移動できるようにしました。結果だけでなく、途中で起きたことや注意したいポイントも含めて確認できます。細かな操作やその場での判断は、対応する時刻から映像で見ると理解しやすくなります。`;
+  const seoTitle = clip(`${focusKeyword}の${intentSuffix}${resultKeywords ? `｜${resultKeywords}` : ""}`, 60);
+  const intentHeadings = fallbackHeadings(intent, focusKeyword);
+  const cleanFactText = factText.replace(/^結論[:：]\s*/, "");
+  const lead = `結論：${clip(cleanFactText, 340)}。${focusKeyword}の結果だけでなく、途中で起きたことや注意したいポイントまで順に追えます。細かな操作やその場での判断は、対応する時刻から実際のプレイ画面を見ると理解しやすくなります。`;
   const summaryPoints = [
     clip(usefulFacts[0], 220),
     clip(usefulFacts[1] || `「${chapters[0]?.label || topic}」から実際の流れを確認できます。`, 220),
     clip(usefulFacts[2] || `${chapters.length}個の場面から、気になる内容へ直接移動できます。`, 220),
-    clip(usefulFacts[3] || `結果と途中経過を分けて押さえると、「${topic}」の要点をつかみやすくなります。`, 220),
+    clip(usefulFacts[3] || `結果と途中経過を分けて押さえると、「${focusKeyword}」の要点をつかみやすくなります。`, 220),
   ];
   const moments = chapters.slice(0, 8).map((chapter) => ({
     ...chapter,
@@ -429,7 +442,7 @@ export function buildGroundedFallbackArticle(draft) {
   const sections = [{
     heading: intentHeadings[0],
     paragraphs: [
-      `最初に押さえたいポイントは「${clip(usefulFacts.slice(0, 2).join(" "), 420)}」です。検索から来た人は、まずここを読むと今回のテーマと結果を短時間でつかめます。`,
+      `最初に押さえたいポイントは「${clip(usefulFacts.slice(0, 2).join(" "), 420)}」です。ここを起点にすると、今回のテーマと結果を短時間でつかめます。`,
       `続いて重要なのが「${clip(usefulFacts.slice(2, 5).join(" ") || factText, 420)}」です。結論だけで判断せず、実際の操作や場面のつながりも見ることで、自分のプレイに取り入れられる内容か判断しやすくなります。`,
     ],
     bullets: summaryPoints.slice(0, 3),
@@ -471,26 +484,26 @@ export function buildGroundedFallbackArticle(draft) {
   const firstMoment = chapters[0];
   const lastMoment = chapters[chapters.length - 1];
   const faq = [
-    { question: `${topic}では何が分かりますか？`, answer: `${clip(usefulFacts.slice(0, 3).join(" "), 430)}。まずはこの結論を押さえ、細かな画面や本人の反応を映像で確認してください。` },
+    { question: `${focusKeyword}では何が分かりますか？`, answer: `${clip(usefulFacts.slice(0, 3).join(" "), 430).replace(/[。．]+$/, "")}。まずはこの結論を押さえ、細かな画面や本人の反応を映像で確認してください。` },
     { question: "どこから見始めればいいですか？", answer: firstMoment ? `${clock(firstMoment.timeSeconds)}の「${firstMoment.label}」から始まり、最後は${clock(lastMoment.timeSeconds)}の「${lastMoment.label}」まで進みます。気になる見出しの時刻を押せば、その場面から再生できます。` : "埋め込まれた動画を最初から確認してください。" },
     { question: "失敗や注意点も分かりますか？", answer: riskFacts.length ? `「${clip(riskFacts.join(" "), 380)}」という場面があります。成功した場面だけでなく、この点も含めて確認できます。` : "明確な弱点は断定できません。実戦で困った場面は映像での確認が必要です。" },
     { question: "細かな操作も確認できますか？", answer: "結論と重要場面を先に把握できます。場面ごとの操作や発言は、リンクした時刻から映像で見るのが確実です。" },
   ];
   const article = {
     seoTitle,
-    metaDescription: clip(`「${topic}」の結論、重要場面、正直な注意点を整理。${chapters.length}個の時刻リンクから、知りたいプレイや対戦結果へすぐ移動できます。初心者が最初に押さえたいポイントも分かります。`, 165),
+    metaDescription: clip(`「${focusKeyword}」の結論、重要場面、正直な注意点を整理。${resultKeywords || `${chapters.length}個の実戦場面`}を軸に、知りたいプレイや対戦結果へすぐ移動できます。初めて試す人にも分かりやすく解説します。`, 165),
     lead,
     summaryPoints,
     moments,
     sections: sections.slice(0, 7),
     limitations,
     recommendedFor: [
-      `「${clip(chapters[0]?.label || topic, 80)}」の内容を先に把握してから動画を見たい人`,
-      `公式チャプターから「${clip(chapters[Math.min(1, chapters.length - 1)]?.label || topic, 80)}」へすぐ移動したい人`,
+      `「${clip(chapters[0]?.label || focusKeyword, 80)}」の内容を先に把握してからプレイを見たい人`,
+      `「${clip(chapters[Math.min(1, chapters.length - 1)]?.label || focusKeyword, 80)}」の場面へすぐ移動したい人`,
     ],
     notRecommendedFor: ["対戦経過や細かな判断まで、文章だけですべて確認したい人", "本人の操作や反応を見ず、短い要約だけで判断したい人"],
     faq,
-    conclusion: `結論として、「${topic}」のポイントは「${clip(usefulFacts.slice(0, 2).join(" "), 300)}」です。最初に結論と場面の流れを押さえ、そのうえで気になる時刻から再生するのが最短です。実際の操作、対戦の流れ、本人の詳しい評価まで知りたい場合は、プレイ画面と合わせて確認してください。`,
+    conclusion: `結論として、「${focusKeyword}」のポイントは「${clip(usefulFacts.slice(0, 2).join(" "), 300).replace(/^結論[:：]\s*/, "")}」です。最初に結果と場面の流れを押さえ、そのうえで気になる時刻から再生するのが最短です。実際の操作、対戦の流れ、本人の詳しい評価まで知りたい場合は、プレイ画面と合わせて確認してください。`,
   };
   return applyDescriptionOnlySafety(article, draft.description);
 }

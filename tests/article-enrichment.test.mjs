@@ -35,8 +35,8 @@ test("外部AIが使えなくても説明文とチャプターから濃い記事
   assert.doesNotMatch(JSON.stringify(fallback), /公式説明では|動画説明欄では|記事では|チャプター名では/);
 });
 
-test("既存8動画は検索意図別の専用記事を使う", () => {
-  assert.equal(Object.keys(VIDEO_ARTICLE_OVERRIDES).length, 8);
+test("確認済み動画は検索意図別の専用記事を使う", () => {
+  assert.equal(Object.keys(VIDEO_ARTICLE_OVERRIDES).length, 9);
   const titles = new Set();
   for (const [id, item] of Object.entries(VIDEO_ARTICLE_OVERRIDES)) {
     const quality = validateArticle(item, { minChars: 2000 });
@@ -44,7 +44,7 @@ test("既存8動画は検索意図別の専用記事を使う", () => {
     assert.doesNotMatch(JSON.stringify(item), /公式説明では|動画説明欄では|記事では|チャプター名では/);
     titles.add(item.seoTitle);
   }
-  assert.equal(titles.size, 8);
+  assert.equal(titles.size, Object.keys(VIDEO_ARTICLE_OVERRIDES).length);
 });
 
 test("旧記事を置き換えても次回用の動画説明文を非表示で保存する", () => {
