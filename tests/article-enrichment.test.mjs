@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { applyArticle, buildGroundedFallbackArticle, canUseDescriptionSource, extractDraft, extractWatchDescription, parseVtt, renderArticle, selectCaptionTrack, validateArticle, validateDescriptionGrounding } from "../scripts/enrich-video-article.mjs";
 import { buildDraft, GAMES } from "../scripts/new-video-article-draft.mjs";
+import { VIDEO_ARTICLE_OVERRIDES } from "../scripts/video-article-overrides.mjs";
 
 test("hidden属性付きの動画説明欄も記事ソースとして読み取る", () => {
   const draft = extractDraft(`<div data-video-id="hidden-source"></div><h1 class="video-detail-title">検証動画</h1><section class="draft-src" hidden data-article-source="youtube-description"><p>公式説明文</p><p>0:00 はじめに</p></section>`);
@@ -31,6 +32,19 @@ test("外部AIが使えなくても説明文とチャプターから濃い記事
   const quality = validateArticle(fallback, { minChars: 2000 });
   assert.equal(quality.ok, true, quality.errors.join(" / "));
   assert.equal(validateDescriptionGrounding(fallback, description).length, 0);
+  assert.doesNotMatch(JSON.stringify(fallback), /公式説明では|動画説明欄では|記事では|チャプター名では/);
+});
+
+test("既存8動画は検索意図別の専用記事を使う", () => {
+  assert.equal(Object.keys(VIDEO_ARTICLE_OVERRIDES).length, 8);
+  const titles = new Set();
+  for (const [id, item] of Object.entries(VIDEO_ARTICLE_OVERRIDES)) {
+    const quality = validateArticle(item, { minChars: 2000 });
+    assert.equal(quality.ok, true, `${id}: ${quality.errors.join(" / ")}`);
+    assert.doesNotMatch(JSON.stringify(item), /公式説明では|動画説明欄では|記事では|チャプター名では/);
+    titles.add(item.seoTitle);
+  }
+  assert.equal(titles.size, 8);
 });
 
 test("旧記事を置き換えても次回用の動画説明文を非表示で保存する", () => {
@@ -131,6 +145,25 @@ test("十分な記事をHTMLへ安全に変換する", () => {
   assert.match(html, /watch\?v=abc123&amp;t=62s|watch\?v=abc123&t=62s/);
   assert.doesNotMatch(html, /<script>alert/);
   assert.match(html, /&lt;script&gt;alert/);
+});
+
+test("SEOタイトルとFAQ構造化データを記事本文と同期する", () => {
+  const source = '<head><title>旧</title><meta name="description" content="旧"><meta property="og:title" content="旧"><meta property="og:description" content="旧"><meta name="twitter:title" content="旧"><script type="application/ld+json">{"@type":"Article","headline":"旧"}</script></head><h1 class="video-detail-title">旧</h1><footer class="footer"></footer>';
+  const updated = applyArticle(source, article, renderArticle(article, { videoId: "seo-test" }));
+  assert.match(updated, new RegExp(`<meta name="twitter:title" content="${article.seoTitle}">`));
+  assert.match(updated, new RegExp(`"headline":"${article.seoTitle}"`));
+  assert.match(updated, /id="article-faq-jsonld"/);
+  assert.match(updated, /"@type":"FAQPage"/);
+  assert.equal((updated.match(/article-faq-jsonld/g) || []).length, 1);
+});
+
+test("Article構造化データがない新着下書きにもSEO情報を補う", () => {
+  const source = '<head><title>旧</title><meta name="description" content="旧"><meta property="og:title" content="旧"><meta property="og:description" content="旧"><meta property="og:image" content="https://img.youtube.com/test.jpg"><link rel="canonical" href="https://example.com/article"></head><h1 class="video-detail-title">旧</h1><footer class="footer"></footer>';
+  const updated = applyArticle(source, article, renderArticle(article, { videoId: "new-draft" }));
+  assert.match(updated, /id="article-metadata-jsonld"/);
+  assert.match(updated, /<meta name="twitter:title"/);
+  assert.match(updated, /"@type":"Article"/);
+  assert.match(updated, /"mainEntityOfPage":\{"@type":"WebPage","@id":"https:\/\/example.com\/article"\}/);
 });
 
 test("旧方式の公開記事本文をAI記事へ重複なく置換する", () => {
