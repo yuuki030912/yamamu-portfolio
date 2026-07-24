@@ -91,7 +91,12 @@ function checkPage(relPath) {
     else WARN(k, "無し");
   }
   if (!ogImg) FAIL("og:image", "og:imageが無い");
-  else if (!ogImg.startsWith(ORIGIN)) {
+  else if (/^https:\/\/img\.youtube\.com\/vi\//.test(ogImg)) {
+    // 自分の動画のサムネイルは正当。ただし小さい版はSNSで粗く出るので指摘する
+    const variant = (ogImg.match(/\/([a-z]+default)\.jpg/) || [])[1];
+    if (variant === "maxresdefault") PASS("og:image", "自分の動画サムネ（maxresdefault=1280x720）");
+    else WARN("og:image", `${variant} は小さい。maxresdefault に差し替えると大きく表示される`);
+  } else if (!ogImg.startsWith(ORIGIN)) {
     WARN("og:image", `自ドメイン外の画像を使っている（他人のサムネはNG）: ${ogImg}`);
   } else {
     const imgRel = ogImg.replace(`${ORIGIN}/`, "");
@@ -146,13 +151,17 @@ function checkPage(relPath) {
   skip ? WARN("見出し階層", `レベルが飛んでいる: ${skip}`) : PASS("見出し階層", "飛びなし");
 
   // ---- 8. 目次と見出しの整合 ----
-  const toc = [...html.matchAll(/<a href="#([\w-]+)">([^<]+)<\/a>/g)];
+  // 目次コンテナ内のリンクだけを対象にする（本文中の「詳しくは8章」等の参照は目次ではない）
+  const tocBox = (html.match(/<nav class="guide-toc"[\s\S]*?<\/nav>/) || [""])[0];
+  const toc = [...tocBox.matchAll(/<a href="#([\w-]+)">([^<]+)<\/a>/g)];
   const heads = Object.fromEntries(
     [...html.matchAll(/<h2 id="([\w-]+)"[^>]*>([\s\S]*?)<\/h2>/g)]
       .map(([, id, t]) => [id, t.replace(/<[^>]*>/g, "").replace(/^\d+\.\s*/, "").trim()])
   );
   const mism = toc.filter(([, id, label]) => heads[id] && !heads[id].includes(label.trim()) && !label.trim().includes(heads[id]));
-  if (!toc.length) WARN("目次", "目次アンカーが無い");
+  // 目次は必須ではない（動画記事など、無い方が自然なページもある）。
+  // あるのに見出しと食い違っている場合だけ指摘する。
+  if (!toc.length) PASS("目次", "目次なし（このページ構成では不要）");
   else if (mism.length) WARN("目次", `見出しと文言が食い違う: ${mism.map((m) => m[2]).join(" / ")}`);
   else PASS("目次", `${toc.length}項目、見出しと一致`);
 
@@ -189,10 +198,14 @@ function checkPage(relPath) {
   }
 
   // ---- 12. llms.txt（AI検索対策） ----
+  // llms.txt は「重要ページの地図」なので、常設のguide記事だけ必須にする。
+  // 動画記事を全部並べると肥大してAI側が読みにくくなるため対象外。
   const llmsPath = join(ROOT, "llms.txt");
+  const isGuide = /\/guide-/.test("/" + relPath.replace(/\\/g, "/"));
   if (!existsSync(llmsPath)) WARN("llms.txt", "llms.txtが無い");
+  else if (!isGuide) PASS("llms.txt", "動画記事のため対象外");
   else if (!readFileSync(llmsPath, "utf8").includes(url))
-    WARN("llms.txt", "この記事がllms.txtに載っていない（AI検索の流入を取り逃す）");
+    WARN("llms.txt", "常設ガイドなのにllms.txtに載っていない（AI検索の流入を取り逃す）");
   else PASS("llms.txt", "記載あり");
 }
 

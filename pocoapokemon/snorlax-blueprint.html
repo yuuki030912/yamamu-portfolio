@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>カビゴン倉庫 カラー設計図</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#0d1117;color:#c9d1d9;font-family:-apple-system,'Segoe UI','Hiragino Sans',sans-serif;padding:24px}
+    .container{max-width:720px;margin:0 auto}
+    h1{text-align:center;font-size:26px;margin-bottom:4px}
+    .sub{text-align:center;color:#8b949e;margin-bottom:28px;font-size:14px}
+    h2{font-size:18px;margin:36px 0 12px;padding:8px 12px;background:#161b22;border-left:4px solid #2B6A77;border-radius:0 8px 8px 0}
+    .legend{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;padding:16px;background:#161b22;border-radius:12px;margin-bottom:24px}
+    .legend-item{display:flex;align-items:center;gap:6px;font-size:13px}
+    .legend-sw{width:24px;height:24px;border-radius:4px;border:2px solid #30363d;flex-shrink:0}
+    .note{background:#161b22;border-left:3px solid #2B6A77;padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;font-size:13px;line-height:1.8}
+    .note em{color:#F0DFC0;font-style:normal;font-weight:bold}
+    .gw{display:flex;justify-content:center;margin:16px 0;overflow-x:auto}
+    table.g{border-collapse:separate;border-spacing:2px}
+    table.g td{width:40px;height:40px;border-radius:12px;transition:transform .15s;cursor:default}
+    table.g td:hover{transform:scale(1.2);z-index:1;position:relative}
+    table.g .lb{width:28px;background:none!important;font-size:11px;color:#484f58;text-align:center;font-family:monospace;border:none!important}
+    table.g .lb:hover{transform:none}
+    table.g .an{width:auto;background:none!important;font-size:11px;color:#6e7681;text-align:left;padding-left:8px;white-space:nowrap;border:none!important}
+    table.g .an:hover{transform:none}
+    .cB{background:#2B6A77}
+    .cC{background:#F0DFC0}
+    .cE{background:#1a1a2e;border:2px solid #444}
+    .cF{background:#FFFFFF}
+    .cD{background:#C8960C;border:2px dashed #E8B830}
+    .cX{background:transparent}
+    .cI{background:#1c2333;border:1px dashed #30363d}
+    .dims{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+    .dims td{padding:8px 12px;border-bottom:1px solid #21262d}
+    .dims td:first-child{color:#8b949e;text-align:right;width:40%}
+    .dims td:last-child{color:#F0DFC0;font-weight:bold}
+    .h3{font-size:15px;margin:20px 0 8px;padding-left:16px;color:#8b949e}
+    .tip{text-align:center;color:#484f58;font-size:12px;margin-top:40px;padding-top:20px;border-top:1px solid #21262d}
+    @media(max-width:520px){
+      table.g td{width:28px;height:28px}
+      table.g .lb{width:20px;font-size:9px}
+      table.g .an{font-size:9px}
+      body{padding:12px}
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>カビゴン倉庫 カラー設計図</h1>
+  <p class="sub">仰向けカビゴン — お腹が屋根、口が入口</p>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-sw" style="background:#2B6A77"></div>体（濃青）</div>
+    <div class="legend-item"><div class="legend-sw" style="background:#F0DFC0"></div>顔・お腹・足（クリーム）</div>
+    <div class="legend-item"><div class="legend-sw" style="background:#1a1a2e;border-color:#444"></div>閉じ目（黒）</div>
+    <div class="legend-item"><div class="legend-sw" style="background:#FFF"></div>牙（白）</div>
+    <div class="legend-item"><div class="legend-sw" style="background:#C8960C;border:2px dashed #E8B830"></div>入口</div>
+    <div class="legend-item"><div class="legend-sw" style="background:#1c2333;border:1px dashed #30363d"></div>内部空間</div>
+  </div>
+
+  <h2>正面図（頭側から見た図 11x12）</h2>
+  <div class="note">仰向けなので<em>顔も上向き＝口が上</em>。お腹ドームの直下に口（入口）がある。<br>頭頂は地面側。入口は高い位置→<em>階段で登って口から入る</em>！<br>顔は<em>クリーム色</em>、牙は<em>下あごから突き出す</em>（公式設定）。</div>
+  <div id="front" class="gw"></div>
+
+  <h2>断面図（建物を輪切り）</h2>
+  <div class="note">天井を<em>アーチ状</em>にするとカビゴンの丸いお腹に。フラットでもOK。</div>
+  <div id="cross" class="gw"></div>
+
+  <h2>側面図（横から見た形）</h2>
+  <div class="note"><em>お腹が上</em>のかまぼこ型。正面（左）から背面（右）に伸びる。</div>
+  <div id="side" class="gw"></div>
+
+  <h2>背面図（おしり側）</h2>
+  <div class="note">上部に<em>お腹ドーム（クリーム）</em>が見える。下に<em>クリーム色の足が2本</em>ちょこん。</div>
+  <div id="back" class="gw"></div>
+
+  <h2>建物サイズ</h2>
+  <table class="dims">
+    <tr><td>幅</td><td>11 ブロック</td></tr>
+    <tr><td>奥行</td><td>19 ブロック</td></tr>
+    <tr><td>高さ</td><td>12 ブロック（アーチ頂点）</td></tr>
+    <tr><td>入口</td><td>幅 5 x 高さ 2</td></tr>
+    <tr><td>内部空間</td><td>約 7 x 15 x 8</td></tr>
+    <tr><td>必要ブロック</td><td>約 500〜600 個</td></tr>
+  </table>
+  <div class="note">
+    仰向けカビゴン：<em>屋根がお腹（クリーム）、壁と床が体（濃青）</em>。<br>
+    正面は<em>上向きの顔（口が上）</em>→ 階段で口まで登って入る！<br>
+    背面に<em>クリーム色の足2本</em>をつけて完成！
+  </div>
+
+  <h2>丸く見せるコツ（円形テンプレート）</h2>
+  <div class="note">
+    四角いブロックで丸い形を作るには<em>段ごとにずらす枚数を変える</em>のがコツ。<br>
+    下のテンプレートを参考に、お腹ドームや頭の丸みを再現しよう！
+  </div>
+
+  <h3 class="h3">円（直径7）— 頭・足に</h3>
+  <div id="circle7" class="gw"></div>
+
+  <h3 class="h3">円（直径11）— 胴体の断面に</h3>
+  <div id="circle11" class="gw"></div>
+
+  <h3 class="h3">ドーム（直径11の上半分）— お腹の屋根に</h3>
+  <div id="dome11" class="gw"></div>
+
+  <h3 class="h3">楕円（横13×縦9）— カビゴンのお腹に最適</h3>
+  <div id="oval" class="gw"></div>
+
+  <div class="note">
+    <em>コツまとめ：</em><br>
+    1. 端っこは<em>2〜3ブロック</em>ずつ減らす（急カーブ）<br>
+    2. 真ん中あたりは<em>1ブロック</em>ずつ減らす（なだらか）<br>
+    3. 頂点付近は<em>同じ幅を2〜3段</em>キープする（平ら＝丸く見える）<br>
+    4. 左右対称にすれば自然と丸く見える！
+  </div>
+
+  <p class="tip">ブロックにカーソルを合わせると拡大します</p>
+</div>
+
+<script>
+var B=0,C=1,E=2,F=3,D=4,X=5,I=6;
+var cls=['cB','cC','cE','cF','cD','cX','cI'];
+
+var frontData=[
+  [X,X,X,C,C,C,C,C,X,X,X],
+  [X,C,C,C,C,C,C,C,C,C,X],
+  [B,C,F,D,D,D,D,D,F,C,B],
+  [B,C,C,D,D,D,D,D,C,C,B],
+  [B,C,C,C,C,C,C,C,C,C,B],
+  [B,C,E,E,C,C,C,E,E,C,B],
+  [B,C,C,C,C,C,C,C,C,C,B],
+  [B,B,B,B,B,B,B,B,B,B,B],
+  [B,B,B,B,B,B,B,B,B,B,B],
+  [B,B,B,B,B,B,B,B,B,B,B],
+  [B,B,B,B,B,B,B,B,B,B,B],
+  [B,B,B,B,B,B,B,B,B,B,B]
+];
+var frontLabels=['お腹（屋根）','お腹','下あご牙＋入口','入口','顔','閉じ目','おでこ','頭頂（地面側）','','体','体','底'];
+
+var crossData=[
+  [X,X,X,X,X,C,X,X,X,X,X],
+  [X,X,X,C,C,C,C,C,X,X,X],
+  [X,X,C,C,I,I,I,C,C,X,X],
+  [X,C,C,I,I,I,I,I,C,C,X],
+  [B,C,I,I,I,I,I,I,I,C,B],
+  [B,B,I,I,I,I,I,I,I,B,B],
+  [B,B,I,I,I,I,I,I,I,B,B],
+  [B,B,I,I,I,I,I,I,I,B,B],
+  [B,B,B,B,B,B,B,B,B,B,B]
+];
+var crossLabels=['頂点','','アーチ','','壁','内部','内部','内部','床'];
+
+var sideData=[
+  [X,X,X,X,X,X,C,C,C,C,C,C,C,X,X,X,X,X,X],
+  [X,X,X,X,C,C,C,C,C,C,C,C,C,C,C,X,X,X,X],
+  [X,X,X,C,C,C,C,C,C,C,C,C,C,C,C,C,X,X,X],
+  [X,X,B,C,C,C,C,C,C,C,C,C,C,C,C,C,B,X,X],
+  [X,B,B,C,C,C,C,C,C,C,C,C,C,C,C,C,B,B,X],
+  [B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B],
+  [B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B],
+  [B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B],
+  [X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,C,C,X],
+  [X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,C,C,X]
+];
+var sideLabels=['','お腹（頂点）','','','','体','体','体','足（クリーム）','足'];
+
+var backData=[
+  [X,X,X,C,C,C,C,C,X,X,X],
+  [X,C,C,C,C,C,C,C,C,C,X],
+  [B,C,C,C,C,C,C,C,C,C,B],
+  [B,B,B,B,B,B,B,B,B,B,B],
+  [B,B,B,B,B,B,B,B,B,B,B],
+  [B,B,B,B,B,B,B,B,B,B,B],
+  [B,B,B,B,B,B,B,B,B,B,B],
+  [B,B,B,B,B,B,B,B,B,B,B],
+  [X,X,X,C,C,X,X,X,C,C,X],
+  [X,X,X,C,C,X,X,X,C,C,X]
+];
+var backLabels=['お腹（屋根）','お腹','体','','壁','','','底','足（クリーム）','足'];
+
+function grid(id,data,startRow,labels){
+  var el=document.getElementById(id);
+  var rows=data.length,cols=data[0].length;
+  var h='<table class="g">';
+  h+='<tr><td class="lb"></td>';
+  for(var c=0;c<cols;c++) h+='<td class="lb">'+(c+1)+'</td>';
+  h+='<td class="lb"></td></tr>';
+  for(var r=0;r<rows;r++){
+    var rn=startRow-r;
+    h+='<tr><td class="lb">'+rn+'</td>';
+    for(var c=0;c<cols;c++) h+='<td class="'+cls[data[r][c]]+'"></td>';
+    h+='<td class="an">'+(labels[r]?'\u2190 '+labels[r]:'')+'</td></tr>';
+  }
+  h+='</table>';
+  el.innerHTML=h;
+}
+
+// Circle templates (B=filled block, X=empty)
+var c7=[
+  [X,X,B,B,B,X,X],
+  [X,B,B,B,B,B,X],
+  [B,B,B,B,B,B,B],
+  [B,B,B,B,B,B,B],
+  [B,B,B,B,B,B,B],
+  [X,B,B,B,B,B,X],
+  [X,X,B,B,B,X,X]
+];
+var c7L=['','','','','','',''];
+
+var c11=[
+  [X,X,X,B,B,B,B,B,X,X,X],
+  [X,X,B,B,B,B,B,B,B,X,X],
+  [X,B,B,B,B,B,B,B,B,B,X],
+  [B,B,B,B,B,B,B,B,B,B,B],
+  [B,B,B,B,B,B,B,B,B,B,B],
+  [B,B,B,B,B,B,B,B,B,B,B],
+  [B,B,B,B,B,B,B,B,B,B,B],
+  [B,B,B,B,B,B,B,B,B,B,B],
+  [X,B,B,B,B,B,B,B,B,B,X],
+  [X,X,B,B,B,B,B,B,B,X,X],
+  [X,X,X,B,B,B,B,B,X,X,X]
+];
+var c11L=['3','2','1','same','same','same','same','same','1','2','3'];
+
+var d11=[
+  [X,X,X,X,X,C,X,X,X,X,X],
+  [X,X,X,C,C,C,C,C,X,X,X],
+  [X,X,C,C,C,C,C,C,C,X,X],
+  [X,C,C,C,C,C,C,C,C,C,X],
+  [C,C,C,C,C,C,C,C,C,C,C],
+  [C,C,C,C,C,C,C,C,C,C,C]
+];
+var d11L=['1 (頂点)','3','2','1','same (底辺)','same'];
+
+var ovalData=[
+  [X,X,X,C,C,C,C,C,C,C,X,X,X],
+  [X,X,C,C,C,C,C,C,C,C,C,X,X],
+  [X,C,C,C,C,C,C,C,C,C,C,C,X],
+  [C,C,C,C,C,C,C,C,C,C,C,C,C],
+  [C,C,C,C,C,C,C,C,C,C,C,C,C],
+  [C,C,C,C,C,C,C,C,C,C,C,C,C],
+  [X,C,C,C,C,C,C,C,C,C,C,C,X],
+  [X,X,C,C,C,C,C,C,C,C,C,X,X],
+  [X,X,X,C,C,C,C,C,C,C,X,X,X]
+];
+var ovalL=['3','1','1','same','same','same','1','1','3'];
+
+grid('front',frontData,12,frontLabels);
+grid('cross',crossData,9,crossLabels);
+grid('side',sideData,10,sideLabels);
+grid('back',backData,10,backLabels);
+grid('circle7',c7,7,c7L);
+grid('circle11',c11,11,c11L);
+grid('dome11',d11,6,d11L);
+grid('oval',ovalData,9,ovalL);
+</script>
+</body>
+</html>

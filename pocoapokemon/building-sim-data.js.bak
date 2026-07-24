@@ -1,0 +1,344 @@
+/**
+ * ぽこ あ ポケモン 建築シミュレーター アイテムデータ
+ * カテゴリ: kit(建築キット), facility(施設), outdoor(自然・屋外), furniture(家具), parts(建築パーツ)
+ * mode: "town"(街モード専用), "room"(室内モード専用), "both"(両方)
+ */
+var BUILDING_SIM_ITEMS = [
+
+  // ===== カテゴリ1: 建築キット（街モード用） =====
+
+  // はっぱ系
+  { id: 'leaf-den', name: 'はっぱのおへや', category: 'kit', subcategory: 'はっぱ系', w: 3, h: 3, color: '#4caf50', icon: '🍃', mode: 'town', capacity: 1 },
+  { id: 'leaf-hut', name: 'はっぱのこや', category: 'kit', subcategory: 'はっぱ系', w: 4, h: 4, color: '#388e3c', icon: '🏠', mode: 'town', capacity: 1 },
+  { id: 'leaf-cottage', name: 'はっぱのコテージ', category: 'kit', subcategory: 'はっぱ系', w: 5, h: 4, color: '#2e7d32', icon: '🏡', mode: 'town', capacity: 2 },
+  { id: 'leaf-house', name: 'はっぱのいえ', category: 'kit', subcategory: 'はっぱ系', w: 5, h: 5, color: '#1b5e20', icon: '🏘️', mode: 'town', capacity: 4 },
+
+  // いし系
+  { id: 'stone-den', name: 'いしのおへや', category: 'kit', subcategory: 'いし系', w: 3, h: 3, color: '#78909c', icon: '🪨', mode: 'town', capacity: 1 },
+  { id: 'stone-hut', name: 'いしのこや', category: 'kit', subcategory: 'いし系', w: 4, h: 4, color: '#607d8b', icon: '🏠', mode: 'town', capacity: 1 },
+  { id: 'stone-cottage', name: 'いしのコテージ', category: 'kit', subcategory: 'いし系', w: 5, h: 4, color: '#546e7a', icon: '🏡', mode: 'town', capacity: 2 },
+  { id: 'stone-house', name: 'いしのいえ', category: 'kit', subcategory: 'いし系', w: 5, h: 5, color: '#455a64', icon: '🏘️', mode: 'town', capacity: 4 },
+
+  // すな系
+  { id: 'sand-den', name: 'すなのおへや', category: 'kit', subcategory: 'すな系', w: 3, h: 3, color: '#d4a574', icon: '🏜️', mode: 'town', capacity: 1 },
+  { id: 'sand-hut', name: 'すなのこや', category: 'kit', subcategory: 'すな系', w: 4, h: 4, color: '#c49666', icon: '🏠', mode: 'town', capacity: 1 },
+  { id: 'sand-cottage', name: 'すなのコテージ', category: 'kit', subcategory: 'すな系', w: 5, h: 4, color: '#b48858', icon: '🏡', mode: 'town', capacity: 2 },
+  { id: 'sand-house', name: 'すなのいえ', category: 'kit', subcategory: 'すな系', w: 5, h: 5, color: '#a47a4a', icon: '🏘️', mode: 'town', capacity: 4 },
+
+  // とかい系
+  { id: 'city-den', name: 'とかいのおへや', category: 'kit', subcategory: 'とかい系', w: 3, h: 3, color: '#5c6bc0', icon: '🏢', mode: 'town', capacity: 1 },
+  { id: 'city-hut', name: 'とかいのこや', category: 'kit', subcategory: 'とかい系', w: 4, h: 4, color: '#3f51b5', icon: '🏠', mode: 'town', capacity: 1 },
+  { id: 'city-cottage', name: 'とかいのコテージ', category: 'kit', subcategory: 'とかい系', w: 5, h: 4, color: '#3949ab', icon: '🏡', mode: 'town', capacity: 2 },
+  { id: 'city-house', name: 'とかいのいえ', category: 'kit', subcategory: 'とかい系', w: 5, h: 5, color: '#303f9f', icon: '🏘️', mode: 'town', capacity: 4 },
+
+  // カラー系 - ピンク
+  { id: 'pink-hut', name: 'ピンクのこや', category: 'kit', subcategory: 'カラー系', w: 4, h: 4, color: '#e91e63', icon: '🩷', mode: 'town', capacity: 1 },
+  { id: 'pink-cottage', name: 'ピンクのコテージ', category: 'kit', subcategory: 'カラー系', w: 5, h: 4, color: '#c2185b', icon: '🏡', mode: 'town', capacity: 2 },
+
+  // カラー系 - オレンジ
+  { id: 'orange-hut', name: 'オレンジのこや', category: 'kit', subcategory: 'カラー系', w: 4, h: 4, color: '#ff9800', icon: '🧡', mode: 'town', capacity: 1 },
+  { id: 'orange-cottage', name: 'オレンジのコテージ', category: 'kit', subcategory: 'カラー系', w: 5, h: 4, color: '#f57c00', icon: '🏡', mode: 'town', capacity: 2 },
+
+  // カラー系 - グレー
+  { id: 'gray-hut', name: 'グレーのこや', category: 'kit', subcategory: 'カラー系', w: 4, h: 4, color: '#9e9e9e', icon: '🩶', mode: 'town', capacity: 1 },
+  { id: 'gray-cottage', name: 'グレーのコテージ', category: 'kit', subcategory: 'カラー系', w: 5, h: 4, color: '#757575', icon: '🏡', mode: 'town', capacity: 2 },
+
+  // カラー系 - イエロー
+  { id: 'yellow-hut', name: 'イエローのこや', category: 'kit', subcategory: 'カラー系', w: 4, h: 4, color: '#fdd835', icon: '💛', mode: 'town', capacity: 1 },
+  { id: 'yellow-cottage', name: 'イエローのコテージ', category: 'kit', subcategory: 'カラー系', w: 5, h: 4, color: '#f9a825', icon: '🏡', mode: 'town', capacity: 2 },
+
+  // 特殊な家
+  { id: 'log-cabin', name: 'ログハウス', category: 'kit', subcategory: '特殊', w: 5, h: 5, color: '#795548', icon: '🪵', mode: 'town', capacity: 2 },
+  { id: 'pokeball-house', name: 'モンスターボールハウス', category: 'kit', subcategory: '特殊', w: 5, h: 5, color: '#f44336', icon: '🔴', mode: 'town', capacity: 2 },
+
+  // ===== カテゴリ2: 施設（街モード用） =====
+
+  // ポケモンセンター
+  { id: 'pokecenter', name: 'ポケモンセンター', category: 'facility', subcategory: '公共施設', w: 6, h: 5, color: '#ef5350', icon: '🏥', mode: 'town' },
+  { id: 'pokemart', name: 'ポケマート', category: 'facility', subcategory: '公共施設', w: 4, h: 4, color: '#42a5f5', icon: '🏪', mode: 'town' },
+
+  // 商業施設
+  { id: 'small-office', name: 'スモールオフィス', category: 'facility', subcategory: '商業施設', w: 4, h: 3, color: '#78909c', icon: '🏢', mode: 'town' },
+  { id: 'stylish-cafe', name: 'スタイリッシュカフェ', category: 'facility', subcategory: '商業施設', w: 4, h: 4, color: '#8d6e63', icon: '☕', mode: 'town' },
+
+  // 発電施設
+  { id: 'windmill', name: '風車', category: 'facility', subcategory: '発電施設', w: 3, h: 3, color: '#90a4ae', icon: '🌀', mode: 'town' },
+  { id: 'waterwheel', name: '水車', category: 'facility', subcategory: '発電施設', w: 3, h: 3, color: '#4fc3f7', icon: '💧', mode: 'town' },
+  { id: 'furnace-facility', name: '溶鉱炉（施設）', category: 'facility', subcategory: '発電施設', w: 2, h: 2, color: '#ff7043', icon: '🔥', mode: 'town' },
+  { id: 'charging-station', name: 'じゅうでんき', category: 'facility', subcategory: '発電施設', w: 2, h: 2, color: '#ffeb3b', icon: '⚡', mode: 'town' },
+
+  // 装飾施設
+  { id: 'pikachu-fountain', name: 'ピカチュウ噴水', category: 'facility', subcategory: '装飾施設', w: 3, h: 3, color: '#ffc107', icon: '⛲', mode: 'town' },
+  { id: 'relaxing-park', name: 'いやしの公園', category: 'facility', subcategory: '装飾施設', w: 5, h: 5, color: '#66bb6a', icon: '🌳', mode: 'town' },
+  { id: 'concert-stage', name: 'コンサートステージ', category: 'facility', subcategory: '装飾施設', w: 6, h: 4, color: '#ab47bc', icon: '🎵', mode: 'town' },
+  { id: 'fountain-plaza', name: '噴水広場', category: 'facility', subcategory: '装飾施設', w: 4, h: 4, color: '#29b6f6', icon: '⛲', mode: 'town' },
+  { id: 'moonlight-statue', name: '月光の踊り像', category: 'facility', subcategory: '装飾施設', w: 2, h: 2, color: '#7e57c2', icon: '🌙', mode: 'town' },
+
+  // 伝説関連施設
+  { id: 'flame-altar', name: 'ほのおの祭壇', category: 'facility', subcategory: '伝説施設', w: 4, h: 4, color: '#ff5722', icon: '🔥', mode: 'town' },
+  { id: 'abandoned-plant', name: 'はいきょの発電所', category: 'facility', subcategory: '伝説施設', w: 5, h: 5, color: '#ffd600', icon: '⚡', mode: 'town' },
+  { id: 'freezing-chambers', name: 'こおりつくやま', category: 'facility', subcategory: '伝説施設', w: 5, h: 5, color: '#4dd0e1', icon: '❄️', mode: 'town' },
+  { id: 'mysterious-mural', name: 'なぞのへきが', category: 'facility', subcategory: '伝説施設', w: 3, h: 3, color: '#a1887f', icon: '🗿', mode: 'town' },
+
+  // ===== カテゴリ3: 自然・屋外装飾（街モード用） =====
+
+  { id: 'tree', name: '木', category: 'outdoor', subcategory: '自然', w: 1, h: 1, color: '#43a047', icon: '🌳', mode: 'town' },
+  { id: 'big-tree', name: '大きな木', category: 'outdoor', subcategory: '自然', w: 2, h: 2, color: '#2e7d32', icon: '🌲', mode: 'town' },
+  { id: 'flower', name: '花', category: 'outdoor', subcategory: '自然', w: 1, h: 1, color: '#ec407a', icon: '🌸', mode: 'town' },
+  { id: 'flowerbed', name: '花壇', category: 'outdoor', subcategory: '自然', w: 1, h: 2, color: '#f06292', icon: '🌺', mode: 'town' },
+  { id: 'pond', name: '池', category: 'outdoor', subcategory: '自然', w: 2, h: 2, color: '#29b6f6', icon: '💧', mode: 'town' },
+  { id: 'big-pond', name: '大きな池', category: 'outdoor', subcategory: '自然', w: 3, h: 3, color: '#0288d1', icon: '🌊', mode: 'town' },
+  { id: 'rock', name: '岩', category: 'outdoor', subcategory: '自然', w: 1, h: 1, color: '#8d6e63', icon: '🪨', mode: 'town' },
+
+  // 屋外装飾
+  { id: 'outdoor-light', name: 'ライト', category: 'outdoor', subcategory: '装飾', w: 1, h: 1, color: '#fdd835', icon: '💡', mode: 'town' },
+  { id: 'outdoor-bench', name: 'ベンチ', category: 'outdoor', subcategory: '装飾', w: 1, h: 2, color: '#8d6e63', icon: '🪑', mode: 'town' },
+  { id: 'outdoor-fence', name: 'フェンス', category: 'outdoor', subcategory: '装飾', w: 1, h: 1, color: '#a1887f', icon: '🧱', mode: 'town' },
+  { id: 'road', name: '道', category: 'outdoor', subcategory: '通路', w: 1, h: 1, color: '#bdbdbd', icon: '🛤️', mode: 'town' },
+  { id: 'stepping-stone', name: '飛び石', category: 'outdoor', subcategory: '通路', w: 1, h: 1, color: '#a1887f', icon: '⬜', mode: 'town' },
+  { id: 'bridge', name: '橋', category: 'outdoor', subcategory: '通路', w: 2, h: 1, color: '#795548', icon: '🌉', mode: 'town' },
+  { id: 'wooden-path', name: '木の通路', category: 'outdoor', subcategory: '通路', w: 1, h: 1, color: '#a1887f', icon: '🟫', mode: 'town' },
+
+  // ===== カテゴリ4: 家具（室内モード用） =====
+
+  // 収納
+  { id: 'storage-box', name: '収納箱', category: 'furniture', subcategory: '収納', w: 1, h: 1, color: '#8d6e63', icon: '📦', mode: 'room' },
+  { id: 'big-storage-box', name: '大きな収納箱', category: 'furniture', subcategory: '収納', w: 2, h: 1, color: '#795548', icon: '📦', mode: 'room' },
+  { id: 'plain-chest', name: 'シンプルチェスト', category: 'furniture', subcategory: '収納', w: 1, h: 1, color: '#a1887f', icon: '🗄️', mode: 'room' },
+  { id: 'pokeball-chest', name: 'モンスターボールチェスト', category: 'furniture', subcategory: '収納', w: 1, h: 1, color: '#ef5350', icon: '🔴', mode: 'room' },
+  { id: 'antique-chest', name: 'アンティークチェスト', category: 'furniture', subcategory: '収納', w: 1, h: 1, color: '#6d4c41', icon: '🗄️', mode: 'room' },
+  { id: 'plain-closet', name: 'シンプルクローゼット', category: 'furniture', subcategory: '収納', w: 1, h: 1, color: '#bcaaa4', icon: '🚪', mode: 'room' },
+  { id: 'antique-closet', name: 'アンティーククローゼット', category: 'furniture', subcategory: '収納', w: 1, h: 1, color: '#5d4037', icon: '🚪', mode: 'room' },
+  { id: 'office-shelf', name: 'オフィスシェルフ', category: 'furniture', subcategory: '収納', w: 1, h: 1, color: '#78909c', icon: '📚', mode: 'room' },
+  { id: 'office-cabinet', name: 'オフィスキャビネット', category: 'furniture', subcategory: '収納', w: 1, h: 1, color: '#607d8b', icon: '🗄️', mode: 'room' },
+  { id: 'office-locker', name: 'オフィスロッカー', category: 'furniture', subcategory: '収納', w: 1, h: 1, color: '#546e7a', icon: '🔒', mode: 'room' },
+  { id: 'gaming-fridge', name: 'ゲーミング冷蔵庫', category: 'furniture', subcategory: '収納', w: 1, h: 1, color: '#00bcd4', icon: '🧊', mode: 'room' },
+  { id: 'berry-case', name: 'きのみケース', category: 'furniture', subcategory: '収納', w: 1, h: 1, color: '#e91e63', icon: '🫐', mode: 'room' },
+
+  // テーブル
+  { id: 'straw-table', name: 'わらのテーブル', category: 'furniture', subcategory: 'テーブル', w: 1, h: 1, color: '#d4a574', icon: '🪵', mode: 'room' },
+  { id: 'log-table', name: '丸太テーブル', category: 'furniture', subcategory: 'テーブル', w: 1, h: 1, color: '#8d6e63', icon: '🪵', mode: 'room' },
+  { id: 'side-table', name: 'サイドテーブル', category: 'furniture', subcategory: 'テーブル', w: 1, h: 1, color: '#a1887f', icon: '🪑', mode: 'room' },
+  { id: 'garden-table', name: 'ガーデンテーブル', category: 'furniture', subcategory: 'テーブル', w: 1, h: 1, color: '#66bb6a', icon: '🌿', mode: 'room' },
+  { id: 'wooden-table', name: '木のテーブル', category: 'furniture', subcategory: 'テーブル', w: 2, h: 1, color: '#795548', icon: '🪵', mode: 'room' },
+  { id: 'counter', name: 'カウンター', category: 'furniture', subcategory: 'テーブル', w: 2, h: 1, color: '#6d4c41', icon: '🍽️', mode: 'room' },
+  { id: 'kitchen-table', name: 'キッチンテーブル', category: 'furniture', subcategory: 'テーブル', w: 2, h: 1, color: '#bcaaa4', icon: '🍳', mode: 'room' },
+  { id: 'plain-table', name: 'シンプルテーブル', category: 'furniture', subcategory: 'テーブル', w: 1, h: 1, color: '#d7ccc8', icon: '📐', mode: 'room' },
+  { id: 'iron-table', name: '鉄のテーブル', category: 'furniture', subcategory: 'テーブル', w: 1, h: 1, color: '#78909c', icon: '🔩', mode: 'room' },
+  { id: 'resort-table', name: 'リゾートテーブル', category: 'furniture', subcategory: 'テーブル', w: 1, h: 1, color: '#4fc3f7', icon: '🏖️', mode: 'room' },
+  { id: 'antique-table', name: 'アンティークテーブル', category: 'furniture', subcategory: 'テーブル', w: 1, h: 1, color: '#5d4037', icon: '🏛️', mode: 'room' },
+  { id: 'office-desk', name: 'オフィスデスク', category: 'furniture', subcategory: 'テーブル', w: 2, h: 1, color: '#78909c', icon: '💼', mode: 'room' },
+  { id: 'study-desk', name: '勉強デスク', category: 'furniture', subcategory: 'テーブル', w: 1, h: 1, color: '#a1887f', icon: '📖', mode: 'room' },
+  { id: 'cute-table', name: 'キュートテーブル', category: 'furniture', subcategory: 'テーブル', w: 1, h: 1, color: '#f48fb1', icon: '🩷', mode: 'room' },
+  { id: 'chic-table', name: 'シックテーブル', category: 'furniture', subcategory: 'テーブル', w: 1, h: 1, color: '#455a64', icon: '✨', mode: 'room' },
+  { id: 'luxury-table', name: 'ラグジュアリーテーブル', category: 'furniture', subcategory: 'テーブル', w: 2, h: 1, color: '#ffd54f', icon: '👑', mode: 'room' },
+  { id: 'pokeball-table', name: 'モンスターボールテーブル', category: 'furniture', subcategory: 'テーブル', w: 1, h: 1, color: '#ef5350', icon: '🔴', mode: 'room' },
+  { id: 'berry-table', name: 'きのみテーブル', category: 'furniture', subcategory: 'テーブル', w: 1, h: 1, color: '#e91e63', icon: '🫐', mode: 'room' },
+  { id: 'stone-table', name: '石のテーブル', category: 'furniture', subcategory: 'テーブル', w: 1, h: 1, color: '#9e9e9e', icon: '🪨', mode: 'room' },
+  { id: 'pop-art-table', name: 'ポップアートテーブル', category: 'furniture', subcategory: 'テーブル', w: 1, h: 1, color: '#ff7043', icon: '🎨', mode: 'room' },
+  { id: 'office-table', name: 'オフィステーブル', category: 'furniture', subcategory: 'テーブル', w: 2, h: 1, color: '#90a4ae', icon: '🖥️', mode: 'room' },
+
+  // 椅子・ソファ
+  { id: 'straw-stool', name: 'わらスツール', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#d4a574', icon: '🪑', mode: 'room' },
+  { id: 'berry-chair', name: 'きのみチェア', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#e91e63', icon: '🪑', mode: 'room' },
+  { id: 'simple-cushion', name: 'シンプルクッション', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#ffcc80', icon: '🛋️', mode: 'room' },
+  { id: 'log-chair', name: '丸太チェア', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#8d6e63', icon: '🪑', mode: 'room' },
+  { id: 'plain-stool', name: 'シンプルスツール', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#d7ccc8', icon: '🪑', mode: 'room' },
+  { id: 'wooden-stool', name: '木のスツール', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#a1887f', icon: '🪑', mode: 'room' },
+  { id: 'iron-chair', name: '鉄のイス', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#78909c', icon: '🪑', mode: 'room' },
+  { id: 'resort-stool', name: 'リゾートスツール', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#4fc3f7', icon: '🏖️', mode: 'room' },
+  { id: 'resort-chair', name: 'リゾートチェア', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#29b6f6', icon: '🪑', mode: 'room' },
+  { id: 'stylish-stool', name: 'スタイリッシュスツール', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#455a64', icon: '🪑', mode: 'room' },
+  { id: 'plain-chair', name: 'シンプルチェア', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#bcaaa4', icon: '🪑', mode: 'room' },
+  { id: 'chic-chair', name: 'シックチェア', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#37474f', icon: '🪑', mode: 'room' },
+  { id: 'antique-chair', name: 'アンティークチェア', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#5d4037', icon: '🪑', mode: 'room' },
+  { id: 'fancy-chair', name: 'ファンシーチェア', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#ce93d8', icon: '🪑', mode: 'room' },
+  { id: 'luxury-chair', name: 'ラグジュアリーチェア', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#ffd54f', icon: '👑', mode: 'room' },
+  { id: 'garden-chair', name: 'ガーデンチェア', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#81c784', icon: '🌿', mode: 'room' },
+  { id: 'folding-chair', name: '折りたたみチェア', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#90a4ae', icon: '🪑', mode: 'room' },
+  { id: 'office-chair', name: 'オフィスチェア', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#546e7a', icon: '🪑', mode: 'room' },
+  { id: 'cute-chair', name: 'キュートチェア', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#f48fb1', icon: '🩷', mode: 'room' },
+  { id: 'pop-art-chair', name: 'ポップアートチェア', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#ff7043', icon: '🎨', mode: 'room' },
+  { id: 'gaming-chair', name: 'ゲーミングチェア', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#00bcd4', icon: '🎮', mode: 'room' },
+  { id: 'spectator-chair', name: 'かんきゃくチェア', category: 'furniture', subcategory: '椅子', w: 1, h: 1, color: '#ef5350', icon: '🪑', mode: 'room' },
+
+  // ソファ・ベンチ
+  { id: 'box-sofa', name: 'ボックスソファ', category: 'furniture', subcategory: 'ソファ', w: 2, h: 1, color: '#a1887f', icon: '🛋️', mode: 'room' },
+  { id: 'plain-sofa', name: 'シンプルソファ', category: 'furniture', subcategory: 'ソファ', w: 2, h: 1, color: '#bcaaa4', icon: '🛋️', mode: 'room' },
+  { id: 'resort-sofa', name: 'リゾートソファ', category: 'furniture', subcategory: 'ソファ', w: 2, h: 1, color: '#4fc3f7', icon: '🛋️', mode: 'room' },
+  { id: 'chic-sofa', name: 'シックソファ', category: 'furniture', subcategory: 'ソファ', w: 2, h: 1, color: '#455a64', icon: '🛋️', mode: 'room' },
+  { id: 'antique-sofa', name: 'アンティークソファ', category: 'furniture', subcategory: 'ソファ', w: 2, h: 1, color: '#5d4037', icon: '🛋️', mode: 'room' },
+  { id: 'luxury-sofa', name: 'ラグジュアリーソファ', category: 'furniture', subcategory: 'ソファ', w: 2, h: 1, color: '#ffd54f', icon: '🛋️', mode: 'room' },
+  { id: 'cute-sofa', name: 'キュートソファ', category: 'furniture', subcategory: 'ソファ', w: 2, h: 1, color: '#f48fb1', icon: '🛋️', mode: 'room' },
+  { id: 'pop-art-sofa', name: 'ポップアートソファ', category: 'furniture', subcategory: 'ソファ', w: 2, h: 1, color: '#ff7043', icon: '🛋️', mode: 'room' },
+  { id: 'wooden-bench-room', name: '木のベンチ', category: 'furniture', subcategory: 'ソファ', w: 2, h: 1, color: '#8d6e63', icon: '🪵', mode: 'room' },
+  { id: 'stone-bench', name: '石のベンチ', category: 'furniture', subcategory: 'ソファ', w: 2, h: 1, color: '#9e9e9e', icon: '🪨', mode: 'room' },
+  { id: 'iron-bench', name: '鉄のベンチ', category: 'furniture', subcategory: 'ソファ', w: 2, h: 1, color: '#78909c', icon: '🔩', mode: 'room' },
+  { id: 'garden-bench', name: 'ガーデンベンチ', category: 'furniture', subcategory: 'ソファ', w: 2, h: 1, color: '#66bb6a', icon: '🌿', mode: 'room' },
+
+  // ベッド
+  { id: 'log-bed', name: '丸太ベッド', category: 'furniture', subcategory: 'ベッド', w: 2, h: 1, color: '#8d6e63', icon: '🛏️', mode: 'room' },
+  { id: 'straw-bed', name: 'わらベッド', category: 'furniture', subcategory: 'ベッド', w: 2, h: 1, color: '#d4a574', icon: '🛏️', mode: 'room' },
+  { id: 'mini-plain-bed', name: 'ミニシンプルベッド', category: 'furniture', subcategory: 'ベッド', w: 1, h: 1, color: '#d7ccc8', icon: '🛏️', mode: 'room' },
+  { id: 'wooden-bed', name: '木のベッド', category: 'furniture', subcategory: 'ベッド', w: 2, h: 1, color: '#795548', icon: '🛏️', mode: 'room' },
+  { id: 'plain-bed', name: 'シンプルベッド', category: 'furniture', subcategory: 'ベッド', w: 2, h: 1, color: '#bcaaa4', icon: '🛏️', mode: 'room' },
+  { id: 'iron-bed', name: '鉄のベッド', category: 'furniture', subcategory: 'ベッド', w: 2, h: 1, color: '#78909c', icon: '🛏️', mode: 'room' },
+  { id: 'resort-bed', name: 'リゾートベッド', category: 'furniture', subcategory: 'ベッド', w: 2, h: 1, color: '#4fc3f7', icon: '🛏️', mode: 'room' },
+  { id: 'resort-hammock', name: 'リゾートハンモック', category: 'furniture', subcategory: 'ベッド', w: 2, h: 1, color: '#29b6f6', icon: '🪢', mode: 'room' },
+  { id: 'antique-bed', name: 'アンティークベッド', category: 'furniture', subcategory: 'ベッド', w: 2, h: 1, color: '#5d4037', icon: '🛏️', mode: 'room' },
+  { id: 'guest-bed', name: 'きゃくしつベッド', category: 'furniture', subcategory: 'ベッド', w: 2, h: 1, color: '#d7ccc8', icon: '🛏️', mode: 'room' },
+  { id: 'luxury-bed', name: 'ラグジュアリーベッド', category: 'furniture', subcategory: 'ベッド', w: 2, h: 1, color: '#ffd54f', icon: '🛏️', mode: 'room' },
+  { id: 'industrial-bed', name: 'インダストリアルベッド', category: 'furniture', subcategory: 'ベッド', w: 2, h: 1, color: '#616161', icon: '🛏️', mode: 'room' },
+  { id: 'cute-bed', name: 'キュートベッド', category: 'furniture', subcategory: 'ベッド', w: 2, h: 1, color: '#f48fb1', icon: '🛏️', mode: 'room' },
+  { id: 'gaming-bed', name: 'ゲーミングベッド', category: 'furniture', subcategory: 'ベッド', w: 2, h: 1, color: '#00bcd4', icon: '🎮', mode: 'room' },
+  { id: 'pop-art-bed', name: 'ポップアートベッド', category: 'furniture', subcategory: 'ベッド', w: 2, h: 1, color: '#ff7043', icon: '🎨', mode: 'room' },
+  { id: 'pokeball-bed', name: 'モンスターボールベッド', category: 'furniture', subcategory: 'ベッド', w: 2, h: 1, color: '#ef5350', icon: '🔴', mode: 'room' },
+  { id: 'berry-bed', name: 'きのみベッド', category: 'furniture', subcategory: 'ベッド', w: 2, h: 1, color: '#e91e63', icon: '🫐', mode: 'room' },
+  { id: 'naptime-bed', name: 'おひるねベッド', category: 'furniture', subcategory: 'ベッド', w: 1, h: 1, color: '#ffe082', icon: '😴', mode: 'room' },
+  { id: 'pokeball-sofa', name: 'モンスターボールソファ', category: 'furniture', subcategory: 'ベッド', w: 2, h: 1, color: '#ef5350', icon: '🛋️', mode: 'room' },
+  { id: 'deck-chair', name: 'デッキチェア', category: 'furniture', subcategory: 'ベッド', w: 1, h: 1, color: '#a1887f', icon: '🏖️', mode: 'room' },
+  { id: 'beach-chair', name: 'ビーチチェア', category: 'furniture', subcategory: 'ベッド', w: 1, h: 1, color: '#29b6f6', icon: '⛱️', mode: 'room' },
+
+  // 装飾
+  { id: 'wall-mirror', name: '壁掛けミラー', category: 'furniture', subcategory: '装飾', w: 1, h: 1, color: '#b0bec5', icon: '🪞', mode: 'room' },
+  { id: 'large-mirror', name: '大きなミラー', category: 'furniture', subcategory: '装飾', w: 1, h: 1, color: '#90a4ae', icon: '🪞', mode: 'room' },
+  { id: 'antique-dresser', name: 'アンティークドレッサー', category: 'furniture', subcategory: '装飾', w: 1, h: 1, color: '#5d4037', icon: '💄', mode: 'room' },
+  { id: 'luxury-dresser', name: 'ラグジュアリードレッサー', category: 'furniture', subcategory: '装飾', w: 1, h: 1, color: '#ffd54f', icon: '💄', mode: 'room' },
+  { id: 'cute-dresser', name: 'キュートドレッサー', category: 'furniture', subcategory: '装飾', w: 1, h: 1, color: '#f48fb1', icon: '💄', mode: 'room' },
+  { id: 'flower-table', name: '花台', category: 'furniture', subcategory: '装飾', w: 1, h: 1, color: '#81c784', icon: '🌸', mode: 'room' },
+  { id: 'flower-cushion', name: 'フラワークッション', category: 'furniture', subcategory: '装飾', w: 1, h: 1, color: '#f48fb1', icon: '🌺', mode: 'room' },
+  { id: 'wiggly-mirror', name: 'プリンのミラー', category: 'furniture', subcategory: '装飾', w: 1, h: 1, color: '#f8bbd0', icon: '🩷', mode: 'room' },
+
+  // 生活用品
+  { id: 'craft-table', name: 'クラフト台', category: 'furniture', subcategory: '生活', w: 1, h: 1, color: '#a1887f', icon: '🔨', mode: 'room' },
+  { id: 'furnace', name: '溶鉱炉', category: 'furniture', subcategory: '生活', w: 1, h: 1, color: '#ff7043', icon: '🔥', mode: 'room' },
+  { id: 'printer-3d', name: '3Dプリンター', category: 'furniture', subcategory: '生活', w: 1, h: 1, color: '#4fc3f7', icon: '🖨️', mode: 'room' },
+  { id: 'food-counter', name: 'フードカウンター', category: 'furniture', subcategory: '生活', w: 2, h: 1, color: '#ffcc80', icon: '🍽️', mode: 'room' },
+  { id: 'exhibition-stand', name: '展示スタンド', category: 'furniture', subcategory: '生活', w: 1, h: 1, color: '#b0bec5', icon: '🏛️', mode: 'room' },
+  { id: 'push-cart', name: 'プッシュカート', category: 'furniture', subcategory: '生活', w: 1, h: 1, color: '#8d6e63', icon: '🛒', mode: 'room' },
+
+  // ===== カテゴリ5: 建築パーツ（両モード用） =====
+
+  // ドア
+  { id: 'rustic-door', name: '素朴なドア', category: 'parts', subcategory: 'ドア', w: 1, h: 1, color: '#8d6e63', icon: '🚪', mode: 'both' },
+  { id: 'modern-door', name: 'モダンなドア', category: 'parts', subcategory: 'ドア', w: 1, h: 1, color: '#78909c', icon: '🚪', mode: 'both' },
+  { id: 'iron-door', name: '鉄のドア', category: 'parts', subcategory: 'ドア', w: 1, h: 1, color: '#546e7a', icon: '🚪', mode: 'both' },
+  { id: 'auto-doors', name: '自動ドア', category: 'parts', subcategory: 'ドア', w: 1, h: 1, color: '#42a5f5', icon: '🚪', mode: 'both' },
+  { id: 'large-wooden-door', name: '大きな木のドア', category: 'parts', subcategory: 'ドア', w: 1, h: 1, color: '#795548', icon: '🚪', mode: 'both' },
+  { id: 'wooden-gate', name: '木の門', category: 'parts', subcategory: 'ドア', w: 2, h: 1, color: '#6d4c41', icon: '⛩️', mode: 'both' },
+  { id: 'iron-gate', name: '鉄の門', category: 'parts', subcategory: 'ドア', w: 2, h: 1, color: '#455a64', icon: '⛩️', mode: 'both' },
+
+  // 窓
+  { id: 'glass-window', name: 'ガラス窓', category: 'parts', subcategory: '窓', w: 1, h: 1, color: '#80deea', icon: '🪟', mode: 'both' },
+  { id: 'stained-glass', name: 'ステンドグラス窓', category: 'parts', subcategory: '窓', w: 1, h: 1, color: '#ce93d8', icon: '🪟', mode: 'both' },
+  { id: 'sash-window', name: '格子窓', category: 'parts', subcategory: '窓', w: 1, h: 1, color: '#a1887f', icon: '🪟', mode: 'both' },
+  { id: 'hatch-window', name: 'ハッチ窓', category: 'parts', subcategory: '窓', w: 1, h: 1, color: '#90a4ae', icon: '🪟', mode: 'both' },
+
+  // 階段
+  { id: 'wooden-steps', name: '木の階段', category: 'parts', subcategory: '階段', w: 1, h: 1, color: '#8d6e63', icon: '🪜', mode: 'both' },
+  { id: 'stone-steps', name: '石の階段', category: 'parts', subcategory: '階段', w: 1, h: 1, color: '#9e9e9e', icon: '🪜', mode: 'both' },
+  { id: 'iron-steps', name: '鉄の階段', category: 'parts', subcategory: '階段', w: 1, h: 1, color: '#607d8b', icon: '🪜', mode: 'both' },
+  { id: 'brick-steps', name: 'レンガの階段', category: 'parts', subcategory: '階段', w: 1, h: 1, color: '#d84315', icon: '🪜', mode: 'both' },
+  { id: 'concrete-steps', name: 'コンクリートの階段', category: 'parts', subcategory: '階段', w: 1, h: 1, color: '#bdbdbd', icon: '🪜', mode: 'both' },
+  { id: 'wooden-ladder', name: '木のはしご', category: 'parts', subcategory: '階段', w: 1, h: 1, color: '#a1887f', icon: '🪜', mode: 'both' },
+  { id: 'iron-ladder', name: '鉄のはしご', category: 'parts', subcategory: '階段', w: 1, h: 1, color: '#78909c', icon: '🪜', mode: 'both' },
+
+  // フェンス・柵（建築パーツ）
+  { id: 'wooden-fencing', name: '木のフェンス', category: 'parts', subcategory: 'フェンス', w: 1, h: 1, color: '#a1887f', icon: '🧱', mode: 'both' },
+  { id: 'metal-fencing', name: '金属フェンス', category: 'parts', subcategory: 'フェンス', w: 1, h: 1, color: '#78909c', icon: '🧱', mode: 'both' },
+  { id: 'stone-fencing', name: '石のフェンス', category: 'parts', subcategory: 'フェンス', w: 1, h: 1, color: '#9e9e9e', icon: '🧱', mode: 'both' },
+  { id: 'wooden-handrail', name: '木の手すり', category: 'parts', subcategory: 'フェンス', w: 1, h: 1, color: '#8d6e63', icon: '🔲', mode: 'both' },
+  { id: 'boat-railing', name: 'ボートの手すり', category: 'parts', subcategory: 'フェンス', w: 1, h: 1, color: '#4fc3f7', icon: '⚓', mode: 'both' },
+
+  // 柱・構造
+  { id: 'sideways-log', name: '横丸太', category: 'parts', subcategory: '構造', w: 1, h: 1, color: '#795548', icon: '🪵', mode: 'both' },
+  { id: 'upright-log', name: '縦丸太', category: 'parts', subcategory: '構造', w: 1, h: 1, color: '#6d4c41', icon: '🪵', mode: 'both' },
+  { id: 'iron-beam', name: '鉄骨', category: 'parts', subcategory: '構造', w: 1, h: 1, color: '#607d8b', icon: '🔩', mode: 'both' },
+  { id: 'iron-column', name: '鉄柱', category: 'parts', subcategory: '構造', w: 1, h: 1, color: '#546e7a', icon: '🔩', mode: 'both' },
+  { id: 'round-pillar', name: '丸柱', category: 'parts', subcategory: '構造', w: 1, h: 1, color: '#d7ccc8', icon: '🏛️', mode: 'both' },
+  { id: 'extravagant-pillar', name: '豪華な柱', category: 'parts', subcategory: '構造', w: 1, h: 1, color: '#ffd54f', icon: '🏛️', mode: 'both' },
+
+  // パイプ
+  { id: 'iron-pipe-h', name: '鉄パイプ（横）', category: 'parts', subcategory: 'パイプ', w: 1, h: 1, color: '#78909c', icon: '➖', mode: 'both' },
+  { id: 'iron-pipe-v', name: '鉄パイプ（縦）', category: 'parts', subcategory: 'パイプ', w: 1, h: 1, color: '#78909c', icon: '➕', mode: 'both' },
+  { id: 'iron-pipe-curve', name: '鉄パイプ（カーブ）', category: 'parts', subcategory: 'パイプ', w: 1, h: 1, color: '#78909c', icon: '↪️', mode: 'both' },
+  { id: 'iron-pipe-t', name: '鉄パイプ（T字）', category: 'parts', subcategory: 'パイプ', w: 1, h: 1, color: '#78909c', icon: '⊥', mode: 'both' }
+];
+
+// カテゴリ定義
+var BUILDING_SIM_CATEGORIES = {
+  town: [
+    { key: 'kit', label: '建築キット', icon: '🏠' },
+    { key: 'facility', label: '施設', icon: '🏢' },
+    { key: 'outdoor', label: '自然・屋外', icon: '🌳' },
+    { key: 'parts', label: '建築パーツ', icon: '🔧' }
+  ],
+  room: [
+    { key: 'furniture', label: '家具', icon: '🪑' },
+    { key: 'parts', label: '建築パーツ', icon: '🔧' }
+  ],
+  block: [
+    { key: 'block-basic', label: 'ブロック', icon: '🧱' },
+    { key: 'block-fixture', label: '建具', icon: '🚪' },
+    { key: 'block-roof', label: '屋根', icon: '🏠' },
+    { key: 'block-deco', label: '装飾', icon: '✨' },
+    { key: 'block-floor', label: '床', icon: '⬜' }
+  ]
+};
+
+// ===== 3Dブロック建築モード用データ =====
+// pattern: CSSクラス名（フォールバック用）
+// texture: テクスチャ画像ファイル名（textures/ フォルダ内）
+//   画像があればThree.jsテクスチャとして適用、なければcolorTop/Left/Rightのフォールバック色を使用
+//   画像フォーマット: 64×64px以上のPNG推奨（タイルパターン用）
+var BUILDING_SIM_BLOCKS = [
+  // ブロック（基本素材）
+  { id: 'wood-block', name: '木のブロック', category: 'block-basic', colorTop: '#a1887f', colorLeft: '#8d6e63', colorRight: '#6d4c41', icon: '🪵', pattern: 'wood', texture: 'wood.png' },
+  { id: 'stone-block', name: '石のブロック', category: 'block-basic', colorTop: '#bdbdbd', colorLeft: '#9e9e9e', colorRight: '#757575', icon: '🪨', pattern: 'stone', texture: 'stone.png' },
+  { id: 'brick-block', name: 'レンガブロック', category: 'block-basic', colorTop: '#ef9a9a', colorLeft: '#e57373', colorRight: '#c62828', icon: '🧱', pattern: 'brick', texture: 'brick.png' },
+  { id: 'glass-block', name: 'ガラスブロック', category: 'block-basic', colorTop: '#b3e5fc', colorLeft: '#81d4fa', colorRight: '#4fc3f7', icon: '🪟', transparent: true, pattern: 'glass', texture: 'glass.png' },
+  { id: 'sand-block', name: '砂のブロック', category: 'block-basic', colorTop: '#ffe0b2', colorLeft: '#ffcc80', colorRight: '#ffb74d', icon: '🏜️', pattern: 'sand', texture: 'sand.png' },
+  { id: 'concrete-block', name: 'コンクリートブロック', category: 'block-basic', colorTop: '#e0e0e0', colorLeft: '#bdbdbd', colorRight: '#9e9e9e', icon: '⬜', pattern: 'concrete', texture: 'concrete.png' },
+  { id: 'marble-block', name: '大理石ブロック', category: 'block-basic', colorTop: '#f5f5f5', colorLeft: '#e0e0e0', colorRight: '#c8c8c8', icon: '🤍', pattern: 'marble', texture: 'marble.png' },
+  { id: 'aged-stone-block', name: '古びた石ブロック', category: 'block-basic', colorTop: '#a8a090', colorLeft: '#8d8578', colorRight: '#706860', icon: '🪨', pattern: 'aged-stone', texture: 'aged-stone.png' },
+
+  // 建具
+  { id: 'door-block', name: 'ドア', category: 'block-fixture', colorTop: '#a1887f', colorLeft: '#6d4c41', colorRight: '#5d4037', icon: '🚪', pattern: 'door', texture: 'door.png' },
+  { id: 'window-block', name: '窓', category: 'block-fixture', colorTop: '#b3e5fc', colorLeft: '#81d4fa', colorRight: '#4fc3f7', icon: '🪟', pattern: 'window', texture: 'window.png' },
+  { id: 'hatch-block', name: 'ハッチ', category: 'block-fixture', colorTop: '#90a4ae', colorLeft: '#78909c', colorRight: '#607d8b', icon: '⬛', pattern: 'metal', texture: 'hatch.png' },
+  { id: 'lattice-window', name: '格子窓', category: 'block-fixture', colorTop: '#bcaaa4', colorLeft: '#a1887f', colorRight: '#8d6e63', icon: '🪟', pattern: 'lattice', texture: 'lattice-window.png' },
+
+  // 屋根 — 瓦（赤タイル）
+  { id: 'roof-tile-slope', name: 'ななめの瓦屋根', category: 'block-roof', colorTop: '#ef5350', colorLeft: '#e53935', colorRight: '#c62828', icon: '🔴', pattern: 'roof-tile', shape: 'slope', texture: 'roof-tile.png' },
+  { id: 'roof-tile-flat', name: 'たいらな瓦屋根', category: 'block-roof', colorTop: '#ef5350', colorLeft: '#e53935', colorRight: '#c62828', icon: '🟥', pattern: 'roof-tile', shape: 'cube', texture: 'roof-tile.png' },
+  { id: 'roof-tile-tri', name: 'さんかくの瓦屋根', category: 'block-roof', colorTop: '#ef5350', colorLeft: '#e53935', colorRight: '#c62828', icon: '🔺', pattern: 'roof-tile', shape: 'triangle', texture: 'roof-tile.png' },
+  { id: 'roof-tile-outcorner', name: 'でっぱり瓦屋根', category: 'block-roof', colorTop: '#ef5350', colorLeft: '#e53935', colorRight: '#c62828', icon: '📐', pattern: 'roof-tile', shape: 'outcorner', texture: 'roof-tile.png' },
+  { id: 'roof-tile-incorner', name: 'ひっこみ瓦屋根', category: 'block-roof', colorTop: '#ef5350', colorLeft: '#e53935', colorRight: '#c62828', icon: '🔻', pattern: 'roof-tile', shape: 'incorner', texture: 'roof-tile.png' },
+  // 屋根 — 石
+  { id: 'roof-stone-slope', name: 'ななめの石屋根', category: 'block-roof', colorTop: '#90a4ae', colorLeft: '#78909c', colorRight: '#607d8b', icon: '🩶', pattern: 'stone', shape: 'slope', texture: 'roof-stone.png' },
+  { id: 'roof-stone-flat', name: 'たいらな石屋根', category: 'block-roof', colorTop: '#90a4ae', colorLeft: '#78909c', colorRight: '#607d8b', icon: '⬜', pattern: 'stone', shape: 'cube', texture: 'roof-stone.png' },
+  { id: 'roof-stone-tri', name: 'さんかくの石屋根', category: 'block-roof', colorTop: '#90a4ae', colorLeft: '#78909c', colorRight: '#607d8b', icon: '🔺', pattern: 'stone', shape: 'triangle', texture: 'roof-stone.png' },
+  // 屋根 — レンガ
+  { id: 'roof-brick-slope', name: 'ななめのレンガ屋根', category: 'block-roof', colorTop: '#ff8a65', colorLeft: '#ff7043', colorRight: '#f4511e', icon: '🟠', pattern: 'brick', shape: 'slope', texture: 'roof-brick.png' },
+  { id: 'roof-brick-flat', name: 'たいらなレンガ屋根', category: 'block-roof', colorTop: '#ff8a65', colorLeft: '#ff7043', colorRight: '#f4511e', icon: '🟧', pattern: 'brick', shape: 'cube', texture: 'roof-brick.png' },
+  { id: 'roof-brick-tri', name: 'さんかくのレンガ屋根', category: 'block-roof', colorTop: '#ff8a65', colorLeft: '#ff7043', colorRight: '#f4511e', icon: '🔺', pattern: 'brick', shape: 'triangle', texture: 'roof-brick.png' },
+  // 屋根 — テント
+  { id: 'roof-tent-slope', name: 'ななめのテント屋根', category: 'block-roof', colorTop: '#fff9c4', colorLeft: '#fff59d', colorRight: '#fff176', icon: '⛺', pattern: 'tent', shape: 'slope', texture: 'roof-tent.png' },
+  { id: 'roof-tent-flat', name: 'たいらなテント屋根', category: 'block-roof', colorTop: '#fff9c4', colorLeft: '#fff59d', colorRight: '#fff176', icon: '🟨', pattern: 'tent', shape: 'cube', texture: 'roof-tent.png' },
+  { id: 'roof-tent-tri', name: 'さんかくのテント屋根', category: 'block-roof', colorTop: '#fff9c4', colorLeft: '#fff59d', colorRight: '#fff176', icon: '🔺', pattern: 'tent', shape: 'triangle', texture: 'roof-tent.png' },
+
+  // 装飾
+  { id: 'light-block', name: 'ライト', category: 'block-deco', colorTop: '#fff9c4', colorLeft: '#fff176', colorRight: '#ffee58', icon: '💡', pattern: 'glow', texture: 'light.png' },
+  { id: 'fence-block', name: 'フェンス', category: 'block-deco', colorTop: '#d7ccc8', colorLeft: '#bcaaa4', colorRight: '#a1887f', icon: '🧱', pattern: 'fence', texture: 'fence.png' },
+  { id: 'railing-block', name: '柵', category: 'block-deco', colorTop: '#a1887f', colorLeft: '#8d6e63', colorRight: '#795548', icon: '🔲', pattern: 'fence', texture: 'railing.png' },
+  { id: 'ladder-block', name: 'はしご', category: 'block-deco', colorTop: '#bcaaa4', colorLeft: '#a1887f', colorRight: '#8d6e63', icon: '🪜', pattern: 'ladder', texture: 'ladder.png' },
+  { id: 'sign-block', name: '看板', category: 'block-deco', colorTop: '#a1887f', colorLeft: '#8d6e63', colorRight: '#6d4c41', icon: '🪧', pattern: 'wood', texture: 'sign.png' },
+
+  // 床
+  { id: 'floor-wood', name: '木の床', category: 'block-floor', colorTop: '#bcaaa4', colorLeft: '#a1887f', colorRight: '#8d6e63', icon: '🟫', pattern: 'wood-floor', texture: 'floor-wood.png' },
+  { id: 'floor-stone', name: '石の床', category: 'block-floor', colorTop: '#e0e0e0', colorLeft: '#bdbdbd', colorRight: '#9e9e9e', icon: '⬜', pattern: 'stone-tile', texture: 'floor-stone.png' },
+  { id: 'floor-brick', name: 'レンガの床', category: 'block-floor', colorTop: '#ffab91', colorLeft: '#ff8a65', colorRight: '#ff7043', icon: '🟧', pattern: 'brick', texture: 'floor-brick.png' },
+  { id: 'floor-grass', name: '芝生の床', category: 'block-floor', colorTop: '#a5d6a7', colorLeft: '#81c784', colorRight: '#66bb6a', icon: '🟩', pattern: 'grass', texture: 'floor-grass.png' },
+  { id: 'floor-sand', name: '砂の床', category: 'block-floor', colorTop: '#ffe0b2', colorLeft: '#ffcc80', colorRight: '#ffb74d', icon: '🟨', pattern: 'sand', texture: 'floor-sand.png' },
+  { id: 'floor-tile', name: 'タイルの床', category: 'block-floor', colorTop: '#b0bec5', colorLeft: '#90a4ae', colorRight: '#78909c', icon: '🔳', pattern: 'check-tile', texture: 'floor-tile.png' }
+];
