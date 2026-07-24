@@ -401,6 +401,9 @@ button:active{transform:translateY(1px)}
 .foot{margin-top:24px; text-align:center; color:var(--ink-4); font-size:11px}
 .foot a{color:var(--ink-3)}
 </style>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
 <div class="tile-bg"></div>
@@ -415,6 +418,14 @@ button:active{transform:translateY(1px)}
       <div class="sub">相手のデッキ・出てきたカード・勝敗を記録 / ランクポイントをグラフ化</div>
     </div>
     <div class="spacer"></div>
+    <div class="sync-box" id="syncBox" style="display:none">
+      <button class="sync-btn" id="loginBtn">🔗 Googleでログイン</button>
+      <span class="sync-user" id="syncUser" style="display:none">
+        <img id="syncAvatar" alt="" referrerpolicy="no-referrer" title="ログイン中">
+        <span class="sync-state" id="syncState"></span>
+        <button class="btn-sm btn-ghost" id="logoutBtn">ログアウト</button>
+      </span>
+    </div>
     <div class="lang-switch" id="langSwitch" title="カード画像の言語">
       <button data-lang="ja">日本語</button><button data-lang="en">English</button>
     </div>
@@ -852,6 +863,7 @@ function loadState(){
 }
 function saveState(){
   localStorage.setItem(STORE_KEY, JSON.stringify(state));
+  if(typeof scheduleCloudPush === 'function') scheduleCloudPush();
 }
 
 /* ---------- Card DB ---------- */
@@ -1719,6 +1731,175 @@ function resetAll(){
 }
 
 /* ============================================================
+   クラウド同期 (Firebase Auth + Firestore)
+   - 設定が入っている時だけ有効。未設定なら完全にローカル動作
+   - matches は id でマージするので、複数端末で同時に記録しても消えない
+   ============================================================ */
+const FB_CFG_KEY = 'pokepoke-firebase-config';
+/* 公開用の共有Firebase設定。訪問者は設定不要でGoogleログインするだけで同期できる。
+ * ウェブAPIキーは公開前提の値。Firestoreルールで「本人のuidのみ読み書き可」に制限しているため、
+ * 他人のデータは閲覧も改変もできない。 */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyC2yqcZzn9Q02LJbLeQ59-pg1UaWmjIRuM",
+  authDomain: "pokepoke-deck-memo.firebaseapp.com",
+  projectId: "pokepoke-deck-memo",
+  storageBucket: "pokepoke-deck-memo.firebasestorage.app",
+  messagingSenderId: "1093002644152",
+  appId: "1:1093002644152:web:daea83c3b193d67ceec24d"
+};
+let fbApp = null, fbAuth = null, fbDb = null, fbUser = null, fbUnsub = null;
+let syncPushTimer = null, applyingRemote = false;
+
+function loadFbConfig(){
+  // 自前のFirebaseを使いたい人はlocalStorageの設定を優先。無ければ共有設定
+  try{
+    const c = JSON.parse(localStorage.getItem(FB_CFG_KEY) || 'null');
+    if(c && c.apiKey) return c;
+  }catch(e){}
+  return FIREBASE_CONFIG;
+}
+function setSyncState(text, cls){
+  const el = $('#syncState');
+  if(!el) return;
+  el.textContent = text ? ' ' + text : '';
+  el.className = 'sync-state ' + (cls||'');
+}
+function initFirebase(){
+  const cfg = loadFbConfig();
+  const box = $('#syncBox');
+  if(!cfg || typeof firebase === 'undefined'){
+    if(box) box.style.display = 'none';
+    return;
+  }
+  try{
+    fbApp = firebase.apps && firebase.apps.length ? firebase.app() : firebase.initializeApp(cfg);
+    fbAuth = firebase.auth();
+    fbDb = firebase.firestore();
+    if(box) box.style.display = '';
+    fbAuth.onAuthStateChanged(onAuthChanged);
+  }catch(e){
+    console.error('firebase init failed', e);
+    toast('Firebase初期化に失敗: ' + e.message);
+    if(box) box.style.display = 'none';
+  }
+}
+function onAuthChanged(user){
+  fbUser = user;
+  const loginBtn = $('#loginBtn'), userBox = $('#syncUser');
+  if(user){
+    loginBtn.style.display = 'none';
+    userBox.style.display = '';
+    // 配信で映っても困らないよう、メールアドレス・表示名は画面に出さない
+    $('#syncAvatar').src = user.photoURL || '';
+    startCloudSync();
+  }else{
+    loginBtn.style.display = '';
+    userBox.style.display = 'none';
+    if(fbUnsub){ fbUnsub(); fbUnsub = null; }
+  }
+}
+function cloudDocRef(){
+  return fbDb.collection('users').doc(fbUser.uid);
+}
+/* ローカルとリモートを統合(matchesはid基準、設定は新しい方) */
+function mergeStates(localState, remoteState){
+  const byId = new Map();
+  for(const m of (remoteState.matches||[])) byId.set(m.id, m);
+  for(const m of (localState.matches||[])) byId.set(m.id, m); // 同idはローカル優先
+  const merged = {
+    settings: (remoteState.updatedAt||0) > (localState.updatedAt||0)
+      ? Object.assign({}, localState.settings, remoteState.settings)
+      : Object.assign({}, remoteState.settings, localState.settings),
+    matches: [...byId.values()],
+  };
+  return merged;
+}
+async function startCloudSync(){
+  setSyncState('同期中…', 'busy');
+  try{
+    const ref = cloudDocRef();
+    const snap = await ref.get();
+    if(snap.exists){
+      const remote = snap.data() || {};
+      const merged = mergeStates(state, remote);
+      state.settings = Object.assign(structuredClone(DEFAULT_STATE.settings), merged.settings||{});
+      state.matches = merged.matches;
+      recomputeAllPoints();
+      saveState();
+      bindSettings();
+      renderAll();
+    }
+    await pushToCloud();
+    // 他端末の変更を購読
+    if(fbUnsub) fbUnsub();
+    fbUnsub = ref.onSnapshot(doc=>{
+      if(!doc.exists || doc.metadata.hasPendingWrites) return;
+      const remote = doc.data() || {};
+      if((remote.updatedAt||0) <= (state.updatedAt||0)) return;
+      applyingRemote = true;
+      const merged = mergeStates(state, remote);
+      state.settings = Object.assign(structuredClone(DEFAULT_STATE.settings), merged.settings||{});
+      state.matches = merged.matches;
+      state.updatedAt = remote.updatedAt;
+      recomputeAllPoints();
+      saveState();
+      bindSettings();
+      renderAll();
+      applyingRemote = false;
+      setSyncState('別の端末から更新', 'ok');
+      setTimeout(()=>setSyncState('同期済み','ok'), 2500);
+    }, err=>{
+      console.error(err); setSyncState('同期エラー', 'err');
+    });
+    setSyncState('同期済み', 'ok');
+  }catch(e){
+    console.error('cloud sync failed', e);
+    setSyncState('同期エラー', 'err');
+    toast('同期に失敗: ' + (e.message||e.code||''));
+  }
+}
+async function pushToCloud(){
+  if(!fbUser || !fbDb) return;
+  clearTimeout(syncPushTimer); // 予約済みの遅延pushがあればまとめる
+  try{
+    setSyncState('保存中…', 'busy');
+    state.updatedAt = Date.now();
+    await cloudDocRef().set({
+      settings: state.settings,
+      matches: state.matches,
+      updatedAt: state.updatedAt,
+    });
+    // localStorageに直接書く（saveState()経由だと再pushがスケジュールされ無限ループになる）
+    localStorage.setItem(STORE_KEY, JSON.stringify(state));
+    setSyncState('同期済み', 'ok');
+  }catch(e){
+    console.error('push failed', e);
+    setSyncState('保存失敗', 'err');
+  }
+}
+/* 保存のたびに少し待ってからクラウドへ(連打対策) */
+function scheduleCloudPush(){
+  if(!fbUser || applyingRemote) return;
+  clearTimeout(syncPushTimer);
+  syncPushTimer = setTimeout(pushToCloud, 800);
+}
+function bindSyncUi(){
+  const lb = $('#loginBtn');
+  if(lb) lb.onclick = async ()=>{
+    try{
+      const provider = new firebase.auth.GoogleAuthProvider();
+      await fbAuth.signInWithPopup(provider);
+    }catch(e){
+      console.error(e);
+      toast('ログイン失敗: ' + (e.code==='auth/unauthorized-domain'
+        ? 'Firebaseの承認済みドメインにこのURLを追加してください' : (e.message||'')));
+    }
+  };
+  const ob = $('#logoutBtn');
+  if(ob) ob.onclick = async ()=>{ await fbAuth.signOut(); toast('ログアウトしました'); };
+}
+
+/* ============================================================
    スポンサー枠（自主管理・AdSense不使用）
    - 3ティア（top=プレミアム / mid=スタンダード / foot=エコノミー）
    - items に掲載を追加すると表示。空なら「募集中」プレースホルダ
@@ -1841,6 +2022,8 @@ function bindUi(){
 (async function init(){
   bindSettings();
   bindUi();
+  bindSyncUi();
+  initFirebase();
   renderSponsors();
   recomputeAllPoints();
   renderAll();
