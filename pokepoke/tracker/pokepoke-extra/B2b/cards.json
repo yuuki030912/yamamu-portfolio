@@ -1,0 +1,593 @@
+{
+  "set": "B2b",
+  "setName": "",
+  "source": "manual data entry (personal use)",
+  "fetchedAt": "2026-05-29",
+  "cards": [
+    {
+      "id": "B2b-001",
+      "name": "ストライク",
+      "image": "pokepoke-extra/B2b/B2b-001.webp"
+    },
+    {
+      "id": "B2b-002",
+      "name": "クヌギダマ",
+      "image": "pokepoke-extra/B2b/B2b-002.webp"
+    },
+    {
+      "id": "B2b-003",
+      "name": "バルビート",
+      "image": "pokepoke-extra/B2b/B2b-003.webp"
+    },
+    {
+      "id": "B2b-004",
+      "name": "イルミーゼ",
+      "image": "pokepoke-extra/B2b/B2b-004.webp"
+    },
+    {
+      "id": "B2b-005",
+      "name": "ボクレー",
+      "image": "pokepoke-extra/B2b/B2b-005.webp"
+    },
+    {
+      "id": "B2b-006",
+      "name": "オーロット",
+      "image": "pokepoke-extra/B2b/B2b-006.webp"
+    },
+    {
+      "id": "B2b-007",
+      "name": "ストライク",
+      "image": "pokepoke-extra/B2b/B2b-007.webp"
+    },
+    {
+      "id": "B2b-008",
+      "name": "クヌギダマ",
+      "image": "pokepoke-extra/B2b/B2b-008.webp"
+    },
+    {
+      "id": "B2b-009",
+      "name": "ボクレー",
+      "image": "pokepoke-extra/B2b/B2b-009.webp"
+    },
+    {
+      "id": "B2b-010",
+      "name": "オーロット",
+      "image": "pokepoke-extra/B2b/B2b-010.webp"
+    },
+    {
+      "id": "B2b-011",
+      "name": "オリーヴァ",
+      "image": "pokepoke-extra/B2b/B2b-011.webp"
+    },
+    {
+      "id": "B2b-012",
+      "name": "ヒトカゲ",
+      "image": "pokepoke-extra/B2b/B2b-012.webp"
+    },
+    {
+      "id": "B2b-013",
+      "name": "リザード",
+      "image": "pokepoke-extra/B2b/B2b-013.webp"
+    },
+    {
+      "id": "B2b-014",
+      "name": "メガリザードンXex",
+      "image": "pokepoke-extra/B2b/B2b-014.webp"
+    },
+    {
+      "id": "B2b-015",
+      "name": "ポニータ",
+      "image": "pokepoke-extra/B2b/B2b-015.webp"
+    },
+    {
+      "id": "B2b-016",
+      "name": "ギャロップ",
+      "image": "pokepoke-extra/B2b/B2b-016.webp"
+    },
+    {
+      "id": "B2b-017",
+      "name": "ブーバー",
+      "image": "pokepoke-extra/B2b/B2b-017.webp"
+    },
+    {
+      "id": "B2b-018",
+      "name": "ブーバーン",
+      "image": "pokepoke-extra/B2b/B2b-018.webp"
+    },
+    {
+      "id": "B2b-019",
+      "name": "パルデアケンタロス",
+      "image": "pokepoke-extra/B2b/B2b-019.webp"
+    },
+    {
+      "id": "B2b-020",
+      "name": "メガリザードンXex",
+      "image": "pokepoke-extra/B2b/B2b-020.webp"
+    },
+    {
+      "id": "B2b-021",
+      "name": "ヒトカゲ",
+      "image": "pokepoke-extra/B2b/B2b-021.webp"
+    },
+    {
+      "id": "B2b-022",
+      "name": "リザード",
+      "image": "pokepoke-extra/B2b/B2b-022.webp"
+    },
+    {
+      "id": "B2b-023",
+      "name": "ポニータ",
+      "image": "pokepoke-extra/B2b/B2b-023.webp"
+    },
+    {
+      "id": "B2b-024",
+      "name": "ギャロップ",
+      "image": "pokepoke-extra/B2b/B2b-024.webp"
+    },
+    {
+      "id": "B2b-025",
+      "name": "メガリザードンXex",
+      "image": "pokepoke-extra/B2b/B2b-025.webp"
+    },
+    {
+      "id": "B2b-026",
+      "name": "ヤドン",
+      "image": "pokepoke-extra/B2b/B2b-026.webp"
+    },
+    {
+      "id": "B2b-027",
+      "name": "メガヤドランex",
+      "image": "pokepoke-extra/B2b/B2b-027.webp"
+    },
+    {
+      "id": "B2b-028",
+      "name": "ラプラス",
+      "image": "pokepoke-extra/B2b/B2b-028.webp"
+    },
+    {
+      "id": "B2b-029",
+      "name": "ポッチャマ",
+      "image": "pokepoke-extra/B2b/B2b-029.webp"
+    },
+    {
+      "id": "B2b-030",
+      "name": "ポッタイシ",
+      "image": "pokepoke-extra/B2b/B2b-030.webp"
+    },
+    {
+      "id": "B2b-031",
+      "name": "エンペルト",
+      "image": "pokepoke-extra/B2b/B2b-031.webp"
+    },
+    {
+      "id": "B2b-032",
+      "name": "フィオネ",
+      "image": "pokepoke-extra/B2b/B2b-032.webp"
+    },
+    {
+      "id": "B2b-033",
+      "name": "ラプラス",
+      "image": "pokepoke-extra/B2b/B2b-033.webp"
+    },
+    {
+      "id": "B2b-034",
+      "name": "エンペルト",
+      "image": "pokepoke-extra/B2b/B2b-034.webp"
+    },
+    {
+      "id": "B2b-035",
+      "name": "メガヤドランex",
+      "image": "pokepoke-extra/B2b/B2b-035.webp"
+    },
+    {
+      "id": "B2b-036",
+      "name": "メガヤドランex",
+      "image": "pokepoke-extra/B2b/B2b-036.webp"
+    },
+    {
+      "id": "B2b-037",
+      "name": "ヤドン",
+      "image": "pokepoke-extra/B2b/B2b-037.webp"
+    },
+    {
+      "id": "B2b-038",
+      "name": "メガヤドランex",
+      "image": "pokepoke-extra/B2b/B2b-038.webp"
+    },
+    {
+      "id": "B2b-039",
+      "name": "ピカチュウ",
+      "image": "pokepoke-extra/B2b/B2b-039.webp"
+    },
+    {
+      "id": "B2b-040",
+      "name": "ライチュウ",
+      "image": "pokepoke-extra/B2b/B2b-040.webp"
+    },
+    {
+      "id": "B2b-041",
+      "name": "エレブー",
+      "image": "pokepoke-extra/B2b/B2b-041.webp"
+    },
+    {
+      "id": "B2b-042",
+      "name": "エレキブル",
+      "image": "pokepoke-extra/B2b/B2b-042.webp"
+    },
+    {
+      "id": "B2b-043",
+      "name": "ラクライ",
+      "image": "pokepoke-extra/B2b/B2b-043.webp"
+    },
+    {
+      "id": "B2b-044",
+      "name": "メガライボルトex",
+      "image": "pokepoke-extra/B2b/B2b-044.webp"
+    },
+    {
+      "id": "B2b-045",
+      "name": "メガライボルトex",
+      "image": "pokepoke-extra/B2b/B2b-045.webp"
+    },
+    {
+      "id": "B2b-046",
+      "name": "メガライボルトex",
+      "image": "pokepoke-extra/B2b/B2b-046.webp"
+    },
+    {
+      "id": "B2b-047",
+      "name": "ピカチュウ",
+      "image": "pokepoke-extra/B2b/B2b-047.webp"
+    },
+    {
+      "id": "B2b-048",
+      "name": "ライチュウ",
+      "image": "pokepoke-extra/B2b/B2b-048.webp"
+    },
+    {
+      "id": "B2b-049",
+      "name": "ラクライ",
+      "image": "pokepoke-extra/B2b/B2b-049.webp"
+    },
+    {
+      "id": "B2b-050",
+      "name": "メガライボルトex",
+      "image": "pokepoke-extra/B2b/B2b-050.webp"
+    },
+    {
+      "id": "B2b-051",
+      "name": "スリープ",
+      "image": "pokepoke-extra/B2b/B2b-051.webp"
+    },
+    {
+      "id": "B2b-052",
+      "name": "スリーパー",
+      "image": "pokepoke-extra/B2b/B2b-052.webp"
+    },
+    {
+      "id": "B2b-053",
+      "name": "ミュウ",
+      "image": "pokepoke-extra/B2b/B2b-053.webp"
+    },
+    {
+      "id": "B2b-054",
+      "name": "バネブー",
+      "image": "pokepoke-extra/B2b/B2b-054.webp"
+    },
+    {
+      "id": "B2b-055",
+      "name": "ブーピッグ",
+      "image": "pokepoke-extra/B2b/B2b-055.webp"
+    },
+    {
+      "id": "B2b-056",
+      "name": "ミュウ",
+      "image": "pokepoke-extra/B2b/B2b-056.webp"
+    },
+    {
+      "id": "B2b-057",
+      "name": "ミュウ",
+      "image": "pokepoke-extra/B2b/B2b-057.webp"
+    },
+    {
+      "id": "B2b-058",
+      "name": "ディグダ",
+      "image": "pokepoke-extra/B2b/B2b-058.webp"
+    },
+    {
+      "id": "B2b-059",
+      "name": "ダグトリオ",
+      "image": "pokepoke-extra/B2b/B2b-059.webp"
+    },
+    {
+      "id": "B2b-060",
+      "name": "グラードン",
+      "image": "pokepoke-extra/B2b/B2b-060.webp"
+    },
+    {
+      "id": "B2b-061",
+      "name": "ルチャブル",
+      "image": "pokepoke-extra/B2b/B2b-061.webp"
+    },
+    {
+      "id": "B2b-062",
+      "name": "グラードン",
+      "image": "pokepoke-extra/B2b/B2b-062.webp"
+    },
+    {
+      "id": "B2b-063",
+      "name": "ルチャブル",
+      "image": "pokepoke-extra/B2b/B2b-063.webp"
+    },
+    {
+      "id": "B2b-064",
+      "name": "ゴース",
+      "image": "pokepoke-extra/B2b/B2b-064.webp"
+    },
+    {
+      "id": "B2b-065",
+      "name": "ゴースト",
+      "image": "pokepoke-extra/B2b/B2b-065.webp"
+    },
+    {
+      "id": "B2b-066",
+      "name": "メガゲンガーex",
+      "image": "pokepoke-extra/B2b/B2b-066.webp"
+    },
+    {
+      "id": "B2b-067",
+      "name": "ダークライ",
+      "image": "pokepoke-extra/B2b/B2b-067.webp"
+    },
+    {
+      "id": "B2b-068",
+      "name": "ヤブクロン",
+      "image": "pokepoke-extra/B2b/B2b-068.webp"
+    },
+    {
+      "id": "B2b-069",
+      "name": "ダストダス",
+      "image": "pokepoke-extra/B2b/B2b-069.webp"
+    },
+    {
+      "id": "B2b-070",
+      "name": "ゾロア",
+      "image": "pokepoke-extra/B2b/B2b-070.webp"
+    },
+    {
+      "id": "B2b-071",
+      "name": "ゾロアーク",
+      "image": "pokepoke-extra/B2b/B2b-071.webp"
+    },
+    {
+      "id": "B2b-072",
+      "name": "モルペコ",
+      "image": "pokepoke-extra/B2b/B2b-072.webp"
+    },
+    {
+      "id": "B2b-073",
+      "name": "モルペコ",
+      "image": "pokepoke-extra/B2b/B2b-073.webp"
+    },
+    {
+      "id": "B2b-074",
+      "name": "メガゲンガーex",
+      "image": "pokepoke-extra/B2b/B2b-074.webp"
+    },
+    {
+      "id": "B2b-075",
+      "name": "ゴース",
+      "image": "pokepoke-extra/B2b/B2b-075.webp"
+    },
+    {
+      "id": "B2b-076",
+      "name": "ゴースト",
+      "image": "pokepoke-extra/B2b/B2b-076.webp"
+    },
+    {
+      "id": "B2b-077",
+      "name": "ゾロア",
+      "image": "pokepoke-extra/B2b/B2b-077.webp"
+    },
+    {
+      "id": "B2b-078",
+      "name": "ゾロアーク",
+      "image": "pokepoke-extra/B2b/B2b-078.webp"
+    },
+    {
+      "id": "B2b-079",
+      "name": "メガゲンガーex",
+      "image": "pokepoke-extra/B2b/B2b-079.webp"
+    },
+    {
+      "id": "B2b-080",
+      "name": "フォレトス",
+      "image": "pokepoke-extra/B2b/B2b-080.webp"
+    },
+    {
+      "id": "B2b-081",
+      "name": "メガハッサムex",
+      "image": "pokepoke-extra/B2b/B2b-081.webp"
+    },
+    {
+      "id": "B2b-082",
+      "name": "カミツルギ",
+      "image": "pokepoke-extra/B2b/B2b-082.webp"
+    },
+    {
+      "id": "B2b-083",
+      "name": "ブロロン",
+      "image": "pokepoke-extra/B2b/B2b-083.webp"
+    },
+    {
+      "id": "B2b-084",
+      "name": "ブロロローム",
+      "image": "pokepoke-extra/B2b/B2b-084.webp"
+    },
+    {
+      "id": "B2b-085",
+      "name": "ブロロローム",
+      "image": "pokepoke-extra/B2b/B2b-085.webp"
+    },
+    {
+      "id": "B2b-086",
+      "name": "メガハッサムex",
+      "image": "pokepoke-extra/B2b/B2b-086.webp"
+    },
+    {
+      "id": "B2b-087",
+      "name": "フォレトス",
+      "image": "pokepoke-extra/B2b/B2b-087.webp"
+    },
+    {
+      "id": "B2b-088",
+      "name": "メガハッサムex",
+      "image": "pokepoke-extra/B2b/B2b-088.webp"
+    },
+    {
+      "id": "B2b-089",
+      "name": "ミニリュウ",
+      "image": "pokepoke-extra/B2b/B2b-089.webp"
+    },
+    {
+      "id": "B2b-090",
+      "name": "ハクリュー",
+      "image": "pokepoke-extra/B2b/B2b-090.webp"
+    },
+    {
+      "id": "B2b-091",
+      "name": "カイリュー",
+      "image": "pokepoke-extra/B2b/B2b-091.webp"
+    },
+    {
+      "id": "B2b-092",
+      "name": "キバゴ",
+      "image": "pokepoke-extra/B2b/B2b-092.webp"
+    },
+    {
+      "id": "B2b-093",
+      "name": "オノンド",
+      "image": "pokepoke-extra/B2b/B2b-093.webp"
+    },
+    {
+      "id": "B2b-094",
+      "name": "オノノクス",
+      "image": "pokepoke-extra/B2b/B2b-094.webp"
+    },
+    {
+      "id": "B2b-095",
+      "name": "クリムガン",
+      "image": "pokepoke-extra/B2b/B2b-095.webp"
+    },
+    {
+      "id": "B2b-096",
+      "name": "ミニリュウ",
+      "image": "pokepoke-extra/B2b/B2b-096.webp"
+    },
+    {
+      "id": "B2b-097",
+      "name": "ハクリュー",
+      "image": "pokepoke-extra/B2b/B2b-097.webp"
+    },
+    {
+      "id": "B2b-098",
+      "name": "カイリュー",
+      "image": "pokepoke-extra/B2b/B2b-098.webp"
+    },
+    {
+      "id": "B2b-099",
+      "name": "キバゴ",
+      "image": "pokepoke-extra/B2b/B2b-099.webp"
+    },
+    {
+      "id": "B2b-100",
+      "name": "オノンド",
+      "image": "pokepoke-extra/B2b/B2b-100.webp"
+    },
+    {
+      "id": "B2b-101",
+      "name": "オノノクス",
+      "image": "pokepoke-extra/B2b/B2b-101.webp"
+    },
+    {
+      "id": "B2b-102",
+      "name": "プリン",
+      "image": "pokepoke-extra/B2b/B2b-102.webp"
+    },
+    {
+      "id": "B2b-103",
+      "name": "プクリン",
+      "image": "pokepoke-extra/B2b/B2b-103.webp"
+    },
+    {
+      "id": "B2b-104",
+      "name": "ミルタンク",
+      "image": "pokepoke-extra/B2b/B2b-104.webp"
+    },
+    {
+      "id": "B2b-105",
+      "name": "ペラップ",
+      "image": "pokepoke-extra/B2b/B2b-105.webp"
+    },
+    {
+      "id": "B2b-106",
+      "name": "チラーミィ",
+      "image": "pokepoke-extra/B2b/B2b-106.webp"
+    },
+    {
+      "id": "B2b-107",
+      "name": "チラチーノ",
+      "image": "pokepoke-extra/B2b/B2b-107.webp"
+    },
+    {
+      "id": "B2b-108",
+      "name": "トリミアン",
+      "image": "pokepoke-extra/B2b/B2b-108.webp"
+    },
+    {
+      "id": "B2b-109",
+      "name": "ミルタンク",
+      "image": "pokepoke-extra/B2b/B2b-109.webp"
+    },
+    {
+      "id": "B2b-110",
+      "name": "いじわるレター",
+      "image": "pokepoke-extra/B2b/B2b-110.webp"
+    },
+    {
+      "id": "B2b-111",
+      "name": "メンテナンス",
+      "image": "pokepoke-extra/B2b/B2b-111.webp"
+    },
+    {
+      "id": "B2b-112",
+      "name": "アイリス",
+      "image": "pokepoke-extra/B2b/B2b-112.webp"
+    },
+    {
+      "id": "B2b-113",
+      "name": "カルム",
+      "image": "pokepoke-extra/B2b/B2b-113.webp"
+    },
+    {
+      "id": "B2b-114",
+      "name": "アイリス",
+      "image": "pokepoke-extra/B2b/B2b-114.webp"
+    },
+    {
+      "id": "B2b-115",
+      "name": "カルム",
+      "image": "pokepoke-extra/B2b/B2b-115.webp"
+    },
+    {
+      "id": "B2b-116",
+      "name": "メタルコアバリア",
+      "image": "pokepoke-extra/B2b/B2b-116.webp"
+    },
+    {
+      "id": "B2b-117",
+      "name": "ハイキングコース",
+      "image": "pokepoke-extra/B2b/B2b-117.webp"
+    }
+  ]
+}

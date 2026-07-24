@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ポケポケ 対戦メモ・ランク推移ツール | yamamu</title>
+<meta name="description" content="ポケポケ（Pokémon TCG Pocket）の対戦で相手のデッキ・使われたカード・勝敗を記録し、ランクポイントの推移をグラフで可視化するツール。" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;500;700;800;900&family=Russo+One&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+<!-- クラウド同期(任意): Firebase設定を入れた時だけ有効になる -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<style>
+:root{
+  --bg-cream:#fdf6e3; --bg-white:#fff; --bg-blue:#e0f2fe; --bg-yellow:#fef9c3; --bg-rose:#ffe4e6;
+  --tcg-red:#ee1515; --tcg-red-2:#c8102e; --tcg-blue:#2563eb; --tcg-blue-2:#1e40af;
+  --tcg-yellow:#ffcc00; --tcg-amber:#f59e0b;
+  --gold-1:#fde68a; --gold-2:#f59e0b; --gold-3:#b45309;
+  --gold-shine:linear-gradient(135deg,#fef3c7 0%,#fde68a 18%,#f59e0b 45%,#fde68a 72%,#fef3c7 100%);
+  --ink-1:#1f2937; --ink-2:#4b5563; --ink-3:#6b7280; --ink-4:#9ca3af;
+  --line:rgba(0,0,0,.08); --line-2:rgba(0,0,0,.14);
+  --shadow-card:0 4px 12px rgba(15,23,42,.08),0 1px 2px rgba(15,23,42,.06);
+  --shadow-pop:0 18px 40px -16px rgba(15,23,42,.35),0 6px 16px -8px rgba(15,23,42,.18);
+  --win:#16a34a; --lose:#dc2626; --draw:#6b7280;
+  --r-sm:8px; --r-md:14px; --r-lg:22px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",system-ui,sans-serif;
+  color:var(--ink-1); background:var(--bg-cream);
+  background-image:
+    radial-gradient(circle at 12% 8%,rgba(255,204,0,.10),transparent 28%),
+    radial-gradient(circle at 88% 22%,rgba(37,99,235,.08),transparent 30%),
+    radial-gradient(circle at 22% 92%,rgba(238,21,21,.08),transparent 32%);
+  background-attachment:fixed;
+  font-size:15px; line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.tile-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.10;
+  background-image:
+    repeating-linear-gradient(45deg,rgba(37,99,235,.18) 0 1px,transparent 1px 14px),
+    repeating-linear-gradient(-45deg,rgba(238,21,21,.16) 0 1px,transparent 1px 14px);
+  mask-image:radial-gradient(ellipse at 50% 30%,#000 30%,transparent 78%);
+}
+.shell{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:24px 20px 80px}
+
+/* ===== Header ===== */
+header.hero{
+  display:flex; flex-wrap:wrap; align-items:center; gap:16px;
+  padding:18px 22px; border-radius:var(--r-lg);
+  background:var(--gold-shine);
+  border:2px solid var(--gold-3);
+  box-shadow:var(--shadow-pop);
+  margin-bottom:18px;
+}
+header.hero h1{
+  font-family:"Russo One",sans-serif; font-size:24px; margin:0;
+  color:var(--tcg-red-2); letter-spacing:.5px;
+  text-shadow:0 1px 0 #fff;
+}
+header.hero .sub{color:var(--ink-2); font-size:12px; margin-top:2px}
+header.hero .spacer{flex:1}
+.rank-pill{
+  display:flex; align-items:center; gap:10px;
+  padding:10px 16px; border-radius:999px;
+  background:#fff; border:2px solid var(--tcg-blue);
+  box-shadow:var(--shadow-card);
+}
+.rank-pill .label{font-size:11px; color:var(--ink-3); font-weight:700; letter-spacing:.5px}
+.rank-pill .val{font-family:"Bebas Neue",sans-serif; font-size:30px; line-height:1; color:var(--tcg-blue-2)}
+
+/* ===== Common ===== */
+.card{
+  background:#fff; border:1px solid var(--line-2); border-radius:var(--r-md);
+  box-shadow:var(--shadow-card); padding:18px; margin-bottom:16px;
+}
+.card h2{font-size:16px; margin:0 0 14px; display:flex; align-items:center; gap:8px}
+.card h2::before{content:""; display:inline-block; width:6px; height:18px; border-radius:3px; background:var(--tcg-red)}
+.row{display:flex; gap:12px; flex-wrap:wrap}
+.col{flex:1; min-width:200px}
+
+label.fld{display:block; margin-bottom:10px}
+label.fld > span{display:block; font-size:12px; color:var(--ink-3); font-weight:700; margin-bottom:4px}
+input[type=text], input[type=number], input[type=date], textarea, select{
+  width:100%; padding:8px 10px; border:1px solid var(--line-2); border-radius:var(--r-sm);
+  font:inherit; background:#fff; color:var(--ink-1);
+}
+textarea{min-height:64px; resize:vertical}
+input:focus, textarea:focus, select:focus{outline:2px solid var(--tcg-blue); outline-offset:1px}
+
+button, .btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  padding:8px 14px; border-radius:var(--r-sm); border:1px solid var(--line-2);
+  background:#fff; cursor:pointer; font:inherit; font-weight:700;
+  transition:transform .08s, box-shadow .15s;
+}
+button:hover, .btn:hover{box-shadow:var(--shadow-card)}
+button:active{transform:translateY(1px)}
+.btn-primary{background:var(--tcg-red); color:#fff; border-color:var(--tcg-red-2)}
+.btn-primary:hover{background:var(--tcg-red-2)}
+.btn-blue{background:var(--tcg-blue); color:#fff; border-color:var(--tcg-blue-2)}
+.btn-blue:hover{background:var(--tcg-blue-2)}
+.btn-ghost{background:transparent}
+.btn-sm{padding:4px 10px; font-size:12px}
+.btn-danger{background:#fee2e2; color:var(--tcg-red-2); border-color:#fca5a5}
+.btn-danger:hover{background:#fecaca}
+
+/* ===== Result chips ===== */
+.result-chips{display:flex; gap:8px; flex-wrap:wrap}
+.result-chips input{display:none}
+.result-chips label{
+  flex:1; min-width:90px; text-align:center; padding:10px 12px;
+  border:2px solid var(--line-2); border-radius:var(--r-sm);
+  cursor:pointer; font-weight:800; user-select:none;
+}
+.result-chips input[value=win]:checked + label{border-color:var(--win); background:rgba(22,163,74,.12); color:var(--win)}
+.result-chips input[value=lose]:checked + label{border-color:var(--lose); background:rgba(220,38,38,.10); color:var(--lose)}
+.result-chips input[value=draw]:checked + label{border-color:var(--draw); background:rgba(107,114,128,.10); color:var(--draw)}
+
+/* ===== Card chips ===== */
+.picked-cards{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; min-height:30px}
+.picked-card{
+  display:flex; align-items:center; gap:6px; padding:4px 6px 4px 4px;
+  border:1px solid var(--line-2); border-radius:999px; background:#fff;
+}
+.picked-card img{width:28px; height:40px; object-fit:cover; border-radius:4px; background:#eee}
+.picked-card .pname{font-size:12px; max-width:130px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.picked-card .cnt-ctrl{display:inline-flex; align-items:center; gap:2px}
+.picked-card .cnt-ctrl button{padding:0 6px; font-size:12px; min-width:22px; height:22px; border-radius:6px}
+.picked-card .pcnt{font-weight:800; font-size:13px; min-width:14px; text-align:center}
+.picked-card .rm{background:transparent; border:none; color:var(--lose); padding:0 4px; cursor:pointer; font-size:14px}
+
+/* ===== Match list ===== */
+.match-list{display:flex; flex-direction:column; gap:10px}
+.match-row{
+  display:grid; grid-template-columns:auto 1fr auto auto; gap:12px; align-items:center;
+  padding:12px 14px; border:1px solid var(--line-2); border-radius:var(--r-md); background:#fff;
+}
+.match-row .res{
+  width:42px; height:42px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  font-family:"Russo One",sans-serif; font-size:18px; color:#fff;
+}
+.match-row .res.win{background:var(--win)}
+.match-row .res.lose{background:var(--lose)}
+.match-row .res.draw{background:var(--draw)}
+.match-row .meta{display:flex; flex-direction:column; gap:2px; min-width:0}
+.match-row .meta .top{display:flex; gap:8px; align-items:baseline; flex-wrap:wrap}
+.match-row .meta .deck{font-weight:800; color:var(--ink-1)}
+.match-row .meta .player{color:var(--ink-3); font-size:13px}
+.match-row .meta .dt{color:var(--ink-4); font-size:11px}
+.match-row .meta .memo{color:var(--ink-2); font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.match-row .pts{font-family:"Bebas Neue",sans-serif; font-size:22px; line-height:1}
+.match-row .pts.plus{color:var(--win)}
+.match-row .pts.minus{color:var(--lose)}
+.match-row .actions{display:flex; gap:6px}
+.match-cards{display:flex; flex-wrap:wrap; gap:4px; margin-top:6px}
+.match-cards img{width:28px; height:40px; object-fit:cover; border-radius:3px; border:1px solid var(--line)}
+.match-detail{grid-column:1 / -1; padding-top:8px; border-top:1px dashed var(--line-2); margin-top:4px; display:none}
+.match-row.open .match-detail{display:block}
+.match-row.open{box-shadow:var(--shadow-card)}
+
+/* ===== Modal (card picker) ===== */
+.modal-backdrop{
+  position:fixed; inset:0; background:rgba(15,23,42,.55); z-index:50;
+  display:none; align-items:center; justify-content:center; padding:16px;
+}
+.modal-backdrop.open{display:flex}
+.modal{
+  background:#fff; border-radius:var(--r-lg); width:min(960px,100%); max-height:88vh;
+  display:flex; flex-direction:column; overflow:hidden; box-shadow:var(--shadow-pop);
+}
+.modal header{
+  padding:14px 18px; border-bottom:1px solid var(--line-2);
+  display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+}
+.modal header h3{margin:0; font-size:16px; flex:1}
+.modal header input[type=text]{max-width:260px}
+.modal header select{max-width:180px}
+.modal .body{padding:14px 18px; overflow:auto}
+.modal .footer{padding:12px 18px; border-top:1px solid var(--line-2); display:flex; gap:8px; justify-content:flex-end}
+.card-grid{
+  display:grid; gap:8px;
+  grid-template-columns:repeat(auto-fill,minmax(96px,1fr));
+}
+.card-tile{
+  position:relative; border:2px solid var(--line-2); border-radius:10px; padding:4px;
+  background:#fff; cursor:pointer; transition:transform .08s, border-color .15s;
+}
+.card-tile:hover{transform:translateY(-2px); border-color:var(--tcg-blue)}
+.card-tile img{width:100%; aspect-ratio:734/1024; object-fit:cover; border-radius:6px; background:#eee; display:block}
+.card-tile .nm{font-size:10px; line-height:1.2; margin-top:4px; color:var(--ink-2); text-align:center; word-break:break-word}
+.card-tile .badge{
+  position:absolute; top:4px; right:4px;
+  background:var(--tcg-blue); color:#fff; border-radius:999px; min-width:22px; height:22px;
+  display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800;
+  box-shadow:0 2px 6px rgba(0,0,0,.3);
+}
+.card-tile.selected{border-color:var(--tcg-red)}
+
+/* ===== Settings panel ===== */
+.settings-row{display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end}
+.settings-row .fld{flex:1; min-width:120px}
+
+/* ===== Chart ===== */
+.chart-wrap{position:relative; height:280px}
+.deck-tabs{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px}
+.deck-tab{
+  padding:6px 14px; border-radius:999px; border:2px solid var(--line-2);
+  background:#fff; cursor:pointer; font-weight:700; font-size:13px; user-select:none;
+  transition:border-color .15s, background .15s;
+}
+.deck-tab:hover{border-color:var(--tcg-blue)}
+.deck-tab.active{border-color:var(--tcg-blue); background:rgba(37,99,235,.10); color:var(--tcg-blue-2)}
+.deck-tab .wl{font-size:11px; color:var(--ink-3); font-weight:400; margin-left:4px}
+.chart-stats{
+  display:flex; gap:14px; flex-wrap:wrap; align-items:baseline;
+  margin-bottom:10px; font-size:13px; color:var(--ink-2);
+}
+.chart-stats .big{font-family:"Bebas Neue",sans-serif; font-size:26px; color:var(--ink-1)}
+.chart-stats .wr{font-weight:800}
+.chart-stats .wr.good{color:var(--win)}
+.chart-stats .wr.bad{color:var(--lose)}
+
+/* ===== Quick record ===== */
+.quick-btns{display:flex; gap:10px; flex-wrap:wrap}
+.quick-btn{
+  flex:1; min-width:110px; padding:16px 12px; font-size:17px; font-weight:900;
+  border-radius:var(--r-md); border:2px solid var(--line-2); cursor:pointer;
+  font-family:inherit; transition:transform .08s, box-shadow .15s;
+}
+.quick-btn:active{transform:translateY(2px)}
+.quick-btn.win{background:rgba(22,163,74,.12); border-color:var(--win); color:var(--win)}
+.quick-btn.win:hover{background:rgba(22,163,74,.2)}
+.quick-btn.lose{background:rgba(220,38,38,.10); border-color:var(--lose); color:var(--lose)}
+.quick-btn.lose:hover{background:rgba(220,38,38,.18)}
+.quick-btn.draw{background:rgba(107,114,128,.10); border-color:var(--draw); color:var(--draw)}
+.streak-badge{
+  display:inline-flex; align-items:center; gap:4px; padding:3px 10px; border-radius:999px;
+  background:linear-gradient(135deg,#fff7ed,#ffedd5); border:1px solid var(--tcg-amber);
+  color:#c2410c; font-size:12px; font-weight:800;
+}
+.rank-name{font-size:11px; color:var(--ink-2); font-weight:700; margin-top:2px}
+
+/* ===== Cloud sync ===== */
+.sync-box{display:inline-flex; align-items:center; gap:8px}
+.sync-btn{
+  display:inline-flex; align-items:center; gap:6px; padding:7px 14px; border-radius:999px;
+  border:2px solid var(--tcg-blue); background:#fff; color:var(--tcg-blue-2);
+  font-size:12px; font-weight:800; cursor:pointer;
+}
+.sync-btn:hover{background:rgba(37,99,235,.08)}
+.sync-user{display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--ink-2)}
+.sync-user img{width:24px; height:24px; border-radius:50%; background:#eee}
+.sync-state{font-size:11px; font-weight:700}
+.sync-state.ok{color:var(--win)}
+.sync-state.busy{color:var(--tcg-amber)}
+.sync-state.err{color:var(--lose)}
+.setup-steps{font-size:12px; color:var(--ink-2); line-height:1.9; margin:8px 0 0; padding-left:20px}
+.setup-steps code{background:var(--bg-yellow); padding:1px 5px; border-radius:4px; font-size:11px}
+
+/* ===== Language switch ===== */
+.lang-switch{display:inline-flex; border:2px solid var(--tcg-blue); border-radius:999px; overflow:hidden; background:#fff}
+.lang-switch button{
+  border:none; border-radius:0; background:transparent; padding:6px 12px;
+  font-size:12px; font-weight:800; color:var(--ink-3); cursor:pointer;
+}
+.lang-switch button:hover{background:rgba(37,99,235,.08); box-shadow:none}
+.lang-switch button.active{background:var(--tcg-blue); color:#fff}
+
+/* ===== Empty ===== */
+.empty{
+  text-align:center; padding:30px 16px; color:var(--ink-3);
+  border:2px dashed var(--line-2); border-radius:var(--r-md);
+}
+
+/* ===== Toast ===== */
+.toast{
+  position:fixed; left:50%; bottom:24px; transform:translateX(-50%);
+  background:var(--ink-1); color:#fff; padding:10px 18px; border-radius:999px;
+  box-shadow:var(--shadow-pop); z-index:100; opacity:0; pointer-events:none;
+  transition:opacity .25s, transform .25s;
+  font-weight:700; font-size:13px;
+}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(-4px)}
+
+/* ===== Loader ===== */
+.loader{display:inline-block; width:14px; height:14px; border:2px solid var(--line-2); border-top-color:var(--tcg-blue); border-radius:50%; animation:spin .8s linear infinite; vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===== Responsive ===== */
+@media (max-width:760px){
+  .shell{padding:14px 12px 60px}
+  header.hero{padding:14px 14px}
+  header.hero h1{font-size:18px}
+  .rank-pill .val{font-size:24px}
+  .card{padding:14px}
+  .match-row{grid-template-columns:auto 1fr auto; grid-template-rows:auto auto}
+  .match-row .actions{grid-column:1 / -1; justify-content:flex-end}
+  .card-grid{grid-template-columns:repeat(auto-fill,minmax(76px,1fr))}
+  .card-tile .nm{font-size:9px}
+}
+
+/* ===== Footer note ===== */
+.foot{margin-top:24px; text-align:center; color:var(--ink-4); font-size:11px}
+.foot a{color:var(--ink-3)}
+</style>
+</head>
+<body>
+<div class="tile-bg"></div>
+<div class="shell">
+
+  <header class="hero">
+    <div>
+      <h1>ポケポケ 対戦メモ &amp; ランク推移</h1>
+      <div class="sub">相手のデッキ・出てきたカード・勝敗を記録 / ランクポイントをグラフ化</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="sync-box" id="syncBox" style="display:none">
+      <button class="sync-btn" id="loginBtn">🔗 Googleでログイン</button>
+      <span class="sync-user" id="syncUser" style="display:none">
+        <img id="syncAvatar" alt="" referrerpolicy="no-referrer">
+        <span>
+          <span id="syncEmail"></span>
+          <span class="sync-state" id="syncState"></span>
+        </span>
+        <button class="btn-sm btn-ghost" id="logoutBtn">ログアウト</button>
+      </span>
+    </div>
+    <div class="lang-switch" id="langSwitch" title="カード画像の言語">
+      <button data-lang="ja">日本語</button><button data-lang="en">English</button>
+    </div>
+    <span class="streak-badge" id="streakBadge" style="display:none">🔥 <span id="streakCount"></span>連勝中</span>
+    <div class="rank-pill">
+      <div>
+        <div class="label">CURRENT POINTS</div>
+        <div class="val" id="rankDisplay">0</div>
+        <div class="rank-name" id="rankName"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Quick record ===== -->
+  <section class="card">
+    <h2>⚡ クイック記録</h2>
+    <div class="row" style="margin-bottom:10px">
+      <label class="fld col"><span>使用デッキ（前回のデッキを自動引き継ぎ）</span><input type="text" id="quickMyDeck" placeholder="例: アルクロベビィ" list="myDeckList"></label>
+    </div>
+    <div class="quick-btns">
+      <button class="quick-btn win" id="quickWinBtn">勝ち</button>
+      <button class="quick-btn lose" id="quickLoseBtn">負け</button>
+      <button class="quick-btn draw" id="quickDrawBtn">引き分け</button>
+    </div>
+    <div style="font-size:11px;color:var(--ink-3);margin-top:8px">日時は自動で現在時刻。相手デッキやカードも記録したい時は下の「新しい対戦を記録」から。</div>
+  </section>
+
+  <!-- ===== Slump graph ===== -->
+  <section class="card">
+    <h2>ランクポイント推移</h2>
+    <div class="deck-tabs" id="deckTabs"></div>
+    <div class="chart-stats" id="chartStats"></div>
+    <div class="chart-wrap"><canvas id="slumpChart"></canvas></div>
+  </section>
+
+  <!-- ===== Settings ===== -->
+  <section class="card">
+    <h2>ポイント設定</h2>
+    <div class="settings-row" style="margin-bottom:10px">
+      <label class="fld" style="max-width:340px"><span>計算モード</span>
+        <select id="setMode">
+          <option value="auto">公式ルール（ランク連動 + 連勝ボーナス）</option>
+          <option value="manual">手動設定</option>
+        </select>
+      </label>
+      <label class="fld"><span>現在のポイント (初期値)</span><input type="number" id="setStartPts" value="0"></label>
+      <button class="btn-blue" id="saveSettingsBtn">設定を保存</button>
+    </div>
+    <div class="settings-row" id="manualPtsRow" style="display:none">
+      <label class="fld"><span>勝ち (+)</span><input type="number" id="setWin" value="15"></label>
+      <label class="fld"><span>負け (−)</span><input type="number" id="setLose" value="-12"></label>
+      <label class="fld"><span>引き分け (±)</span><input type="number" id="setDraw" value="0"></label>
+    </div>
+    <div class="sub" id="autoModeNote" style="font-size:11px;color:var(--ink-3);margin-top:6px;line-height:1.8">
+      公式ルール: 勝ち<b>+10pt</b>／連勝ボーナス <b>2連勝+3・3連勝+6・4連勝+9・5連勝以上+12</b>／
+      負けはランク帯で変動（ビギナー<b>0</b>・モンスターボール／スーパーボール<b>−5</b>・ハイパーボール<b>−7</b>・マスターボール<b>−10</b>）／
+      ボール帯の下限を下回る降格なし（降格保護）。
+    </div>
+    <div class="sub" style="font-size:11px;color:var(--ink-3);margin-top:6px">※「現在のポイント」は履歴がない場合の基準値。履歴がある場合は最新の対戦後の値が反映されます。</div>
+  </section>
+
+  <!-- ===== New match ===== -->
+  <section class="card">
+    <h2 id="matchFormTitle">新しい対戦を記録</h2>
+    <div class="row">
+      <label class="fld col"><span>自分の使用デッキ</span><input type="text" id="mMyDeck" placeholder="例: アルクロベビィ" list="myDeckList"></label>
+      <label class="fld col"><span>相手プレイヤー名</span><input type="text" id="mPlayer" placeholder="例: あいる" list="playerList"></label>
+      <label class="fld col"><span>相手デッキ名</span><input type="text" id="mDeck" placeholder="例: リザードンEX デッキ" list="deckList"></label>
+    </div>
+    <details style="margin-bottom:10px">
+      <summary style="font-size:12px;color:var(--ink-3);cursor:pointer;font-weight:700">対戦日時（未変更なら保存時に自動で現在時刻）</summary>
+      <label class="fld" style="max-width:260px;margin-top:8px"><input type="datetime-local" id="mDate"></label>
+    </details>
+    <datalist id="playerList"></datalist>
+    <datalist id="deckList"></datalist>
+    <datalist id="myDeckList"></datalist>
+
+    <label class="fld"><span>勝敗</span>
+      <div class="result-chips" id="resultChips">
+        <input type="radio" name="result" value="win" id="rWin" checked><label for="rWin">勝ち</label>
+        <input type="radio" name="result" value="lose" id="rLose"><label for="rLose">負け</label>
+        <input type="radio" name="result" value="draw" id="rDraw"><label for="rDraw">引き分け</label>
+      </div>
+    </label>
+
+    <label class="fld"><span>出てきたカード（クリックで追加・枚数調整）</span>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px">
+        <button class="btn-blue" id="openPickerBtn">＋ カードを選ぶ</button>
+        <span style="color:var(--ink-3);font-size:12px" id="pickedCount">0種</span>
+      </div>
+      <div class="picked-cards" id="pickedCards"></div>
+    </label>
+
+    <label class="fld"><span>メモ</span>
+      <textarea id="mMemo" placeholder="例: 後攻スタート、エネルギーが片寄った。サンダーEXきつかった。"></textarea>
+    </label>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+      <button class="btn-ghost" id="cancelEditBtn" style="display:none">キャンセル</button>
+      <button class="btn-primary" id="saveMatchBtn">この対戦を保存</button>
+    </div>
+  </section>
+
+  <!-- ===== History ===== -->
+  <section class="card">
+    <h2>対戦履歴 <span style="font-size:12px;color:var(--ink-3);font-weight:400;margin-left:8px" id="historyCount"></span></h2>
+    <div class="row" style="margin-bottom:10px">
+      <label class="fld col"><span>絞り込み (デッキ/プレイヤー/メモ)</span><input type="text" id="filterText" placeholder="検索キーワード"></label>
+      <label class="fld" style="min-width:150px"><span>使用デッキ</span>
+        <select id="filterMyDeck"><option value="">すべて</option></select>
+      </label>
+      <label class="fld" style="min-width:140px"><span>勝敗</span>
+        <select id="filterResult"><option value="">すべて</option><option value="win">勝ち</option><option value="lose">負け</option><option value="draw">引き分け</option></select>
+      </label>
+    </div>
+    <div class="match-list" id="matchList"></div>
+  </section>
+
+  <!-- ===== Data ===== -->
+  <section class="card">
+    <h2>データ管理</h2>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button id="reloadDbBtn">🔄 カードDBを更新</button>
+      <button id="exportBtn">⬇ JSONエクスポート</button>
+      <label class="btn" style="cursor:pointer">⬆ JSONインポート<input type="file" id="importFile" accept="application/json" style="display:none"></label>
+      <button class="btn-danger" id="resetBtn">全データを消去</button>
+      <span id="dbStatus" style="margin-left:auto;color:var(--ink-3);font-size:12px;align-self:center"></span>
+    </div>
+  </section>
+
+  <!-- ===== Cloud sync setup ===== -->
+  <section class="card">
+    <h2>☁️ クラウド同期（スマホ⇔PC）</h2>
+    <div id="syncConfigured" style="display:none">
+      <div style="font-size:13px;color:var(--ink-2);line-height:1.9">
+        ヘッダー右上の <b>「🔗 Googleでログイン」</b> を押すと、対戦記録がクラウドに保存されます。<br>
+        <b>スマホとPCで同じGoogleアカウントでログインすれば、記録が自動で同期</b>されます。<br>
+        ログインしない場合も、このブラウザの中だけで普通に使えます（その端末限定）。
+      </div>
+      <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn-sm" id="syncPushBtn">⬆ 今すぐクラウドへ保存</button>
+        <button class="btn-sm" id="syncPullBtn">⬇ クラウドから取得</button>
+      </div>
+      <div style="font-size:11px;color:var(--ink-3);margin-top:10px;line-height:1.8">
+        ※ 保存されるのは<b>あなたが入力した対戦記録と設定だけ</b>です。データはGoogleアカウントのIDに紐づけて保存され、
+        <b>他の利用者や運営者が中身を閲覧・編集することはできません</b>（Firebaseのセキュリティルールで本人のみ許可）。<br>
+        ※ 記録を消したい場合は「全データを消去」を実行後、ログイン中に「⬆ 今すぐクラウドへ保存」を押してください。
+      </div>
+    </div>
+    <details id="syncSetup" style="margin-top:10px">
+      <summary style="cursor:pointer;font-weight:700;font-size:12px;color:var(--ink-3)">
+        上級者向け：自分のFirebaseプロジェクトを使う
+      </summary>
+      <div style="font-size:12px;color:var(--ink-2);line-height:1.8;margin-top:8px">
+        自分で用意したFirebase（Authentication[Google] + Firestore）に保存したい場合は、
+        <code>firebaseConfig</code> を貼り付けて保存してください。空にして保存すると既定に戻ります。
+      </div>
+      <label class="fld" style="margin-top:10px">
+        <textarea id="fbConfigInput" style="min-height:110px;font-size:11px" placeholder='{
+  apiKey: "AIza...",
+  authDomain: "xxx.firebaseapp.com",
+  projectId: "xxx",
+  appId: "1:123..."
+}'></textarea>
+      </label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn-blue" id="fbSaveCfgBtn">この設定を使う</button>
+        <button class="btn-sm btn-danger" id="syncClearCfgBtn">既定に戻す</button>
+      </div>
+    </details>
+  </section>
+
+  <div class="foot">
+    <a href="/">やまむー【yamamu】</a> ／ <a href="/pokepoke/">ポケポケ攻略Wiki</a> ／ <a href="/privacy.html">プライバシーポリシー</a> ／ <a href="/contact.html">お問い合わせ</a><br>
+    当ツールは個人が制作した非公式のファンツールです。株式会社ポケモンおよび関連会社とは一切関係ありません。<br>
+    掲載しているカード画像・名称の著作権は <b>© Nintendo / Creatures Inc. / GAME FREAK inc. / The Pokémon Company</b> に帰属します。
+    カードデータの一部は <a href="https://tcgdex.dev" target="_blank" rel="noopener">TCGdex</a> を利用しています。<br>
+    権利者の方で掲載に問題がある場合は、<a href="/contact.html">お問い合わせ</a>よりご連絡ください。速やかに対応いたします。
+  </div>
+</div>
+
+<!-- ===== Card picker modal ===== -->
+<div class="modal-backdrop" id="pickerModal">
+  <div class="modal">
+    <header>
+      <h3>カードを選ぶ</h3>
+      <input type="text" id="pickerSearch" placeholder="名前で検索 (リザードン / Charizard / A1-036)">
+      <select id="pickerSet"></select>
+      <button class="btn-ghost" id="pickerCloseBtn">閉じる</button>
+    </header>
+    <div class="body" id="pickerBody">
+      <div class="empty">読み込み中… <span class="loader"></span></div>
+    </div>
+    <div class="footer">
+      <span style="color:var(--ink-3);font-size:12px;margin-right:auto" id="pickerHint">クリックで追加 / 同じカードをもう一度クリックすると＋1</span>
+      <button class="btn-primary" id="pickerDoneBtn">完了</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   ポケポケ 対戦メモ・ランク推移ツール
+   - 単一HTML / localStorage / TCGdex APIカード画像
+   ============================================================ */
+
+const STORE_KEY = 'pokepoke-tracker-v1';
+const CARDS_KEY = 'pokepoke-cards-v3';   // v3: imageJa(日本語画像)付き
+const CARDS_META_KEY = 'pokepoke-cards-meta-v3';
+const POKEMON_NAMES_KEY = 'pokepoke-pokenames-v1';
+const LANG_KEY = 'pokepoke-card-lang';   // 'ja' | 'en'
+const JA_OVERRIDES_URL = 'pokepoke-extra/ja/overrides.json';
+
+let cardLang = localStorage.getItem(LANG_KEY) || 'ja';
+
+// 日本語版に置換済みのセットはここから除外する
+const SET_IDS = ['P-A','A1','A1a','A2','A2a','A2b','A3','A3a','A3b','A4','A4a','B1','B1a','B2'];
+// TCGdex未収録 or 日本語版ローカル画像で置換したセット
+const EXTRA_SETS = [
+  { id:'B2a', name:'パルデアワンダー', jsonUrl:'pokepoke-extra/B2a/cards.json' },
+  { id:'B2b', name:'シャイニングメガ', jsonUrl:'pokepoke-extra/B2b/cards.json' },
+  { id:'B2c', name:'波動ビート',     jsonUrl:'pokepoke-extra/B2c/cards.json' },
+  { id:'B3',  name:'進撃パラドックス', jsonUrl:'pokepoke-extra/B3/cards.json' },
+  { id:'B3a', name:'ミラクルデイズ',   jsonUrl:'pokepoke-extra/B3a/cards.json' },
+];
+
+/* ---- 日英カード名マッピング ----
+ * ポケモン名は sindresorhus/pokemon のja/en配列(図鑑番号順)から動的に構築。
+ * その他(トレーナー/グッズ/サポート/接頭接尾辞)は下記の手動辞書で補完。
+ */
+const NAME_PREFIX_JA = {
+  'Mega ': 'メガ',
+  'Dark ': 'あく',
+  'Light ': 'ひかり',
+  'Shining ': 'ひかる',
+  'Radiant ': 'かがやく',
+  'Crystal ': 'クリスタル',
+};
+const NAME_SUFFIX_JA = {
+  ' ex': 'ex', ' EX': 'EX', ' V': 'V', ' VMAX': 'VMAX', ' VSTAR': 'VSTAR',
+  ' GX': 'GX', ' Y': 'Y', ' X': 'X',
+};
+// トレーナー・グッズ・サポート等(ポケモン以外)。
+const TRAINER_JA = {
+  // === サポート(人物) ===
+  "Professor's Research":"博士の研究",
+  "Erika":"エリカ","Misty":"カスミ","Blaine":"カツラ","Koga":"キョウ","Giovanni":"サカキ",
+  "Sabrina":"ナツメ","Brock":"タケシ","Lt. Surge":"マチス",
+  "Blue":"ブルー","Red":"レッド","Green":"グリーン","Leaf":"リーフ",
+  "Cyrus":"アカギ","Volkner":"デンジ","Cynthia":"シロナ","Dawn":"ヒカリ","Barry":"ジュン",
+  "Mars":"マーズ","Saturn":"サターン","Jupiter":"ジュピター",
+  "Iono":"ナンジャモ","Penny":"ペパー","Arven":"ペパー","Larry":"ハイダイ",
+  "Sada":"サダ","Turo":"トウロ",
+  "Lillie":"リーリエ","Hau":"ハウ","Acerola":"アセロラ","Mallow":"マオ","Lana":"スイレン","Kiawe":"カキ",
+  "Sophocles":"マーマネ","Olivia":"ライチ","Ilima":"イリマ","Gladion":"グラジオ","Lusamine":"ルザミーネ",
+  "Guzma":"グズマ","Looker":"ハンサム",
+  "Adaman":"アダマン","Irida":"ペリラ","Celestic Town Elder":"テンガンざんちょうじょうしゅうらくのろうじょ",
+  "Budding Expeditioner":"しんじんちょうさたいいん",
+  "Will":"イツキ","Lyra":"コトネ","Silver":"シルバー","Whitney":"アカネ","Morty":"マツバ","Jasmine":"ミカン",
+  "May":"ハルカ","Fantina":"メリッサ","Marlon":"シズイ","Hala":"ハラ","Lisia":"リラ","Copycat":"ものまねむすめ",
+  "Clemont":"シトロン","Serena":"セレナ","Diantha":"カルネ","Piers":"ネズ",
+  "Fisher":"つりびと","Hiker":"やまおとこ","Juggler":"ジャグラー","Sightseer":"かんこうきゃく",
+  "Traveling Merchant":"ぎょうしょうにん","Team Rocket Grunt":"ロケットだんのしたっぱ",
+  "Team Galactic Grunt":"ギンガだんのしたっぱ","Pokémon Center Lady":"ポケモンセンターのおねえさん",
+  "Sabrina's Suggestion":"ナツメのレッスン","Misty's Special Lure":"カスミのまんねんおさかな",
+  "Clemont's Backpack":"シトロンのリュック",
+
+  // === アイテム/グッズ ===
+  "Potion":"きずぐすり","Super Potion":"すごいきずぐすり","Hyper Potion":"ハイパーポーション",
+  "Poké Ball":"モンスターボール","Great Ball":"スーパーボール","Pokédex":"ポケモンずかん",
+  "X Speed":"スピーダー","Switch":"ポケモンいれかえ","Pokémon Communication":"ポケモンつうしん",
+  "Pokémon Flute":"ポケモンのふえ","Rare Candy":"ふしぎなアメ","Hand Scope":"ハンドスコープ",
+  "Red Card":"レッドカード","Repel":"むしよけスプレー",
+  "Fishing Net":"あみ","Big Malasada":"ビッグマラサダ","Quick-Grow Extract":"ぐんぐんエキス",
+  "Hitting Hammer":"クラッシュハンマー","Squirt Bottle":"じょうろ","Prank Spinner":"イタズラスピナー",
+  "Electrical Cord":"でんきコード","Elemental Switch":"エレメントスイッチ",
+  "Memory Light":"きおくのともしび","Beast Wall":"ウルトラビースト・ウォール",
+
+  // === 化石 ===
+  "Mythical Slab":"げんしのいし","Old Amber":"ひみつのコハク",
+  "Helix Fossil":"かいのカセキ","Dome Fossil":"こうらのカセキ",
+  "Skull Fossil":"ずがいのカセキ","Armor Fossil":"たてのカセキ",
+  "Cover Fossil":"ふたのカセキ","Plume Fossil":"はねのカセキ",
+  "Jaw Fossil":"あごのカセキ","Sail Fossil":"ひれのカセキ",
+
+  // === ポケモンの道具(持たせ系) ===
+  "Leftovers":"たべのこし","Cape of Toughness":"ぼうぎょのマント",
+  "Giant Cape":"ジャイアントマント","Rocky Helmet":"ゴツゴツメット",
+  "Leaf Cape":"リーフのマント","Heavy Helmet":"おもいヘルメット",
+  "Poison Barb":"どくバリ","Sitrus Berry":"オボンのみ","Lum Berry":"ラムのみ",
+  "Protective Poncho":"まもりのポンチョ","Dark Pendant":"あくのペンダント",
+  "Lucky Ice Pop":"ラッキーアイスキャンディー","Lucky Mittens":"ラッキーミトン",
+  "Rescue Scarf":"きゅうじょスカーフ","Steel Apron":"メタルエプロン",
+  "Metal Core Barrier":"メタルコアバリア","Beastite":"ウルトラビーストの石",
+  "Inflatable Boat":"うきわボート",
+
+  // === スタジアム(場) ===
+  "Peculiar Plaza":"へんてこなひろば","Starting Plains":"はじまりのへいげん",
+  "Training Area":"トレーニングエリア","Flame Patch":"ほのおフィールド",
+
+  // === 特殊文字含むポケモン ===
+  "Nidoran♀":"ニドラン♀","Nidoran♂":"ニドラン♂","Flabébé":"フラベベ",
+};
+let pokeEn2Ja = {}; // 動的構築
+let pokeNameRegex = null;
+
+async function loadPokemonNames(){
+  try{
+    const cached = JSON.parse(localStorage.getItem(POKEMON_NAMES_KEY)||'null');
+    if(cached && cached.en && cached.ja){
+      buildPokeMap(cached.en, cached.ja);
+      return;
+    }
+  }catch(e){}
+  try{
+    const [enR, jaR] = await Promise.all([
+      fetch('https://raw.githubusercontent.com/sindresorhus/pokemon/main/data/en.json'),
+      fetch('https://raw.githubusercontent.com/sindresorhus/pokemon/main/data/ja.json'),
+    ]);
+    const en = await enR.json(), ja = await jaR.json();
+    localStorage.setItem(POKEMON_NAMES_KEY, JSON.stringify({en, ja}));
+    buildPokeMap(en, ja);
+  }catch(e){
+    console.warn('pokemon name fetch failed', e);
+  }
+}
+function buildPokeMap(en, ja){
+  pokeEn2Ja = {};
+  for(let i=0;i<en.length;i++){
+    if(ja[i]) pokeEn2Ja[en[i]] = ja[i];
+  }
+  // 長いものから優先一致させるため、長さ降順で正規表現に
+  const names = Object.keys(pokeEn2Ja).sort((a,b)=>b.length-a.length).map(escapeRegex);
+  pokeNameRegex = new RegExp('\\b(' + names.join('|') + ')\\b');
+}
+function escapeRegex(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+
+/* 英カード名 → 日本語名(可能なら) */
+function toJaName(enName){
+  if(!enName) return enName;
+  // 完全一致(トレーナー辞書)
+  if(TRAINER_JA[enName]) return TRAINER_JA[enName];
+  // 接頭辞・接尾辞を分離してコア名を抽出
+  let core = enName, prefix = '', suffix = '';
+  for(const k in NAME_PREFIX_JA){
+    if(core.startsWith(k)){ prefix = NAME_PREFIX_JA[k]; core = core.slice(k.length); break; }
+  }
+  for(const k in NAME_SUFFIX_JA){
+    if(core.endsWith(k)){ suffix = NAME_SUFFIX_JA[k]; core = core.slice(0, -k.length); break; }
+  }
+  // 残り部分にポケモン名が含まれるか
+  if(pokeNameRegex){
+    const m = core.match(pokeNameRegex);
+    if(m){
+      const ja = pokeEn2Ja[m[1]];
+      const rest = core.replace(m[1], '').replace(/\s+/g,'').trim();
+      return prefix + ja + rest + suffix;
+    }
+  }
+  // トレーナー辞書の部分一致(接尾辞なしでもう一度)
+  if(TRAINER_JA[core]) return prefix + TRAINER_JA[core] + suffix;
+  // ダメ → 英名のまま
+  return enName;
+}
+
+/* ---- 公式ランクマッチ仕様 (2026-07 B3bシーズン時点) ----
+ * 勝ち+10 / 連勝ボーナス 2連+3, 3連+6, 4連+9, 5連以上+12 (全ランク帯)
+ * 負け: ビギナー0, モンボ・スーパー-5, ハイパー-7, マスター-10
+ * ボール帯の下限を下回る降格なし(降格保護)
+ */
+const RANK_STEPS = [
+  {name:'ビギナー1', pts:0,    tier:'beginner'},
+  {name:'ビギナー2', pts:20,   tier:'beginner'},
+  {name:'ビギナー3', pts:50,   tier:'beginner'},
+  {name:'ビギナー4', pts:95,   tier:'beginner'},
+  {name:'モンスターボール1', pts:145, tier:'monster'},
+  {name:'モンスターボール2', pts:195, tier:'monster'},
+  {name:'モンスターボール3', pts:245, tier:'monster'},
+  {name:'モンスターボール4', pts:300, tier:'monster'},
+  {name:'スーパーボール1', pts:355, tier:'super'},
+  {name:'スーパーボール2', pts:420, tier:'super'},
+  {name:'スーパーボール3', pts:490, tier:'super'},
+  {name:'スーパーボール4', pts:600, tier:'super'},
+  {name:'ハイパーボール1', pts:710,  tier:'hyper'},
+  {name:'ハイパーボール2', pts:860,  tier:'hyper'},
+  {name:'ハイパーボール3', pts:1010, tier:'hyper'},
+  {name:'ハイパーボール4', pts:1225, tier:'hyper'},
+  {name:'マスターボール',  pts:1450, tier:'master'},
+];
+const TIER_LOSE = { beginner:0, monster:-5, super:-5, hyper:-7, master:-10 };
+const TIER_FLOORS = [0, 145, 355, 710, 1450]; // ボール帯下限(降格保護ライン)
+const STREAK_BONUS = [0, 0, 3, 6, 9, 12];     // index=連勝数(5以上は+12)
+
+function rankOf(pts){
+  let r = RANK_STEPS[0];
+  for(const s of RANK_STEPS){ if(pts >= s.pts) r = s; else break; }
+  return r;
+}
+function streakBonusOf(n){ return STREAK_BONUS[Math.min(n, 5)] || 0; }
+function tierFloorOf(pts){
+  let f = 0;
+  for(const t of TIER_FLOORS){ if(pts >= t) f = t; }
+  return f;
+}
+
+const DEFAULT_STATE = {
+  settings:{ pointMode:'auto', pointWin:15, pointLose:-12, pointDraw:0, startPts:0 },
+  matches:[],
+};
+
+let state = loadState();
+let cardDb = [];   // [{id, name, image, set, localId}]
+let cardIndex = {}; // id -> card
+let editingId = null;
+let pendingCards = []; // [{cardId, count}]
+let chart = null;
+
+/* ---------- Storage ---------- */
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return structuredClone(DEFAULT_STATE);
+    const parsed = JSON.parse(raw);
+    const merged = Object.assign(structuredClone(DEFAULT_STATE), parsed);
+    merged.settings = Object.assign(structuredClone(DEFAULT_STATE.settings), parsed.settings || {});
+    return merged;
+  }catch(e){
+    console.error('loadState failed', e);
+    return structuredClone(DEFAULT_STATE);
+  }
+}
+function saveState(){
+  localStorage.setItem(STORE_KEY, JSON.stringify(state));
+  if(typeof scheduleCloudPush === 'function') scheduleCloudPush();
+}
+
+/* ---------- Card DB ---------- */
+async function loadCardDb({force=false}={}){
+  if(!force){
+    try{
+      const raw = localStorage.getItem(CARDS_KEY);
+      if(raw){
+        cardDb = JSON.parse(raw);
+        rebuildIndex();
+        updateDbStatus();
+        return;
+      }
+    }catch(e){ console.warn(e) }
+  }
+  setDbStatus('カードDBを取得中… <span class="loader"></span>');
+  // タイムアウト付きfetch (外部API用)
+  const fetchT = (url, ms=6000) => Promise.race([
+    fetch(url),
+    new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')), ms))
+  ]);
+  try{
+    // 日本語画像オーバーライド(TCGdexセット用): {"B1a-001":"pokepoke-extra/ja/B1a-001.jpg",...}
+    let jaOv = {};
+    try{
+      const rj = await fetch(JA_OVERRIDES_URL);
+      if(rj.ok) jaOv = await rj.json();
+    }catch(e){ console.warn('ja overrides fetch failed', e); }
+    // Extra(同origin・ローカル) は必ず先に確実に取る
+    const extra = await Promise.all(EXTRA_SETS.map(async s=>{
+      try{
+        const r = await fetch(s.jsonUrl);
+        if(!r.ok) return [];
+        const j = await r.json();
+        return (j.cards||[]).map(c => ({
+          id:c.id, name:c.name, nameJa:c.name,
+          image:c.image, imageDirect:true,
+          set:s.id, localId:c.id.split('-').pop(),
+        }));
+      }catch(e){ console.warn('extra fetch failed', s.id, e); return []; }
+    }));
+    // TCGdex(外部API) 失敗しても落ちないように
+    const tcgdex = await Promise.all(SET_IDS.map(async sid=>{
+      try{
+        const r = await fetchT(`https://api.tcgdex.net/v2/en/sets/${sid}`, 6000);
+        if(!r.ok) return [];
+        const j = await r.json();
+        return (j.cards||[]).map(c => ({
+          id:c.id, name:c.name, nameJa:toJaName(c.name), image:c.image, set:sid, localId:c.localId,
+          imageJa: jaOv[c.id] || undefined,
+        }));
+      }catch(e){ return []; }
+    }));
+    const tcgFlat = tcgdex.flat(), extFlat = extra.flat();
+    // 英語画像が無くても日本語画像があれば採用(TCGdex側の画像欠番を救済)
+    cardDb = [...tcgFlat, ...extFlat].filter(c => c.image || c.imageJa);
+    if(cardDb.length){
+      localStorage.setItem(CARDS_KEY, JSON.stringify(cardDb));
+      localStorage.setItem(CARDS_META_KEY, JSON.stringify({fetchedAt:new Date().toISOString(), count:cardDb.length, tcgdex:tcgFlat.length, extra:extFlat.length}));
+    }
+    rebuildIndex();
+    updateDbStatus();
+    if(tcgFlat.length === 0 && extFlat.length > 0){
+      toast(`TCGdex接続不可。ローカル ${extFlat.length} 枚で動作中`);
+    }else{
+      toast(`カードDB更新完了: ${cardDb.length}枚`);
+    }
+  }catch(e){
+    console.error('DB load failed', e);
+    setDbStatus('カードDB取得失敗。ネットワークを確認してください。');
+  }
+}
+function rebuildIndex(){
+  cardIndex = {};
+  for(const c of cardDb){
+    if(!c.nameJa) c.nameJa = toJaName(c.name); // 旧キャッシュ互換
+    cardIndex[c.id] = c;
+  }
+  populateSetSelect();
+}
+function displayName(c){ return (c && (c.nameJa || c.name)) || ''; }
+function updateDbStatus(){
+  try{
+    const meta = JSON.parse(localStorage.getItem(CARDS_META_KEY)||'{}');
+    if(meta.count){
+      const dt = new Date(meta.fetchedAt);
+      const ja = cardDb.filter(hasJaImage).length;
+      setDbStatus(`カードDB: ${meta.count}枚 (日本語画像 ${ja}枚) 更新: ${dt.getFullYear()}/${pad(dt.getMonth()+1)}/${pad(dt.getDate())}`);
+    }else{
+      setDbStatus(`カードDB: ${cardDb.length}枚`);
+    }
+  }catch(e){ setDbStatus(`カードDB: ${cardDb.length}枚`); }
+}
+function setDbStatus(html){ $('#dbStatus').innerHTML = html; }
+
+/* ---------- Helpers ---------- */
+const $ = (s, root=document)=>root.querySelector(s);
+const $$ = (s, root=document)=>Array.from(root.querySelectorAll(s));
+const pad = n => String(n).padStart(2,'0');
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+function toast(msg){
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(()=>t.classList.remove('show'), 1800);
+}
+function fmtDateTime(iso){
+  const d = new Date(iso);
+  return `${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+function nowDateTimeLocal(){
+  const d = new Date();
+  const off = d.getTimezoneOffset()*60000;
+  return new Date(d - off).toISOString().slice(0,16);
+}
+function cardImgUrl(card, size='low'){
+  if(!card) return '';
+  const en = card.image ? (card.imageDirect ? card.image : `${card.image}/${size}.webp`) : '';
+  // 日本語モード: ローカル日本語画像があれば優先。無ければ英語にフォールバック
+  if(cardLang === 'ja') return card.imageJa || en;
+  // 英語モード: TCGdex英語画像。無ければ日本語(extraセットは日本語版のみ)
+  return en || card.imageJa || '';
+}
+function hasJaImage(card){ return !!(card && (card.imageJa || card.imageDirect)); }
+
+/* ---------- Settings ---------- */
+function syncSettingsVisibility(){
+  const manual = $('#setMode').value === 'manual';
+  $('#manualPtsRow').style.display = manual ? '' : 'none';
+  $('#autoModeNote').style.display = manual ? 'none' : '';
+}
+function bindSettings(){
+  $('#setMode').value = state.settings.pointMode || 'auto';
+  $('#setWin').value = state.settings.pointWin;
+  $('#setLose').value = state.settings.pointLose;
+  $('#setDraw').value = state.settings.pointDraw;
+  $('#setStartPts').value = state.settings.startPts;
+  syncSettingsVisibility();
+  $('#setMode').onchange = syncSettingsVisibility;
+  $('#saveSettingsBtn').onclick = ()=>{
+    state.settings.pointMode = $('#setMode').value;
+    state.settings.pointWin = +$('#setWin').value || 0;
+    state.settings.pointLose = +$('#setLose').value || 0;
+    state.settings.pointDraw = +$('#setDraw').value || 0;
+    state.settings.startPts = +$('#setStartPts').value || 0;
+    recomputeAllPoints();
+    saveState();
+    renderAll();
+    toast('設定を保存しました');
+  };
+}
+function pointDelta(result){
+  if(result==='win') return state.settings.pointWin;
+  if(result==='lose') return state.settings.pointLose;
+  return state.settings.pointDraw;
+}
+function recomputeAllPoints(){
+  // 古い→新しい順に連勝数とpointsAfterを再計算
+  const sorted = [...state.matches].sort((a,b)=>a.datetime.localeCompare(b.datetime));
+  const auto = (state.settings.pointMode || 'auto') === 'auto';
+  let running = state.settings.startPts;
+  let streak = 0;
+  let floorPts = tierFloorOf(running); // 到達済みボール帯の下限(降格保護)
+  for(const m of sorted){
+    if(m.result === 'win'){
+      streak++;
+      m.pointsDelta = auto ? 10 + streakBonusOf(streak) : pointDelta('win');
+    }else if(m.result === 'lose'){
+      streak = 0;
+      m.pointsDelta = auto ? TIER_LOSE[rankOf(running).tier] : pointDelta('lose');
+    }else{
+      streak = 0;
+      m.pointsDelta = auto ? 0 : pointDelta('draw');
+    }
+    m.streak = streak;
+    running += m.pointsDelta;
+    floorPts = Math.max(floorPts, tierFloorOf(running));
+    if(auto && running < floorPts){
+      // 降格保護: ボール帯の下限で止まる
+      m.pointsDelta += floorPts - running;
+      running = floorPts;
+    }
+    m.pointsAfter = running;
+  }
+}
+function currentRankPoints(){
+  if(!state.matches.length) return state.settings.startPts;
+  const latest = [...state.matches].sort((a,b)=>a.datetime.localeCompare(b.datetime)).pop();
+  return latest.pointsAfter;
+}
+function currentStreak(){
+  const sorted = [...state.matches].sort((a,b)=>a.datetime.localeCompare(b.datetime));
+  let n = 0;
+  for(let i=sorted.length-1; i>=0; i--){
+    if(sorted[i].result === 'win') n++;
+    else break;
+  }
+  return n;
+}
+
+/* ---------- Render: rank pill + chart ---------- */
+function renderRank(){
+  const pts = currentRankPoints();
+  $('#rankDisplay').textContent = pts;
+  const auto = (state.settings.pointMode || 'auto') === 'auto';
+  $('#rankName').textContent = auto ? rankOf(pts).name : '';
+  const streak = currentStreak();
+  const badge = $('#streakBadge');
+  if(streak >= 2){
+    badge.style.display = '';
+    $('#streakCount').textContent = streak;
+  }else{
+    badge.style.display = 'none';
+  }
+}
+
+let chartDeckFilter = ''; // '' = 全デッキ総合
+function myDeckList(){
+  return [...new Set(state.matches.map(m=>m.myDeck).filter(Boolean))];
+}
+function renderDeckTabs(){
+  const decks = myDeckList();
+  const root = $('#deckTabs');
+  if(!decks.length){ root.innerHTML = ''; return; }
+  if(chartDeckFilter && !decks.includes(chartDeckFilter)) chartDeckFilter = '';
+  const wl = deck => {
+    const ms = state.matches.filter(m => !deck || (m.myDeck||'') === deck);
+    const w = ms.filter(m=>m.result==='win').length, l = ms.filter(m=>m.result==='lose').length;
+    return `${w}勝${l}敗`;
+  };
+  root.innerHTML = [
+    `<div class="deck-tab ${!chartDeckFilter?'active':''}" data-deck="">総合<span class="wl">${wl('')}</span></div>`,
+    ...decks.map(d=>`<div class="deck-tab ${chartDeckFilter===d?'active':''}" data-deck="${escapeHtml(d)}">${escapeHtml(d)}<span class="wl">${wl(d)}</span></div>`)
+  ].join('');
+  root.querySelectorAll('.deck-tab').forEach(el=>{
+    el.onclick = ()=>{ chartDeckFilter = el.dataset.deck; renderDeckTabs(); renderChartStats(); renderChart(); };
+  });
+}
+function renderChartStats(){
+  const ms = state.matches.filter(m => !chartDeckFilter || (m.myDeck||'') === chartDeckFilter);
+  const root = $('#chartStats');
+  if(!ms.length){ root.innerHTML = ''; return; }
+  const w = ms.filter(m=>m.result==='win').length;
+  const l = ms.filter(m=>m.result==='lose').length;
+  const d = ms.filter(m=>m.result==='draw').length;
+  const decided = w + l;
+  const wr = decided ? Math.round(w/decided*1000)/10 : 0;
+  const wrClass = wr >= 50 ? 'good' : 'bad';
+  root.innerHTML = `
+    <span>${chartDeckFilter ? escapeHtml(chartDeckFilter) : '全デッキ総合'}:</span>
+    <span class="big">${w}勝${l}敗${d?`${d}分`:''}</span>
+    <span class="wr ${wrClass}">勝率 ${decided?wr:'--'}%</span>`;
+}
+function renderChart(){
+  const all = [...state.matches].sort((a,b)=>a.datetime.localeCompare(b.datetime));
+  const sorted = chartDeckFilter ? all.filter(m => (m.myDeck||'') === chartDeckFilter) : all;
+  const labels = sorted.map(m => fmtDateTime(m.datetime).replace(' ','\n'));
+  const data = sorted.map(m => m.pointsAfter);
+  const pointColors = sorted.map(m => m.result==='win' ? getCss('--win') : m.result==='lose' ? getCss('--lose') : getCss('--draw'));
+
+  // 起点を含める(総合表示のみ。デッキ別は初戦から)
+  if(sorted.length && !chartDeckFilter){
+    labels.unshift('start');
+    data.unshift(state.settings.startPts);
+    pointColors.unshift(getCss('--draw'));
+  }
+
+  const ctx = $('#slumpChart').getContext('2d');
+  if(chart){ chart.destroy(); }
+  chart = new Chart(ctx, {
+    type:'line',
+    data:{
+      labels,
+      datasets:[{
+        label:'ランクポイント',
+        data,
+        borderColor:getCss('--tcg-blue'),
+        backgroundColor:'rgba(37,99,235,.12)',
+        pointBackgroundColor:pointColors,
+        pointBorderColor:'#fff',
+        pointBorderWidth:2,
+        pointRadius:5,
+        pointHoverRadius:7,
+        fill:true,
+        tension:.25,
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          callbacks:{
+            label:(ctx)=>{
+              const i = ctx.dataIndex;
+              const hasStart = !chartDeckFilter;
+              if(hasStart && i===0 && sorted.length) return `開始: ${ctx.parsed.y}pt`;
+              const m = sorted[hasStart ? i-1 : i];
+              if(!m) return ctx.parsed.y;
+              const r = m.result==='win'?'勝ち':m.result==='lose'?'負け':'引分';
+              const d = m.pointsDelta>=0?`+${m.pointsDelta}`:m.pointsDelta;
+              const st = m.streak>=2 ? ` 🔥${m.streak}連勝` : '';
+              return `${r} (${d}) → ${ctx.parsed.y}pt${st}`;
+            },
+            title:(ctxs)=>{
+              const i = ctxs[0].dataIndex;
+              const hasStart = !chartDeckFilter;
+              if(hasStart && i===0 && sorted.length) return '基準';
+              const m = sorted[hasStart ? i-1 : i];
+              if(!m) return '';
+              const mine = m.myDeck ? `${m.myDeck} ` : '';
+              return `${mine}vs ${m.opponentDeck || '???'} (${m.opponentName||'???'})`;
+            }
+          }
+        }
+      },
+      scales:{
+        x:{ ticks:{ font:{size:10}, maxRotation:0, autoSkip:true, maxTicksLimit:8 } },
+        y:{ ticks:{ font:{size:11} } }
+      }
+    }
+  });
+}
+function getCss(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+/* ---------- Render: match list ---------- */
+function renderHistory(){
+  const filterTxt = $('#filterText').value.trim().toLowerCase();
+  const filterRes = $('#filterResult').value;
+  const filterMy = $('#filterMyDeck').value;
+  const list = [...state.matches]
+    .sort((a,b)=>b.datetime.localeCompare(a.datetime))
+    .filter(m => !filterRes || m.result===filterRes)
+    .filter(m => !filterMy || (m.myDeck||'')===filterMy)
+    .filter(m => !filterTxt || (
+      (m.opponentDeck||'').toLowerCase().includes(filterTxt) ||
+      (m.opponentName||'').toLowerCase().includes(filterTxt) ||
+      (m.myDeck||'').toLowerCase().includes(filterTxt) ||
+      (m.memo||'').toLowerCase().includes(filterTxt)
+    ));
+
+  $('#historyCount').textContent = `(${state.matches.length}戦 / 表示${list.length})`;
+
+  const root = $('#matchList');
+  if(!list.length){
+    root.innerHTML = `<div class="empty">${state.matches.length?'絞り込み結果なし':'まだ対戦記録がありません。上のフォームから1戦目を記録してみよう。'}</div>`;
+    return;
+  }
+  root.innerHTML = list.map(m=>{
+    const resLabel = m.result==='win'?'W':m.result==='lose'?'L':'D';
+    const dPts = m.pointsDelta;
+    const ptsClass = dPts>0?'plus':dPts<0?'minus':'';
+    const ptsStr = dPts>0?`+${dPts}`:dPts;
+    const cardImgs = (m.cards||[]).map(c=>{
+      const card = cardIndex[c.cardId];
+      if(!card) return '';
+      return `<img src="${cardImgUrl(card,'low')}" title="${escapeHtml(displayName(card))} x${c.count}" loading="lazy" alt="">`;
+    }).join('');
+    return `
+    <div class="match-row" data-id="${m.id}">
+      <div class="res ${m.result}">${resLabel}</div>
+      <div class="meta">
+        <div class="top">
+          <span class="deck">${escapeHtml(m.opponentDeck||'(デッキ名なし)')}</span>
+          <span class="player">${escapeHtml(m.opponentName||'')}</span>
+          ${m.myDeck?`<span class="player" style="color:var(--tcg-blue-2)">使用: ${escapeHtml(m.myDeck)}</span>`:''}
+          ${m.streak>=2?`<span class="player" style="color:var(--tcg-amber)">🔥${m.streak}連勝</span>`:''}
+        </div>
+        <div class="dt">${fmtDateTime(m.datetime)} → ${m.pointsAfter}pt</div>
+        ${m.memo?`<div class="memo">${escapeHtml(m.memo)}</div>`:''}
+        <div class="match-cards">${cardImgs}</div>
+      </div>
+      <div class="pts ${ptsClass}">${ptsStr}</div>
+      <div class="actions">
+        <button class="btn-sm" data-act="edit">編集</button>
+        <button class="btn-sm btn-danger" data-act="del">削除</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  // bind actions
+  root.querySelectorAll('.match-row').forEach(row=>{
+    const id = row.dataset.id;
+    row.querySelector('[data-act=edit]').onclick = ()=> startEdit(id);
+    row.querySelector('[data-act=del]').onclick = ()=>{
+      if(!confirm('この対戦記録を削除しますか？')) return;
+      state.matches = state.matches.filter(x=>x.id!==id);
+      recomputeAllPoints(); saveState(); renderAll();
+      toast('削除しました');
+    };
+  });
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+/* ---------- Form: pending cards ---------- */
+function renderPickedCards(){
+  const root = $('#pickedCards');
+  if(!pendingCards.length){
+    root.innerHTML = '<div style="color:var(--ink-4);font-size:12px">（カードを追加すると表示されます）</div>';
+  }else{
+    root.innerHTML = pendingCards.map(p=>{
+      const c = cardIndex[p.cardId];
+      if(!c) return '';
+      return `<div class="picked-card" data-id="${c.id}">
+        <img src="${cardImgUrl(c,'low')}" alt="">
+        <span class="pname">${escapeHtml(displayName(c))}</span>
+        <span class="cnt-ctrl">
+          <button data-act="dec">−</button>
+          <span class="pcnt">${p.count}</span>
+          <button data-act="inc">＋</button>
+        </span>
+        <button class="rm" data-act="rm" title="削除">✕</button>
+      </div>`;
+    }).join('');
+    root.querySelectorAll('.picked-card').forEach(el=>{
+      const id = el.dataset.id;
+      el.querySelector('[data-act=inc]').onclick=()=>{ adjustPicked(id,+1); };
+      el.querySelector('[data-act=dec]').onclick=()=>{ adjustPicked(id,-1); };
+      el.querySelector('[data-act=rm]').onclick=()=>{ pendingCards = pendingCards.filter(p=>p.cardId!==id); renderPickedCards(); };
+    });
+  }
+  $('#pickedCount').textContent = `${pendingCards.length}種 (計${pendingCards.reduce((a,b)=>a+b.count,0)}枚)`;
+}
+function adjustPicked(id, delta){
+  const p = pendingCards.find(x=>x.cardId===id);
+  if(!p) return;
+  p.count = Math.max(1, Math.min(4, p.count+delta));
+  renderPickedCards();
+}
+function addCardToPending(id){
+  const ex = pendingCards.find(p=>p.cardId===id);
+  if(ex){ ex.count = Math.min(4, ex.count+1); }
+  else { pendingCards.push({cardId:id, count:1}); }
+  renderPickedCards();
+  renderPickerBody(); // バッジ更新
+}
+
+/* ---------- Card picker modal ---------- */
+function populateSetSelect(){
+  const sel = $('#pickerSet');
+  const extraIds = EXTRA_SETS.map(s=>s.id);
+  const sets = ['(全セット)', ...SET_IDS, ...extraIds];
+  const labels = {};
+  EXTRA_SETS.forEach(s=>{ labels[s.id] = `${s.id} (${s.name})`; });
+  sel.innerHTML = sets.map((s,i)=>`<option value="${i===0?'':s}">${labels[s]||s}</option>`).join('');
+}
+function openPicker(){
+  $('#pickerModal').classList.add('open');
+  $('#pickerSearch').value='';
+  renderPickerBody();
+  setTimeout(()=>$('#pickerSearch').focus(), 50);
+}
+function closePicker(){ $('#pickerModal').classList.remove('open'); }
+function renderPickerBody(){
+  const q = $('#pickerSearch').value.trim().toLowerCase();
+  const setFilter = $('#pickerSet').value;
+  let list = cardDb;
+  if(setFilter) list = list.filter(c=>c.set===setFilter);
+  if(q) list = list.filter(c=>{
+    return (c.name||'').toLowerCase().includes(q)
+      || (c.nameJa||'').toLowerCase().includes(q)
+      || c.id.toLowerCase().includes(q);
+  });
+  list = list.slice(0, 300); // 描画爆発防止
+  if(!list.length){
+    $('#pickerBody').innerHTML = `<div class="empty">該当カードなし。${cardDb.length?'別の検索ワードやセットを試してください。':'カードDBが空です。「カードDBを更新」を押してください。'}</div>`;
+    return;
+  }
+  $('#pickerBody').innerHTML = `<div class="card-grid">${
+    list.map(c=>{
+      const picked = pendingCards.find(p=>p.cardId===c.id);
+      return `<div class="card-tile ${picked?'selected':''}" data-id="${c.id}" title="${escapeHtml(c.name)}">
+        ${picked?`<div class="badge">${picked.count}</div>`:''}
+        <img src="${cardImgUrl(c,'low')}" loading="lazy" alt="">
+        <div class="nm">${escapeHtml(displayName(c))}<br><span style="color:var(--ink-4)">${c.set}-${c.localId}</span></div>
+      </div>`;
+    }).join('')
+  }</div>${cardDb.length > list.length ? `<div class="empty" style="margin-top:12px">…${cardDb.length}枚中${list.length}枚を表示中。検索で絞り込んでください。</div>` : ''}`;
+  $('#pickerBody').querySelectorAll('.card-tile').forEach(el=>{
+    el.onclick = ()=> addCardToPending(el.dataset.id);
+  });
+}
+
+/* ---------- Form: save / edit ---------- */
+let dateTouched = false; // ユーザーが日時を手動変更したか
+function readForm(){
+  // 新規記録は保存時の現在時刻を自動使用(手動変更時のみ入力値)
+  const dt = (editingId || dateTouched) ? ($('#mDate').value || nowDateTimeLocal()) : nowDateTimeLocal();
+  return {
+    datetime: dt,
+    myDeck: $('#mMyDeck').value.trim(),
+    opponentName: $('#mPlayer').value.trim(),
+    opponentDeck: $('#mDeck').value.trim(),
+    result: $('input[name=result]:checked').value,
+    cards: structuredClone(pendingCards),
+    memo: $('#mMemo').value.trim(),
+  };
+}
+function lastMyDeck(){
+  const sorted = [...state.matches].sort((a,b)=>a.datetime.localeCompare(b.datetime));
+  for(let i=sorted.length-1; i>=0; i--){
+    if(sorted[i].myDeck) return sorted[i].myDeck;
+  }
+  return '';
+}
+function resetForm(){
+  $('#mDate').value = nowDateTimeLocal();
+  dateTouched = false;
+  $('#mMyDeck').value = lastMyDeck();
+  $('#mPlayer').value = '';
+  $('#mDeck').value = '';
+  $('#mMemo').value = '';
+  $('#rWin').checked = true;
+  pendingCards = [];
+  renderPickedCards();
+  editingId = null;
+  $('#matchFormTitle').textContent = '新しい対戦を記録';
+  $('#cancelEditBtn').style.display = 'none';
+  $('#saveMatchBtn').textContent = 'この対戦を保存';
+}
+function startEdit(id){
+  const m = state.matches.find(x=>x.id===id);
+  if(!m) return;
+  editingId = id;
+  $('#mDate').value = m.datetime.slice(0,16);
+  dateTouched = false;
+  $('#mMyDeck').value = m.myDeck || '';
+  $('#mPlayer').value = m.opponentName || '';
+  $('#mDeck').value = m.opponentDeck || '';
+  $('#mMemo').value = m.memo || '';
+  $(`#r${m.result.charAt(0).toUpperCase()+m.result.slice(1)}`).checked = true;
+  pendingCards = structuredClone(m.cards||[]);
+  renderPickedCards();
+  $('#matchFormTitle').textContent = '対戦を編集';
+  $('#cancelEditBtn').style.display = '';
+  $('#saveMatchBtn').textContent = '更新を保存';
+  window.scrollTo({top:$('#matchFormTitle').offsetTop - 20, behavior:'smooth'});
+}
+function saveMatch(){
+  const d = readForm();
+  const wasEditing = !!editingId;
+  let saved;
+  if(editingId){
+    const idx = state.matches.findIndex(x=>x.id===editingId);
+    if(idx>=0){ state.matches[idx] = Object.assign(state.matches[idx], d); saved = state.matches[idx]; }
+  }else{
+    saved = Object.assign({id:uid()}, d);
+    state.matches.push(saved);
+  }
+  recomputeAllPoints();
+  saveState();
+  resetForm();
+  renderAll();
+  toast(wasEditing ? '更新しました' : resultToast(saved));
+}
+function resultToast(m){
+  if(!m) return '保存しました';
+  const r = m.result==='win'?'勝ち':m.result==='lose'?'負け':'引き分け';
+  const d = m.pointsDelta>=0?`+${m.pointsDelta}`:m.pointsDelta;
+  const st = m.streak>=2 ? ` 🔥${m.streak}連勝!` : '';
+  return `${r}を記録 (${d}pt → ${m.pointsAfter}pt)${st}`;
+}
+
+/* ---------- Quick record ---------- */
+function quickRecord(result){
+  const m = {
+    id: uid(),
+    datetime: nowDateTimeLocal(),
+    myDeck: $('#quickMyDeck').value.trim(),
+    opponentName: '',
+    opponentDeck: '',
+    result,
+    cards: [],
+    memo: '',
+  };
+  state.matches.push(m);
+  recomputeAllPoints();
+  saveState();
+  renderAll();
+  toast(resultToast(m));
+}
+
+/* ---------- Datalists (player/deck候補) ---------- */
+function refreshDatalists(){
+  const players = [...new Set(state.matches.map(m=>m.opponentName).filter(Boolean))];
+  const decks = [...new Set(state.matches.map(m=>m.opponentDeck).filter(Boolean))];
+  const mine = myDeckList();
+  $('#playerList').innerHTML = players.map(p=>`<option value="${escapeHtml(p)}">`).join('');
+  $('#deckList').innerHTML = decks.map(d=>`<option value="${escapeHtml(d)}">`).join('');
+  $('#myDeckList').innerHTML = mine.map(d=>`<option value="${escapeHtml(d)}">`).join('');
+  // 履歴の使用デッキフィルタ(選択値は維持)
+  const sel = $('#filterMyDeck');
+  const cur = sel.value;
+  sel.innerHTML = `<option value="">すべて</option>` + mine.map(d=>`<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`).join('');
+  if(mine.includes(cur)) sel.value = cur;
+  // クイック記録の使用デッキ: 空なら前回デッキを補完
+  if(!$('#quickMyDeck').value.trim()){
+    $('#quickMyDeck').value = lastMyDeck();
+  }
+}
+
+/* ---------- Export / Import / Reset ---------- */
+function exportJson(){
+  const blob = new Blob([JSON.stringify(state,null,2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const dt = new Date(); const stamp = `${dt.getFullYear()}${pad(dt.getMonth()+1)}${pad(dt.getDate())}`;
+  a.href = url; a.download = `pokepoke-tracker-${stamp}.json`; a.click();
+  URL.revokeObjectURL(url);
+}
+function importJson(file){
+  const r = new FileReader();
+  r.onload = ()=>{
+    try{
+      const data = JSON.parse(r.result);
+      if(!data || !Array.isArray(data.matches)) throw new Error('形式が不正');
+      if(!confirm(`${data.matches.length}件の対戦記録をインポートします。現在のデータは上書きされます。よろしいですか？`)) return;
+      state = Object.assign(structuredClone(DEFAULT_STATE), data);
+      recomputeAllPoints(); saveState(); bindSettings(); renderAll();
+      toast('インポート完了');
+    }catch(e){ alert('インポート失敗: '+e.message); }
+  };
+  r.readAsText(file);
+}
+function resetAll(){
+  if(!confirm('すべての対戦記録と設定を消去します。元に戻せません。続行しますか？')) return;
+  if(!confirm('本当に消去しますか？')) return;
+  state = structuredClone(DEFAULT_STATE);
+  saveState(); bindSettings(); renderAll();
+  toast('全データを消去しました');
+}
+
+/* ============================================================
+   クラウド同期 (Firebase Auth + Firestore)
+   - 設定が入っている時だけ有効。未設定なら完全にローカル動作
+   - matches は id でマージするので、複数端末で同時に記録しても消えない
+   ============================================================ */
+const FB_CFG_KEY = 'pokepoke-firebase-config';
+/* 公開用の共有Firebase設定。訪問者は設定不要でGoogleログインするだけで同期できる。
+ * ウェブAPIキーは公開前提の値。Firestoreルールで「本人のuidのみ読み書き可」に制限しているため、
+ * 他人のデータは閲覧も改変もできない。 */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyC2yqcZzn9Q02LJbLeQ59-pg1UaWmjIRuM",
+  authDomain: "pokepoke-deck-memo.firebaseapp.com",
+  projectId: "pokepoke-deck-memo",
+  storageBucket: "pokepoke-deck-memo.firebasestorage.app",
+  messagingSenderId: "1093002644152",
+  appId: "1:1093002644152:web:daea83c3b193d67ceec24d"
+};
+let fbApp = null, fbAuth = null, fbDb = null, fbUser = null, fbUnsub = null;
+let syncPushTimer = null, applyingRemote = false;
+
+function loadFbConfig(){
+  // 自前のFirebaseを使いたい人はlocalStorageの設定を優先。無ければ共有設定
+  try{
+    const c = JSON.parse(localStorage.getItem(FB_CFG_KEY) || 'null');
+    if(c && c.apiKey) return c;
+  }catch(e){}
+  return FIREBASE_CONFIG;
+}
+function setSyncState(text, cls){
+  const el = $('#syncState');
+  if(!el) return;
+  el.textContent = text ? ' ' + text : '';
+  el.className = 'sync-state ' + (cls||'');
+}
+/* 貼り付けられた firebaseConfig を許容度高くパース (JS形式/JSON形式どちらでも) */
+function parseFbConfig(text){
+  let s = (text||'').trim();
+  if(!s) throw new Error('空です');
+  s = s.replace(/^\s*(const|let|var)\s+\w+\s*=\s*/, '').replace(/;\s*$/, '').trim();
+  const i = s.indexOf('{'), j = s.lastIndexOf('}');
+  if(i < 0 || j < 0) throw new Error('{ } が見つかりません');
+  s = s.slice(i, j+1);
+  try{ return JSON.parse(s); }catch(e){}
+  // JSオブジェクト記法 → JSON化
+  const json = s
+    .replace(/\/\/.*$/gm, '')
+    .replace(/([{,]\s*)([A-Za-z_$][\w$]*)\s*:/g, '$1"$2":')
+    .replace(/'/g, '"')
+    .replace(/,(\s*[}\]])/g, '$1');
+  return JSON.parse(json);
+}
+function initFirebase(){
+  const cfg = loadFbConfig();
+  const box = $('#syncBox');
+  if(!cfg || typeof firebase === 'undefined'){
+    if(box) box.style.display = 'none';
+    $('#syncConfigured').style.display = 'none';
+    return;
+  }
+  try{
+    fbApp = firebase.apps && firebase.apps.length ? firebase.app() : firebase.initializeApp(cfg);
+    fbAuth = firebase.auth();
+    fbDb = firebase.firestore();
+    if(box) box.style.display = '';
+    $('#syncConfigured').style.display = '';
+    $('#syncSetup').open = false;
+    fbAuth.onAuthStateChanged(onAuthChanged);
+  }catch(e){
+    console.error('firebase init failed', e);
+    toast('Firebase初期化に失敗: ' + e.message);
+    if(box) box.style.display = 'none';
+  }
+}
+function onAuthChanged(user){
+  fbUser = user;
+  const loginBtn = $('#loginBtn'), userBox = $('#syncUser');
+  if(user){
+    loginBtn.style.display = 'none';
+    userBox.style.display = '';
+    $('#syncEmail').textContent = user.email || user.displayName || '';
+    $('#syncAvatar').src = user.photoURL || '';
+    startCloudSync();
+  }else{
+    loginBtn.style.display = '';
+    userBox.style.display = 'none';
+    if(fbUnsub){ fbUnsub(); fbUnsub = null; }
+  }
+}
+function cloudDocRef(){
+  return fbDb.collection('users').doc(fbUser.uid);
+}
+/* ローカルとリモートを統合(matchesはid基準、設定は新しい方) */
+function mergeStates(localState, remoteState){
+  const byId = new Map();
+  for(const m of (remoteState.matches||[])) byId.set(m.id, m);
+  for(const m of (localState.matches||[])) byId.set(m.id, m); // 同idはローカル優先
+  const merged = {
+    settings: (remoteState.updatedAt||0) > (localState.updatedAt||0)
+      ? Object.assign({}, localState.settings, remoteState.settings)
+      : Object.assign({}, remoteState.settings, localState.settings),
+    matches: [...byId.values()],
+  };
+  return merged;
+}
+async function startCloudSync(){
+  setSyncState('同期中…', 'busy');
+  try{
+    const ref = cloudDocRef();
+    const snap = await ref.get();
+    if(snap.exists){
+      const remote = snap.data() || {};
+      const merged = mergeStates(state, remote);
+      state.settings = Object.assign(structuredClone(DEFAULT_STATE.settings), merged.settings||{});
+      state.matches = merged.matches;
+      recomputeAllPoints();
+      saveState();
+      bindSettings();
+      renderAll();
+    }
+    await pushToCloud();
+    // 他端末の変更を購読
+    if(fbUnsub) fbUnsub();
+    fbUnsub = ref.onSnapshot(doc=>{
+      if(!doc.exists || doc.metadata.hasPendingWrites) return;
+      const remote = doc.data() || {};
+      if((remote.updatedAt||0) <= (state.updatedAt||0)) return;
+      applyingRemote = true;
+      const merged = mergeStates(state, remote);
+      state.settings = Object.assign(structuredClone(DEFAULT_STATE.settings), merged.settings||{});
+      state.matches = merged.matches;
+      state.updatedAt = remote.updatedAt;
+      recomputeAllPoints();
+      saveState();
+      bindSettings();
+      renderAll();
+      applyingRemote = false;
+      setSyncState('別の端末から更新', 'ok');
+      setTimeout(()=>setSyncState('同期済み','ok'), 2500);
+    }, err=>{
+      console.error(err); setSyncState('同期エラー', 'err');
+    });
+    setSyncState('同期済み', 'ok');
+  }catch(e){
+    console.error('cloud sync failed', e);
+    setSyncState('同期エラー', 'err');
+    toast('同期に失敗: ' + (e.message||e.code||''));
+  }
+}
+async function pushToCloud(){
+  if(!fbUser || !fbDb) return;
+  try{
+    setSyncState('保存中…', 'busy');
+    state.updatedAt = Date.now();
+    await cloudDocRef().set({
+      settings: state.settings,
+      matches: state.matches,
+      updatedAt: state.updatedAt,
+    });
+    saveState();
+    setSyncState('同期済み', 'ok');
+  }catch(e){
+    console.error('push failed', e);
+    setSyncState('保存失敗', 'err');
+  }
+}
+/* 保存のたびに少し待ってからクラウドへ(連打対策) */
+function scheduleCloudPush(){
+  if(!fbUser || applyingRemote) return;
+  clearTimeout(syncPushTimer);
+  syncPushTimer = setTimeout(pushToCloud, 800);
+}
+async function pullFromCloud(){
+  if(!fbUser){ toast('先にログインしてください'); return; }
+  try{
+    setSyncState('取得中…', 'busy');
+    const snap = await cloudDocRef().get();
+    if(!snap.exists){ toast('クラウドにデータがありません'); setSyncState('同期済み','ok'); return; }
+    const remote = snap.data() || {};
+    state.settings = Object.assign(structuredClone(DEFAULT_STATE.settings), remote.settings||{});
+    state.matches = remote.matches || [];
+    state.updatedAt = remote.updatedAt || Date.now();
+    recomputeAllPoints(); saveState(); bindSettings(); renderAll();
+    setSyncState('同期済み','ok');
+    toast(`クラウドから${state.matches.length}件を取得しました`);
+  }catch(e){
+    console.error(e); setSyncState('取得失敗','err'); toast('取得に失敗: '+(e.message||''));
+  }
+}
+function bindSyncUi(){
+  $('#loginBtn').onclick = async ()=>{
+    try{
+      const provider = new firebase.auth.GoogleAuthProvider();
+      await fbAuth.signInWithPopup(provider);
+    }catch(e){
+      console.error(e);
+      toast('ログイン失敗: ' + (e.code==='auth/unauthorized-domain'
+        ? 'Firebaseの承認済みドメインにこのURLを追加してください' : (e.message||'')));
+    }
+  };
+  $('#logoutBtn').onclick = async ()=>{ await fbAuth.signOut(); toast('ログアウトしました'); };
+  $('#syncPushBtn').onclick = ()=>{ if(!fbUser){ toast('先にログインしてください'); return; } pushToCloud(); };
+  $('#syncPullBtn').onclick = pullFromCloud;
+  $('#syncClearCfgBtn').onclick = ()=>{
+    if(!confirm('独自のFirebase設定を解除して既定に戻します（対戦記録は消えません）。よろしいですか？')) return;
+    localStorage.removeItem(FB_CFG_KEY);
+    location.reload();
+  };
+  $('#fbSaveCfgBtn').onclick = ()=>{
+    try{
+      const cfg = parseFbConfig($('#fbConfigInput').value);
+      if(!cfg.apiKey || !cfg.projectId) throw new Error('apiKey / projectId が見つかりません');
+      localStorage.setItem(FB_CFG_KEY, JSON.stringify(cfg));
+      toast('設定を保存しました。読み込み直します…');
+      setTimeout(()=>location.reload(), 800);
+    }catch(e){
+      alert('設定を読み取れませんでした: ' + e.message + '\n\nfirebaseConfig の { } ごと貼り付けてください。');
+    }
+  };
+}
+
+/* ---------- Master render ---------- */
+function renderAll(){
+  renderRank();
+  renderDeckTabs();
+  renderChartStats();
+  renderChart();
+  renderHistory();
+  refreshDatalists();
+}
+
+/* ---------- Init ---------- */
+function bindUi(){
+  $('#mDate').value = nowDateTimeLocal();
+  $('#mMyDeck').value = lastMyDeck();
+  renderPickedCards();
+
+  $('#openPickerBtn').onclick = openPicker;
+  $('#pickerCloseBtn').onclick = closePicker;
+  $('#pickerDoneBtn').onclick = closePicker;
+  $('#pickerModal').addEventListener('click', (e)=>{ if(e.target.id==='pickerModal') closePicker(); });
+  $('#pickerSearch').addEventListener('input', renderPickerBody);
+  $('#pickerSet').addEventListener('change', renderPickerBody);
+
+  $('#saveMatchBtn').onclick = saveMatch;
+  $('#cancelEditBtn').onclick = resetForm;
+  $('#mDate').addEventListener('change', ()=>{ dateTouched = true; });
+
+  $('#quickWinBtn').onclick = ()=>quickRecord('win');
+  $('#quickLoseBtn').onclick = ()=>quickRecord('lose');
+  $('#quickDrawBtn').onclick = ()=>quickRecord('draw');
+
+  $('#filterText').addEventListener('input', renderHistory);
+  $('#filterResult').addEventListener('change', renderHistory);
+  $('#filterMyDeck').addEventListener('change', renderHistory);
+
+  // 言語切替(カード画像)
+  const syncLangUi = ()=>{
+    $$('#langSwitch button').forEach(b=>b.classList.toggle('active', b.dataset.lang===cardLang));
+  };
+  syncLangUi();
+  $$('#langSwitch button').forEach(b=>{
+    b.onclick = ()=>{
+      cardLang = b.dataset.lang;
+      localStorage.setItem(LANG_KEY, cardLang);
+      syncLangUi();
+      renderAll();
+      if($('#pickerModal').classList.contains('open')) renderPickerBody();
+      renderPickedCards();
+      toast(cardLang==='ja' ? 'カード画像を日本語に切替' : 'Switched card images to English');
+    };
+  });
+
+  $('#reloadDbBtn').onclick = ()=>loadCardDb({force:true}).then(renderAll);
+  $('#exportBtn').onclick = exportJson;
+  $('#importFile').addEventListener('change', e=>{ if(e.target.files[0]) importJson(e.target.files[0]); e.target.value=''; });
+  $('#resetBtn').onclick = resetAll;
+
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape' && $('#pickerModal').classList.contains('open')) closePicker();
+  });
+}
+
+(async function init(){
+  bindSettings();
+  bindUi();
+  bindSyncUi();
+  initFirebase();
+  recomputeAllPoints();
+  renderAll();
+  await loadPokemonNames(); // 日英ポケモン名マッピングを先に
+  await loadCardDb();
+  renderAll(); // カード画像 + 日本語名が読めるようになったので再描画
+})();
+</script>
+</body>
+</html>

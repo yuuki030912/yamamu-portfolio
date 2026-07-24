@@ -8,6 +8,9 @@ Sitemap: https://yamamu-youtube.jp/ai-games/sitemap.xml
 # LLMO（AI検索最適化）
 # llms.txt: https://yamamu-youtube.jp/llms.txt
 
+# カード画像はインデックスさせない（権利者の著作物のため画像検索に出さない）
+Disallow: /pokepoke/tracker/pokepoke-extra/
+
 # 管理ツールはクロールさせない
 Disallow: /inazuma/generate.html
 Disallow: /pokepoke/generate.html
