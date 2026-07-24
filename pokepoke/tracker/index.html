@@ -257,9 +257,15 @@ button:active{transform:translateY(1px)}
 .deck-chip .cnt{font-size:11px; font-weight:400; opacity:.75; margin-left:4px}
 .deck-chip-empty{font-size:12px; color:var(--ink-4); padding:4px 0}
 /* デッキ管理 */
-.deck-manage-row{display:flex; align-items:center; gap:8px; padding:8px 10px; border:1px solid var(--line-2); border-radius:var(--r-sm); background:#fff; margin-bottom:6px}
+.deck-manage-block{border:1px solid var(--line-2); border-radius:var(--r-sm); background:#fff; margin-bottom:6px; overflow:hidden}
+.deck-manage-row{display:flex; align-items:center; gap:8px; padding:8px 10px}
 .deck-manage-row .nm{flex:1; font-weight:700; font-size:14px}
 .deck-manage-row .stat{font-size:12px; color:var(--ink-3)}
+.dm-cards{display:flex; flex-wrap:wrap; gap:3px; padding:0 10px 10px}
+.dm-card{position:relative; display:inline-block}
+.dm-card img{width:34px; height:47px; object-fit:cover; border-radius:3px; border:1px solid var(--line); background:#eee; display:block}
+.dm-card .dm-cnt{position:absolute; right:-3px; bottom:-3px; background:var(--tcg-blue); color:#fff; font-size:10px; font-weight:800; border-radius:999px; min-width:15px; height:15px; display:flex; align-items:center; justify-content:center; box-shadow:0 1px 3px rgba(0,0,0,.3)}
+@media (max-width:760px){ .deck-manage-row{flex-wrap:wrap} .deck-manage-row .nm{flex-basis:100%} }
 
 /* ===== Rank head (グラフ上部) ===== */
 .rank-head{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:14px}
@@ -831,7 +837,11 @@ function loadState(){
     const parsed = JSON.parse(raw);
     const merged = Object.assign(structuredClone(DEFAULT_STATE), parsed);
     merged.settings = Object.assign(structuredClone(DEFAULT_STATE.settings), parsed.settings || {});
+    // myDecks: 旧形式(文字列配列) → {name, cards} 形式へ移行
     if(!Array.isArray(merged.myDecks)) merged.myDecks = [];
+    merged.myDecks = merged.myDecks.map(d =>
+      typeof d === 'string' ? {name:d, cards:[]} : {name:d.name||'', cards:Array.isArray(d.cards)?d.cards:[]}
+    ).filter(d=>d.name);
     return merged;
   }catch(e){
     console.error('loadState failed', e);
@@ -1305,15 +1315,12 @@ function adjustPicked(id, delta){
   p.count = Math.max(1, Math.min(4, p.count+delta));
   renderPickedCards();
 }
-function addCardToPending(id){
-  const ex = pendingCards.find(p=>p.cardId===id);
-  if(ex){ ex.count = Math.min(4, ex.count+1); }
-  else { pendingCards.push({cardId:id, count:1}); }
-  renderPickedCards();
-  renderPickerBody(); // バッジ更新
-}
+/* ---------- Card picker modal（対戦フォーム・デッキ登録で共用） ---------- */
+let pickerCards = [];      // ピッカーの作業コピー [{cardId,count}]
+let pickerOnChange = null; // 変更のたびに呼ばれる (cards)=>{}
+let pickerMax = 4;         // 1種あたりの上限
+let pickerTitle = 'カードを選ぶ';
 
-/* ---------- Card picker modal ---------- */
 function populateSetSelect(){
   const sel = $('#pickerSet');
   const extraIds = EXTRA_SETS.map(s=>s.id);
@@ -1322,13 +1329,48 @@ function populateSetSelect(){
   EXTRA_SETS.forEach(s=>{ labels[s.id] = `${s.id} (${s.name})`; });
   sel.innerHTML = sets.map((s,i)=>`<option value="${i===0?'':s}">${labels[s]||s}</option>`).join('');
 }
-function openPicker(){
+/* 汎用オープン。initial=初期カード, onChange=変更通知, opts={max,title} */
+function openPickerFor(initial, onChange, opts={}){
+  pickerCards = structuredClone(initial || []);
+  pickerOnChange = onChange || null;
+  pickerMax = opts.max || 4;
+  pickerTitle = opts.title || 'カードを選ぶ';
+  const h = document.querySelector('#pickerModal h3');
+  if(h) h.textContent = pickerTitle;
   $('#pickerModal').classList.add('open');
   $('#pickerSearch').value='';
   renderPickerBody();
+  updatePickerHint();
   setTimeout(()=>$('#pickerSearch').focus(), 50);
 }
+/* 対戦フォーム用（従来どおり pendingCards を編集） */
+function openPicker(){
+  openPickerFor(pendingCards, (cards)=>{ pendingCards = cards; renderPickedCards(); },
+    {max:4, title:'出てきたカードを選ぶ'});
+}
 function closePicker(){ $('#pickerModal').classList.remove('open'); }
+function updatePickerHint(){
+  const el = $('#pickerHint');
+  if(!el) return;
+  const kinds = pickerCards.length;
+  const total = pickerCards.reduce((a,b)=>a+b.count,0);
+  el.textContent = `選択中: ${kinds}種 / 計${total}枚 ・ クリックで追加、もう一度で＋1`;
+}
+function emitPicker(){
+  renderPickerBody();
+  updatePickerHint();
+  if(pickerOnChange) pickerOnChange(structuredClone(pickerCards));
+}
+function addCardToPending(id){
+  const ex = pickerCards.find(p=>p.cardId===id);
+  if(ex){ ex.count = Math.min(pickerMax, ex.count+1); }
+  else { pickerCards.push({cardId:id, count:1}); }
+  emitPicker();
+}
+function removeFromPicker(id){
+  pickerCards = pickerCards.filter(p=>p.cardId!==id);
+  emitPicker();
+}
 function renderPickerBody(){
   const q = $('#pickerSearch').value.trim().toLowerCase();
   const setFilter = $('#pickerSet').value;
@@ -1346,7 +1388,7 @@ function renderPickerBody(){
   }
   $('#pickerBody').innerHTML = `<div class="card-grid">${
     list.map(c=>{
-      const picked = pendingCards.find(p=>p.cardId===c.id);
+      const picked = pickerCards.find(p=>p.cardId===c.id);
       return `<div class="card-tile ${picked?'selected':''}" data-id="${c.id}" title="${escapeHtml(c.name)}">
         ${picked?`<div class="badge">${picked.count}</div>`:''}
         <img src="${cardImgUrl(c,'low')}" loading="lazy" alt="">
@@ -1356,6 +1398,7 @@ function renderPickerBody(){
   }</div>${cardDb.length > list.length ? `<div class="empty" style="margin-top:12px">…${cardDb.length}枚中${list.length}枚を表示中。検索で絞り込んでください。</div>` : ''}`;
   $('#pickerBody').querySelectorAll('.card-tile').forEach(el=>{
     el.onclick = ()=> addCardToPending(el.dataset.id);
+    el.oncontextmenu = (e)=>{ e.preventDefault(); removeFromPicker(el.dataset.id); }; // 右クリックで削除
   });
 }
 
@@ -1461,11 +1504,13 @@ function quickRecord(result){
 /* ============================================================
    デッキ選択（マイデッキ / 相手デッキ履歴）
    ============================================================ */
-/* 登録デッキ＋実際に使ったデッキを統合した候補リスト */
+/* 登録デッキ＋実際に使ったデッキを統合した候補リスト（名前） */
 function allMyDecks(){
+  const registered = (state.myDecks||[]).map(d=>d.name);
   const used = myDeckList();
-  return [...new Set([...(state.myDecks||[]), ...used])];
+  return [...new Set([...registered, ...used])];
 }
+function findMyDeck(name){ return (state.myDecks||[]).find(d=>d.name===name); }
 /* 相手デッキを使用回数の多い順に */
 function opponentDeckRanking(){
   const cnt = new Map();
@@ -1522,19 +1567,31 @@ function renderMyDeckManager(){
     return;
   }
   root.innerHTML = decks.map((d,i)=>{
-    const ms = state.matches.filter(m=>(m.myDeck||'')===d);
+    const ms = state.matches.filter(m=>(m.myDeck||'')===d.name);
     const w = ms.filter(m=>m.result==='win').length, l = ms.filter(m=>m.result==='lose').length;
     const decided = w + l;
     const wr = decided ? `${Math.round(w/decided*1000)/10}%` : '--';
-    return `<div class="deck-manage-row" data-i="${i}">
-      <span class="nm">${escapeHtml(d)}</span>
-      <span class="stat">${ms.length ? `${w}勝${l}敗 / 勝率 ${wr}` : '未使用'}</span>
-      <button class="btn-sm" data-act="up" title="上へ">↑</button>
-      <button class="btn-sm btn-danger" data-act="del" title="削除">✕</button>
+    const cards = d.cards || [];
+    const total = cards.reduce((a,c)=>a+c.count,0);
+    const thumbs = cards.map(c=>{
+      const card = cardIndex[c.cardId];
+      if(!card) return '';
+      return `<span class="dm-card"><img src="${cardImgUrl(card,'low')}" title="${escapeHtml(displayName(card))}×${c.count}" loading="lazy" alt="">${c.count>1?`<span class="dm-cnt">${c.count}</span>`:''}</span>`;
+    }).join('');
+    return `<div class="deck-manage-block" data-i="${i}">
+      <div class="deck-manage-row">
+        <span class="nm">${escapeHtml(d.name)}</span>
+        <span class="stat">${ms.length ? `${w}勝${l}敗 / 勝率 ${wr}` : '未使用'}${total?` ・ ${total}枚登録`:''}</span>
+        <button class="btn-sm btn-blue" data-act="cards" title="このデッキのカードを登録">🎴 カード</button>
+        <button class="btn-sm" data-act="up" title="上へ">↑</button>
+        <button class="btn-sm btn-danger" data-act="del" title="削除">✕</button>
+      </div>
+      ${cards.length ? `<div class="dm-cards">${thumbs}</div>` : ''}
     </div>`;
   }).join('');
-  root.querySelectorAll('.deck-manage-row').forEach(row=>{
+  root.querySelectorAll('.deck-manage-block').forEach(row=>{
     const i = +row.dataset.i;
+    row.querySelector('[data-act=cards]').onclick = ()=> openDeckCardEditor(i);
     row.querySelector('[data-act=up]').onclick = ()=>{
       if(i<=0) return;
       const a = state.myDecks;
@@ -1542,7 +1599,7 @@ function renderMyDeckManager(){
       saveState(); renderMyDeckManager(); renderDeckPickers();
     };
     row.querySelector('[data-act=del]').onclick = ()=>{
-      const name = state.myDecks[i];
+      const name = state.myDecks[i].name;
       if(!confirm(`「${name}」を登録から削除しますか？（記録済みの対戦データは消えません）`)) return;
       state.myDecks.splice(i,1);
       saveState(); renderMyDeckManager(); renderDeckPickers();
@@ -1554,12 +1611,22 @@ function addMyDeck(name){
   name = (name||'').trim();
   if(!name){ toast('デッキ名を入力してください'); return false; }
   if(!Array.isArray(state.myDecks)) state.myDecks = [];
-  if(state.myDecks.includes(name)){ toast('すでに登録されています'); return false; }
-  state.myDecks.push(name);
+  if(state.myDecks.some(d=>d.name===name)){ toast('すでに登録されています'); return false; }
+  state.myDecks.push({name, cards:[]});
   saveState();
   renderMyDeckManager(); renderDeckPickers();
   toast(`「${name}」を登録しました`);
   return true;
+}
+/* デッキのカードをピッカーで編集（最大2枚/種＝ポケポケの構築ルール） */
+function openDeckCardEditor(i){
+  const deck = state.myDecks[i];
+  if(!deck) return;
+  openPickerFor(deck.cards, (cards)=>{
+    deck.cards = cards;
+    saveState();
+    renderMyDeckManager();
+  }, {max:2, title:`「${deck.name}」のカードを登録`});
 }
 
 /* ---------- Datalists (player/deck候補) ---------- */
@@ -1762,6 +1829,7 @@ async function startCloudSync(){
 }
 async function pushToCloud(){
   if(!fbUser || !fbDb) return;
+  clearTimeout(syncPushTimer); // 予約済みの遅延pushがあればまとめる
   try{
     setSyncState('保存中…', 'busy');
     state.updatedAt = Date.now();
@@ -1770,7 +1838,8 @@ async function pushToCloud(){
       matches: state.matches,
       updatedAt: state.updatedAt,
     });
-    saveState();
+    // localStorageに直接書く（saveState()経由だと再pushがスケジュールされ無限ループになる）
+    localStorage.setItem(STORE_KEY, JSON.stringify(state));
     setSyncState('同期済み', 'ok');
   }catch(e){
     console.error('push failed', e);

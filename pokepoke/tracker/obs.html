@@ -118,10 +118,24 @@ function fmt(iso){
 }
 function css(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
 
-function render(){
+let lastSig = null; // 前回描画時の状態(変化がなければ何もしない=グラフを動かさない)
+
+function render(force){
   const st = loadState();
   const all = [...st.matches].sort((a,b)=>String(a.datetime).localeCompare(String(b.datetime)));
   const list = deckFilter ? all.filter(m=>(m.myDeck||'')===deckFilter) : all;
+
+  // 変化がなければ再描画しない（OBSでグラフが動き続けるのを防ぐ）
+  const sig = JSON.stringify({
+    deck: deckFilter,
+    preset: st.settings.rankPreset,
+    mode: st.settings.pointMode,
+    start: st.settings.startPts,
+    pts: list.map(m=>[m.datetime, m.pointsAfter, m.result]),
+    bg: document.body.className,
+  });
+  if(!force && sig === lastSig) return;
+  lastSig = sig;
 
   rankStepsCache = rankSteps(st.settings);
   const auto = (st.settings.pointMode || 'auto') === 'auto';
@@ -159,7 +173,21 @@ function render(){
   const fg = css('--fg') || '#fff';
   const grid = fg.startsWith('#1') ? 'rgba(0,0,0,.12)' : 'rgba(255,255,255,.18)';
 
-  if(chart) chart.destroy();
+  if(chart){
+    // 既存グラフは差分更新（作り直さない＝チラつき・再アニメを防ぐ）
+    const ds = chart.data.datasets[0];
+    chart.data.labels = labels;
+    ds.data = data;
+    ds.pointBackgroundColor = colors;
+    ds.borderColor = css('--line');
+    ds.backgroundColor = css('--fill');
+    chart.options.scales.x.ticks.color = fg;
+    chart.options.scales.y.ticks.color = fg;
+    chart.options.scales.x.grid.color = grid;
+    chart.options.scales.y.grid.color = grid;
+    chart.update();
+    return;
+  }
   chart = new Chart($('#c').getContext('2d'), {
     type:'line',
     data:{ labels, datasets:[{
