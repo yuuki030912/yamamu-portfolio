@@ -398,11 +398,14 @@ button:active{transform:translateY(1px)}
   <section class="card">
     <h2>ポイント設定</h2>
     <div class="settings-row" style="margin-bottom:10px">
-      <label class="fld" style="max-width:340px"><span>計算モード</span>
+      <label class="fld" style="max-width:320px"><span>計算モード</span>
         <select id="setMode">
           <option value="auto">公式ルール（ランク連動 + 連勝ボーナス）</option>
           <option value="manual">手動設定</option>
         </select>
+      </label>
+      <label class="fld" id="rankPresetWrap" style="max-width:340px"><span>シーズンのランク設定</span>
+        <select id="setRankPreset"></select>
       </label>
       <label class="fld"><span>現在のポイント (初期値)</span><input type="number" id="setStartPts" value="0"></label>
       <button class="btn-blue" id="saveSettingsBtn">設定を保存</button>
@@ -415,8 +418,11 @@ button:active{transform:translateY(1px)}
     <div class="sub" id="autoModeNote" style="font-size:11px;color:var(--ink-3);margin-top:6px;line-height:1.8">
       公式ルール: 勝ち<b>+10pt</b>／連勝ボーナス <b>2連勝+3・3連勝+6・4連勝+9・5連勝以上+12</b>／
       負けはランク帯で変動（ビギナー<b>0</b>・モンスターボール／スーパーボール<b>−5</b>・ハイパーボール<b>−7</b>・マスターボール<b>−10</b>）／
-      ボール帯の下限を下回る降格なし（降格保護）。
+      ボール帯の下限を下回る降格なし（降格保護）。<br>
+      ※ランク昇格に必要なポイントは<b>シーズンによって変わります</b>（Bシリーズは2週間開催のため低め）。上の「シーズンのランク設定」で切り替えてください。
+      <span id="rankTableToggle" style="color:var(--tcg-blue);cursor:pointer;font-weight:700">ランク表を見る</span>
     </div>
+    <div id="rankTableBox" style="display:none;margin-top:10px"></div>
     <div class="sub" style="font-size:11px;color:var(--ink-3);margin-top:6px">※「現在のポイント」は履歴がない場合の基準値。履歴がある場合は最新の対戦後の値が反映されます。</div>
   </section>
 
@@ -739,53 +745,73 @@ function toJaName(enName){
   return enName;
 }
 
-/* ---- 公式ランクマッチ仕様 (2026-07 B3bシーズン時点) ----
- * 勝ち+10 / 連勝ボーナス 2連+3, 3連+6, 4連+9, 5連以上+12 (全ランク帯)
+/* ---- 公式ランクマッチ仕様 ----
+ * 勝ち+10 / 連勝ボーナス 2連+3, 3連+6, 4連+9, 5連以上+12 (全ランク帯共通)
  * 負け: ビギナー0, モンボ・スーパー-5, ハイパー-7, マスター-10
  * ボール帯の下限を下回る降格なし(降格保護)
+ *
+ * ★ランク境界はシーズンごとに異なる。Bシリーズは開催期間が短いぶん低く設定されている。
+ *   (例: マスター到達 シリーズA=1450pt / B3・B3b=810pt)
+ *   新シーズンで変わったら RANK_PRESETS に追加し、設定から選べるようにしている。
  */
-const RANK_STEPS = [
-  {name:'ビギナー1', pts:0,    tier:'beginner'},
-  {name:'ビギナー2', pts:20,   tier:'beginner'},
-  {name:'ビギナー3', pts:50,   tier:'beginner'},
-  {name:'ビギナー4', pts:95,   tier:'beginner'},
-  {name:'モンスターボール1', pts:145, tier:'monster'},
-  {name:'モンスターボール2', pts:195, tier:'monster'},
-  {name:'モンスターボール3', pts:245, tier:'monster'},
-  {name:'モンスターボール4', pts:300, tier:'monster'},
-  {name:'スーパーボール1', pts:355, tier:'super'},
-  {name:'スーパーボール2', pts:420, tier:'super'},
-  {name:'スーパーボール3', pts:490, tier:'super'},
-  {name:'スーパーボール4', pts:600, tier:'super'},
-  {name:'ハイパーボール1', pts:710,  tier:'hyper'},
-  {name:'ハイパーボール2', pts:860,  tier:'hyper'},
-  {name:'ハイパーボール3', pts:1010, tier:'hyper'},
-  {name:'ハイパーボール4', pts:1225, tier:'hyper'},
-  {name:'マスターボール',  pts:1450, tier:'master'},
+const RANK_PRESETS = {
+  b: {
+    label: 'Bシリーズ（現行・2週間シーズン / マスター810pt）',
+    steps: [0, 20, 50, 80, 110, 140, 170, 210, 250, 290, 330, 380, 440, 510, 590, 690, 810],
+  },
+  a: {
+    label: 'Aシリーズ（旧・1ヶ月シーズン / マスター1450pt）',
+    steps: [0, 20, 50, 95, 145, 195, 245, 300, 355, 420, 490, 600, 710, 860, 1010, 1225, 1450],
+  },
+};
+const RANK_NAMES = [
+  'ビギナー1','ビギナー2','ビギナー3','ビギナー4',
+  'モンスターボール1','モンスターボール2','モンスターボール3','モンスターボール4',
+  'スーパーボール1','スーパーボール2','スーパーボール3','スーパーボール4',
+  'ハイパーボール1','ハイパーボール2','ハイパーボール3','ハイパーボール4',
+  'マスターボール',
 ];
+const RANK_TIERS = [
+  'beginner','beginner','beginner','beginner',
+  'monster','monster','monster','monster',
+  'super','super','super','super',
+  'hyper','hyper','hyper','hyper',
+  'master',
+];
+/* 現在の設定に応じたランク表を組み立てる */
+function rankSteps(){
+  const key = (state?.settings?.rankPreset) || 'b';
+  const preset = RANK_PRESETS[key] || RANK_PRESETS.b;
+  return preset.steps.map((pts, i) => ({name:RANK_NAMES[i], pts, tier:RANK_TIERS[i]}));
+}
 const TIER_LOSE = { beginner:0, monster:-5, super:-5, hyper:-7, master:-10 };
-const TIER_FLOORS = [0, 145, 355, 710, 1450]; // ボール帯下限(降格保護ライン)
+/* ボール帯の下限(降格保護ライン) = モンボ1 / スーパー1 / ハイパー1 / マスター */
+function tierFloors(){
+  const s = rankSteps();
+  return [0, s[4].pts, s[8].pts, s[12].pts, s[16].pts];
+}
 const STREAK_BONUS = [0, 0, 3, 6, 9, 12];     // index=連勝数(5以上は+12)
 
 function rankOf(pts){
-  let r = RANK_STEPS[0];
-  for(const s of RANK_STEPS){ if(pts >= s.pts) r = s; else break; }
+  const steps = rankSteps();
+  let r = steps[0];
+  for(const s of steps){ if(pts >= s.pts) r = s; else break; }
   return r;
 }
 /* 次のランクと、そこまでの残りポイント */
 function nextRankOf(pts){
-  for(const s of RANK_STEPS){ if(pts < s.pts) return {name:s.name, need:s.pts - pts, at:s.pts}; }
+  for(const s of rankSteps()){ if(pts < s.pts) return {name:s.name, need:s.pts - pts, at:s.pts}; }
   return null; // マスターボール到達済み
 }
 function streakBonusOf(n){ return STREAK_BONUS[Math.min(n, 5)] || 0; }
 function tierFloorOf(pts){
   let f = 0;
-  for(const t of TIER_FLOORS){ if(pts >= t) f = t; }
+  for(const t of tierFloors()){ if(pts >= t) f = t; }
   return f;
 }
 
 const DEFAULT_STATE = {
-  settings:{ pointMode:'auto', pointWin:15, pointLose:-12, pointDraw:0, startPts:0 },
+  settings:{ pointMode:'auto', rankPreset:'b', pointWin:15, pointLose:-12, pointDraw:0, startPts:0 },
   myDecks:[],   // 自分の登録デッキ ['アルクロベビィ', ...]
   matches:[],
 };
@@ -943,17 +969,45 @@ function syncSettingsVisibility(){
   const manual = $('#setMode').value === 'manual';
   $('#manualPtsRow').style.display = manual ? '' : 'none';
   $('#autoModeNote').style.display = manual ? 'none' : '';
+  $('#rankPresetWrap').style.display = manual ? 'none' : '';
+  if(manual) $('#rankTableBox').style.display = 'none';
+}
+/* 現在のランク表を一覧で見せる */
+function renderRankTable(){
+  const box = $('#rankTableBox');
+  if(!box) return;
+  const steps = rankSteps();
+  const pts = currentRankPoints();
+  const cur = rankOf(pts).name;
+  box.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:4px">
+    ${steps.map(s=>`<div style="display:flex;justify-content:space-between;gap:8px;padding:5px 10px;border-radius:6px;font-size:12px;
+      ${s.name===cur ? 'background:var(--tcg-blue);color:#fff;font-weight:800' : 'background:var(--bg-cream);color:var(--ink-2)'}">
+      <span>${s.name}</span><span>${s.pts}pt</span></div>`).join('')}
+  </div>`;
 }
 function bindSettings(){
   $('#setMode').value = state.settings.pointMode || 'auto';
+  // シーズンプリセット
+  const sel = $('#setRankPreset');
+  sel.innerHTML = Object.entries(RANK_PRESETS)
+    .map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('');
+  sel.value = state.settings.rankPreset || 'b';
   $('#setWin').value = state.settings.pointWin;
   $('#setLose').value = state.settings.pointLose;
   $('#setDraw').value = state.settings.pointDraw;
   $('#setStartPts').value = state.settings.startPts;
   syncSettingsVisibility();
   $('#setMode').onchange = syncSettingsVisibility;
+  $('#rankTableToggle').onclick = ()=>{
+    const box = $('#rankTableBox');
+    const open = box.style.display !== 'none';
+    box.style.display = open ? 'none' : '';
+    $('#rankTableToggle').textContent = open ? 'ランク表を見る' : 'ランク表を閉じる';
+    if(!open) renderRankTable();
+  };
   $('#saveSettingsBtn').onclick = ()=>{
     state.settings.pointMode = $('#setMode').value;
+    state.settings.rankPreset = $('#setRankPreset').value;
     state.settings.pointWin = +$('#setWin').value || 0;
     state.settings.pointLose = +$('#setLose').value || 0;
     state.settings.pointDraw = +$('#setDraw').value || 0;
@@ -961,6 +1015,7 @@ function bindSettings(){
     recomputeAllPoints();
     saveState();
     renderAll();
+    if($('#rankTableBox').style.display !== 'none') renderRankTable();
     toast('設定を保存しました');
   };
 }

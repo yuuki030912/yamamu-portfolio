@@ -81,20 +81,25 @@ const STORE_KEY = 'pokepoke-tracker-v1';
 const BG_KEY = 'pokepoke-obs-bg';
 const DECK_KEY = 'pokepoke-obs-deck';
 
-// ランク境界(本体と同じ定義)
-const RANK_STEPS = [
-  {name:'ビギナー1', pts:0},   {name:'ビギナー2', pts:20},
-  {name:'ビギナー3', pts:50},  {name:'ビギナー4', pts:95},
-  {name:'モンスターボール1', pts:145}, {name:'モンスターボール2', pts:195},
-  {name:'モンスターボール3', pts:245}, {name:'モンスターボール4', pts:300},
-  {name:'スーパーボール1', pts:355},   {name:'スーパーボール2', pts:420},
-  {name:'スーパーボール3', pts:490},   {name:'スーパーボール4', pts:600},
-  {name:'ハイパーボール1', pts:710},   {name:'ハイパーボール2', pts:860},
-  {name:'ハイパーボール3', pts:1010},  {name:'ハイパーボール4', pts:1225},
-  {name:'マスターボール', pts:1450},
+// ランク境界(本体と同じ定義)。シーズンごとに異なるので設定に追従する
+const RANK_PRESETS = {
+  b: [0, 20, 50, 80, 110, 140, 170, 210, 250, 290, 330, 380, 440, 510, 590, 690, 810],
+  a: [0, 20, 50, 95, 145, 195, 245, 300, 355, 420, 490, 600, 710, 860, 1010, 1225, 1450],
+};
+const RANK_NAMES = [
+  'ビギナー1','ビギナー2','ビギナー3','ビギナー4',
+  'モンスターボール1','モンスターボール2','モンスターボール3','モンスターボール4',
+  'スーパーボール1','スーパーボール2','スーパーボール3','スーパーボール4',
+  'ハイパーボール1','ハイパーボール2','ハイパーボール3','ハイパーボール4',
+  'マスターボール',
 ];
-const rankOf = p => { let r = RANK_STEPS[0]; for(const s of RANK_STEPS){ if(p>=s.pts) r=s; else break; } return r; };
-const nextRankOf = p => { for(const s of RANK_STEPS){ if(p<s.pts) return {name:s.name, need:s.pts-p}; } return null; };
+let rankStepsCache = [];
+function rankSteps(settings){
+  const arr = RANK_PRESETS[(settings && settings.rankPreset) || 'b'] || RANK_PRESETS.b;
+  return arr.map((pts,i)=>({name:RANK_NAMES[i], pts}));
+}
+const rankOf = p => { let r = rankStepsCache[0]; for(const s of rankStepsCache){ if(p>=s.pts) r=s; else break; } return r; };
+const nextRankOf = p => { for(const s of rankStepsCache){ if(p<s.pts) return {name:s.name, need:s.pts-p}; } return null; };
 
 const $ = s => document.querySelector(s);
 let chart = null, deckFilter = localStorage.getItem(DECK_KEY) || '';
@@ -118,6 +123,7 @@ function render(){
   const all = [...st.matches].sort((a,b)=>String(a.datetime).localeCompare(String(b.datetime)));
   const list = deckFilter ? all.filter(m=>(m.myDeck||'')===deckFilter) : all;
 
+  rankStepsCache = rankSteps(st.settings);
   const auto = (st.settings.pointMode || 'auto') === 'auto';
   const pts = all.length ? (all[all.length-1].pointsAfter ?? 0) : (st.settings.startPts ?? 0);
   $('#pts').textContent = pts;
