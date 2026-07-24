@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ランクポイント推移（配信用）</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@400;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --win:#22c55e; --lose:#ef4444; --draw:#9ca3af;
+  --line:#60a5fa; --fill:rgba(96,165,250,.22);
+  --fg:#fff; --sub:rgba(255,255,255,.72);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%}
+body{
+  font-family:"Noto Sans JP",system-ui,sans-serif;
+  color:var(--fg); background:transparent; overflow:hidden;
+  /* どんな背景でも読めるよう文字に影 */
+  text-shadow:0 2px 6px rgba(0,0,0,.85), 0 0 2px rgba(0,0,0,.9);
+}
+body.bg-dark{background:rgba(12,17,29,.86)}
+body.bg-light{background:rgba(255,255,255,.92); --fg:#111827; --sub:#4b5563; text-shadow:none}
+.wrap{height:100%; display:flex; flex-direction:column; padding:14px 16px}
+header{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:6px}
+.pts{font-family:"Bebas Neue",sans-serif; font-size:54px; line-height:.95; letter-spacing:1px}
+.rank{font-size:19px; font-weight:800}
+.next{font-size:13px; color:var(--sub)}
+.wl{font-size:15px; font-weight:800; margin-left:auto}
+.wl .w{color:var(--win)} .wl .l{color:var(--lose)}
+.streak{
+  font-size:14px; font-weight:800; color:#fff;
+  background:linear-gradient(135deg,#f97316,#dc2626);
+  padding:3px 12px; border-radius:999px; text-shadow:none;
+}
+.chart{flex:1; position:relative; min-height:0}
+.empty{
+  flex:1; display:flex; align-items:center; justify-content:center;
+  font-size:15px; color:var(--sub);
+}
+/* OBS操作用。配信には映さない想定だが、マウスを乗せた時だけ出す */
+.ctl{position:fixed; right:8px; top:8px; display:flex; gap:6px; opacity:0; transition:opacity .2s}
+body:hover .ctl{opacity:1}
+.ctl button{
+  font:inherit; font-size:11px; font-weight:700; cursor:pointer;
+  border:1px solid rgba(255,255,255,.35); background:rgba(0,0,0,.55); color:#fff;
+  border-radius:6px; padding:3px 8px; text-shadow:none;
+}
+</style>
+</head>
+<body>
+<div class="ctl">
+  <button id="bgBtn">背景</button>
+  <button id="deckBtn">デッキ切替</button>
+</div>
+<div class="wrap">
+  <header>
+    <div class="pts" id="pts">0</div>
+    <div>
+      <div class="rank" id="rank"></div>
+      <div class="next" id="next"></div>
+    </div>
+    <span class="streak" id="streak" style="display:none"></span>
+    <div class="wl" id="wl"></div>
+  </header>
+  <div class="chart" id="chartWrap"><canvas id="c"></canvas></div>
+  <div class="empty" id="empty" style="display:none">まだ対戦記録がありません</div>
+</div>
+
+<script>
+/* ============================================================
+   配信用のグラフ単独ウィンドウ。
+   本体(index.html)がlocalStorageに保存したデータを読むだけの表示専用。
+   ポイントは本体側で計算済み(pointsAfter)なので、ここでは再計算しない。
+   ============================================================ */
+const STORE_KEY = 'pokepoke-tracker-v1';
+const BG_KEY = 'pokepoke-obs-bg';
+const DECK_KEY = 'pokepoke-obs-deck';
+
+// ランク境界(本体と同じ定義)
+const RANK_STEPS = [
+  {name:'ビギナー1', pts:0},   {name:'ビギナー2', pts:20},
+  {name:'ビギナー3', pts:50},  {name:'ビギナー4', pts:95},
+  {name:'モンスターボール1', pts:145}, {name:'モンスターボール2', pts:195},
+  {name:'モンスターボール3', pts:245}, {name:'モンスターボール4', pts:300},
+  {name:'スーパーボール1', pts:355},   {name:'スーパーボール2', pts:420},
+  {name:'スーパーボール3', pts:490},   {name:'スーパーボール4', pts:600},
+  {name:'ハイパーボール1', pts:710},   {name:'ハイパーボール2', pts:860},
+  {name:'ハイパーボール3', pts:1010},  {name:'ハイパーボール4', pts:1225},
+  {name:'マスターボール', pts:1450},
+];
+const rankOf = p => { let r = RANK_STEPS[0]; for(const s of RANK_STEPS){ if(p>=s.pts) r=s; else break; } return r; };
+const nextRankOf = p => { for(const s of RANK_STEPS){ if(p<s.pts) return {name:s.name, need:s.pts-p}; } return null; };
+
+const $ = s => document.querySelector(s);
+let chart = null, deckFilter = localStorage.getItem(DECK_KEY) || '';
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return {settings:{}, matches:[]};
+    const s = JSON.parse(raw);
+    return {settings: s.settings||{}, matches: Array.isArray(s.matches)? s.matches : []};
+  }catch(e){ return {settings:{}, matches:[]}; }
+}
+function fmt(iso){
+  const d = new Date(iso);
+  return `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+}
+function css(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+
+function render(){
+  const st = loadState();
+  const all = [...st.matches].sort((a,b)=>String(a.datetime).localeCompare(String(b.datetime)));
+  const list = deckFilter ? all.filter(m=>(m.myDeck||'')===deckFilter) : all;
+
+  const auto = (st.settings.pointMode || 'auto') === 'auto';
+  const pts = all.length ? (all[all.length-1].pointsAfter ?? 0) : (st.settings.startPts ?? 0);
+  $('#pts').textContent = pts;
+  $('#rank').textContent = auto ? rankOf(pts).name : '';
+  const nx = auto ? nextRankOf(pts) : null;
+  $('#next').textContent = auto ? (nx ? `${nx.name} まであと ${nx.need}pt` : '🏆 マスターボール到達') : '';
+
+  // 連勝(全体の末尾から)
+  let streak = 0;
+  for(let i=all.length-1; i>=0; i--){ if(all[i].result==='win') streak++; else break; }
+  const sb = $('#streak');
+  if(streak >= 2){ sb.style.display=''; sb.textContent = `🔥 ${streak}連勝中`; }
+  else sb.style.display = 'none';
+
+  const w = list.filter(m=>m.result==='win').length;
+  const l = list.filter(m=>m.result==='lose').length;
+  const decided = w + l;
+  const wr = decided ? `${Math.round(w/decided*1000)/10}%` : '--';
+  $('#wl').innerHTML = list.length
+    ? `${deckFilter ? deckFilter+' ' : ''}<span class="w">${w}勝</span> <span class="l">${l}敗</span> ／ 勝率 ${wr}`
+    : '';
+
+  const hasData = list.length > 0;
+  $('#chartWrap').style.display = hasData ? '' : 'none';
+  $('#empty').style.display = hasData ? 'none' : '';
+  if(!hasData){ if(chart){ chart.destroy(); chart = null; } return; }
+
+  const labels = list.map(m=>fmt(m.datetime));
+  const data = list.map(m=>m.pointsAfter ?? 0);
+  const colors = list.map(m=> m.result==='win' ? css('--win') : m.result==='lose' ? css('--lose') : css('--draw'));
+  if(!deckFilter){ labels.unshift(''); data.unshift(st.settings.startPts ?? 0); colors.unshift(css('--draw')); }
+
+  const fg = css('--fg') || '#fff';
+  const grid = fg.startsWith('#1') ? 'rgba(0,0,0,.12)' : 'rgba(255,255,255,.18)';
+
+  if(chart) chart.destroy();
+  chart = new Chart($('#c').getContext('2d'), {
+    type:'line',
+    data:{ labels, datasets:[{
+      data, borderColor:css('--line'), backgroundColor:css('--fill'),
+      pointBackgroundColor:colors, pointBorderColor:'rgba(0,0,0,.35)', pointBorderWidth:1,
+      pointRadius:4, borderWidth:3, fill:true, tension:.25,
+    }]},
+    options:{
+      responsive:true, maintainAspectRatio:false, animation:{duration:250},
+      plugins:{ legend:{display:false}, tooltip:{enabled:false} },
+      scales:{
+        x:{ ticks:{ color:fg, font:{size:10}, maxRotation:0, autoSkip:true, maxTicksLimit:7 }, grid:{color:grid} },
+        y:{ ticks:{ color:fg, font:{size:11} }, grid:{color:grid} }
+      }
+    }
+  });
+}
+
+/* 背景モード切替(透過 → 暗 → 明) */
+function applyBg(){
+  const m = localStorage.getItem(BG_KEY) || 'transparent';
+  document.body.className = m === 'dark' ? 'bg-dark' : m === 'light' ? 'bg-light' : '';
+}
+$('#bgBtn').onclick = ()=>{
+  const cur = localStorage.getItem(BG_KEY) || 'transparent';
+  const next = cur === 'transparent' ? 'dark' : cur === 'dark' ? 'light' : 'transparent';
+  localStorage.setItem(BG_KEY, next);
+  applyBg(); render();
+};
+/* 表示するデッキの切替(総合 → 各デッキ) */
+$('#deckBtn').onclick = ()=>{
+  const st = loadState();
+  const decks = [...new Set(st.matches.map(m=>m.myDeck).filter(Boolean))];
+  const opts = ['', ...decks];
+  const i = opts.indexOf(deckFilter);
+  deckFilter = opts[(i + 1) % opts.length] ?? '';
+  localStorage.setItem(DECK_KEY, deckFilter);
+  render();
+};
+
+applyBg();
+render();
+// 本体ウィンドウでの記録を検知して更新
+window.addEventListener('storage', e=>{ if(!e.key || e.key === STORE_KEY) render(); });
+// 取りこぼし対策(同一ウィンドウ内の変更など)
+setInterval(render, 3000);
+</script>
+</body>
+</html>

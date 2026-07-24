@@ -245,6 +245,29 @@ button:active{transform:translateY(1px)}
 }
 .rank-name{font-size:11px; color:var(--ink-2); font-weight:700; margin-top:2px}
 
+/* ===== Deck chips ===== */
+.deck-chips{display:flex; gap:6px; flex-wrap:wrap}
+.deck-chip{
+  padding:6px 12px; border-radius:999px; border:2px solid var(--line-2);
+  background:#fff; cursor:pointer; font-size:13px; font-weight:700; color:var(--ink-2);
+  transition:border-color .15s, background .15s;
+}
+.deck-chip:hover{border-color:var(--tcg-blue); background:rgba(37,99,235,.06)}
+.deck-chip.active{border-color:var(--tcg-blue); background:var(--tcg-blue); color:#fff}
+.deck-chip .cnt{font-size:11px; font-weight:400; opacity:.75; margin-left:4px}
+.deck-chip-empty{font-size:12px; color:var(--ink-4); padding:4px 0}
+/* デッキ管理 */
+.deck-manage-row{display:flex; align-items:center; gap:8px; padding:8px 10px; border:1px solid var(--line-2); border-radius:var(--r-sm); background:#fff; margin-bottom:6px}
+.deck-manage-row .nm{flex:1; font-weight:700; font-size:14px}
+.deck-manage-row .stat{font-size:12px; color:var(--ink-3)}
+
+/* ===== Rank head (グラフ上部) ===== */
+.rank-head{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:14px}
+.rank-head .rank-info{display:flex; flex-direction:column; gap:2px}
+.rank-head .rank-name{font-size:16px; font-weight:800; color:var(--tcg-blue-2); margin:0}
+.rank-head .rank-next{font-size:12px; color:var(--ink-3)}
+.card h2 .btn-sm{font-size:12px}
+
 /* ===== Cloud sync ===== */
 .sync-box{display:inline-flex; align-items:center; gap:8px}
 .sync-btn{
@@ -322,32 +345,23 @@ button:active{transform:translateY(1px)}
     <div class="sync-box" id="syncBox" style="display:none">
       <button class="sync-btn" id="loginBtn">🔗 Googleでログイン</button>
       <span class="sync-user" id="syncUser" style="display:none">
-        <img id="syncAvatar" alt="" referrerpolicy="no-referrer">
-        <span>
-          <span id="syncEmail"></span>
-          <span class="sync-state" id="syncState"></span>
-        </span>
+        <img id="syncAvatar" alt="" referrerpolicy="no-referrer" title="ログイン中">
+        <span class="sync-state" id="syncState"></span>
         <button class="btn-sm btn-ghost" id="logoutBtn">ログアウト</button>
       </span>
     </div>
     <div class="lang-switch" id="langSwitch" title="カード画像の言語">
       <button data-lang="ja">日本語</button><button data-lang="en">English</button>
     </div>
-    <span class="streak-badge" id="streakBadge" style="display:none">🔥 <span id="streakCount"></span>連勝中</span>
-    <div class="rank-pill">
-      <div>
-        <div class="label">CURRENT POINTS</div>
-        <div class="val" id="rankDisplay">0</div>
-        <div class="rank-name" id="rankName"></div>
-      </div>
-    </div>
   </header>
 
   <!-- ===== Quick record ===== -->
   <section class="card">
     <h2>⚡ クイック記録</h2>
-    <div class="row" style="margin-bottom:10px">
-      <label class="fld col"><span>使用デッキ（前回のデッキを自動引き継ぎ）</span><input type="text" id="quickMyDeck" placeholder="例: アルクロベビィ" list="myDeckList"></label>
+    <div class="fld" style="margin-bottom:10px">
+      <span style="display:block;font-size:12px;color:var(--ink-3);font-weight:700;margin-bottom:6px">使用デッキ</span>
+      <div class="deck-chips" id="quickDeckChips"></div>
+      <input type="text" id="quickMyDeck" placeholder="デッキ名（上から選ぶか直接入力）" list="myDeckList" style="margin-top:8px">
     </div>
     <div class="quick-btns">
       <button class="quick-btn win" id="quickWinBtn">勝ち</button>
@@ -359,7 +373,22 @@ button:active{transform:translateY(1px)}
 
   <!-- ===== Slump graph ===== -->
   <section class="card">
-    <h2>ランクポイント推移</h2>
+    <h2>ランクポイント推移
+      <button class="btn-sm" id="obsBtn" style="margin-left:auto;font-weight:700" title="グラフだけを別ウィンドウで開きます（OBSのブラウザソース用）">🖥 配信用に開く</button>
+    </h2>
+    <div class="rank-head">
+      <div class="rank-pill">
+        <div>
+          <div class="label">CURRENT POINTS</div>
+          <div class="val" id="rankDisplay">0</div>
+        </div>
+      </div>
+      <div class="rank-info">
+        <div class="rank-name" id="rankName"></div>
+        <div class="rank-next" id="rankNext"></div>
+      </div>
+      <span class="streak-badge" id="streakBadge" style="display:none">🔥 <span id="streakCount"></span>連勝中</span>
+    </div>
     <div class="deck-tabs" id="deckTabs"></div>
     <div class="chart-stats" id="chartStats"></div>
     <div class="chart-wrap"><canvas id="slumpChart"></canvas></div>
@@ -394,11 +423,15 @@ button:active{transform:translateY(1px)}
   <!-- ===== New match ===== -->
   <section class="card">
     <h2 id="matchFormTitle">新しい対戦を記録</h2>
-    <div class="row">
-      <label class="fld col"><span>自分の使用デッキ</span><input type="text" id="mMyDeck" placeholder="例: アルクロベビィ" list="myDeckList"></label>
-      <label class="fld col"><span>相手プレイヤー名</span><input type="text" id="mPlayer" placeholder="例: あいる" list="playerList"></label>
-      <label class="fld col"><span>相手デッキ名</span><input type="text" id="mDeck" placeholder="例: リザードンEX デッキ" list="deckList"></label>
-    </div>
+    <label class="fld"><span>自分の使用デッキ</span>
+      <div class="deck-chips" id="formMyDeckChips"></div>
+      <input type="text" id="mMyDeck" placeholder="デッキ名（上から選ぶか直接入力）" list="myDeckList" style="margin-top:6px">
+    </label>
+    <label class="fld"><span>相手デッキ名<span id="oppDeckHint" style="font-weight:400;color:var(--ink-4)"></span></span>
+      <div class="deck-chips" id="oppDeckChips"></div>
+      <input type="text" id="mDeck" placeholder="相手のデッキ名（上から選ぶか直接入力）" list="deckList" style="margin-top:6px">
+    </label>
+    <label class="fld"><span>相手プレイヤー名（任意）</span><input type="text" id="mPlayer" placeholder="例: あいる" list="playerList"></label>
     <details style="margin-bottom:10px">
       <summary style="font-size:12px;color:var(--ink-3);cursor:pointer;font-weight:700">対戦日時（未変更なら保存時に自動で現在時刻）</summary>
       <label class="fld" style="max-width:260px;margin-top:8px"><input type="datetime-local" id="mDate"></label>
@@ -433,7 +466,20 @@ button:active{transform:translateY(1px)}
     </div>
   </section>
 
-  <!-- ===== History ===== -->
+  <!-- ===== My decks ===== -->
+  <section class="card">
+    <h2>🎴 マイデッキ管理 <span style="font-size:12px;color:var(--ink-3);font-weight:400;margin-left:8px" id="myDeckCount"></span></h2>
+    <div style="font-size:12px;color:var(--ink-3);margin-bottom:10px">
+      登録しておくと、クイック記録や対戦フォームからワンタップで選べます。
+    </div>
+    <div id="myDeckList2"></div>
+    <div class="row" style="margin-top:10px">
+      <label class="fld col" style="margin-bottom:0"><input type="text" id="newDeckInput" placeholder="デッキ名を入力して追加（例: アルクロベビィ）"></label>
+      <button class="btn-blue" id="addDeckBtn" style="align-self:flex-start">＋ 追加</button>
+    </div>
+  </section>
+
+  <!-- ===== History ====== -->
   <section class="card">
     <h2>対戦履歴 <span style="font-size:12px;color:var(--ink-3);font-weight:400;margin-left:8px" id="historyCount"></span></h2>
     <div class="row" style="margin-bottom:10px">
@@ -503,11 +549,7 @@ button:active{transform:translateY(1px)}
   </section>
 
   <div class="foot">
-    <a href="/">やまむー【yamamu】</a> ／ <a href="/pokepoke/">ポケポケ攻略Wiki</a> ／ <a href="/privacy.html">プライバシーポリシー</a> ／ <a href="/contact.html">お問い合わせ</a><br>
-    当ツールは個人が制作した非公式のファンツールです。株式会社ポケモンおよび関連会社とは一切関係ありません。<br>
-    掲載しているカード画像・名称の著作権は <b>© Nintendo / Creatures Inc. / GAME FREAK inc. / The Pokémon Company</b> に帰属します。
-    カードデータの一部は <a href="https://tcgdex.dev" target="_blank" rel="noopener">TCGdex</a> を利用しています。<br>
-    権利者の方で掲載に問題がある場合は、<a href="/contact.html">お問い合わせ</a>よりご連絡ください。速やかに対応いたします。
+    yamamu official / Card data &amp; images by <a href="https://tcgdex.dev" target="_blank" rel="noopener">TCGdex</a> · Pokémon &amp; Pokémon TCG Pocket are © Nintendo / Creatures Inc. / GAME FREAK inc. / The Pokémon Company.
   </div>
 </div>
 
@@ -730,6 +772,11 @@ function rankOf(pts){
   for(const s of RANK_STEPS){ if(pts >= s.pts) r = s; else break; }
   return r;
 }
+/* 次のランクと、そこまでの残りポイント */
+function nextRankOf(pts){
+  for(const s of RANK_STEPS){ if(pts < s.pts) return {name:s.name, need:s.pts - pts, at:s.pts}; }
+  return null; // マスターボール到達済み
+}
 function streakBonusOf(n){ return STREAK_BONUS[Math.min(n, 5)] || 0; }
 function tierFloorOf(pts){
   let f = 0;
@@ -739,6 +786,7 @@ function tierFloorOf(pts){
 
 const DEFAULT_STATE = {
   settings:{ pointMode:'auto', pointWin:15, pointLose:-12, pointDraw:0, startPts:0 },
+  myDecks:[],   // 自分の登録デッキ ['アルクロベビィ', ...]
   matches:[],
 };
 
@@ -757,6 +805,7 @@ function loadState(){
     const parsed = JSON.parse(raw);
     const merged = Object.assign(structuredClone(DEFAULT_STATE), parsed);
     merged.settings = Object.assign(structuredClone(DEFAULT_STATE.settings), parsed.settings || {});
+    if(!Array.isArray(merged.myDecks)) merged.myDecks = [];
     return merged;
   }catch(e){
     console.error('loadState failed', e);
@@ -970,6 +1019,14 @@ function renderRank(){
   $('#rankDisplay').textContent = pts;
   const auto = (state.settings.pointMode || 'auto') === 'auto';
   $('#rankName').textContent = auto ? rankOf(pts).name : '';
+  if(auto){
+    const nx = nextRankOf(pts);
+    $('#rankNext').textContent = nx
+      ? `${nx.name} まであと ${nx.need}pt（${nx.at}pt）`
+      : '🏆 マスターボール到達';
+  }else{
+    $('#rankNext').textContent = '';
+  }
   const streak = currentStreak();
   const badge = $('#streakBadge');
   if(streak >= 2){
@@ -1346,6 +1403,110 @@ function quickRecord(result){
   toast(resultToast(m));
 }
 
+/* ============================================================
+   デッキ選択（マイデッキ / 相手デッキ履歴）
+   ============================================================ */
+/* 登録デッキ＋実際に使ったデッキを統合した候補リスト */
+function allMyDecks(){
+  const used = myDeckList();
+  return [...new Set([...(state.myDecks||[]), ...used])];
+}
+/* 相手デッキを使用回数の多い順に */
+function opponentDeckRanking(){
+  const cnt = new Map();
+  for(const m of state.matches){
+    const d = (m.opponentDeck||'').trim();
+    if(d) cnt.set(d, (cnt.get(d)||0) + 1);
+  }
+  return [...cnt.entries()].sort((a,b)=>b[1]-a[1]).map(([name,n])=>({name, n}));
+}
+/* チップ描画の共通処理。inputに連動して選択状態が変わる */
+function renderChips(rootSel, items, inputSel, {showCount=false, emptyText=''}={}){
+  const root = $(rootSel);
+  if(!root) return;
+  const input = $(inputSel);
+  const cur = (input?.value || '').trim();
+  if(!items.length){
+    root.innerHTML = emptyText ? `<div class="deck-chip-empty">${escapeHtml(emptyText)}</div>` : '';
+    return;
+  }
+  root.innerHTML = items.map(it=>{
+    const name = typeof it === 'string' ? it : it.name;
+    const n = (typeof it === 'object' && showCount) ? `<span class="cnt">${it.n}</span>` : '';
+    return `<div class="deck-chip ${name===cur?'active':''}" data-name="${escapeHtml(name)}">${escapeHtml(name)}${n}</div>`;
+  }).join('');
+  root.querySelectorAll('.deck-chip').forEach(el=>{
+    el.onclick = ()=>{
+      const name = el.dataset.name;
+      // 選択中をもう一度押したら解除
+      input.value = (input.value.trim() === name) ? '' : name;
+      input.dispatchEvent(new Event('input'));
+      renderDeckPickers();
+    };
+  });
+}
+function renderDeckPickers(){
+  renderChips('#quickDeckChips', allMyDecks(), '#quickMyDeck',
+    {emptyText:'まだデッキが登録されていません。下の「マイデッキ管理」から追加できます。'});
+  renderChips('#formMyDeckChips', allMyDecks(), '#mMyDeck',
+    {emptyText:'「マイデッキ管理」から登録すると、ここから選べます。'});
+  const opp = opponentDeckRanking().slice(0, 12);
+  renderChips('#oppDeckChips', opp, '#mDeck',
+    {showCount:true, emptyText:'一度入力すると、次回からここに出て選べるようになります。'});
+  const hint = $('#oppDeckHint');
+  if(hint) hint.textContent = opp.length ? `（よく当たる順・${opponentDeckRanking().length}種）` : '';
+}
+/* マイデッキ管理UI */
+function renderMyDeckManager(){
+  const root = $('#myDeckList2');
+  if(!root) return;
+  const decks = state.myDecks || [];
+  $('#myDeckCount').textContent = decks.length ? `${decks.length}件` : '';
+  if(!decks.length){
+    root.innerHTML = `<div class="empty" style="padding:18px">まだ登録がありません。よく使うデッキを追加しておくと記録が早くなります。</div>`;
+    return;
+  }
+  root.innerHTML = decks.map((d,i)=>{
+    const ms = state.matches.filter(m=>(m.myDeck||'')===d);
+    const w = ms.filter(m=>m.result==='win').length, l = ms.filter(m=>m.result==='lose').length;
+    const decided = w + l;
+    const wr = decided ? `${Math.round(w/decided*1000)/10}%` : '--';
+    return `<div class="deck-manage-row" data-i="${i}">
+      <span class="nm">${escapeHtml(d)}</span>
+      <span class="stat">${ms.length ? `${w}勝${l}敗 / 勝率 ${wr}` : '未使用'}</span>
+      <button class="btn-sm" data-act="up" title="上へ">↑</button>
+      <button class="btn-sm btn-danger" data-act="del" title="削除">✕</button>
+    </div>`;
+  }).join('');
+  root.querySelectorAll('.deck-manage-row').forEach(row=>{
+    const i = +row.dataset.i;
+    row.querySelector('[data-act=up]').onclick = ()=>{
+      if(i<=0) return;
+      const a = state.myDecks;
+      [a[i-1], a[i]] = [a[i], a[i-1]];
+      saveState(); renderMyDeckManager(); renderDeckPickers();
+    };
+    row.querySelector('[data-act=del]').onclick = ()=>{
+      const name = state.myDecks[i];
+      if(!confirm(`「${name}」を登録から削除しますか？（記録済みの対戦データは消えません）`)) return;
+      state.myDecks.splice(i,1);
+      saveState(); renderMyDeckManager(); renderDeckPickers();
+      toast('削除しました');
+    };
+  });
+}
+function addMyDeck(name){
+  name = (name||'').trim();
+  if(!name){ toast('デッキ名を入力してください'); return false; }
+  if(!Array.isArray(state.myDecks)) state.myDecks = [];
+  if(state.myDecks.includes(name)){ toast('すでに登録されています'); return false; }
+  state.myDecks.push(name);
+  saveState();
+  renderMyDeckManager(); renderDeckPickers();
+  toast(`「${name}」を登録しました`);
+  return true;
+}
+
 /* ---------- Datalists (player/deck候補) ---------- */
 function refreshDatalists(){
   const players = [...new Set(state.matches.map(m=>m.opponentName).filter(Boolean))];
@@ -1475,7 +1636,7 @@ function onAuthChanged(user){
   if(user){
     loginBtn.style.display = 'none';
     userBox.style.display = '';
-    $('#syncEmail').textContent = user.email || user.displayName || '';
+    // 配信で映っても困らないよう、メールアドレス・表示名は画面に出さない
     $('#syncAvatar').src = user.photoURL || '';
     startCloudSync();
   }else{
@@ -1624,6 +1785,8 @@ function renderAll(){
   renderChart();
   renderHistory();
   refreshDatalists();
+  renderMyDeckManager();
+  renderDeckPickers();
 }
 
 /* ---------- Init ---------- */
@@ -1646,6 +1809,23 @@ function bindUi(){
   $('#quickWinBtn').onclick = ()=>quickRecord('win');
   $('#quickLoseBtn').onclick = ()=>quickRecord('lose');
   $('#quickDrawBtn').onclick = ()=>quickRecord('draw');
+
+  // デッキ選択チップ（入力欄と連動）
+  ['#quickMyDeck', '#mMyDeck', '#mDeck'].forEach(sel=>{
+    const el = $(sel);
+    if(el) el.addEventListener('input', ()=>renderDeckPickers());
+  });
+  // マイデッキ登録
+  $('#addDeckBtn').onclick = ()=>{
+    if(addMyDeck($('#newDeckInput').value)) $('#newDeckInput').value = '';
+  };
+  $('#newDeckInput').addEventListener('keydown', e=>{
+    if(e.key === 'Enter'){ e.preventDefault(); $('#addDeckBtn').click(); }
+  });
+  // OBS用ウィンドウ
+  $('#obsBtn').onclick = ()=>{
+    window.open('obs.html', 'pokepoke-obs', 'width=880,height=520,menubar=no,toolbar=no,location=no,status=no');
+  };
 
   $('#filterText').addEventListener('input', renderHistory);
   $('#filterResult').addEventListener('change', renderHistory);
