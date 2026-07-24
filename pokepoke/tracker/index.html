@@ -46,7 +46,21 @@ body{
     repeating-linear-gradient(-45deg,rgba(238,21,21,.16) 0 1px,transparent 1px 14px);
   mask-image:radial-gradient(ellipse at 50% 30%,#000 30%,transparent 78%);
 }
-.shell{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:24px 20px 80px}
+.shell{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:20px 20px 80px;
+  display:flex; flex-direction:column}
+/* セクションを使用頻度順に並べ替え（HTMLの記述順は保守性のため維持し、表示順だけCSSで制御） */
+.shell > header.hero{order:0}
+.s-graph{order:1} .s-quick{order:2} .s-history{order:3} .s-decks{order:4}
+.s-form{order:5} .s-settings{order:6} .s-data{order:7} .s-sync{order:8}
+.shell > .foot{order:99}
+/* プライマリ2枚(グラフ・クイック記録)を少し強調 */
+.card.s-graph, .card.s-quick{border-color:var(--gold-2); box-shadow:0 6px 20px -6px rgba(180,83,9,.22),0 1px 2px rgba(15,23,42,.06)}
+/* 設定系(6〜8)は控えめに */
+.card.s-settings, .card.s-data, .card.s-sync{background:rgba(255,255,255,.6); border-style:dashed}
+.s-settings h2, .s-data h2, .s-sync h2{font-size:15px}
+/* 設定グループの前に区切り見出し */
+.settings-divider{order:6; display:flex; align-items:center; gap:10px; margin:6px 2px 2px; color:var(--ink-3); font-size:12px; font-weight:800; letter-spacing:.05em}
+.settings-divider::before, .settings-divider::after{content:""; flex:1; height:1px; background:var(--line-2)}
 
 /* ===== Header ===== */
 header.hero{
@@ -226,9 +240,9 @@ button:active{transform:translateY(1px)}
 .chart-stats .wr.bad{color:var(--lose)}
 
 /* ===== Quick record ===== */
-.quick-btns{display:flex; gap:10px; flex-wrap:wrap}
+.quick-btns{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
 .quick-btn{
-  flex:1; min-width:110px; padding:16px 12px; font-size:17px; font-weight:900;
+  padding:18px 12px; font-size:18px; font-weight:900;
   border-radius:var(--r-md); border:2px solid var(--line-2); cursor:pointer;
   font-family:inherit; transition:transform .08s, box-shadow .15s;
 }
@@ -362,7 +376,7 @@ button:active{transform:translateY(1px)}
   </header>
 
   <!-- ===== Quick record ===== -->
-  <section class="card">
+  <section class="card s-quick">
     <h2>⚡ クイック記録</h2>
     <div class="fld" style="margin-bottom:10px">
       <span style="display:block;font-size:12px;color:var(--ink-3);font-weight:700;margin-bottom:6px">使用デッキ</span>
@@ -378,7 +392,7 @@ button:active{transform:translateY(1px)}
   </section>
 
   <!-- ===== Slump graph ===== -->
-  <section class="card">
+  <section class="card s-graph">
     <h2>ランクポイント推移
       <button class="btn-sm" id="obsBtn" style="margin-left:auto;font-weight:700" title="グラフだけを別ウィンドウで開きます（OBSのブラウザソース用）">🖥 配信用に開く</button>
     </h2>
@@ -400,9 +414,11 @@ button:active{transform:translateY(1px)}
     <div class="chart-wrap"><canvas id="slumpChart"></canvas></div>
   </section>
 
+  <div class="settings-divider">設定・データ</div>
+
   <!-- ===== Settings ===== -->
-  <section class="card">
-    <h2>ポイント設定</h2>
+  <section class="card s-settings">
+    <h2>⚙️ ポイント・シーズン設定</h2>
     <div class="settings-row" style="margin-bottom:10px">
       <label class="fld" style="max-width:320px"><span>計算モード</span>
         <select id="setMode">
@@ -433,8 +449,9 @@ button:active{transform:translateY(1px)}
   </section>
 
   <!-- ===== New match ===== -->
-  <section class="card">
+  <section class="card s-form">
     <h2 id="matchFormTitle">新しい対戦を記録</h2>
+    <div style="font-size:12px;color:var(--ink-3);margin:-6px 0 12px">相手デッキ・カード・メモまで細かく残したい時はこちら（クイック記録で十分な場合は不要）。</div>
     <label class="fld"><span>自分の使用デッキ</span>
       <div class="deck-chips" id="formMyDeckChips"></div>
       <input type="text" id="mMyDeck" placeholder="デッキ名（上から選ぶか直接入力）" list="myDeckList" style="margin-top:6px">
@@ -479,7 +496,7 @@ button:active{transform:translateY(1px)}
   </section>
 
   <!-- ===== My decks ===== -->
-  <section class="card">
+  <section class="card s-decks">
     <h2>🎴 マイデッキ管理 <span style="font-size:12px;color:var(--ink-3);font-weight:400;margin-left:8px" id="myDeckCount"></span></h2>
     <div style="font-size:12px;color:var(--ink-3);margin-bottom:10px">
       登録しておくと、クイック記録や対戦フォームからワンタップで選べます。
@@ -492,8 +509,8 @@ button:active{transform:translateY(1px)}
   </section>
 
   <!-- ===== History ====== -->
-  <section class="card">
-    <h2>対戦履歴 <span style="font-size:12px;color:var(--ink-3);font-weight:400;margin-left:8px" id="historyCount"></span></h2>
+  <section class="card s-history">
+    <h2>📋 対戦履歴 <span style="font-size:12px;color:var(--ink-3);font-weight:400;margin-left:8px" id="historyCount"></span></h2>
     <div class="row" style="margin-bottom:10px">
       <label class="fld col"><span>絞り込み (デッキ/プレイヤー/メモ)</span><input type="text" id="filterText" placeholder="検索キーワード"></label>
       <label class="fld" style="min-width:150px"><span>使用デッキ</span>
@@ -507,8 +524,8 @@ button:active{transform:translateY(1px)}
   </section>
 
   <!-- ===== Data ===== -->
-  <section class="card">
-    <h2>データ管理</h2>
+  <section class="card s-data">
+    <h2>💾 データ管理</h2>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button id="reloadDbBtn">🔄 カードDBを更新</button>
       <button id="exportBtn">⬇ JSONエクスポート</button>
@@ -519,7 +536,7 @@ button:active{transform:translateY(1px)}
   </section>
 
   <!-- ===== Cloud sync setup ===== -->
-  <section class="card">
+  <section class="card s-sync">
     <h2>☁️ クラウド同期（スマホ⇔PC）</h2>
     <div id="syncConfigured" style="display:none">
       <div style="font-size:13px;color:var(--ink-2);line-height:1.9">
