@@ -259,6 +259,19 @@ button:active{transform:translateY(1px)}
 }
 .rank-name{font-size:11px; color:var(--ink-2); font-weight:700; margin-top:2px}
 
+/* ===== History pager ===== */
+.match-pager{margin-top:14px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap}
+.match-pager .pager-info{font-size:12px; color:var(--ink-3)}
+.match-pager .pager-btns{display:flex; gap:4px; flex-wrap:wrap}
+.pager-btn{
+  min-width:34px; padding:6px 10px; border-radius:8px; border:1px solid var(--line-2);
+  background:#fff; cursor:pointer; font:inherit; font-size:13px; font-weight:700; color:var(--ink-2);
+}
+.pager-btn:hover:not(:disabled){border-color:var(--tcg-blue); color:var(--tcg-blue-2)}
+.pager-btn.active{background:var(--tcg-blue); border-color:var(--tcg-blue); color:#fff}
+.pager-btn:disabled{opacity:.4; cursor:default}
+.pager-gap{color:var(--ink-4); align-self:center; padding:0 2px}
+
 /* ===== Deck chips ===== */
 .deck-chips{display:flex; gap:6px; flex-wrap:wrap}
 .deck-chip{
@@ -377,18 +390,53 @@ button:active{transform:translateY(1px)}
 
   <!-- ===== Quick record ===== -->
   <section class="card s-quick">
-    <h2>⚡ クイック記録</h2>
-    <div class="fld" style="margin-bottom:10px">
-      <span style="display:block;font-size:12px;color:var(--ink-3);font-weight:700;margin-bottom:6px">使用デッキ</span>
+    <h2 id="quickTitle">⚡ 対戦を記録 <span id="editingBadge" style="display:none;font-size:12px;font-weight:800;color:#fff;background:var(--tcg-amber);border-radius:999px;padding:2px 10px;margin-left:8px">編集中</span></h2>
+
+    <div class="fld">
+      <span class="fld-lbl">使用デッキ</span>
       <div class="deck-chips" id="quickDeckChips"></div>
       <input type="text" id="quickMyDeck" placeholder="デッキ名（上から選ぶか直接入力）" list="myDeckList" style="margin-top:8px">
     </div>
+
+    <div class="fld">
+      <span class="fld-lbl">相手デッキ<span id="oppDeckHint" style="font-weight:400;color:var(--ink-4)"></span></span>
+      <div class="deck-chips" id="oppDeckChips"></div>
+      <input type="text" id="quickOppDeck" placeholder="相手のデッキ名（上から選ぶか直接入力・任意）" list="deckList" style="margin-top:8px">
+    </div>
+
+    <label class="fld"><span class="fld-lbl">メモ（任意）</span>
+      <textarea id="quickMemo" placeholder="例: 後攻スタート、エネルギーが片寄った。サンダーEXきつかった。" style="min-height:52px"></textarea>
+    </label>
+
+    <details id="quickMore" style="margin-bottom:12px">
+      <summary style="font-size:12px;color:var(--ink-3);cursor:pointer;font-weight:700">相手プレイヤー名・出てきたカード・日時（任意）</summary>
+      <div style="margin-top:10px">
+        <label class="fld"><span class="fld-lbl">相手プレイヤー名</span><input type="text" id="quickPlayer" placeholder="例: あいる" list="playerList"></label>
+        <label class="fld"><span class="fld-lbl">出てきたカード</span>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px">
+            <button class="btn-blue" id="openPickerBtn">＋ カードを選ぶ</button>
+            <span style="color:var(--ink-3);font-size:12px" id="pickedCount">0種</span>
+          </div>
+          <div class="picked-cards" id="pickedCards"></div>
+        </label>
+        <label class="fld" style="max-width:260px"><span class="fld-lbl">対戦日時（未変更なら自動で現在時刻）</span><input type="datetime-local" id="quickDate"></label>
+      </div>
+    </details>
+
     <div class="quick-btns">
       <button class="quick-btn win" id="quickWinBtn">勝ち</button>
       <button class="quick-btn lose" id="quickLoseBtn">負け</button>
       <button class="quick-btn draw" id="quickDrawBtn">引き分け</button>
     </div>
-    <div style="font-size:11px;color:var(--ink-3);margin-top:8px">日時は自動で現在時刻。相手デッキやカードも記録したい時は下の「新しい対戦を記録」から。</div>
+    <div id="editBar" style="display:none;margin-top:10px;display:none;align-items:center;gap:10px;font-size:12px;color:var(--ink-2)">
+      <button class="btn-sm btn-ghost" id="editCancelBtn">編集をやめる</button>
+      <span>上の勝敗ボタンを押すと、この対戦が更新されます。</span>
+    </div>
+    <div id="quickHint" style="font-size:11px;color:var(--ink-3);margin-top:8px">勝敗ボタンを押すと即記録。日時は自動で現在時刻になります。</div>
+
+    <datalist id="playerList"></datalist>
+    <datalist id="deckList"></datalist>
+    <datalist id="myDeckList"></datalist>
   </section>
 
   <!-- ===== Slump graph ===== -->
@@ -448,53 +496,6 @@ button:active{transform:translateY(1px)}
     <div class="sub" style="font-size:11px;color:var(--ink-3);margin-top:6px">※「現在のポイント」は履歴がない場合の基準値。履歴がある場合は最新の対戦後の値が反映されます。</div>
   </section>
 
-  <!-- ===== New match ===== -->
-  <section class="card s-form">
-    <h2 id="matchFormTitle">新しい対戦を記録</h2>
-    <div style="font-size:12px;color:var(--ink-3);margin:-6px 0 12px">相手デッキ・カード・メモまで細かく残したい時はこちら（クイック記録で十分な場合は不要）。</div>
-    <label class="fld"><span>自分の使用デッキ</span>
-      <div class="deck-chips" id="formMyDeckChips"></div>
-      <input type="text" id="mMyDeck" placeholder="デッキ名（上から選ぶか直接入力）" list="myDeckList" style="margin-top:6px">
-    </label>
-    <label class="fld"><span>相手デッキ名<span id="oppDeckHint" style="font-weight:400;color:var(--ink-4)"></span></span>
-      <div class="deck-chips" id="oppDeckChips"></div>
-      <input type="text" id="mDeck" placeholder="相手のデッキ名（上から選ぶか直接入力）" list="deckList" style="margin-top:6px">
-    </label>
-    <label class="fld"><span>相手プレイヤー名（任意）</span><input type="text" id="mPlayer" placeholder="例: あいる" list="playerList"></label>
-    <details style="margin-bottom:10px">
-      <summary style="font-size:12px;color:var(--ink-3);cursor:pointer;font-weight:700">対戦日時（未変更なら保存時に自動で現在時刻）</summary>
-      <label class="fld" style="max-width:260px;margin-top:8px"><input type="datetime-local" id="mDate"></label>
-    </details>
-    <datalist id="playerList"></datalist>
-    <datalist id="deckList"></datalist>
-    <datalist id="myDeckList"></datalist>
-
-    <label class="fld"><span>勝敗</span>
-      <div class="result-chips" id="resultChips">
-        <input type="radio" name="result" value="win" id="rWin" checked><label for="rWin">勝ち</label>
-        <input type="radio" name="result" value="lose" id="rLose"><label for="rLose">負け</label>
-        <input type="radio" name="result" value="draw" id="rDraw"><label for="rDraw">引き分け</label>
-      </div>
-    </label>
-
-    <label class="fld"><span>出てきたカード（クリックで追加・枚数調整）</span>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px">
-        <button class="btn-blue" id="openPickerBtn">＋ カードを選ぶ</button>
-        <span style="color:var(--ink-3);font-size:12px" id="pickedCount">0種</span>
-      </div>
-      <div class="picked-cards" id="pickedCards"></div>
-    </label>
-
-    <label class="fld"><span>メモ</span>
-      <textarea id="mMemo" placeholder="例: 後攻スタート、エネルギーが片寄った。サンダーEXきつかった。"></textarea>
-    </label>
-
-    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
-      <button class="btn-ghost" id="cancelEditBtn" style="display:none">キャンセル</button>
-      <button class="btn-primary" id="saveMatchBtn">この対戦を保存</button>
-    </div>
-  </section>
-
   <!-- ===== My decks ===== -->
   <section class="card s-decks">
     <h2>🎴 マイデッキ管理 <span style="font-size:12px;color:var(--ink-3);font-weight:400;margin-left:8px" id="myDeckCount"></span></h2>
@@ -521,6 +522,7 @@ button:active{transform:translateY(1px)}
       </label>
     </div>
     <div class="match-list" id="matchList"></div>
+    <div class="match-pager" id="matchPager"></div>
   </section>
 
   <!-- ===== Data ===== -->
@@ -1229,6 +1231,8 @@ function renderChart(){
 function getCss(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
 
 /* ---------- Render: match list ---------- */
+const HISTORY_PER_PAGE = 10;
+let historyPage = 1;
 function renderHistory(){
   const filterTxt = $('#filterText').value.trim().toLowerCase();
   const filterRes = $('#filterResult').value;
@@ -1247,11 +1251,20 @@ function renderHistory(){
   $('#historyCount').textContent = `(${state.matches.length}戦 / 表示${list.length})`;
 
   const root = $('#matchList');
+  const pager = $('#matchPager');
   if(!list.length){
-    root.innerHTML = `<div class="empty">${state.matches.length?'絞り込み結果なし':'まだ対戦記録がありません。上のフォームから1戦目を記録してみよう。'}</div>`;
+    root.innerHTML = `<div class="empty">${state.matches.length?'絞り込み結果なし':'まだ対戦記録がありません。上の「対戦を記録」から1戦目を残そう。'}</div>`;
+    if(pager) pager.innerHTML = '';
     return;
   }
-  root.innerHTML = list.map(m=>{
+  // ページ範囲を補正
+  const totalPages = Math.max(1, Math.ceil(list.length / HISTORY_PER_PAGE));
+  if(historyPage > totalPages) historyPage = totalPages;
+  if(historyPage < 1) historyPage = 1;
+  const start = (historyPage - 1) * HISTORY_PER_PAGE;
+  const pageList = list.slice(start, start + HISTORY_PER_PAGE);
+
+  root.innerHTML = pageList.map(m=>{
     const resLabel = m.result==='win'?'W':m.result==='lose'?'L':'D';
     const dPts = m.pointsDelta;
     const ptsClass = dPts>0?'plus':dPts<0?'minus':'';
@@ -1292,6 +1305,41 @@ function renderHistory(){
       state.matches = state.matches.filter(x=>x.id!==id);
       recomputeAllPoints(); saveState(); renderAll();
       toast('削除しました');
+    };
+  });
+
+  // ページャ
+  renderHistoryPager(totalPages, list.length, start, pageList.length);
+}
+function renderHistoryPager(totalPages, totalItems, start, shown){
+  const pager = $('#matchPager');
+  if(!pager) return;
+  if(totalPages <= 1){
+    pager.innerHTML = `<div class="pager-info">${totalItems}件</div>`;
+    return;
+  }
+  // 表示するページ番号（現在地の前後、先頭・末尾は常に）
+  const cur = historyPage;
+  const nums = new Set([1, totalPages, cur, cur-1, cur+1]);
+  const sorted = [...nums].filter(n=>n>=1 && n<=totalPages).sort((a,b)=>a-b);
+  let html = `<div class="pager-info">${start+1}〜${start+shown} / ${totalItems}件</div><div class="pager-btns">`;
+  html += `<button class="pager-btn" data-p="${cur-1}" ${cur<=1?'disabled':''}>‹ 前</button>`;
+  let prev = 0;
+  for(const n of sorted){
+    if(prev && n - prev > 1) html += `<span class="pager-gap">…</span>`;
+    html += `<button class="pager-btn ${n===cur?'active':''}" data-p="${n}">${n}</button>`;
+    prev = n;
+  }
+  html += `<button class="pager-btn" data-p="${cur+1}" ${cur>=totalPages?'disabled':''}>次 ›</button>`;
+  html += `</div>`;
+  pager.innerHTML = html;
+  pager.querySelectorAll('.pager-btn').forEach(b=>{
+    if(b.disabled) return;
+    b.onclick = ()=>{
+      historyPage = +b.dataset.p;
+      renderHistory();
+      // 履歴セクションの先頭へ
+      document.querySelector('.s-history').scrollIntoView({behavior:'smooth', block:'start'});
     };
   });
 }
@@ -1421,19 +1469,6 @@ function renderPickerBody(){
 
 /* ---------- Form: save / edit ---------- */
 let dateTouched = false; // ユーザーが日時を手動変更したか
-function readForm(){
-  // 新規記録は保存時の現在時刻を自動使用(手動変更時のみ入力値)
-  const dt = (editingId || dateTouched) ? ($('#mDate').value || nowDateTimeLocal()) : nowDateTimeLocal();
-  return {
-    datetime: dt,
-    myDeck: $('#mMyDeck').value.trim(),
-    opponentName: $('#mPlayer').value.trim(),
-    opponentDeck: $('#mDeck').value.trim(),
-    result: $('input[name=result]:checked').value,
-    cards: structuredClone(pendingCards),
-    memo: $('#mMemo').value.trim(),
-  };
-}
 function lastMyDeck(){
   const sorted = [...state.matches].sort((a,b)=>a.datetime.localeCompare(b.datetime));
   for(let i=sorted.length-1; i>=0; i--){
@@ -1441,41 +1476,73 @@ function lastMyDeck(){
   }
   return '';
 }
-function resetForm(){
-  $('#mDate').value = nowDateTimeLocal();
+function resultToast(m){
+  if(!m) return '保存しました';
+  const r = m.result==='win'?'勝ち':m.result==='lose'?'負け':'引き分け';
+  const d = m.pointsDelta>=0?`+${m.pointsDelta}`:m.pointsDelta;
+  const st = m.streak>=2 ? ` 🔥${m.streak}連勝!` : '';
+  return `${r}を記録 (${d}pt → ${m.pointsAfter}pt)${st}`;
+}
+
+/* ---------- 記録フォーム（クイック記録に統合） ---------- */
+function readQuick(result){
+  // 新規は保存時の現在時刻を自動使用。編集時・手動変更時は入力値
+  const dt = (editingId || dateTouched) ? ($('#quickDate').value || nowDateTimeLocal()) : nowDateTimeLocal();
+  return {
+    datetime: dt,
+    myDeck: $('#quickMyDeck').value.trim(),
+    opponentDeck: $('#quickOppDeck').value.trim(),
+    opponentName: $('#quickPlayer').value.trim(),
+    memo: $('#quickMemo').value.trim(),
+    cards: structuredClone(pendingCards),
+    result,
+  };
+}
+function resetQuickForm(){
+  $('#quickOppDeck').value = '';
+  $('#quickPlayer').value = '';
+  $('#quickMemo').value = '';
+  $('#quickDate').value = nowDateTimeLocal();
   dateTouched = false;
-  $('#mMyDeck').value = lastMyDeck();
-  $('#mPlayer').value = '';
-  $('#mDeck').value = '';
-  $('#mMemo').value = '';
-  $('#rWin').checked = true;
   pendingCards = [];
   renderPickedCards();
   editingId = null;
-  $('#matchFormTitle').textContent = '新しい対戦を記録';
-  $('#cancelEditBtn').style.display = 'none';
-  $('#saveMatchBtn').textContent = 'この対戦を保存';
+  $('#editingBadge').style.display = 'none';
+  $('#editBar').style.display = 'none';
+  $('#quickHint').style.display = '';
+  $('#quickTitle').firstChild.textContent = '⚡ 対戦を記録 ';
+  $('#quickMore').open = false;
+  renderDeckPickers();
 }
 function startEdit(id){
   const m = state.matches.find(x=>x.id===id);
   if(!m) return;
   editingId = id;
-  $('#mDate').value = m.datetime.slice(0,16);
+  $('#quickMyDeck').value = m.myDeck || '';
+  $('#quickOppDeck').value = m.opponentDeck || '';
+  $('#quickPlayer').value = m.opponentName || '';
+  $('#quickMemo').value = m.memo || '';
+  $('#quickDate').value = (m.datetime||'').slice(0,16);
   dateTouched = false;
-  $('#mMyDeck').value = m.myDeck || '';
-  $('#mPlayer').value = m.opponentName || '';
-  $('#mDeck').value = m.opponentDeck || '';
-  $('#mMemo').value = m.memo || '';
-  $(`#r${m.result.charAt(0).toUpperCase()+m.result.slice(1)}`).checked = true;
   pendingCards = structuredClone(m.cards||[]);
   renderPickedCards();
-  $('#matchFormTitle').textContent = '対戦を編集';
-  $('#cancelEditBtn').style.display = '';
-  $('#saveMatchBtn').textContent = '更新を保存';
-  window.scrollTo({top:$('#matchFormTitle').offsetTop - 20, behavior:'smooth'});
+  renderDeckPickers();
+  // 編集モードの表示
+  const rname = m.result==='win'?'勝ち':m.result==='lose'?'負け':'引き分け';
+  $('#editingBadge').textContent = `編集中（現在: ${rname}）`;
+  $('#editingBadge').style.display = '';
+  $('#editBar').style.display = 'flex';
+  $('#quickHint').style.display = 'none';
+  $('#quickTitle').firstChild.textContent = '✏️ 対戦を編集 ';
+  if((m.opponentName||'') || (m.cards||[]).length) $('#quickMore').open = true;
+  document.querySelector('.s-quick').scrollIntoView({behavior:'smooth', block:'start'});
 }
-function saveMatch(){
-  const d = readForm();
+/* 勝敗ボタン＝保存アクション（新規 or 編集の更新） */
+function recordResult(result){
+  const d = readQuick(result);
+  if(!d.myDeck && !editingId){
+    // 使用デッキ未入力でも記録は可能（空のまま）。何もブロックしない
+  }
   const wasEditing = !!editingId;
   let saved;
   if(editingId){
@@ -1487,35 +1554,10 @@ function saveMatch(){
   }
   recomputeAllPoints();
   saveState();
-  resetForm();
+  resetQuickForm();
+  if(!wasEditing) historyPage = 1; // 新規記録は最新が見える1ページ目へ
   renderAll();
-  toast(wasEditing ? '更新しました' : resultToast(saved));
-}
-function resultToast(m){
-  if(!m) return '保存しました';
-  const r = m.result==='win'?'勝ち':m.result==='lose'?'負け':'引き分け';
-  const d = m.pointsDelta>=0?`+${m.pointsDelta}`:m.pointsDelta;
-  const st = m.streak>=2 ? ` 🔥${m.streak}連勝!` : '';
-  return `${r}を記録 (${d}pt → ${m.pointsAfter}pt)${st}`;
-}
-
-/* ---------- Quick record ---------- */
-function quickRecord(result){
-  const m = {
-    id: uid(),
-    datetime: nowDateTimeLocal(),
-    myDeck: $('#quickMyDeck').value.trim(),
-    opponentName: '',
-    opponentDeck: '',
-    result,
-    cards: [],
-    memo: '',
-  };
-  state.matches.push(m);
-  recomputeAllPoints();
-  saveState();
-  renderAll();
-  toast(resultToast(m));
+  toast(wasEditing ? `更新しました（${resultToast(saved)}）` : resultToast(saved));
 }
 
 /* ============================================================
@@ -1565,10 +1607,8 @@ function renderChips(rootSel, items, inputSel, {showCount=false, emptyText=''}={
 function renderDeckPickers(){
   renderChips('#quickDeckChips', allMyDecks(), '#quickMyDeck',
     {emptyText:'まだデッキが登録されていません。下の「マイデッキ管理」から追加できます。'});
-  renderChips('#formMyDeckChips', allMyDecks(), '#mMyDeck',
-    {emptyText:'「マイデッキ管理」から登録すると、ここから選べます。'});
   const opp = opponentDeckRanking().slice(0, 12);
-  renderChips('#oppDeckChips', opp, '#mDeck',
+  renderChips('#oppDeckChips', opp, '#quickOppDeck',
     {showCount:true, emptyText:'一度入力すると、次回からここに出て選べるようになります。'});
   const hint = $('#oppDeckHint');
   if(hint) hint.textContent = opp.length ? `（よく当たる順・${opponentDeckRanking().length}種）` : '';
@@ -1932,8 +1972,8 @@ function renderAll(){
 
 /* ---------- Init ---------- */
 function bindUi(){
-  $('#mDate').value = nowDateTimeLocal();
-  $('#mMyDeck').value = lastMyDeck();
+  $('#quickDate').value = nowDateTimeLocal();
+  $('#quickMyDeck').value = lastMyDeck();
   renderPickedCards();
 
   $('#openPickerBtn').onclick = openPicker;
@@ -1943,16 +1983,15 @@ function bindUi(){
   $('#pickerSearch').addEventListener('input', renderPickerBody);
   $('#pickerSet').addEventListener('change', renderPickerBody);
 
-  $('#saveMatchBtn').onclick = saveMatch;
-  $('#cancelEditBtn').onclick = resetForm;
-  $('#mDate').addEventListener('change', ()=>{ dateTouched = true; });
+  $('#quickDate').addEventListener('change', ()=>{ dateTouched = true; });
+  $('#editCancelBtn').onclick = resetQuickForm;
 
-  $('#quickWinBtn').onclick = ()=>quickRecord('win');
-  $('#quickLoseBtn').onclick = ()=>quickRecord('lose');
-  $('#quickDrawBtn').onclick = ()=>quickRecord('draw');
+  $('#quickWinBtn').onclick = ()=>recordResult('win');
+  $('#quickLoseBtn').onclick = ()=>recordResult('lose');
+  $('#quickDrawBtn').onclick = ()=>recordResult('draw');
 
   // デッキ選択チップ（入力欄と連動）
-  ['#quickMyDeck', '#mMyDeck', '#mDeck'].forEach(sel=>{
+  ['#quickMyDeck', '#quickOppDeck'].forEach(sel=>{
     const el = $(sel);
     if(el) el.addEventListener('input', ()=>renderDeckPickers());
   });
@@ -1968,9 +2007,10 @@ function bindUi(){
     window.open('obs.html', 'pokepoke-obs', 'width=880,height=520,menubar=no,toolbar=no,location=no,status=no');
   };
 
-  $('#filterText').addEventListener('input', renderHistory);
-  $('#filterResult').addEventListener('change', renderHistory);
-  $('#filterMyDeck').addEventListener('change', renderHistory);
+  const filterChanged = ()=>{ historyPage = 1; renderHistory(); };
+  $('#filterText').addEventListener('input', filterChanged);
+  $('#filterResult').addEventListener('change', filterChanged);
+  $('#filterMyDeck').addEventListener('change', filterChanged);
 
   // 言語切替(カード画像)
   const syncLangUi = ()=>{
