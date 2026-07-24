@@ -111,7 +111,7 @@ function checkPage(relPath) {
   else WARN("twitter:card", "summary_large_image が無い");
 
   // ---- 6. 構造化データ ----
-  const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+  const blocks = [...html.matchAll(/<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/g)];
   if (!blocks.length) FAIL("json-ld", "JSON-LDが無い");
   let article = null, hasBreadcrumb = false, hasFaq = false;
   for (const [, raw] of blocks) {

@@ -59,7 +59,7 @@ for (const game of games) {
 
     // 既存の型を調べる
     const existing = new Set();
-    for (const [, raw] of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    for (const [, raw] of html.matchAll(/<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/g)) {
       try {
         const d = JSON.parse(raw);
         for (const n of d["@graph"] || [d]) if (n["@type"]) existing.add(n["@type"]);
