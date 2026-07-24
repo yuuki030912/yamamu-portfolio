@@ -50,8 +50,10 @@ body{
   display:flex; flex-direction:column}
 /* セクションを使用頻度順に並べ替え（HTMLの記述順は保守性のため維持し、表示順だけCSSで制御） */
 .shell > header.hero{order:0}
-.s-graph{order:1} .s-quick{order:2} .s-history{order:3} .s-decks{order:4}
-.s-form{order:5} .s-settings{order:6} .s-data{order:7} .s-sync{order:8}
+.s-graph{order:1} .s-quick{order:2} .s-sponsor-top{order:3}
+.s-history{order:4} .s-decks{order:5} .s-sponsor-mid{order:6}
+.settings-divider{order:7} .s-settings{order:7} .s-data{order:8} .s-sync{order:9}
+.s-sponsor-foot{order:10}
 .shell > .foot{order:99}
 /* プライマリ2枚(グラフ・クイック記録)を少し強調 */
 .card.s-graph, .card.s-quick{border-color:var(--gold-2); box-shadow:0 6px 20px -6px rgba(180,83,9,.22),0 1px 2px rgba(15,23,42,.06)}
@@ -59,7 +61,7 @@ body{
 .card.s-settings, .card.s-data, .card.s-sync{background:rgba(255,255,255,.6); border-style:dashed}
 .s-settings h2, .s-data h2, .s-sync h2{font-size:15px}
 /* 設定グループの前に区切り見出し */
-.settings-divider{order:6; display:flex; align-items:center; gap:10px; margin:6px 2px 2px; color:var(--ink-3); font-size:12px; font-weight:800; letter-spacing:.05em}
+.settings-divider{display:flex; align-items:center; gap:10px; margin:6px 2px 2px; color:var(--ink-3); font-size:12px; font-weight:800; letter-spacing:.05em}
 .settings-divider::before, .settings-divider::after{content:""; flex:1; height:1px; background:var(--line-2)}
 
 /* ===== Header ===== */
@@ -258,6 +260,30 @@ button:active{transform:translateY(1px)}
   color:#c2410c; font-size:12px; font-weight:800;
 }
 .rank-name{font-size:11px; color:var(--ink-2); font-weight:700; margin-top:2px}
+
+/* ===== Sponsor slots ===== */
+.sponsor-card{padding:0; overflow:hidden; border-style:solid}
+.sponsor-head{display:flex; align-items:center; gap:8px; padding:6px 12px; background:var(--bg-yellow); border-bottom:1px solid var(--line-2)}
+.sponsor-head .tier{font-size:11px; font-weight:800; color:var(--gold-3); letter-spacing:.05em}
+.sponsor-head .price{font-size:11px; color:var(--ink-3); margin-left:auto}
+.sponsor-body{display:flex; flex-wrap:wrap; gap:10px; padding:12px}
+.sponsor-item{
+  display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink-1);
+  border:1px solid var(--line-2); border-radius:var(--r-sm); padding:8px 12px; background:#fff;
+  flex:1; min-width:220px; transition:box-shadow .15s;
+}
+.sponsor-item:hover{box-shadow:var(--shadow-card)}
+.sponsor-item img{max-height:56px; max-width:160px; object-fit:contain; border-radius:4px}
+.sponsor-item .sp-name{font-weight:800; font-size:14px}
+.sponsor-item .sp-note{font-size:12px; color:var(--ink-3)}
+.sponsor-item .sp-pr{margin-left:auto; font-size:10px; color:var(--ink-4); border:1px solid var(--line-2); border-radius:4px; padding:1px 5px}
+.sponsor-empty{
+  display:flex; align-items:center; gap:10px; justify-content:center; text-align:center;
+  text-decoration:none; color:var(--ink-3); border:1.5px dashed var(--line-2); border-radius:var(--r-sm);
+  padding:14px 12px; flex:1; min-width:220px; font-size:13px; background:rgba(255,255,255,.5);
+}
+.sponsor-empty:hover{border-color:var(--tcg-blue); color:var(--tcg-blue-2)}
+.sponsor-empty b{color:var(--tcg-red-2)}
 
 /* ===== History pager ===== */
 .match-pager{margin-top:14px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap}
@@ -461,6 +487,11 @@ button:active{transform:translateY(1px)}
     <div class="chart-stats" id="chartStats"></div>
     <div class="chart-wrap"><canvas id="slumpChart"></canvas></div>
   </section>
+
+  <!-- ===== Sponsor slots（内容はJSのSPONSOR_SLOTSで管理） ===== -->
+  <section class="card sponsor-card s-sponsor-top" data-slot="top"></section>
+  <section class="card sponsor-card s-sponsor-mid" data-slot="mid"></section>
+  <section class="card sponsor-card s-sponsor-foot" data-slot="foot"></section>
 
   <div class="settings-divider">設定・データ</div>
 
@@ -1958,6 +1989,44 @@ function bindSyncUi(){
   };
 }
 
+/* ============================================================
+   スポンサー枠（自主管理・AdSense不使用）
+   - 3ティア（top=プレミアム / mid=スタンダード / foot=エコノミー）
+   - items に掲載を追加すると表示。空なら「募集中」プレースホルダ
+   - 掲載を足すとき: 該当ティアの items に {name, img, url, note} を1行追加するだけ
+     img/note は任意。url は掲載先。
+   ============================================================ */
+const SPONSOR_SLOTS = {
+  top:  { tier:'プレミアム枠', price:'グラフ直下・最上位表示', items:[
+    // 例: { name:'○○カードショップ', img:'sponsors/shop.png', url:'https://example.com', note:'全国通販OK' },
+  ]},
+  mid:  { tier:'スタンダード枠', price:'記録エリアの下', items:[
+  ]},
+  foot: { tier:'エコノミー枠', price:'ページ下部', items:[
+  ]},
+};
+function renderSponsors(){
+  for(const key of Object.keys(SPONSOR_SLOTS)){
+    const slot = SPONSOR_SLOTS[key];
+    const el = document.querySelector(`.sponsor-card[data-slot="${key}"]`);
+    if(!el) continue;
+    const head = `<div class="sponsor-head"><span class="tier">SPONSOR / ${escapeHtml(slot.tier)}</span><span class="price">${escapeHtml(slot.price||'')}</span></div>`;
+    let body;
+    if(slot.items && slot.items.length){
+      body = `<div class="sponsor-body">${slot.items.map(s=>`
+        <a class="sponsor-item" href="${escapeHtml(s.url||'#')}" target="_blank" rel="noopener sponsored nofollow">
+          ${s.img?`<img src="${escapeHtml(s.img)}" alt="${escapeHtml(s.name||'')}">`:''}
+          <span><span class="sp-name">${escapeHtml(s.name||'')}</span>${s.note?`<br><span class="sp-note">${escapeHtml(s.note)}</span>`:''}</span>
+          <span class="sp-pr">PR</span>
+        </a>`).join('')}</div>`;
+    }else{
+      body = `<div class="sponsor-body"><a class="sponsor-empty" href="/contact.html" target="_blank" rel="noopener">
+        <span>🎯 <b>この枠のスポンサー募集中</b>（${escapeHtml(slot.tier)}）<br>掲載のお問い合わせはこちら →</span></a></div>`;
+    }
+    el.innerHTML = head + body;
+  }
+}
+
 /* ---------- Master render ---------- */
 function renderAll(){
   renderRank();
@@ -2044,6 +2113,7 @@ function bindUi(){
   bindUi();
   bindSyncUi();
   initFirebase();
+  renderSponsors();
   recomputeAllPoints();
   renderAll();
   await loadPokemonNames(); // 日英ポケモン名マッピングを先に
