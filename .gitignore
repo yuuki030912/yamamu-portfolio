@@ -2,3 +2,12 @@
 *.log
 .DS_Store
 Thumbs.db
+
+# ローカル環境の設定（マシン固有のパスが入るので公開しない）
+.mcp.json
+
+# ローカル作業用のスクリプト・中間データ（サイトからは参照していない）
+_*.js
+_*.py
+_*.json
+UsersyamauDownloadsMyCluade_generate.js
