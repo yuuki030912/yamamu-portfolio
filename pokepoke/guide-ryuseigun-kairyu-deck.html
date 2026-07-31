@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://adservice.google.com https://www.googletagservices.com https://tpc.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://img.youtube.com https://pagead2.googlesyndication.com https://www.google.com https://googleads.g.doubleclick.net data:; frame-src https://www.youtube.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://pagead2.googlesyndication.com https://adservice.google.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <title>【ポケポケ】りゅうせいぐんカイリューデッキ｜シャガで5回にする構築</title>
+  <meta name="description" content="カイリューのワザ「りゅうせいぐん」はシャガを合わせると4回→5回になります。実戦5戦4勝1敗の記録から、デッキレシピ20枚、オドリドリで時間を稼ぐ回し方、4エネが重い弱点とメテノに崩された負け方まで正直に書きました。">
+  <meta name="keywords" content="ポケポケ, カイリュー, りゅうせいぐん, シャガ, オドリドリ, ハクリュー, ピチュー, デッキ, 構築, 攻略">
+  <link rel="canonical" href="https://yamamu-youtube.jp/pokepoke/guide-ryuseigun-kairyu-deck.html">
+
+  <!-- OGP -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="【ポケポケ】りゅうせいぐんカイリューデッキ｜シャガで5回にする構築">
+  <meta property="og:description" content="りゅうせいぐんはシャガで4回→5回。実戦5戦4勝1敗のデッキレシピ20枚と、オドリドリで時間を稼ぐ回し方。">
+  <meta property="og:url" content="https://yamamu-youtube.jp/pokepoke/guide-ryuseigun-kairyu-deck.html">
+  <meta property="og:site_name" content="やまむー【yamamu】">
+  <meta property="og:image" content="https://yamamu-youtube.jp/pokepoke/ogp-ryuseigun.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ポケポケ りゅうせいぐんカイリューデッキ レシピ20枚">
+  <meta property="og:locale" content="ja_JP">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="【ポケポケ】りゅうせいぐんカイリューデッキ｜シャガで5回にする">
+  <meta name="twitter:description" content="りゅうせいぐんはシャガで4回→5回。実戦5戦4勝1敗のレシピ20枚と回し方。">
+  <meta name="twitter:image" content="https://yamamu-youtube.jp/pokepoke/ogp-ryuseigun.jpg">
+
+  <!-- JSON-LD: Article + Breadcrumb + FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "【ポケポケ】りゅうせいぐんカイリューデッキ｜シャガで4回→5回にする構築とオドリドリの使い方",
+        "description": "カイリューのワザ「りゅうせいぐん」をシャガで5回にする構築の解説。実戦5戦4勝1敗の記録と、デッキレシピ20枚・回し方・4エネが重い弱点・メテノ対策。",
+        "author": { "@type": "Person", "name": "やまむー", "url": "https://www.youtube.com/@yamamu" },
+        "publisher": { "@type": "Organization", "name": "やまむー【yamamu】", "url": "https://yamamu-youtube.jp" },
+        "datePublished": "2026-07-31",
+        "dateModified": "2026-07-31",
+        "mainEntityOfPage": "https://yamamu-youtube.jp/pokepoke/guide-ryuseigun-kairyu-deck.html",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://yamamu-youtube.jp/pokepoke/ogp-ryuseigun.jpg",
+          "width": 1200,
+          "height": 630
+        },
+        "inLanguage": "ja"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "ポケポケ攻略Wiki", "item": "https://yamamu-youtube.jp/pokepoke/" },
+          { "@type": "ListItem", "position": 2, "name": "りゅうせいぐんカイリューデッキ", "item": "https://yamamu-youtube.jp/pokepoke/guide-ryuseigun-kairyu-deck.html" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "りゅうせいぐんは強い？　運ゲーじゃないの？",
+            "acceptedAnswer": { "@type": "Answer", "text": "運は絡みますが、シャガを使えば選ばれる回数が4回から5回に増えるので、期待値がはっきり上がります。実戦では1体に2回当たって100ダメージ、バトル場とベンチに散って複数体を同時に削る、という当たり方が多かったです。相手のベンチが少ないほど1体に集中しやすいので、ベンチを埋めきっていない相手には特に刺さります。" }
+          },
+          {
+            "@type": "Question",
+            "name": "カイリューの4エネはどうやって用意する？",
+            "acceptedAnswer": { "@type": "Answer", "text": "ピチューのワザ「ばちばちトス」でベンチのたねポケモン（ミニリュウ）に雷エネルギーを先付けし、ベンチに残したハクリューの特性「りゅうのめぐみ」でトラッシュのエネルギーをバトル場のドラゴンに付け直します。この2つを併用しても後攻3ターン目あたりが現実的なラインで、正直かなり重いです。" }
+          },
+          {
+            "@type": "Question",
+            "name": "ハクリューはカイリューに進化させたほうがいい？",
+            "acceptedAnswer": { "@type": "Answer", "text": "ミニリュウ2体のうち、片方だけ進化させてください。ハクリューの特性「りゅうのめぐみ」はベンチにいるときだけ使えるので、2体とも進化させるとエネ加速が止まります。1体はカイリューまで進化、もう1体はハクリューで止めてベンチに残す、が正解です。" }
+          },
+          {
+            "@type": "Question",
+            "name": "オドリドリはなぜ2枚入れる？",
+            "acceptedAnswer": { "@type": "Answer", "text": "特性「しんぴのまもり」で相手のポケモンexからワザのダメージを受けないからです。相手がex主体のデッキなら、オドリドリを前に置くだけで一切殴られません。カイリューに4エネ溜まるまでの時間を稼ぐのが役目で、実戦では2枚とも並べて完封に近い形になった試合がありました。" }
+          },
+          {
+            "@type": "Question",
+            "name": "オドリドリの弱点は？　何をされると崩れる？",
+            "acceptedAnswer": { "@type": "Answer", "text": "非exポケモンです。しんぴのまもりが防ぐのは「ポケモンex」のワザダメージだけなので、メテノのような非exのアタッカーを出されると普通に殴られます。実戦で唯一負けた試合がこれでした。オドリドリ1本で受け切る前提の組み方は危険です。" }
+          },
+          {
+            "@type": "Question",
+            "name": "ミツルは入れたほうがいい？",
+            "acceptedAnswer": { "@type": "Answer", "text": "検討する価値は十分あります。新パックのミツルは無色エネルギーなのでカイリューのりゅうせいぐんのコストにそのまま使えます。ミツルが絡めば後攻2ターン目カイリューも一応可能です（先攻2ターン目はハクリュー・ふしぎなアメ・カイリュー・ミツルの4枚が必要で、狙って出せる上振れではありません）。" }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="icon" href="../icon.png">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../video.css">
+  <style>
+    .breadcrumb { max-width: 900px; margin: 16px auto 0; padding: 0 20px; font-size: 13px; color: var(--text-secondary); display: flex; gap: 8px; flex-wrap: wrap; }
+    .breadcrumb a { color: var(--text-secondary); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .guide-article { max-width: 900px; margin: 0 auto; padding: 24px 20px 60px; }
+    .guide-article h1 { font-size: 26px; font-weight: 700; color: var(--text-primary); line-height: 1.4; margin-bottom: 16px; }
+    .guide-meta { font-size: 13px; color: var(--text-secondary); margin-bottom: 24px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .guide-toc { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px 24px; margin-bottom: 32px; }
+    .guide-toc h2 { font-size: 16px; font-weight: 700; margin-bottom: 10px; color: var(--text-primary); }
+    .guide-toc ol { padding-left: 20px; }
+    .guide-toc li { margin-bottom: 4px; }
+    .guide-toc a { color: var(--text-primary); text-decoration: none; font-size: 14px; }
+    .guide-toc a:hover { color: var(--accent); text-decoration: underline; }
+    .guide-body h2 { font-size: 20px; font-weight: 700; color: var(--text-primary); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
+    .guide-body h3 { font-size: 17px; font-weight: 700; color: var(--text-primary); margin: 24px 0 8px; padding-left: 10px; border-left: 3px solid var(--accent); }
+    .guide-body p { font-size: 15px; color: var(--text-primary); line-height: 1.9; margin-bottom: 16px; }
+    .guide-body ul, .guide-body ol { padding-left: 24px; margin-bottom: 16px; }
+    .guide-body li { font-size: 15px; color: var(--text-primary); line-height: 1.8; margin-bottom: 4px; }
+    .guide-body strong { color: var(--accent); }
+    .guide-body table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 14px; }
+    .guide-body th, .guide-body td { border: 1px solid var(--border-color); padding: 10px 12px; text-align: left; color: var(--text-primary); }
+    .guide-body th { background: var(--chip-bg); }
+    .video-embed-wrap { position: relative; padding-top: 56.25%; margin: 20px 0; border-radius: 12px; overflow: hidden; }
+    .video-embed-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .info-box { background: var(--chip-bg); border-radius: 8px; padding: 16px; margin: 16px 0; font-size: 14px; line-height: 1.8; color: var(--text-primary); }
+    .related-guides { margin-top: 40px; }
+    .related-guides h2 { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; }
+    .related-guides-list { display: flex; flex-direction: column; gap: 8px; }
+    .related-guides-list a { display: block; padding: 12px 16px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); text-decoration: none; font-size: 14px; transition: background 0.2s; }
+    .related-guides-list a:hover { background: var(--chip-bg); }
+    .deck-shot { margin: 20px 0 8px; }
+    .deck-shot img { width: 100%; max-width: 560px; height: auto; display: block; margin: 0 auto; border-radius: 10px; border: 1px solid var(--border-color); }
+    .card-note { font-size: 12px; color: var(--text-secondary); margin: 0 0 20px; text-align: center; }
+    @media (max-width: 768px) { .guide-article { padding: 20px 16px; } .guide-article h1 { font-size: 20px; } }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <a href="index.html" class="header-left" style="text-decoration:none">
+      <img src="../icon.png" alt="やまむー" class="header-icon" width="32" height="32">
+      <span class="logo-text">ポケポケ攻略Wiki</span>
+    </a>
+    <div class="header-right">
+      <button class="theme-toggle" id="themeToggle" title="テーマ切替" aria-label="ダークモード切替">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="#606060" d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <nav class="game-nav" aria-label="ゲーム選択">
+    <a href="../index.html" class="game-nav-link">トップ</a>
+    <a href="../inazuma/" class="game-nav-link">イナイレV</a>
+    <a href="../pokepoke/" class="game-nav-link active">ポケポケ</a>
+    <a href="../pocoapokemon/" class="game-nav-link">ぽこポケ</a>
+    <a href="../palworld/" class="game-nav-link">パルワールド</a>
+  </nav>
+  <nav class="wiki-nav" aria-label="メインナビゲーション">
+    <a href="index.html" class="wiki-nav-link">ホーム</a>
+    <a href="guide-tenku-no-shihaisha.html" class="wiki-nav-link">天空の支配者</a>
+    <a href="guide-mega-rayquaza-deck.html" class="wiki-nav-link">メガレックウザex</a>
+    <a href="guide-ryuseigun-kairyu-deck.html" class="wiki-nav-link active">りゅうせいぐんカイリュー</a>
+  </nav>
+
+  <nav class="breadcrumb" aria-label="パンくずリスト">
+    <a href="index.html">ホーム</a><span>›</span>
+    りゅうせいぐんカイリューデッキ
+  </nav>
+
+  <article class="guide-article">
+    <h1>【ポケポケ】りゅうせいぐんカイリューデッキ｜シャガで4回→5回にする構築とオドリドリの使い方</h1>
+    <div class="guide-meta">
+      <span>やまむー</span>
+      <span>2026年7月31日公開</span>
+      <span>2026年7月31日更新</span>
+      <span>実戦5戦で検証（4勝1敗）</span>
+    </div>
+
+    <p style="font-size:15px; line-height:1.9; color:var(--text-primary); margin-bottom:16px;"><strong style="color:var(--accent);">結論：このデッキの主役は、じつは<em>カイリューではなくオドリドリ</em>です。</strong>カイリューのワザ「りゅうせいぐん」は<strong>4エネ</strong>とかなり重い。その4エネが溜まるまでの数ターンを、特性「しんぴのまもり」で<strong>ポケモンexから一切ダメージを受けないオドリドリ</strong>が肩代わりします。そして撃つときは<strong>シャガ</strong>を添えて、選ばれる回数を<strong>4回→5回</strong>に。実戦5戦で<strong>4勝1敗</strong>、うち2戦は相手が降参しました。</p>
+
+    <div class="info-box">
+      <strong>この記事はこんな人に向けて書いています</strong><br>
+      「新パックでカイリューとシャガを引いた。りゅうせいぐんって強いの？　それともただの運ゲー？」——撃つ前に、まず<strong>4エネをどう払うか</strong>で詰まっている人。
+    </div>
+
+    <!-- ▼動画公開後、下のコメントを外してVIDEO_IDを実IDに差し替える（記事冒頭に一次情報を置くため）
+    <div class="video-embed-wrap">
+      <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="【ポケポケ】りゅうせいぐんカイリューデッキ 実戦5戦" loading="lazy" allowfullscreen></iframe>
+    </div>
+    -->
+
+    <div class="info-box">
+      <strong>この記事の根拠</strong><br>
+      2026年7月31日に、この構築でランクマッチを<strong>5戦</strong>回した実プレイの記録です。<strong>負けた1戦も含めて全試合そのまま</strong>動画に入れてあります。カード名・ワザ名・効果テキストはすべてゲーム画面と照合しました（カードの表記はゲーム内の正書どおり、ひらがなはひらがなのまま書いています）。
+    </div>
+
+    <nav class="guide-toc">
+      <h2>目次</h2>
+      <ol>
+        <li><a href="#kekka">実戦5戦の結果（4勝1敗）</a></li>
+        <li><a href="#recipe">デッキレシピ20枚</a></li>
+        <li><a href="#ryuseigun">りゅうせいぐんは強い？　シャガで何が変わるのか</a></li>
+        <li><a href="#odoridori">本当の主役はオドリドリ｜ポケモンexを完封する</a></li>
+        <li><a href="#energy">4エネの払い方｜ピチューとハクリューの2段構え</a></li>
+        <li><a href="#shinka">ミニリュウ2体は「片方だけ」進化させる</a></li>
+        <li><a href="#mawashikata">回し方：オドリドリで受けて、シャガ＋りゅうせいぐんで返す</a></li>
+        <li><a href="#jakuten">正直な弱点：メテノを出されて負けた話</a></li>
+        <li><a href="#mitsuru">改善案：新パックのミツルはアリか</a></li>
+        <li><a href="#faq">よくある質問</a></li>
+      </ol>
+    </nav>
+
+    <div class="guide-body">
+
+      <h2 id="kekka">実戦5戦の結果（4勝1敗）</h2>
+      <p>まず数字から出します。同じ日・同じ構築で5戦。<strong>勝った4戦のうち2戦は相手が降参</strong>という内容でした。</p>
+
+      <table>
+        <thead>
+          <tr><th>試合</th><th>相手</th><th>結果</th><th>内容</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1戦目</td><td>イエッサンex＋ホエルコ（無限耐久型）</td><td><strong>勝ち</strong><br>（相手が降参）</td><td>毎ターン回復して耐える構えに対し、りゅうせいぐん1発で計画が壊れて降参された</td></tr>
+          <tr><td>2戦目</td><td>メガメタグロスex／ディアルガ</td><td><strong>勝ち</strong></td><td>相手がexしかいないのでオドリドリが完封。時間を稼いでカイリュー完成</td></tr>
+          <tr><td>3戦目</td><td>メガサメハダー／パオジアン</td><td><strong>負け</strong></td><td><strong>メテノ（非ex）</strong>を出されてオドリドリの完封が崩れた</td></tr>
+          <tr><td>4戦目</td><td>不明（相手が大事故）</td><td><strong>勝ち</strong></td><td>相手がたねポケモンを並べられず、何のデッキか最後までわからないまま終了</td></tr>
+          <tr><td>5戦目</td><td>マギアナ／ミミズズ／ダンバル（鋼）</td><td><strong>勝ち</strong><br>（相手が降参）</td><td>相手はドローソースを1枚も引けず。りゅうせいぐんがマギアナに2回当たって貫通</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box">
+        <strong>5戦回して一番強く感じたこと</strong><br>
+        カイリューが立つのは早くても中盤です。<strong>それまで一方的に殴られないこと</strong>が、このデッキの生命線でした。オドリドリが立っている間、相手のex主体デッキは<strong>本当に何もできません</strong>。逆に言うと、そこを崩されると一気にきつくなります（3戦目）。
+      </div>
+
+      <h2 id="recipe">デッキレシピ20枚</h2>
+      <p>エネルギーは<strong>水＋雷</strong>の2種類です。</p>
+
+      <div class="deck-shot">
+        <img src="deck-ryuseigun.webp" alt="ポケポケ りゅうせいぐんカイリューデッキのデッキ一覧画面（20枚）" width="560" height="613" loading="lazy">
+      </div>
+      <p class="card-note">▲ 実際のデッキ画面（2026年7月31日時点）</p>
+
+      <table>
+        <thead><tr><th>カテゴリ</th><th>カード</th><th>枚数</th><th>役割</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="5">ポケモン<br>(9枚)</td><td>ミニリュウ</td><td>2</td><td>ハクリュー／カイリューのたね</td></tr>
+          <tr><td><strong>ハクリュー</strong></td><td>1</td><td>特性「りゅうのめぐみ」でエネ加速。ベンチ要員</td></tr>
+          <tr><td><strong>カイリュー</strong></td><td>2</td><td>フィニッシャー。ワザ「りゅうせいぐん」</td></tr>
+          <tr><td><strong>オドリドリ</strong></td><td>2</td><td>特性「しんぴのまもり」。<strong>実質の主役</strong></td></tr>
+          <tr><td>ピチュー</td><td>2</td><td>ワザ「ばちばちトス」でベンチに雷エネを先付け</td></tr>
+          <tr><td rowspan="5">トレーナーズ<br>(サポート・グッズ10枚)</td><td>博士の研究</td><td>2</td><td rowspan="2">ドローソース計<strong>4枚</strong></td></tr>
+          <tr><td>モノマネむすめ</td><td>2</td><td></td></tr>
+          <tr><td><strong>シャガ</strong></td><td>2</td><td>りゅうせいぐんの回数を<strong>+1（4→5回）</strong></td></tr>
+          <tr><td>ふしぎなアメ</td><td>2</td><td>ミニリュウから一気にカイリューへ</td></tr>
+          <tr><td>モンスターボール</td><td>2</td><td>たねポケモンサーチ</td></tr>
+          <tr><td>スタジアム<br>(1枚)</td><td>いやしの海辺</td><td>1</td><td>削られたオドリドリを立て直す</td></tr>
+          <tr><th colspan="2" style="text-align:right">合計</th><th>20</th><th>エネルギーは水＋雷</th></tr>
+        </tbody>
+      </table>
+
+      <h2 id="ryuseigun">りゅうせいぐんは強い？　シャガで何が変わるのか</h2>
+
+      <div class="info-box">
+        <strong>カイリュー</strong>（2進化／HP160／ドラゴン）<br>
+        ワザ「りゅうせいぐん」　コスト：水・雷・無・無（<strong>合計4エネ</strong>）<br>
+        <em>相手のポケモンがランダムに4回選ばれ、選ばれたポケモン全員に、選ばれた回数×50ダメージ。</em>
+      </div>
+
+      <div class="info-box">
+        <strong>シャガ</strong>（サポート）<br>
+        <em>「りゅうせいぐん」で相手のポケモンが選ばれる回数を+1。</em>
+      </div>
+
+      <p>ここが噛み合うポイントです。りゅうせいぐんは<strong>ランダムに4回</strong>抽選して、<strong>選ばれた回数×50</strong>のダメージを与えます。つまり——</p>
+      <ul>
+        <li>同じポケモンが<strong>2回</strong>選ばれれば<strong>100ダメージ</strong></li>
+        <li>同じポケモンが<strong>3回</strong>選ばれれば<strong>150ダメージ</strong></li>
+        <li>バラけると、複数体に50ずつ散る（<strong>これはこれで強い</strong>）</li>
+      </ul>
+      <p>そして<strong>シャガを1枚使うだけで、この抽選が5回になります。</strong>1回ぶんの増加ですが、「1体に集中する確率」と「盤面全体に入る総ダメージ」の両方が上がるので、体感はかなり違いました。</p>
+
+      <div class="info-box">
+        <strong>誤解しやすいところ</strong><br>
+        りゅうせいぐんは<strong>ベンチにも当たります</strong>。だから相手のベンチが空いているほど、バトル場に集中しやすい。<br>
+        逆に、<strong>相手のベンチが埋まっているほど分散して1体を落としきれません</strong>。実戦2戦目では、狙ったメガメタグロスexを一撃で落とせず、ベンチのダンバルとディアルガに散ってしまいました。<strong>「1体のカイリューで2回撃つ」つもりで組むのが現実的です。</strong>
+      </div>
+
+      <h2 id="odoridori">本当の主役はオドリドリ｜ポケモンexを完封する</h2>
+
+      <div class="info-box">
+        <strong>オドリドリ</strong>（たね／HP70／雷）<br>
+        特性「しんぴのまもり」：<em>このポケモンは、相手の「ポケモンex」からワザのダメージを受けない。</em><br>
+        ワザ「パチパチ」（雷・無）50
+      </div>
+
+      <p>この1枚が構築の背骨です。相手が<strong>exを軸にしたデッキ</strong>なら、オドリドリを前に置いた瞬間、<strong>相手はこちらに一切ダメージを通せなくなります。</strong></p>
+      <p>実戦2戦目の相手はメガメタグロスexとディアルガでした。<strong>相手がどれだけエネルギーを貯めても、オドリドリの前では無力です。</strong>そのあいだにこちらは、ふしぎなアメでカイリューを立て、エネルギーを4つ揃えるだけ。「カイリューの着地が遅くても、オドリドリで耐久できる」——これがこのデッキのコンセプトです。</p>
+      <p>しかも殴れないわけではありません。ワザ「パチパチ」で50は出せるので、<strong>耐えながら削れる</strong>のが偉いところ。実戦では「もう永遠にオドリドリだけでいいんじゃないか」と本気で思う場面が何度もありました。</p>
+
+      <h2 id="energy">4エネの払い方｜ピチューとハクリューの2段構え</h2>
+      <p>りゅうせいぐんのコストは<strong>水・雷・無・無の4エネ</strong>。エネルギーは1ターンに1個しか付かないので、素直に待つと4ターンかかります。ここを短縮する手が2枚入っています。</p>
+
+      <h3>ピチュー：ベンチのミニリュウに先付けする</h3>
+      <div class="info-box">
+        <strong>ピチュー</strong>（たね／HP30／雷）<br>
+        ワザ「ばちばちトス」：<em>自分のエネルギーゾーンから雷エネルギーを1個出し、ベンチのたねポケモンにつける。</em>
+      </div>
+      <p>ミニリュウは<strong>たねポケモン</strong>なので、ばちばちトスの対象になります。前にピチューを立てて時間を稼ぎながら、<strong>裏のミニリュウにエネルギーを溜めておく</strong>。理想の初手は<strong>ピチュー前・ミニリュウ2体裏</strong>で、そこから片方にブーストを重ねる形です。</p>
+
+      <h3>ハクリュー：トラッシュから拾って付け直す</h3>
+      <div class="info-box">
+        <strong>ハクリュー</strong>（1進化／HP80／ドラゴン）<br>
+        特性「りゅうのめぐみ」：<em>このポケモンがベンチにいるなら、自分の番に1回使える。自分のトラッシュからエネルギーを1個選び、バトル場のドラゴンポケモンにつける。</em><br>
+        ワザ「ドラゴンウィップ」40
+      </div>
+      <p>りゅうせいぐんを撃つとエネルギーは残りますが、<strong>カイリューが倒されたときにトラッシュへ落ちたエネルギー</strong>を拾い直せるのが大きい。「あと1エネ足りません」という場面を、ハクリューが埋めてくれます。</p>
+
+      <h2 id="shinka">ミニリュウ2体は「片方だけ」進化させる</h2>
+      <p>ここが<a href="guide-mega-rayquaza-deck.html">前回のメガレックウザexデッキ</a>と決定的に違うところです。</p>
+      <p>メガレックウザexデッキでは、ハクリューは<strong>絶対に進化させないのが正解</strong>でした（進化すると特性が消えるため）。でも今回は<strong>カイリューが主役</strong>なので、進化させないと話が始まりません。</p>
+      <div class="info-box">
+        <strong>答え：ミニリュウ2体のうち、片方だけカイリューまで進化させる。</strong><br>
+        もう片方は<strong>ハクリューで止めてベンチに残す</strong>。こうすると「フィニッシャー」と「エネ加速」を同時に成立させられます。デッキにハクリューが1枚、カイリューが2枚入っているのはこのためです。
+      </div>
+
+      <h2 id="mawashikata">回し方：オドリドリで受けて、シャガ＋りゅうせいぐんで返す</h2>
+      <ol>
+        <li><strong>初手はピチュー前・ミニリュウ裏</strong>を狙う。ばちばちトスでミニリュウにエネを先付けする。</li>
+        <li>相手がexデッキだとわかったら、<strong>オドリドリを前に出して受けに回る</strong>。ここからは基本的に殴られません。</li>
+        <li>裏で<strong>ふしぎなアメ→カイリュー</strong>。もう1体はハクリューで止めてベンチに残す。</li>
+        <li>4エネ揃ったらオドリドリと入れ替え、<strong>シャガ→りゅうせいぐん</strong>。5回抽選で盤面を吹き飛ばす。</li>
+        <li>カイリューが倒されたら、ハクリューの<strong>りゅうのめぐみ</strong>でトラッシュのエネを2体目のカイリューへ。</li>
+      </ol>
+      <p><strong>「オドリドリで永遠に耐えて、揃ったら1回だけ気持ちよく撃つ」</strong>——これが基本の勝ち筋です。焦ってカイリューを出すと、4エネが揃う前に落とされてただ損をします。</p>
+
+      <div class="info-box">
+        <strong>スタジアム「いやしの海辺」について</strong><br>
+        1枚だけ入れています。<strong>お互いが使える</strong>スタジアムなので相手にも回復を許しますが、オドリドリで受けている時間が長いこのデッキとは相性が良く、削られたオドリドリを立て直せます。相手が耐久デッキのときだけは裏目になります。
+      </div>
+
+      <h2 id="jakuten">正直な弱点：メテノを出されて負けた話</h2>
+      <p>5戦のうち唯一の負けが3戦目です。相手はメガサメハダー／パオジアンで、序盤は完全にこちらのペースでした。オドリドリが立っている限りexは何もできないので、「これもまたオドリドリだけで完封できるんじゃないか」と思っていたくらいです。</p>
+      <p>そこに出てきたのが<strong>メテノ</strong>でした。</p>
+      <div class="info-box">
+        <strong>しんぴのまもりが防ぐのは「ポケモンex」のワザダメージだけ。</strong><br>
+        だから<strong>非exのアタッカー</strong>を1枚入れられているだけで、オドリドリの完封は成立しません。実戦でも、メテノが出てきた時点でこの試合の勝ち筋は消えました。
+      </div>
+      <p>これは構築上の弱点というより、<strong>相手のデッキに1枚差されているだけで機能停止する</strong>という、明確な穴です。ランクマッチで使うなら、<strong>「非exを引かれたらオドリドリは頼れない」前提で、カイリューを早く立てる動き</strong>も持っておく必要があります。</p>
+
+      <h3>そのほかキツかった点</h3>
+      <ul>
+        <li><strong>4エネが素直に重い。</strong>ドローソース4枚では、ふしぎなアメもカイリューも来ないターンが普通にあります。ここは正直、もう1〜2枚足す余地があります。</li>
+        <li><strong>りゅうせいぐんは分散する。</strong>相手のベンチが埋まっていると、狙ったexを一撃で落とせません。<strong>1体のカイリューで2回撃つ</strong>のが現実的な計算です。</li>
+        <li><strong>カイリューはHP160。</strong>ex級の火力なら1発では落ちませんが、2発は耐えられません。返しで落とされる前提で、ハクリューによる2体目の準備が必要です。</li>
+      </ul>
+
+      <h2 id="mitsuru">改善案：新パックのミツルはアリか</h2>
+      <p>5戦回して出た結論は<strong>「ミツルはかなりアリ」</strong>です。</p>
+      <p>ミツルは<strong>無色エネルギー</strong>なので、りゅうせいぐんのコスト（水・雷・無・無）の<strong>無色2枠にそのまま使えます</strong>。色を選ばないぶん、事故率にも効きます。</p>
+      <table>
+        <thead><tr><th>展開</th><th>必要なもの</th><th>現実性</th></tr></thead>
+        <tbody>
+          <tr><td>後攻2ターン目カイリュー</td><td>ミツルが絡めば一応可能</td><td><strong>狙える範囲</strong></td></tr>
+          <tr><td>先攻2ターン目カイリュー</td><td>ハクリュー・ふしぎなアメ・カイリュー・ミツルの<strong>4枚が揃う</strong>必要あり</td><td>上振れすぎて狙えない</td></tr>
+        </tbody>
+      </table>
+      <p>「先攻2ターン目カイリュー」は理論上は可能ですが、<strong>相当な上振れが必要なので狙うものではありません</strong>。ミツルは「事故を減らして着地を1ターン早める保険」として見るのが現実的です。</p>
+
+      <h2 id="faq">よくある質問</h2>
+
+      <h3>りゅうせいぐんは強い？　運ゲーじゃないの？</h3>
+      <p>運は絡みますが、<strong>シャガで4回→5回</strong>になるぶん期待値ははっきり上がります。実戦では「1体に2回当たって100ダメージ」「バトル場とベンチに散って複数体を同時に削る」という当たり方が多かったです。<strong>相手のベンチが少ないほど1体に集中しやすい</strong>ので、展開が遅れている相手には特に刺さります。</p>
+
+      <h3>カイリューの4エネはどうやって用意する？</h3>
+      <p><strong>ピチューの「ばちばちトス」でベンチのミニリュウに先付け</strong>し、<strong>ベンチに残したハクリューの「りゅうのめぐみ」でトラッシュから付け直す</strong>——この2段構えです。それでも後攻3ターン目あたりが現実的なラインで、正直かなり重いです。</p>
+
+      <h3>ハクリューはカイリューに進化させたほうがいい？</h3>
+      <p><strong>ミニリュウ2体のうち片方だけ進化させてください。</strong>りゅうのめぐみは「ベンチにいるなら」使える特性なので、2体とも進化させるとエネ加速が止まります。1体はカイリューまで、もう1体はハクリューで止めてベンチに残すのが正解です。</p>
+
+      <h3>オドリドリはなぜ2枚入れる？</h3>
+      <p>特性「しんぴのまもり」で<strong>相手のポケモンexからワザのダメージを受けない</strong>からです。相手がex主体ならオドリドリを前に置くだけで殴られません。<strong>カイリューに4エネ溜まるまでの時間を稼ぐ</strong>のが役目で、2枚並べれば1体落とされても継続できます。</p>
+
+      <h3>オドリドリの弱点は？　何をされると崩れる？</h3>
+      <p><strong>非exポケモンです。</strong>しんぴのまもりが防ぐのは「ポケモンex」のワザダメージだけなので、<strong>メテノ</strong>のような非exアタッカーを出されると普通に殴られます。実戦で唯一負けた試合がこれでした。<strong>オドリドリ1本で受け切る前提の組み方は危険です。</strong></p>
+
+      <h3>ミツルは入れたほうがいい？</h3>
+      <p><strong>検討する価値は十分あります。</strong>無色エネルギーなのでりゅうせいぐんのコストにそのまま使えます。ミツルが絡めば後攻2ターン目カイリューも一応可能です（先攻2ターン目は4枚揃える必要があり、狙える上振れではありません）。</p>
+
+      <h3>いやしの海辺は必要？</h3>
+      <p><strong>1枚なら入れておいて損はありません。</strong>オドリドリで受けている時間が長いので、削られたオドリドリを立て直せます。ただし<strong>お互いが使えるスタジアム</strong>なので、相手が耐久型のときは裏目になります。</p>
+
+      <h2>まとめ</h2>
+      <ul>
+        <li>りゅうせいぐんは<strong>ランダム4回×50ダメージ</strong>。<strong>シャガで5回</strong>になり、期待値がはっきり上がる</li>
+        <li>コストは<strong>4エネと重い</strong>。<strong>ピチューの先付け＋ハクリューの拾い直し</strong>で短縮する</li>
+        <li>実質の主役は<strong>オドリドリ</strong>。<strong>ポケモンexから一切ダメージを受けない</strong>ので、ex環境では受けが成立する</li>
+        <li>ミニリュウ2体は<strong>片方だけカイリューへ</strong>。もう片方はハクリューでベンチに残す</li>
+        <li>弱点は<strong>非ex（メテノなど）を1枚差されるとオドリドリが崩れる</strong>こと。負けた1戦はこれ</li>
+        <li>改善案は<strong>新パックのミツル</strong>。無色なのでコストにそのまま乗る</li>
+      </ul>
+      <p>実戦5戦は動画にまとめてあります。<strong>負けた試合も丸ごと入れてあります</strong>ので、「オドリドリ完封がどう崩れるか」も含めて見てみてください。</p>
+      <p><strong>「ここをこうしたら良くなりましたよ」というのがあれば、ぜひコメントで教えてください。</strong>次の調整に反映します。</p>
+    </div>
+
+    <div class="related-guides">
+      <h2>関連記事</h2>
+      <div class="related-guides-list">
+        <a href="guide-mega-rayquaza-deck.html">メガレックウザexデッキが事故る原因はドロソ不足だった｜ドローソース5枚の最終レシピ</a>
+        <a href="guide-tenku-no-shihaisha.html">新パック「天空の支配者」まとめ｜メガレックウザex初登場</a>
+        <a href="index.html">ポケポケ攻略Wiki トップ</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="footer">
+    <p>&copy; 2026 やまむー【yamamu】</p>
+  </footer>
+
+  <script src="../theme.js"></script>
+</body>
+</html>
