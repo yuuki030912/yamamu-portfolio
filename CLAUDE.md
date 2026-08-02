@@ -81,38 +81,45 @@ Ver1.5.0でチームパッシブに上限が設けられ、単一ビルド特化
 
 ## サイト構造・技術仕様
 
-### ファイル構成
+### ファイル構成（2026-08 更新）
 ```
-/                        — ルート（共有アセット + ポータル）
-├── index.html           — ゲーム選択ポータル
-├── style.css            — 全ページ共通CSS（CSS変数でダーク/ライト対応）
+/                        — ルート（YAMAMU PLAYGROUNDポータル + 共有アセット）
+├── index.html           — 総合トップ（PLAYGROUNDデザイン、playground.css使用）
+├── playground.css       — PLAYGROUND系ページ（/, guides/, games/, service/, about/, contact/）共通CSS
+├── style.css            — 攻略Wiki全ページ共通CSS（CSS変数でダーク/ライト対応）
 ├── video.css            — 動画個別ページ・カテゴリページ用CSS
-├── theme.js             — テーマ切替JS
-├── icon.png             — サイトアイコン
-├── sitemap.xml          — サイトマップ（generate.htmlで生成）
-├── robots.txt           — クロール設定
-├── CNAME                — ドメイン設定
-├── category-*.html      — リダイレクトスタブ（→ inazuma/）
-├── guide-*.html         — リダイレクトスタブ（→ inazuma/）
-├── video-inazuma-*.html — リダイレクトスタブ（→ inazuma/）
+├── theme.js / theme-init.js — テーマ切替JS
+├── youtube-lazy.js      — YouTube遅延読み込み
+├── og.png / icon.png / yamamu-avatar.jpg — 共有画像
+├── sitemap.xml          — サイトマップ（ルート用。ai-games/は独自sitemap.xml）
+├── robots.txt / CNAME / ads.txt / llms.txt
+├── manager.html         — 管理ツール（robots.txtでDisallow）
+├── privacy.html / sponsor.html
+├── about.html / contact.html — リダイレクトスタブ（→ /about/, /contact/）
+├── category-*.html, guide-*.html, video-inazuma-*.html — リダイレクトスタブ（→ inazuma/）
 │
-├── inazuma/             — イナイレV攻略
-│   ├── index.html       — イナイレVトップ（Wiki風2カラム）
-│   ├── script.js        — index.html用JS
-│   ├── videos.js        — 動画データ配列
-│   ├── videos.json      — 動画データ元ファイル
-│   ├── generate.html    — 管理ツール（GAME_ID="inazuma", ASSET_PREFIX="../"）
-│   ├── build-tabs.js    — ビルド攻略ページ タブ切替JS
-│   ├── category-*.html  — カテゴリ・テーマ別ページ
-│   ├── guide-*.html     — 攻略ガイドページ（手動作成）
-│   └── video-inazuma-*.html — 各動画の個別ページ
+├── guides/              — 攻略Wiki入口ページ（PLAYGROUNDデザイン）
+├── games/               — AIゲーム一覧ページ（PLAYGROUNDデザイン）
+├── service/             — サイト制作サービス紹介
+├── about/               — 運営者情報
+├── contact/             — お問い合わせ
 │
-├── pokepoke/            — ポケポケ攻略（準備中）
-│   ├── index.html       — ポケポケトップ（準備中表示）
-│   ├── script.js        — index.html用JS
-│   ├── videos.js / videos.json — 動画データ（空）
-│   └── generate.html    — 管理ツール（GAME_ID="pokepoke"）
+├── inazuma/             — イナイレV攻略（index, script.js, videos.js/json, generate.html,
+│                          build-tabs.js, category-*, guide-*, video-inazuma-*）
+├── pokepoke/            — ポケポケ攻略（cards/=カード画像webp, tracker/=対戦記録ツール）
+├── pocoapokemon/        — ぽこポケ攻略（図鑑pokemon-*.html, building-sim=建築シミュ, guide-*）
+├── palworld/            — パルワールド攻略
+├── en/                  — 英語版記事（hreflangで日英相互リンク）
+├── ai-games/            — AIゲームポータル（play/=各ゲーム, games/=ゲーム本体+アセット, 独自sitemap.xml）
+│
+├── scripts/             — 開発・自動化スクリプト（サイト本体からは参照されない）
+│   ├── new-video-article-draft.mjs — 新着動画→記事下書き自動化（GitHub Actions用）
+│   ├── pocoapokemon/    — ぽこポケ図鑑画像切り出し等の作業スクリプト置き場
+│   └── _local-archive/  — ルートに散らかっていた一時スクリプトの退避先（gitignore対象）
+├── .github/workflows/   — 新着動画検知→PR自動作成
+├── docs/ prompts/ drafts/ tests/ — 内部ドキュメント・下書き（公開はされるがリンクなし）
 ```
+**ルール**: 開発用スクリプト（.py/.mjs/一時.js）は必ず `scripts/` 配下に置く。ルートや各ゲームディレクトリに置かない（GitHub Pagesで公開されてしまうため）。
 
 ### レイアウト構造（Wiki風・Game8/GameWith参考）
 - **ポータルページ**: ゲーム選択カード（`.portal-grid` > `.portal-card`）
