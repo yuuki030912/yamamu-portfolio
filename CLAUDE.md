@@ -12,6 +12,11 @@ GitHub Pagesで運営するマルチゲーム攻略サイト。サブディレ�
 - 新しい動画を記事化する時: ①動画の説明文・字幕から video-palworld-<id>.html を作成 ②index.htmlの攻略動画グリッドにカード追加 ③videos.jsonに追記 ④sitemap.xmlにURL追加 ⑤（英語版も作るなら）/en/ に記事追加＋hreflang相互リンク＋/en/index.htmlにカード追加
 - guide-beginner.html は MSr1f_02oDA（序盤完全ガイド動画）の記事を兼ねる
 
+## 新着動画→記事仕上げ・公開の自動化（2026-08-03〜）
+- Claude Codeデスクトップの定期タスク `auto-finish-video-articles`（毎朝7時台）が、auto/new-video-draftsブランチの下書きを取り込み→本文執筆→noindex解除→index.htmlカード追加→sitemap登録→mainへ直接pushまで自動実行する
+- タスク定義: `C:\Users\yamau\.claude\scheduled-tasks\auto-finish-video-articles\SKILL.md`（アプリ起動中のみ実行。閉じていたら次回起動時に実行）
+- 方針: フル動画=完全記事化して公開／ショート・配信アーカイブ=コンパクト記事化＋noindex維持（薄コンテンツ対策）／事実は動画説明文の記載のみ使用（創作禁止）
+
 ## 新着動画→記事下書きの自動化（承認あり）
 - `.github/workflows/new-video-article-draft.yml`（3時間おき）＋`scripts/new-video-article-draft.mjs`
 - チャンネルRSSを見て、PROCESS_SINCE以降の新着を検知 → `drafts/pending-videos.md`に全ゲーム追記＋**テンプレ対応ゲーム(パルワールド・ポケポケ)は下書き記事HTML＋カード＋sitemapを自動生成** → `peter-evans/create-pull-request`でPRを開く（直pushしない＝承認あり）
