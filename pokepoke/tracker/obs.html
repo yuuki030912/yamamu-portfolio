@@ -82,6 +82,7 @@ const BG_KEY = 'pokepoke-obs-bg';
 const DECK_KEY = 'pokepoke-obs-deck';
 
 // ランク境界(本体と同じ定義)。シーズンごとに異なるので設定に追従する
+// rankPreset==='custom' のときは settings.rankSteps(17個)を直接使う
 const RANK_PRESETS = {
   b: [0, 20, 50, 80, 110, 140, 170, 210, 250, 290, 330, 380, 440, 510, 590, 690, 810],
   a: [0, 20, 50, 95, 145, 195, 245, 300, 355, 420, 490, 600, 710, 860, 1010, 1225, 1450],
@@ -95,7 +96,10 @@ const RANK_NAMES = [
 ];
 let rankStepsCache = [];
 function rankSteps(settings){
-  const arr = RANK_PRESETS[(settings && settings.rankPreset) || 'b'] || RANK_PRESETS.b;
+  const s = settings || {};
+  const arr = (s.rankPreset === 'custom' && Array.isArray(s.rankSteps) && s.rankSteps.length === RANK_NAMES.length)
+    ? s.rankSteps.map(n=>Number(n)||0)
+    : (RANK_PRESETS[s.rankPreset] || RANK_PRESETS.b);
   return arr.map((pts,i)=>({name:RANK_NAMES[i], pts}));
 }
 const rankOf = p => { let r = rankStepsCache[0]; for(const s of rankStepsCache){ if(p>=s.pts) r=s; else break; } return r; };
@@ -104,13 +108,19 @@ const nextRankOf = p => { for(const s of rankStepsCache){ if(p<s.pts) return {na
 const $ = s => document.querySelector(s);
 let chart = null, deckFilter = localStorage.getItem(DECK_KEY) || '';
 
+/* 本体は「シーズン」単位でデータを持つ。選択中のシーズンだけを表示する
+   （seasonsが無い旧形式のデータもそのまま読めるようにフォールバック） */
 function loadState(){
   try{
     const raw = localStorage.getItem(STORE_KEY);
-    if(!raw) return {settings:{}, matches:[]};
+    if(!raw) return {settings:{}, matches:[], seasonName:''};
     const s = JSON.parse(raw);
-    return {settings: s.settings||{}, matches: Array.isArray(s.matches)? s.matches : []};
-  }catch(e){ return {settings:{}, matches:[]}; }
+    if(Array.isArray(s.seasons) && s.seasons.length){
+      const sn = s.seasons.find(x=>x.id === s.currentSeasonId) || s.seasons[s.seasons.length-1];
+      return {settings: sn.settings||{}, matches: Array.isArray(sn.matches)? sn.matches : [], seasonName: sn.name||''};
+    }
+    return {settings: s.settings||{}, matches: Array.isArray(s.matches)? s.matches : [], seasonName:''};
+  }catch(e){ return {settings:{}, matches:[], seasonName:''}; }
 }
 function fmt(iso){
   const d = new Date(iso);
@@ -123,12 +133,16 @@ let lastSig = null; // 前回描画時の状態(変化がなければ何もし�
 function render(force){
   const st = loadState();
   const all = [...st.matches].sort((a,b)=>String(a.datetime).localeCompare(String(b.datetime)));
+  // シーズンを切り替えたとき、そのシーズンに無いデッキで絞られたままにならないよう総合へ戻す
+  if(deckFilter && !all.some(m=>(m.myDeck||'')===deckFilter)) deckFilter = '';
   const list = deckFilter ? all.filter(m=>(m.myDeck||'')===deckFilter) : all;
 
   // 変化がなければ再描画しない（OBSでグラフが動き続けるのを防ぐ）
   const sig = JSON.stringify({
     deck: deckFilter,
+    season: st.seasonName,
     preset: st.settings.rankPreset,
+    steps: st.settings.rankSteps,
     mode: st.settings.pointMode,
     start: st.settings.startPts,
     pts: list.map(m=>[m.datetime, m.pointsAfter, m.result]),
