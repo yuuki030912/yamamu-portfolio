@@ -18,3 +18,7 @@
 - [ ] **ポケポケ** [【ポケポケ】新パック「天空の支配者」全カード考察！最強は"アイツ"じゃなくて〇〇！？【メガレックウザex】](https://www.youtube.com/watch?v=O8m3PkmIHKY) (O8m3PkmIHKY) — 2026-07-23 — 下書き自動生成済み
 - [ ] **ポケポケ** [【ポケポケ】理不尽すぎてブチギレ大放出www 下振れ地獄の果てに…まさかの〇〇](https://www.youtube.com/watch?v=Wksk1rtXKyQ) (Wksk1rtXKyQ) — 2026-07-23 — 下書き自動生成済み
 - [ ] **ポケポケ** [【ポケポケ】環境に刺さりまくった自作デッキで一気にランクアップ！【アルクロベビィ】](https://www.youtube.com/watch?v=QgMHpg4SJ-g) (QgMHpg4SJ-g) — 2026-07-22 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】ランクマ生配信！一桁目指して頑張る！！](https://www.youtube.com/watch?v=dEvQtoPa9L4) (dEvQtoPa9L4) — 2026-08-13 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】ランクマ生配信！使うデッキ決まってないので一緒に考えてください](https://www.youtube.com/watch?v=FVeOxYApxi0) (FVeOxYApxi0) — 2026-08-13 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】メガエルレイドexデッキが"バグ疑惑"！？犯人は"〇〇"でしたwww](https://www.youtube.com/watch?v=5u7EnaHBPN4) (5u7EnaHBPN4) — 2026-08-06 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】新パック「天空の支配者」最強デッキ探し！おすすめ教えて #ポケポケ](https://www.youtube.com/watch?v=jWXrXd3OR58) (jWXrXd3OR58) — 2026-08-05 — 下書き自動生成済み
