@@ -320,6 +320,11 @@ button:active{transform:translateY(1px)}
 .deck-chip:hover{border-color:var(--tcg-blue); background:rgba(37,99,235,.06)}
 .deck-chip.active{border-color:var(--tcg-blue); background:var(--tcg-blue); color:#fff}
 .deck-chip .cnt{font-size:11px; font-weight:400; opacity:.75; margin-left:4px}
+/* 過去シーズンでしか当たっていないデッキ（候補としては出すが控えめに） */
+.deck-chip.dim{opacity:.7; border-style:dashed; font-weight:400}
+.deck-chip.dim.active{opacity:1; font-weight:700}
+/* 相手デッキは全件出すので、伸びすぎたらこの枠内でスクロール */
+.deck-chips.scrollable{max-height:190px; overflow-y:auto; padding-right:2px}
 .deck-chip-empty{font-size:12px; color:var(--ink-4); padding:4px 0}
 /* デッキ管理 */
 .deck-manage-block{border:1px solid var(--line-2); border-radius:var(--r-sm); background:#fff; margin-bottom:6px; overflow:hidden}
@@ -474,7 +479,7 @@ button:active{transform:translateY(1px)}
 
     <div class="fld">
       <span class="fld-lbl">相手デッキ<span id="oppDeckHint" style="font-weight:400;color:var(--ink-4)"></span></span>
-      <div class="deck-chips" id="oppDeckChips"></div>
+      <div class="deck-chips scrollable" id="oppDeckChips"></div>
       <input type="text" id="quickOppDeck" placeholder="相手のデッキ名（上から選ぶか直接入力・任意）" list="deckList" style="margin-top:8px">
     </div>
 
@@ -1975,7 +1980,7 @@ function allMyDecks(){
   return [...new Set([...registered, ...used])];
 }
 function findMyDeck(name){ return (state.myDecks||[]).find(d=>d.name===name); }
-/* 相手デッキを使用回数の多い順に */
+/* 相手デッキを当たった回数の多い順に（選択中シーズン） */
 function opponentDeckRanking(){
   const cnt = new Map();
   for(const m of state.matches){
@@ -1983,6 +1988,33 @@ function opponentDeckRanking(){
     if(d) cnt.set(d, (cnt.get(d)||0) + 1);
   }
   return [...cnt.entries()].sort((a,b)=>b[1]-a[1]).map(([name,n])=>({name, n}));
+}
+/* 相手デッキの入力候補。今シーズンの当たった順を先に、
+   過去シーズンでしか当たっていないデッキも後ろに候補として残す
+   （シーズンを新しく作った直後でも候補が空にならないように） */
+function opponentDeckCandidates(){
+  const cur = new Map(), past = new Map();
+  for(const sn of (state.seasons||[])){
+    const map = sn.id === state.currentSeasonId ? cur : past;
+    for(const m of (sn.matches||[])){
+      const d = (m.opponentDeck||'').trim();
+      if(d) map.set(d, (map.get(d)||0) + 1);
+    }
+  }
+  const sortDesc = m => [...m.entries()].sort((a,b)=>b[1]-a[1]);
+  return {
+    cur: sortDesc(cur).map(([name,n])=>({name, n})),
+    past: sortDesc(past).filter(([name])=>!cur.has(name)).map(([name])=>({name, dim:true})),
+  };
+}
+/* 全シーズンから相手デッキ名・プレイヤー名を集める（入力補完用） */
+function allSeasonValues(key){
+  const set = new Set();
+  for(const sn of (state.seasons||[])) for(const m of (sn.matches||[])){
+    const v = (m[key]||'').trim();
+    if(v) set.add(v);
+  }
+  return [...set];
 }
 /* チップ描画の共通処理。inputに連動して選択状態が変わる */
 function renderChips(rootSel, items, inputSel, {showCount=false, emptyText=''}={}){
@@ -1996,8 +2028,9 @@ function renderChips(rootSel, items, inputSel, {showCount=false, emptyText=''}={
   }
   root.innerHTML = items.map(it=>{
     const name = typeof it === 'string' ? it : it.name;
-    const n = (typeof it === 'object' && showCount) ? `<span class="cnt">${it.n}</span>` : '';
-    return `<div class="deck-chip ${name===cur?'active':''}" data-name="${escapeHtml(name)}">${escapeHtml(name)}${n}</div>`;
+    const n = (typeof it === 'object' && showCount && it.n) ? `<span class="cnt">${it.n}</span>` : '';
+    const dim = (typeof it === 'object' && it.dim) ? ' dim' : '';
+    return `<div class="deck-chip${dim} ${name===cur?'active':''}" data-name="${escapeHtml(name)}">${escapeHtml(name)}${n}</div>`;
   }).join('');
   root.querySelectorAll('.deck-chip').forEach(el=>{
     el.onclick = ()=>{
@@ -2012,11 +2045,16 @@ function renderChips(rootSel, items, inputSel, {showCount=false, emptyText=''}={
 function renderDeckPickers(){
   renderChips('#quickDeckChips', allMyDecks(), '#quickMyDeck',
     {emptyText:'まだデッキが登録されていません。下の「マイデッキ管理」から追加できます。'});
-  const opp = opponentDeckRanking().slice(0, 12);
-  renderChips('#oppDeckChips', opp, '#quickOppDeck',
+  // 相手デッキは絞らず全件表示（今シーズンの当たった順 → 過去シーズンのみのデッキ）
+  const {cur, past} = opponentDeckCandidates();
+  renderChips('#oppDeckChips', [...cur, ...past], '#quickOppDeck',
     {showCount:true, emptyText:'一度入力すると、次回からここに出て選べるようになります。'});
   const hint = $('#oppDeckHint');
-  if(hint) hint.textContent = opp.length ? `（よく当たる順・${opponentDeckRanking().length}種）` : '';
+  if(hint){
+    hint.textContent = (cur.length || past.length)
+      ? `（よく当たる順・今シーズン${cur.length}種${past.length ? ` / 過去シーズンのみ${past.length}種` : ''}）`
+      : '';
+  }
 }
 /* マイデッキ管理UI */
 function renderMyDeckManager(){
@@ -2093,8 +2131,9 @@ function openDeckCardEditor(i){
 
 /* ---------- Datalists (player/deck候補) ---------- */
 function refreshDatalists(){
-  const players = [...new Set(state.matches.map(m=>m.opponentName).filter(Boolean))];
-  const decks = [...new Set(state.matches.map(m=>m.opponentDeck).filter(Boolean))];
+  // 入力補完(datalist)は全シーズンから集める。履歴フィルタは選択中シーズンのデッキのみ
+  const players = allSeasonValues('opponentName');
+  const decks = allSeasonValues('opponentDeck');
   const mine = myDeckList();
   $('#playerList').innerHTML = players.map(p=>`<option value="${escapeHtml(p)}">`).join('');
   $('#deckList').innerHTML = decks.map(d=>`<option value="${escapeHtml(d)}">`).join('');
