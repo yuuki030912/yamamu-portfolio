@@ -1208,10 +1208,13 @@ function fmtDateTime(iso){
   const d = new Date(iso);
   return `${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
-function nowDateTimeLocal(){
+/* withSeconds=true で秒まで返す。
+ * 保存する日時は秒まで持つ（同じ分に何戦もした時の順序が決まるように）。
+ * datetime-local の入力欄に入れる時は分まで（秒を出すとブラウザのUIが変わるため）。 */
+function nowDateTimeLocal(withSeconds){
   const d = new Date();
   const off = d.getTimezoneOffset()*60000;
-  return new Date(d - off).toISOString().slice(0,16);
+  return new Date(d - off).toISOString().slice(0, withSeconds ? 19 : 16);
 }
 function cardImgUrl(card, size='low'){
   if(!card) return '';
@@ -1341,9 +1344,22 @@ function pointDelta(result){
 function isAdjust(m){ return m && m.result === 'adjust'; }
 function realMatches(list){ return (list || []).filter(m => !isAdjust(m)); }
 
+/* ---------- 並び順 ----------
+ * 対戦日時は「分」までしか持たないので、同じ分に何戦もすると日時だけでは順序が決まらない。
+ * 以前は昇順(計算)と降順(履歴表示)がどちらも配列順のままになり、同じ分の対戦は
+ * 「画面の並び」と「計算上の並び」が逆になっていた（勝ちを負けに直しても連勝が残るバグの原因）。
+ * id は uid() = 記録時刻(base36) + 乱数 なので、同着は id 順＝記録した順で必ず決める。 */
+function cmpMatch(a, b){
+  const d = String(a.datetime).localeCompare(String(b.datetime));
+  if(d !== 0) return d;
+  return String(a.id || '').localeCompare(String(b.id || ''));
+}
+function sortAsc(list){ return [...(list||[])].sort(cmpMatch); }            // 古い→新しい（計算用）
+function sortDesc(list){ return [...(list||[])].sort((a,b)=>cmpMatch(b,a)); } // 新しい→古い（表示用）
+
 function recomputeAllPoints(){
   // 古い→新しい順に連勝数とpointsAfterを再計算
-  const sorted = [...state.matches].sort((a,b)=>a.datetime.localeCompare(b.datetime));
+  const sorted = sortAsc(state.matches);
   const auto = (state.settings.pointMode || 'auto') === 'auto';
   const lose = loseTable();
   let running = state.settings.startPts;
@@ -1383,11 +1399,11 @@ function recomputeAllPoints(){
 }
 function currentRankPoints(){
   if(!state.matches.length) return state.settings.startPts;
-  const latest = [...state.matches].sort((a,b)=>a.datetime.localeCompare(b.datetime)).pop();
+  const latest = sortAsc(state.matches).pop();
   return latest.pointsAfter;
 }
 function currentStreak(){
-  const sorted = realMatches(state.matches).sort((a,b)=>a.datetime.localeCompare(b.datetime));
+  const sorted = sortAsc(realMatches(state.matches));
   let n = 0;
   for(let i=sorted.length-1; i>=0; i--){
     if(sorted[i].result === 'win') n++;
@@ -1420,9 +1436,9 @@ function seasonStats(sn){
   const l = ms.filter(m=>m.result==='lose').length;
   const d = ms.filter(m=>m.result==='draw').length;
   const decided = w + l;
-  const sorted = [...ms].sort((a,b)=>String(a.datetime).localeCompare(String(b.datetime)));
+  const sorted = sortAsc(ms);
   // ポイントは補正記録も含めた全記録の並びで見る（補正後の値が現在ポイント）
-  const withAdj = [...(sn.matches||[])].sort((a,b)=>String(a.datetime).localeCompare(String(b.datetime)));
+  const withAdj = sortAsc(sn.matches);
   const start = sn.settings.startPts || 0;
   const lastPts = withAdj.length ? (withAdj[withAdj.length-1].pointsAfter ?? start) : start;
   const peak = withAdj.reduce((a,m)=>Math.max(a, m.pointsAfter ?? start), start);
@@ -1574,7 +1590,7 @@ function pointsBefore(excludeId, datetime){
   const list = [...state.matches]
     .filter(m => m.id !== excludeId)
     .filter(m => !datetime || String(m.datetime) <= String(datetime))
-    .sort((a,b)=>String(a.datetime).localeCompare(String(b.datetime)));
+    .sort(cmpMatch);
   return list.length ? (list[list.length-1].pointsAfter ?? state.settings.startPts) : state.settings.startPts;
 }
 function updateAdjDiff(){
@@ -1690,7 +1706,7 @@ function renderChartStats(){
     <span class="wr ${wrClass}">勝率 ${decided?wr:'--'}%</span>`;
 }
 function renderChart(){
-  const all = [...state.matches].sort((a,b)=>a.datetime.localeCompare(b.datetime));
+  const all = sortAsc(state.matches);
   const sorted = chartDeckFilter ? all.filter(m => (m.myDeck||'') === chartDeckFilter) : all;
   const labels = sorted.map(m => fmtDateTime(m.datetime).replace(' ','\n'));
   const data = sorted.map(m => m.pointsAfter);
@@ -1771,8 +1787,7 @@ function renderHistory(){
   const filterTxt = $('#filterText').value.trim().toLowerCase();
   const filterRes = $('#filterResult').value;
   const filterMy = $('#filterMyDeck').value;
-  const list = [...state.matches]
-    .sort((a,b)=>b.datetime.localeCompare(a.datetime))
+  const list = sortDesc(state.matches)
     .filter(m => !filterRes || m.result===filterRes)
     .filter(m => !filterMy || (m.myDeck||'')===filterMy)
     .filter(m => !filterTxt || (
@@ -2022,9 +2037,10 @@ function renderPickerBody(){
 }
 
 /* ---------- Form: save / edit ---------- */
-let dateTouched = false; // ユーザーが日時を手動変更したか
+let dateTouched = false;      // ユーザーが日時を手動変更したか
+let editingDatetime = null;   // 編集開始時の元の日時（秒を落とさないよう保持）
 function lastMyDeck(){
-  const sorted = [...state.matches].sort((a,b)=>a.datetime.localeCompare(b.datetime));
+  const sorted = sortAsc(state.matches);
   for(let i=sorted.length-1; i>=0; i--){
     if(sorted[i].myDeck) return sorted[i].myDeck;
   }
@@ -2040,8 +2056,13 @@ function resultToast(m){
 
 /* ---------- 記録フォーム（クイック記録に統合） ---------- */
 function readQuick(result){
-  // 新規は保存時の現在時刻を自動使用。編集時・手動変更時は入力値
-  const dt = (editingId || dateTouched) ? ($('#quickDate').value || nowDateTimeLocal()) : nowDateTimeLocal();
+  // 新規は保存時の現在時刻(秒まで)を自動使用。手動で日時をいじった時だけ入力値を使う。
+  // 編集時に日時を触っていなければ元の日時をそのまま維持する
+  // （入力欄は分までなので、そのまま読むと秒が落ちて同じ分の対戦の順序が崩れる）
+  let dt;
+  if(dateTouched) dt = $('#quickDate').value || nowDateTimeLocal(true);
+  else if(editingId) dt = editingDatetime || $('#quickDate').value || nowDateTimeLocal(true);
+  else dt = nowDateTimeLocal(true);
   return {
     datetime: dt,
     myDeck: $('#quickMyDeck').value.trim(),
@@ -2058,6 +2079,7 @@ function resetQuickForm(){
   $('#quickMemo').value = '';
   $('#quickDate').value = nowDateTimeLocal();
   dateTouched = false;
+  editingDatetime = null;
   pendingCards = [];
   renderPickedCards();
   editingId = null;
@@ -2078,6 +2100,7 @@ function startEdit(id){
   $('#quickMemo').value = m.memo || '';
   $('#quickDate').value = (m.datetime||'').slice(0,16);
   dateTouched = false;
+  editingDatetime = m.datetime || null;
   pendingCards = structuredClone(m.cards||[]);
   renderPickedCards();
   renderDeckPickers();

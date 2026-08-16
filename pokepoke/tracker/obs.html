@@ -132,7 +132,11 @@ let lastSig = null; // 前回描画時の状態(変化がなければ何もし�
 
 function render(force){
   const st = loadState();
-  const all = [...st.matches].sort((a,b)=>String(a.datetime).localeCompare(String(b.datetime)));
+  // 本体と同じ並び順(日時→id)。同じ分の対戦でも順序がブレないようにする
+  const all = [...st.matches].sort((a,b)=>{
+    const d = String(a.datetime).localeCompare(String(b.datetime));
+    return d !== 0 ? d : String(a.id||'').localeCompare(String(b.id||''));
+  });
   // シーズンを切り替えたとき、そのシーズンに無いデッキで絞られたままにならないよう総合へ戻す
   if(deckFilter && !all.some(m=>(m.myDeck||'')===deckFilter)) deckFilter = '';
   const list = deckFilter ? all.filter(m=>(m.myDeck||'')===deckFilter) : all;
