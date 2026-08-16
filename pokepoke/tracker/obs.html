@@ -11,7 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
 <style>
 :root{
-  --win:#22c55e; --lose:#ef4444; --draw:#9ca3af;
+  --win:#22c55e; --lose:#ef4444; --draw:#9ca3af; --adjust:#f59e0b;
   --line:#60a5fa; --fill:rgba(96,165,250,.22);
   --fg:#fff; --sub:rgba(255,255,255,.72);
 }
@@ -159,9 +159,13 @@ function render(force){
   const nx = auto ? nextRankOf(pts) : null;
   $('#next').textContent = auto ? (nx ? `${nx.name} まであと ${nx.need}pt` : '🏆 マスターボール到達') : '';
 
-  // 連勝(全体の末尾から)
+  // 連勝(全体の末尾から)。ポイント補正の記録は勝敗ではないので飛ばす
   let streak = 0;
-  for(let i=all.length-1; i>=0; i--){ if(all[i].result==='win') streak++; else break; }
+  for(let i=all.length-1; i>=0; i--){
+    const r = all[i].result;
+    if(r === 'adjust') continue;
+    if(r === 'win') streak++; else break;
+  }
   const sb = $('#streak');
   if(streak >= 2){ sb.style.display=''; sb.textContent = `🔥 ${streak}連勝中`; }
   else sb.style.display = 'none';
@@ -170,7 +174,7 @@ function render(force){
   const l = list.filter(m=>m.result==='lose').length;
   const decided = w + l;
   const wr = decided ? `${Math.round(w/decided*1000)/10}%` : '--';
-  $('#wl').innerHTML = list.length
+  $('#wl').innerHTML = list.some(m=>m.result!=='adjust')
     ? `${deckFilter ? deckFilter+' ' : ''}<span class="w">${w}勝</span> <span class="l">${l}敗</span> ／ 勝率 ${wr}`
     : '';
 
@@ -181,7 +185,8 @@ function render(force){
 
   const labels = list.map(m=>fmt(m.datetime));
   const data = list.map(m=>m.pointsAfter ?? 0);
-  const colors = list.map(m=> m.result==='win' ? css('--win') : m.result==='lose' ? css('--lose') : css('--draw'));
+  const colors = list.map(m=> m.result==='adjust' ? css('--adjust')
+    : m.result==='win' ? css('--win') : m.result==='lose' ? css('--lose') : css('--draw'));
   if(!deckFilter){ labels.unshift(''); data.unshift(st.settings.startPts ?? 0); colors.unshift(css('--draw')); }
 
   const fg = css('--fg') || '#fff';

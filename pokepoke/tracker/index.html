@@ -98,7 +98,7 @@ header.hero .spacer{flex:1}
 
 label.fld{display:block; margin-bottom:10px}
 label.fld > span{display:block; font-size:12px; color:var(--ink-3); font-weight:700; margin-bottom:4px}
-input[type=text], input[type=number], input[type=date], textarea, select{
+input[type=text], input[type=number], input[type=date], input[type=datetime-local], textarea, select{
   width:100%; padding:8px 10px; border:1px solid var(--line-2); border-radius:var(--r-sm);
   font:inherit; background:#fff; color:var(--ink-1);
 }
@@ -160,6 +160,7 @@ button:active{transform:translateY(1px)}
 .match-row .res.win{background:var(--win)}
 .match-row .res.lose{background:var(--lose)}
 .match-row .res.draw{background:var(--draw)}
+.match-row .res.adjust{background:var(--tcg-amber)}
 .match-row .meta{display:flex; flex-direction:column; gap:2px; min-width:0}
 .match-row .meta .top{display:flex; gap:8px; align-items:baseline; flex-wrap:wrap}
 .match-row .meta .deck{font-weight:800; color:var(--ink-1)}
@@ -552,6 +553,7 @@ button:active{transform:translateY(1px)}
         <div class="rank-next" id="rankNext"></div>
       </div>
       <span class="streak-badge" id="streakBadge" style="display:none">🔥 <span id="streakCount"></span>連勝中</span>
+      <button class="btn-sm" id="adjustBtn" style="margin-left:auto" title="記録し忘れなどでゲーム内のポイントとズレた時に合わせ直します">⚙ 実際のptに合わせる</button>
     </div>
     <div class="deck-tabs" id="deckTabs"></div>
     <div class="chart-stats" id="chartStats"></div>
@@ -678,6 +680,41 @@ button:active{transform:translateY(1px)}
     <div class="footer">
       <button class="btn-ghost" id="nsCancelBtn">キャンセル</button>
       <button class="btn-primary" id="nsCreateBtn">このシーズンを作る</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Point adjust modal ===== -->
+<div class="modal-backdrop" id="adjustModal">
+  <div class="modal narrow">
+    <header><h3 id="adjTitle">実際のポイントに合わせる</h3></header>
+    <div class="body">
+      <div style="font-size:12px;color:var(--ink-3);line-height:1.8;margin-bottom:12px">
+        記録し忘れなどでゲーム内のポイントとズレた時に使います。<br>
+        ズレの分を「補正」として1件記録するので、勝率や戦数には影響しません。
+      </div>
+      <div class="row" style="align-items:flex-end">
+        <label class="fld col"><span>ツール上の現在ポイント</span>
+          <input type="number" id="adjCurrent" disabled>
+        </label>
+        <label class="fld col"><span>ゲーム内の実際のポイント</span>
+          <input type="number" id="adjTarget" placeholder="例: 350">
+        </label>
+      </div>
+      <div id="adjDiff" style="font-size:13px;font-weight:800;margin:-2px 0 12px;min-height:20px"></div>
+      <label class="fld"><span>メモ（任意）</span>
+        <input type="text" id="adjMemo" placeholder="例: 記録し忘れ分をまとめて補正">
+      </label>
+      <label class="fld" style="max-width:260px"><span>補正した日時</span>
+        <input type="datetime-local" id="adjDate">
+      </label>
+      <div style="font-size:11px;color:var(--ink-3);line-height:1.8">
+        補正は履歴に1件残ります。あとから抜けていた対戦を追加すると<b>補正量が自動で小さくなり</b>、現在ポイントは実際の値のまま保たれます。不要になったら履歴から削除できます。
+      </div>
+    </div>
+    <div class="footer">
+      <button class="btn-ghost" id="adjCancelBtn">キャンセル</button>
+      <button class="btn-primary" id="adjSaveBtn">このポイントに合わせる</button>
     </div>
   </div>
 </div>
@@ -1295,6 +1332,15 @@ function pointDelta(result){
   if(result==='lose') return state.settings.pointLose;
   return state.settings.pointDraw;
 }
+/* ---------- ポイント補正 ----------
+ * 記録し忘れなどでゲーム内の実ポイントとズレた時に差し込む記録。
+ * result:'adjust' / pointsTarget:その時点の実際のポイント。
+ * 「差分」ではなく「実際の値」で持つので、あとから抜けていた対戦を追加すると
+ * 補正量が自動で小さくなり、現在ポイントは実際の値のまま保たれる。
+ * 勝敗ではないので勝率・戦数には数えず、連勝も途切れさせない。 */
+function isAdjust(m){ return m && m.result === 'adjust'; }
+function realMatches(list){ return (list || []).filter(m => !isAdjust(m)); }
+
 function recomputeAllPoints(){
   // 古い→新しい順に連勝数とpointsAfterを再計算
   const sorted = [...state.matches].sort((a,b)=>a.datetime.localeCompare(b.datetime));
@@ -1304,6 +1350,16 @@ function recomputeAllPoints(){
   let streak = 0;
   let floorPts = tierFloorOf(running); // 到達済みボール帯の下限(降格保護)
   for(const m of sorted){
+    if(isAdjust(m)){
+      // 実際のポイントに合わせ直す。降格保護の基準もここで引き直す
+      const target = Number(m.pointsTarget) || 0;
+      m.pointsDelta = target - running;
+      running = target;
+      floorPts = tierFloorOf(running);
+      m.streak = streak;   // 連勝は維持
+      m.pointsAfter = running;
+      continue;
+    }
     if(m.result === 'win'){
       streak++;
       m.pointsDelta = auto ? 10 + streakBonusOf(streak) : pointDelta('win');
@@ -1331,7 +1387,7 @@ function currentRankPoints(){
   return latest.pointsAfter;
 }
 function currentStreak(){
-  const sorted = [...state.matches].sort((a,b)=>a.datetime.localeCompare(b.datetime));
+  const sorted = realMatches(state.matches).sort((a,b)=>a.datetime.localeCompare(b.datetime));
   let n = 0;
   for(let i=sorted.length-1; i>=0; i--){
     if(sorted[i].result === 'win') n++;
@@ -1359,15 +1415,17 @@ function fmtDay(iso){
   return `${d.getMonth()+1}/${d.getDate()}`;
 }
 function seasonStats(sn){
-  const ms = sn.matches || [];
+  const ms = realMatches(sn.matches); // 補正記録は戦数・勝率に数えない
   const w = ms.filter(m=>m.result==='win').length;
   const l = ms.filter(m=>m.result==='lose').length;
   const d = ms.filter(m=>m.result==='draw').length;
   const decided = w + l;
   const sorted = [...ms].sort((a,b)=>String(a.datetime).localeCompare(String(b.datetime)));
+  // ポイントは補正記録も含めた全記録の並びで見る（補正後の値が現在ポイント）
+  const withAdj = [...(sn.matches||[])].sort((a,b)=>String(a.datetime).localeCompare(String(b.datetime)));
   const start = sn.settings.startPts || 0;
-  const lastPts = sorted.length ? (sorted[sorted.length-1].pointsAfter ?? start) : start;
-  const peak = sorted.reduce((a,m)=>Math.max(a, m.pointsAfter ?? start), start);
+  const lastPts = withAdj.length ? (withAdj[withAdj.length-1].pointsAfter ?? start) : start;
+  const peak = withAdj.reduce((a,m)=>Math.max(a, m.pointsAfter ?? start), start);
   const auto = (sn.settings.pointMode || 'auto') === 'auto';
   return {
     n: ms.length, w, l, d,
@@ -1507,6 +1565,69 @@ function deleteSeason(){
   toast('シーズンを削除しました');
 }
 
+/* ============================================================
+   ポイント補正モーダル
+   ============================================================ */
+let adjustEditingId = null;
+/* 補正記録を除いた「その時点の計算上のポイント」を求める（編集時に自分自身を除くため） */
+function pointsBefore(excludeId, datetime){
+  const list = [...state.matches]
+    .filter(m => m.id !== excludeId)
+    .filter(m => !datetime || String(m.datetime) <= String(datetime))
+    .sort((a,b)=>String(a.datetime).localeCompare(String(b.datetime)));
+  return list.length ? (list[list.length-1].pointsAfter ?? state.settings.startPts) : state.settings.startPts;
+}
+function updateAdjDiff(){
+  const cur = Number($('#adjCurrent').value) || 0;
+  const raw = $('#adjTarget').value;
+  const el = $('#adjDiff');
+  if(raw === ''){ el.textContent = ''; return; }
+  const d = (Number(raw) || 0) - cur;
+  el.innerHTML = d === 0
+    ? `<span style="color:var(--ink-3)">ズレなし（補正は記録されません）</span>`
+    : `補正: <span style="color:${d>0?'var(--win)':'var(--lose)'}">${d>0?'+':''}${d}pt</span>`;
+}
+/* id を渡すと既存の補正を編集、省略で新規 */
+function openAdjustModal(id){
+  adjustEditingId = id || null;
+  const m = id ? state.matches.find(x=>x.id===id) : null;
+  const dt = m ? String(m.datetime).slice(0,16) : nowDateTimeLocal();
+  const before = pointsBefore(adjustEditingId, m ? m.datetime : null);
+  $('#adjTitle').textContent = m ? 'ポイント補正を編集' : '実際のポイントに合わせる';
+  $('#adjCurrent').value = before;
+  $('#adjTarget').value = m ? m.pointsTarget : currentRankPoints();
+  $('#adjMemo').value = m ? (m.memo || '') : '';
+  $('#adjDate').value = dt;
+  updateAdjDiff();
+  $('#adjustModal').classList.add('open');
+  setTimeout(()=>{ $('#adjTarget').focus(); $('#adjTarget').select(); }, 50);
+}
+function closeAdjustModal(){ $('#adjustModal').classList.remove('open'); adjustEditingId = null; }
+function saveAdjust(){
+  const raw = $('#adjTarget').value;
+  if(raw === ''){ toast('実際のポイントを入力してください'); return; }
+  const target = Number(raw) || 0;
+  const datetime = $('#adjDate').value || nowDateTimeLocal();
+  const memo = $('#adjMemo').value.trim();
+  if(adjustEditingId){
+    const m = state.matches.find(x=>x.id===adjustEditingId);
+    if(m) Object.assign(m, {pointsTarget:target, datetime, memo});
+  }else{
+    if(target === (Number($('#adjCurrent').value) || 0)){
+      closeAdjustModal();
+      toast('ズレがないので補正は記録しませんでした');
+      return;
+    }
+    state.matches.push({id:uid(), datetime, result:'adjust', pointsTarget:target, memo});
+    historyPage = 1;
+  }
+  recomputeAllPoints();
+  saveState();
+  renderAll();
+  closeAdjustModal();
+  toast(`ポイントを ${target}pt に合わせました`);
+}
+
 /* ---------- Render: rank pill + chart ---------- */
 function renderRank(){
   const pts = currentRankPoints();
@@ -1554,7 +1675,7 @@ function renderDeckTabs(){
   });
 }
 function renderChartStats(){
-  const ms = state.matches.filter(m => !chartDeckFilter || (m.myDeck||'') === chartDeckFilter);
+  const ms = realMatches(state.matches).filter(m => !chartDeckFilter || (m.myDeck||'') === chartDeckFilter);
   const root = $('#chartStats');
   if(!ms.length){ root.innerHTML = ''; return; }
   const w = ms.filter(m=>m.result==='win').length;
@@ -1573,7 +1694,8 @@ function renderChart(){
   const sorted = chartDeckFilter ? all.filter(m => (m.myDeck||'') === chartDeckFilter) : all;
   const labels = sorted.map(m => fmtDateTime(m.datetime).replace(' ','\n'));
   const data = sorted.map(m => m.pointsAfter);
-  const pointColors = sorted.map(m => m.result==='win' ? getCss('--win') : m.result==='lose' ? getCss('--lose') : getCss('--draw'));
+  const pointColors = sorted.map(m => isAdjust(m) ? getCss('--tcg-amber')
+    : m.result==='win' ? getCss('--win') : m.result==='lose' ? getCss('--lose') : getCss('--draw'));
 
   // 起点を含める(総合表示のみ。デッキ別は初戦から)
   if(sorted.length && !chartDeckFilter){
@@ -1614,8 +1736,9 @@ function renderChart(){
               if(hasStart && i===0 && sorted.length) return `開始: ${ctx.parsed.y}pt`;
               const m = sorted[hasStart ? i-1 : i];
               if(!m) return ctx.parsed.y;
-              const r = m.result==='win'?'勝ち':m.result==='lose'?'負け':'引分';
               const d = m.pointsDelta>=0?`+${m.pointsDelta}`:m.pointsDelta;
+              if(isAdjust(m)) return `ポイント補正 (${d}) → ${ctx.parsed.y}pt`;
+              const r = m.result==='win'?'勝ち':m.result==='lose'?'負け':'引分';
               const st = m.streak>=2 ? ` 🔥${m.streak}連勝` : '';
               return `${r} (${d}) → ${ctx.parsed.y}pt${st}`;
             },
@@ -1625,6 +1748,7 @@ function renderChart(){
               if(hasStart && i===0 && sorted.length) return '基準';
               const m = sorted[hasStart ? i-1 : i];
               if(!m) return '';
+              if(isAdjust(m)) return m.memo ? `⚙ 補正: ${m.memo}` : '⚙ ポイント補正';
               const mine = m.myDeck ? `${m.myDeck} ` : '';
               return `${mine}vs ${m.opponentDeck || '???'} (${m.opponentName||'???'})`;
             }
@@ -1658,7 +1782,9 @@ function renderHistory(){
       (m.memo||'').toLowerCase().includes(filterTxt)
     ));
 
-  $('#historyCount').textContent = `(${state.matches.length}戦 / 表示${list.length})`;
+  const adjCount = state.matches.length - realMatches(state.matches).length;
+  $('#historyCount').textContent =
+    `(${realMatches(state.matches).length}戦${adjCount?` + 補正${adjCount}件`:''} / 表示${list.length})`;
 
   const root = $('#matchList');
   const pager = $('#matchPager');
@@ -1675,10 +1801,27 @@ function renderHistory(){
   const pageList = list.slice(start, start + HISTORY_PER_PAGE);
 
   root.innerHTML = pageList.map(m=>{
-    const resLabel = m.result==='win'?'W':m.result==='lose'?'L':'D';
     const dPts = m.pointsDelta;
     const ptsClass = dPts>0?'plus':dPts<0?'minus':'';
     const ptsStr = dPts>0?`+${dPts}`:dPts;
+    // ポイント補正の行（勝敗ではないので専用の見た目にする）
+    if(isAdjust(m)){
+      return `
+      <div class="match-row" data-id="${m.id}">
+        <div class="res adjust">⚙</div>
+        <div class="meta">
+          <div class="top"><span class="deck">ポイント補正 → ${m.pointsTarget}pt</span></div>
+          <div class="dt">${fmtDateTime(m.datetime)} → ${m.pointsAfter}pt</div>
+          ${m.memo?`<div class="memo">${escapeHtml(m.memo)}</div>`:''}
+        </div>
+        <div class="pts ${ptsClass}">${ptsStr}</div>
+        <div class="actions">
+          <button class="btn-sm" data-act="edit">編集</button>
+          <button class="btn-sm btn-danger" data-act="del">削除</button>
+        </div>
+      </div>`;
+    }
+    const resLabel = m.result==='win'?'W':m.result==='lose'?'L':'D';
     const cardImgs = (m.cards||[]).map(c=>{
       const card = cardIndex[c.cardId];
       if(!card) return '';
@@ -1709,9 +1852,10 @@ function renderHistory(){
   // bind actions
   root.querySelectorAll('.match-row').forEach(row=>{
     const id = row.dataset.id;
-    row.querySelector('[data-act=edit]').onclick = ()=> startEdit(id);
+    const m = state.matches.find(x=>x.id===id);
+    row.querySelector('[data-act=edit]').onclick = ()=> isAdjust(m) ? openAdjustModal(id) : startEdit(id);
     row.querySelector('[data-act=del]').onclick = ()=>{
-      if(!confirm('この対戦記録を削除しますか？')) return;
+      if(!confirm(isAdjust(m) ? 'このポイント補正を削除しますか？（ポイントが補正前の計算に戻ります）' : 'この対戦記録を削除しますか？')) return;
       state.matches = state.matches.filter(x=>x.id!==id);
       recomputeAllPoints(); saveState(); renderAll();
       toast('削除しました');
@@ -2475,6 +2619,14 @@ function bindUi(){
   $('#newDeckInput').addEventListener('keydown', e=>{
     if(e.key === 'Enter'){ e.preventDefault(); $('#addDeckBtn').click(); }
   });
+  // ポイント補正
+  $('#adjustBtn').onclick = ()=> openAdjustModal();
+  $('#adjCancelBtn').onclick = closeAdjustModal;
+  $('#adjSaveBtn').onclick = saveAdjust;
+  $('#adjTarget').addEventListener('input', updateAdjDiff);
+  $('#adjTarget').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); saveAdjust(); } });
+  $('#adjustModal').addEventListener('click', e=>{ if(e.target.id==='adjustModal') closeAdjustModal(); });
+
   // シーズン操作
   $('#newSeasonBtn').onclick = openNewSeasonModal;
   $('#nsCancelBtn').onclick = closeNewSeasonModal;
@@ -2523,6 +2675,7 @@ function bindUi(){
     if(e.key!=='Escape') return;
     if($('#pickerModal').classList.contains('open')) closePicker();
     else if($('#seasonModal').classList.contains('open')) closeNewSeasonModal();
+    else if($('#adjustModal').classList.contains('open')) closeAdjustModal();
   });
 }
 
