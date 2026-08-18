@@ -296,30 +296,61 @@
   </footer>
 
   <script>
-  /* 全画面プレイ：ネイティブFullscreen API → 不可な端末(iOS等)はCSS擬似全画面にフォールバック */
+  /* 全画面プレイ：ネイティブFullscreen API → 不可な端末(iOS等)はCSS擬似全画面にフォールバック
+   *
+   * ⚠ requestFullscreen() の Promise だけを信じてはいけない。
+   *   ブラウザによっては **成功も拒否も返さないまま無反応**になる（実測: 埋め込みブラウザ）。
+   *   .catch() 頼みだとフォールバックが動かず、ボタンを押しても何も起きない。
+   *   → 少し待って「本当に全画面になったか」を見て、なっていなければ擬似全画面へ落とす。
+   */
   (function(){
     var IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     function wrapOf(el){ return (el.closest && el.closest('.game-section') ? el.closest('.game-section').querySelector('.game-frame-wrap') : null) || (el.closest ? el.closest('.game-frame-wrap') : null) || document.querySelector('.game-frame-wrap'); }
+    function isNativeFs(){ return !!(document.fullscreenElement || document.webkitFullscreenElement); }
     function enterPseudo(w){ w.classList.add('pseudo-fs'); document.body.style.overflow = 'hidden'; }
+
     window.ydToggleFs = function(btn){
       var w = wrapOf(btn);
       if (!w) return;
-      if (w.classList.contains('pseudo-fs')) { window.ydExitFs(w); return; }
+      if (w.classList.contains('pseudo-fs') || isNativeFs()) { window.ydExitFs(w); return; }
+
+      var settled = false;
+      function fallback(){
+        if (settled) return;
+        settled = true;
+        if (!isNativeFs()) enterPseudo(w);
+      }
+
       var req = w.requestFullscreen || w.webkitRequestFullscreen;
-      if (req && !IOS) {
-        try { var p = req.call(w); if (p && p.catch) p.catch(function(){ enterPseudo(w); }); }
-        catch(e){ enterPseudo(w); }
-      } else { enterPseudo(w); }
+      if (!req || IOS || document.fullscreenEnabled === false) { fallback(); return; }
+      try {
+        var p = req.call(w);
+        if (p && p.then) {
+          p.then(function(){ settled = true; }).catch(fallback);
+        }
+        // Promise が返らない／解決しても実際には全画面になっていない場合の保険
+        setTimeout(fallback, 350);
+      } catch (e) {
+        fallback();
+      }
     };
+
     window.ydExitFs = function(el){
-      var w = (el.classList && el.classList.contains('game-frame-wrap')) ? el : wrapOf(el);
-      if (document.fullscreenElement || document.webkitFullscreenElement) {
+      var w = (el && el.classList && el.classList.contains('game-frame-wrap')) ? el : wrapOf(el || document.body);
+      if (isNativeFs()) {
         (document.exitFullscreen || document.webkitExitFullscreen || function(){}).call(document);
       }
       if (w) w.classList.remove('pseudo-fs');
       document.body.style.overflow = '';
     };
-    document.addEventListener('fullscreenchange', function(){ if (!document.fullscreenElement) document.body.style.overflow = ''; });
+
+    document.addEventListener('fullscreenchange', function(){ if (!isNativeFs()) document.body.style.overflow = ''; });
+    // 擬似全画面は Esc で閉じる（ネイティブ全画面はブラウザが処理する）
+    document.addEventListener('keydown', function(e){
+      if (e.key !== 'Escape') return;
+      var w = document.querySelector('.game-frame-wrap.pseudo-fs');
+      if (w) window.ydExitFs(w);
+    });
   })();
   </script>
 
