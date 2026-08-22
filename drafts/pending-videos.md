@@ -22,3 +22,12 @@
 - [ ] **ポケポケ** [【ポケポケ】ランクマ生配信！使うデッキ決まってないので一緒に考えてください](https://www.youtube.com/watch?v=FVeOxYApxi0) (FVeOxYApxi0) — 2026-08-13 — 下書き自動生成済み
 - [ ] **ポケポケ** [【ポケポケ】メガエルレイドexデッキが"バグ疑惑"！？犯人は"〇〇"でしたwww](https://www.youtube.com/watch?v=5u7EnaHBPN4) (5u7EnaHBPN4) — 2026-08-06 — 下書き自動生成済み
 - [ ] **ポケポケ** [【ポケポケ】新パック「天空の支配者」最強デッキ探し！おすすめ教えて #ポケポケ](https://www.youtube.com/watch?v=jWXrXd3OR58) (jWXrXd3OR58) — 2026-08-05 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】オドリドリ＋ゲッコウガでマスボ130位ｗやっぱEX無効が最強すぎるんだよなぁｗ【トリゲコ】](https://www.youtube.com/watch?v=Y9IvN5CE0iE) (Y9IvN5CE0iE) — 2026-08-20 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】なぜか9連勝したので、途切れるまでランクマ生配信！一桁目指して頑張る！！](https://www.youtube.com/watch?v=AMAmiJm8alY) (AMAmiJm8alY) — 2026-08-19 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】ランクマ生配信！一桁目指して頑張る！！](https://www.youtube.com/watch?v=Q5PepZNMlj4) (Q5PepZNMlj4) — 2026-08-19 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】〇〇入れたらランクマで15連勝したwww メガルカリオex最強確定ｗｗ](https://www.youtube.com/watch?v=oQCgonM_KBg) (oQCgonM_KBg) — 2026-08-18 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】ランクマ生配信！一桁目指して頑張る！！](https://www.youtube.com/watch?v=KtoquKpWC4g) (KtoquKpWC4g) — 2026-08-16 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】相手のエネルギーを"バグらせる"だけのポリゴンZデッキ、マスターボール帯で通用するのか](https://www.youtube.com/watch?v=qAxg9G_oYJM) (qAxg9G_oYJM) — 2026-08-16 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】ランクマ生配信！一桁目指して頑張る！！](https://www.youtube.com/watch?v=qDxWOp7Glk4) (qDxWOp7Glk4) — 2026-08-15 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】ランクマ生配信！一桁目指して頑張る！！](https://www.youtube.com/watch?v=gmb8JQAkwSA) (gmb8JQAkwSA) — 2026-08-14 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】ランクマ生配信！一桁目指して頑張る！！](https://www.youtube.com/watch?v=qM_nTgnk354) (qM_nTgnk354) — 2026-08-14 — 下書き自動生成済み
