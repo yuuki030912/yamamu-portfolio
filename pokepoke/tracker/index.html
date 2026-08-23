@@ -46,10 +46,11 @@ body{
   display:flex; flex-direction:column}
 /* セクションを使用頻度順に並べ替え（HTMLの記述順は保守性のため維持し、表示順だけCSSで制御） */
 .shell > header.hero{order:0}
-.s-graph{order:1} .s-quick{order:2} .s-sponsor-top{order:3}
-.s-history{order:4} .s-decks{order:5} .s-sponsor-mid{order:6}
-.settings-divider{order:7} .s-settings{order:7}
-.s-sponsor-foot{order:8}
+.s-season{order:1}
+.s-graph{order:2} .s-quick{order:3} .s-sponsor-top{order:4}
+.s-history{order:5} .s-decks{order:6} .s-sponsor-mid{order:7}
+.settings-divider{order:8} .s-settings{order:8}
+.s-sponsor-foot{order:9}
 .shell > .foot{order:99}
 /* プライマリ2枚(グラフ・クイック記録)を少し強調 */
 .card.s-graph, .card.s-quick{border-color:var(--gold-2); box-shadow:0 6px 20px -6px rgba(180,83,9,.22),0 1px 2px rgba(15,23,42,.06)}
@@ -97,7 +98,7 @@ header.hero .spacer{flex:1}
 
 label.fld{display:block; margin-bottom:10px}
 label.fld > span{display:block; font-size:12px; color:var(--ink-3); font-weight:700; margin-bottom:4px}
-input[type=text], input[type=number], input[type=date], textarea, select{
+input[type=text], input[type=number], input[type=date], input[type=datetime-local], textarea, select{
   width:100%; padding:8px 10px; border:1px solid var(--line-2); border-radius:var(--r-sm);
   font:inherit; background:#fff; color:var(--ink-1);
 }
@@ -159,6 +160,7 @@ button:active{transform:translateY(1px)}
 .match-row .res.win{background:var(--win)}
 .match-row .res.lose{background:var(--lose)}
 .match-row .res.draw{background:var(--draw)}
+.match-row .res.adjust{background:var(--tcg-amber)}
 .match-row .meta{display:flex; flex-direction:column; gap:2px; min-width:0}
 .match-row .meta .top{display:flex; gap:8px; align-items:baseline; flex-wrap:wrap}
 .match-row .meta .deck{font-weight:800; color:var(--ink-1)}
@@ -319,6 +321,11 @@ button:active{transform:translateY(1px)}
 .deck-chip:hover{border-color:var(--tcg-blue); background:rgba(37,99,235,.06)}
 .deck-chip.active{border-color:var(--tcg-blue); background:var(--tcg-blue); color:#fff}
 .deck-chip .cnt{font-size:11px; font-weight:400; opacity:.75; margin-left:4px}
+/* 過去シーズンでしか当たっていないデッキ（候補としては出すが控えめに） */
+.deck-chip.dim{opacity:.7; border-style:dashed; font-weight:400}
+.deck-chip.dim.active{opacity:1; font-weight:700}
+/* 相手デッキは全件出すので、伸びすぎたらこの枠内でスクロール */
+.deck-chips.scrollable{max-height:190px; overflow-y:auto; padding-right:2px}
 .deck-chip-empty{font-size:12px; color:var(--ink-4); padding:4px 0}
 /* デッキ管理 */
 .deck-manage-block{border:1px solid var(--line-2); border-radius:var(--r-sm); background:#fff; margin-bottom:6px; overflow:hidden}
@@ -330,6 +337,36 @@ button:active{transform:translateY(1px)}
 .dm-card img{width:34px; height:47px; object-fit:cover; border-radius:3px; border:1px solid var(--line); background:#eee; display:block}
 .dm-card .dm-cnt{position:absolute; right:-3px; bottom:-3px; background:var(--tcg-blue); color:#fff; font-size:10px; font-weight:800; border-radius:999px; min-width:15px; height:15px; display:flex; align-items:center; justify-content:center; box-shadow:0 1px 3px rgba(0,0,0,.3)}
 @media (max-width:760px){ .deck-manage-row{flex-wrap:wrap} .deck-manage-row .nm{flex-basis:100%} }
+
+/* ===== Season bar (シーズン切替) ===== */
+.card.s-season{padding:14px 18px}
+.season-chips{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px}
+.season-chip{
+  display:inline-flex; align-items:center; gap:7px; padding:7px 14px;
+  border:2px solid var(--line-2); border-radius:999px; background:#fff;
+  font-size:13px; font-weight:800; color:var(--ink-2); cursor:pointer; user-select:none;
+}
+.season-chip:hover{border-color:var(--tcg-blue); color:var(--tcg-blue-2)}
+.season-chip.active{background:var(--tcg-blue); border-color:var(--tcg-blue-2); color:#fff}
+.season-chip .sc-wl{font-size:11px; font-weight:700; opacity:.8}
+.season-chip.active .sc-wl{opacity:.95}
+.season-meta{display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12px; color:var(--ink-3); margin-bottom:10px}
+.season-meta b{color:var(--ink-1)}
+.season-meta .tag{background:var(--bg-yellow); border-radius:999px; padding:1px 10px; font-weight:700; color:var(--ink-2)}
+.season-actions{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.season-table{width:100%; border-collapse:collapse; font-size:12px; margin-top:12px}
+.season-table th, .season-table td{padding:7px 8px; border-bottom:1px solid var(--line-2); text-align:left; white-space:nowrap}
+.season-table th{background:var(--bg-cream); color:var(--ink-3); font-size:11px}
+.season-table tr.is-cur td{background:rgba(37,99,235,.07); font-weight:700}
+.season-table td.num{text-align:right; font-variant-numeric:tabular-nums}
+.season-table .wr-good{color:var(--win); font-weight:800}
+.season-table .wr-bad{color:var(--lose); font-weight:800}
+.season-table-wrap{overflow-x:auto}
+.modal.narrow{width:min(520px,100%)}
+.modal.narrow .body{padding:16px 18px}
+.steps-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:6px}
+.steps-grid label{display:flex; align-items:center; gap:6px; font-size:11px; color:var(--ink-3)}
+.steps-grid input{padding:4px 6px; font-size:12px}
 
 /* ===== Rank head (グラフ上部) ===== */
 .rank-head{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:14px}
@@ -443,7 +480,7 @@ button:active{transform:translateY(1px)}
 
     <div class="fld">
       <span class="fld-lbl">相手デッキ<span id="oppDeckHint" style="font-weight:400;color:var(--ink-4)"></span></span>
-      <div class="deck-chips" id="oppDeckChips"></div>
+      <div class="deck-chips scrollable" id="oppDeckChips"></div>
       <input type="text" id="quickOppDeck" placeholder="相手のデッキ名（上から選ぶか直接入力・任意）" list="deckList" style="margin-top:8px">
     </div>
 
@@ -482,6 +519,23 @@ button:active{transform:translateY(1px)}
     <datalist id="myDeckList"></datalist>
   </section>
 
+  <!-- ===== Season switcher ===== -->
+  <section class="card s-season">
+    <h2>🗓 シーズン <span style="font-size:12px;color:var(--ink-3);font-weight:400;margin-left:6px" id="seasonCount"></span></h2>
+    <div class="season-chips" id="seasonChips"></div>
+    <div class="season-meta" id="seasonMeta"></div>
+    <div class="season-actions">
+      <button class="btn-blue" id="newSeasonBtn">＋ 新しいシーズンを作る</button>
+      <button class="btn-sm" id="renameSeasonBtn">名前を変更</button>
+      <button class="btn-sm" id="compareSeasonBtn">📊 シーズン比較</button>
+      <button class="btn-sm btn-danger" id="delSeasonBtn">このシーズンを削除</button>
+    </div>
+    <div id="seasonCompare" style="display:none"></div>
+    <div style="font-size:11px;color:var(--ink-3);margin-top:8px">
+      グラフ・戦績・履歴・ランクポイントは<b>選択中のシーズンだけ</b>を集計します。新しい対戦もここで選んだシーズンに記録されます。
+    </div>
+  </section>
+
   <!-- ===== Slump graph ===== -->
   <section class="card s-graph">
     <h2>ランクポイント推移
@@ -499,6 +553,7 @@ button:active{transform:translateY(1px)}
         <div class="rank-next" id="rankNext"></div>
       </div>
       <span class="streak-badge" id="streakBadge" style="display:none">🔥 <span id="streakCount"></span>連勝中</span>
+      <button class="btn-sm" id="adjustBtn" style="margin-left:auto" title="記録し忘れなどでゲーム内のポイントとズレた時に合わせ直します">⚙ 実際のptに合わせる</button>
     </div>
     <div class="deck-tabs" id="deckTabs"></div>
     <div class="chart-stats" id="chartStats"></div>
@@ -514,7 +569,8 @@ button:active{transform:translateY(1px)}
 
   <!-- ===== Settings ===== -->
   <section class="card s-settings">
-    <h2>⚙️ ポイント・シーズン設定</h2>
+    <h2>⚙️ ポイント設定 <span style="font-size:12px;color:var(--ink-3);font-weight:400;margin-left:6px" id="settingsSeasonName"></span></h2>
+    <div style="font-size:11px;color:var(--ink-3);margin-bottom:10px">この設定は<b>選択中のシーズンだけ</b>に適用されます。</div>
     <div class="settings-row" style="margin-bottom:10px">
       <label class="fld" style="max-width:320px"><span>計算モード</span>
         <select id="setMode">
@@ -522,11 +578,21 @@ button:active{transform:translateY(1px)}
           <option value="manual">手動設定</option>
         </select>
       </label>
-      <label class="fld" id="rankPresetWrap" style="max-width:340px"><span>シーズンのランク設定</span>
+      <label class="fld" id="rankPresetWrap" style="max-width:340px"><span>ランク表（昇格ポイント）</span>
         <select id="setRankPreset"></select>
+      </label>
+      <label class="fld" id="loseRuleWrap" style="max-width:340px"><span>負けたときのポイント</span>
+        <select id="setLoseRule"></select>
       </label>
       <label class="fld"><span>現在のポイント (初期値)</span><input type="number" id="setStartPts" value="0"></label>
       <button class="btn-blue" id="saveSettingsBtn">設定を保存</button>
+    </div>
+    <div id="customStepsWrap" style="display:none;margin-bottom:10px">
+      <div style="font-size:12px;color:var(--ink-3);font-weight:700;margin-bottom:6px">
+        カスタムランク表（各ランクに到達するポイント・小さい順）
+        <button class="btn-sm" id="fillStepsBtn" style="margin-left:8px">Bシリーズの値を入れる</button>
+      </div>
+      <div class="steps-grid" id="customStepsGrid"></div>
     </div>
     <div class="settings-row" id="manualPtsRow" style="display:none">
       <label class="fld"><span>勝ち (+)</span><input type="number" id="setWin" value="15"></label>
@@ -535,9 +601,8 @@ button:active{transform:translateY(1px)}
     </div>
     <div class="sub" id="autoModeNote" style="font-size:11px;color:var(--ink-3);margin-top:6px;line-height:1.8">
       公式ルール: 勝ち<b>+10pt</b>／連勝ボーナス <b>2連勝+3・3連勝+6・4連勝+9・5連勝以上+12</b>／
-      負けはランク帯で変動（ビギナー<b>0</b>・モンスターボール／スーパーボール<b>−5</b>・ハイパーボール<b>−7</b>・マスターボール<b>−10</b>）／
-      ボール帯の下限を下回る降格なし（降格保護）。<br>
-      ※ランク昇格に必要なポイントは<b>シーズンによって変わります</b>（Bシリーズは2週間開催のため低め）。上の「シーズンのランク設定」で切り替えてください。
+      負け: <b id="loseRuleNote"></b>／ボール帯の下限を下回る降格なし（降格保護）。<br>
+      ※ランク昇格に必要なポイントも、負けたときの減点も<b>シーズンによって変わります</b>。シーズンごとに上で設定してください。
       <span id="rankTableToggle" style="color:var(--tcg-blue);cursor:pointer;font-weight:700">ランク表を見る</span>
     </div>
     <div id="rankTableBox" style="display:none;margin-top:10px"></div>
@@ -594,6 +659,62 @@ button:active{transform:translateY(1px)}
     <div class="footer">
       <span style="color:var(--ink-3);font-size:12px;margin-right:auto" id="pickerHint">クリックで追加 / 同じカードをもう一度クリックすると＋1</span>
       <button class="btn-primary" id="pickerDoneBtn">完了</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== New season modal ===== -->
+<div class="modal-backdrop" id="seasonModal">
+  <div class="modal narrow">
+    <header><h3>新しいシーズンを作る</h3></header>
+    <div class="body">
+      <label class="fld"><span>シーズン名</span><input type="text" id="nsName" placeholder="例: B4シリーズ"></label>
+      <label class="fld"><span>ランク表（昇格ポイント）</span><select id="nsPreset"></select></label>
+      <label class="fld"><span>負けたときのポイント</span><select id="nsLoseRule"></select></label>
+      <label class="fld" style="max-width:200px"><span>開始ポイント</span><input type="number" id="nsStart" value="0"></label>
+      <div style="font-size:11px;color:var(--ink-3);line-height:1.8">
+        新しいシーズンは<b>対戦記録0件</b>から始まります。今までのシーズンの記録はそのまま残り、上のシーズン切替でいつでも見返せます。<br>
+        マイデッキの登録は全シーズン共通です。
+      </div>
+    </div>
+    <div class="footer">
+      <button class="btn-ghost" id="nsCancelBtn">キャンセル</button>
+      <button class="btn-primary" id="nsCreateBtn">このシーズンを作る</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Point adjust modal ===== -->
+<div class="modal-backdrop" id="adjustModal">
+  <div class="modal narrow">
+    <header><h3 id="adjTitle">実際のポイントに合わせる</h3></header>
+    <div class="body">
+      <div style="font-size:12px;color:var(--ink-3);line-height:1.8;margin-bottom:12px">
+        記録し忘れなどでゲーム内のポイントとズレた時に使います。<br>
+        ズレの分を「補正」として1件記録するので、勝率や戦数には影響しません。
+      </div>
+      <div class="row" style="align-items:flex-end">
+        <label class="fld col"><span>ツール上の現在ポイント</span>
+          <input type="number" id="adjCurrent" disabled>
+        </label>
+        <label class="fld col"><span>ゲーム内の実際のポイント</span>
+          <input type="number" id="adjTarget" placeholder="例: 350">
+        </label>
+      </div>
+      <div id="adjDiff" style="font-size:13px;font-weight:800;margin:-2px 0 12px;min-height:20px"></div>
+      <label class="fld"><span>メモ（任意）</span>
+        <input type="text" id="adjMemo" placeholder="例: 記録し忘れ分をまとめて補正">
+      </label>
+      <label class="fld" style="max-width:260px"><span>補正した日時</span>
+        <input type="datetime-local" id="adjDate">
+      </label>
+      <div style="font-size:11px;color:var(--ink-3);line-height:1.8">
+        補正は履歴に1件残ります。あとから抜けていた対戦を追加すると<b>補正量が自動で小さくなり</b>、現在ポイントは実際の値のまま保たれます。不要になったら履歴から削除できます。
+      </div>
+    </div>
+    <div class="footer">
+      <button class="btn-ghost" id="adjCancelBtn">キャンセル</button>
+      <button class="btn-primary" id="adjSaveBtn">このポイントに合わせる</button>
     </div>
   </div>
 </div>
@@ -767,21 +888,40 @@ function toJaName(enName){
 
 /* ---- 公式ランクマッチ仕様 ----
  * 勝ち+10 / 連勝ボーナス 2連+3, 3連+6, 4連+9, 5連以上+12 (全ランク帯共通)
- * 負け: ビギナー0, モンボ・スーパー-5, ハイパー-7, マスター-10
+ * 負けの減点は「シーズンによって変わる」→ LOSE_RULES で切り替える
+ *   - masterOnly: マスターボールだけ減る（マスター未満は負けても減らない）
+ *   - classic:    モンボ/スーパー-5, ハイパー-7, マスター-10（旧仕様）
  * ボール帯の下限を下回る降格なし(降格保護)
  *
- * ★ランク境界はシーズンごとに異なる。Bシリーズは開催期間が短いぶん低く設定されている。
+ * ★ランク境界もシーズンごとに異なる。Bシリーズは開催期間が短いぶん低く設定されている。
  *   (例: マスター到達 シリーズA=1450pt / B3・B3b=810pt)
- *   新シーズンで変わったら RANK_PRESETS に追加し、設定から選べるようにしている。
+ *   新シーズンで変わったら RANK_PRESETS に追加するか、シーズン設定の「カスタム」で直接入力する。
  */
 const RANK_PRESETS = {
   b: {
-    label: 'Bシリーズ（現行・2週間シーズン / マスター810pt）',
+    label: 'Bシリーズ（2週間シーズン / マスター810pt）',
     steps: [0, 20, 50, 80, 110, 140, 170, 210, 250, 290, 330, 380, 440, 510, 590, 690, 810],
   },
   a: {
     label: 'Aシリーズ（旧・1ヶ月シーズン / マスター1450pt）',
     steps: [0, 20, 50, 95, 145, 195, 245, 300, 355, 420, 490, 600, 710, 860, 1010, 1225, 1450],
+  },
+  custom: {
+    label: 'カスタム（自分で入力）',
+    steps: [0, 20, 50, 80, 110, 140, 170, 210, 250, 290, 330, 380, 440, 510, 590, 690, 810],
+  },
+};
+/* 負けたときの減点ルール（シーズンごとに選ぶ） */
+const LOSE_RULES = {
+  masterOnly: {
+    label: 'マスターボールだけ減る（現行）',
+    note: 'ビギナー〜ハイパーボールは<b>負けても減らない</b>・マスターボール<b>−10</b>',
+    table: { beginner:0, monster:0, super:0, hyper:0, master:-10 },
+  },
+  classic: {
+    label: '全ランク帯で減る（旧シーズン）',
+    note: 'ビギナー0・モンスターボール／スーパーボール<b>−5</b>・ハイパーボール<b>−7</b>・マスターボール<b>−10</b>',
+    table: { beginner:0, monster:-5, super:-5, hyper:-7, master:-10 },
   },
 };
 const RANK_NAMES = [
@@ -798,13 +938,22 @@ const RANK_TIERS = [
   'hyper','hyper','hyper','hyper',
   'master',
 ];
-/* 現在の設定に応じたランク表を組み立てる */
-function rankSteps(){
-  const key = (state?.settings?.rankPreset) || 'b';
-  const preset = RANK_PRESETS[key] || RANK_PRESETS.b;
-  return preset.steps.map((pts, i) => ({name:RANK_NAMES[i], pts, tier:RANK_TIERS[i]}));
+/* 設定(シーズン)からランク境界の配列を取り出す。カスタムなら手入力値 */
+function stepsArrayOf(settings){
+  const s = settings || {};
+  if(s.rankPreset === 'custom' && Array.isArray(s.rankSteps) && s.rankSteps.length === RANK_NAMES.length){
+    return s.rankSteps.map(n => Number(n) || 0);
+  }
+  return (RANK_PRESETS[s.rankPreset] || RANK_PRESETS.b).steps;
 }
-const TIER_LOSE = { beginner:0, monster:-5, super:-5, hyper:-7, master:-10 };
+/* 現在の設定に応じたランク表を組み立てる（stepsOf は下のシーズンUI側で定義） */
+function rankSteps(){
+  return stepsOf(state?.settings);
+}
+/* 現在のシーズンの「負け減点表」 */
+function loseTable(){
+  return (LOSE_RULES[state?.settings?.loseRule] || LOSE_RULES.masterOnly).table;
+}
 /* ボール帯の下限(降格保護ライン) = モンボ1 / スーパー1 / ハイパー1 / マスター */
 function tierFloors(){
   const s = rankSteps();
@@ -830,12 +979,25 @@ function tierFloorOf(pts){
   return f;
 }
 
+/* 1シーズン分の設定。シーズンごとにルールが違うのでシーズン単位で持つ */
+const DEFAULT_SETTINGS = {
+  pointMode:'auto',
+  rankPreset:'b',
+  rankSteps:null,        // rankPreset==='custom' のときだけ使う17個の配列
+  loseRule:'masterOnly', // 新規シーズンの既定＝マスター未満は減らない
+  pointWin:15, pointLose:-12, pointDraw:0, startPts:0,
+};
+const LEGACY_SEASON_ID = 'season-1'; // 旧形式(シーズン概念なし)から移行した1本目。全端末で同じIDにして同期時に重複させない
 const DEFAULT_STATE = {
-  settings:{ pointMode:'auto', rankPreset:'b', pointWin:15, pointLose:-12, pointDraw:0, startPts:0 },
-  myDecks:[],   // 自分の登録デッキ ['アルクロベビィ', ...]
-  matches:[],
+  version: 2,
+  seasons: [],          // [{id, name, createdAt, settings, matches}]
+  currentSeasonId: '',  // 選択中のシーズン
+  myDecks: [],          // 自分の登録デッキ（全シーズン共通）
+  settings: DEFAULT_SETTINGS, // ↓ v1互換用。ensureSeasons() でシーズンへ畳み込まれる
+  matches: [],
 };
 
+let didMigrate = false; // v1→v2 の移行が起きたら初回に保存し直すためのフラグ
 let state = loadState();
 let cardDb = [];   // [{id, name, image, set, localId}]
 let cardIndex = {}; // id -> card
@@ -843,23 +1005,96 @@ let editingId = null;
 let pendingCards = []; // [{cardId, count}]
 let chart = null;
 
+/* ============================================================
+   シーズン管理
+   - 対戦記録・ポイント設定は「シーズン」単位で持つ
+   - state.matches / state.settings は “選択中のシーズン” への参照
+     （既存コードをそのまま動かすためのアクセサ。JSONには出さない）
+   ============================================================ */
+function makeSeason({name, settings, matches, id, createdAt}={}){
+  return {
+    id: id || uid(),
+    name: name || 'シーズン',
+    createdAt: createdAt || new Date().toISOString(),
+    settings: Object.assign(structuredClone(DEFAULT_SETTINGS), settings || {}),
+    matches: Array.isArray(matches) ? matches : [],
+  };
+}
+function normalizeSeason(s){
+  return makeSeason({
+    id: s && s.id, name: s && s.name, createdAt: s && s.createdAt,
+    settings: s && s.settings, matches: s && s.matches,
+  });
+}
+/* v1(シーズンなし) → v2(シーズン配列) へ移行。v2はそのまま整形するだけ */
+function ensureSeasons(st){
+  if(Array.isArray(st.seasons) && st.seasons.length){
+    st.seasons = st.seasons.map(normalizeSeason);
+  }else{
+    didMigrate = true;
+    // 旧データは「シーズン1」として丸ごと引き継ぐ。
+    // 過去の記録の計算結果を変えないよう、負けルールは旧仕様(classic)で固定する
+    const oldMatches = Array.isArray(st.matches) ? st.matches : [];
+    const old = Object.assign({}, st.settings || {});
+    if(oldMatches.length && !old.loseRule) old.loseRule = 'classic';
+    st.seasons = [ makeSeason({
+      id: LEGACY_SEASON_ID,
+      name: oldMatches.length ? 'シーズン1（これまでの記録）' : 'シーズン1',
+      settings: old,
+      matches: oldMatches,
+    }) ];
+  }
+  delete st.settings;  // 以降は必ずアクセサ経由（シーズンの設定）を使う
+  delete st.matches;
+  st.version = 2;
+  if(!st.seasons.some(s => s.id === st.currentSeasonId)){
+    st.currentSeasonId = st.seasons[st.seasons.length - 1].id;
+  }
+  return st;
+}
+function currentSeason(st = state){
+  if(!st || !Array.isArray(st.seasons) || !st.seasons.length) return null;
+  let s = st.seasons.find(x => x.id === st.currentSeasonId);
+  if(!s){ s = st.seasons[st.seasons.length - 1]; st.currentSeasonId = s.id; }
+  return s;
+}
+/* state.matches / state.settings を選択中シーズンに向ける（enumerable:false = JSONに二重保存されない） */
+function attachSeasonAccessors(st){
+  Object.defineProperties(st, {
+    matches: {
+      enumerable:false, configurable:true,
+      get(){ const s = currentSeason(st); return s ? s.matches : []; },
+      set(v){ const s = currentSeason(st); if(s) s.matches = v; },
+    },
+    settings: {
+      enumerable:false, configurable:true,
+      get(){ const s = currentSeason(st); return s ? s.settings : structuredClone(DEFAULT_SETTINGS); },
+      set(v){ const s = currentSeason(st); if(s) s.settings = v; },
+    },
+  });
+  return st;
+}
+function prepareState(raw){
+  const st = Object.assign(structuredClone(DEFAULT_STATE), raw || {});
+  // v1データの settings は既定値を混ぜずにそのまま渡す（loseRule未設定＝旧仕様、の判定に使うため）
+  if(raw && raw.settings) st.settings = Object.assign({}, raw.settings);
+  // myDecks: 旧形式(文字列配列) → {name, cards} 形式へ移行
+  if(!Array.isArray(st.myDecks)) st.myDecks = [];
+  st.myDecks = st.myDecks.map(d =>
+    typeof d === 'string' ? {name:d, cards:[]} : {name:d.name||'', cards:Array.isArray(d.cards)?d.cards:[]}
+  ).filter(d=>d.name);
+  ensureSeasons(st);
+  return attachSeasonAccessors(st);
+}
+
 /* ---------- Storage ---------- */
 function loadState(){
   try{
     const raw = localStorage.getItem(STORE_KEY);
-    if(!raw) return structuredClone(DEFAULT_STATE);
-    const parsed = JSON.parse(raw);
-    const merged = Object.assign(structuredClone(DEFAULT_STATE), parsed);
-    merged.settings = Object.assign(structuredClone(DEFAULT_STATE.settings), parsed.settings || {});
-    // myDecks: 旧形式(文字列配列) → {name, cards} 形式へ移行
-    if(!Array.isArray(merged.myDecks)) merged.myDecks = [];
-    merged.myDecks = merged.myDecks.map(d =>
-      typeof d === 'string' ? {name:d, cards:[]} : {name:d.name||'', cards:Array.isArray(d.cards)?d.cards:[]}
-    ).filter(d=>d.name);
-    return merged;
+    return prepareState(raw ? JSON.parse(raw) : null);
   }catch(e){
     console.error('loadState failed', e);
-    return structuredClone(DEFAULT_STATE);
+    return prepareState(null);
   }
 }
 function saveState(){
@@ -973,10 +1208,13 @@ function fmtDateTime(iso){
   const d = new Date(iso);
   return `${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
-function nowDateTimeLocal(){
+/* withSeconds=true で秒まで返す。
+ * 保存する日時は秒まで持つ（同じ分に何戦もした時の順序が決まるように）。
+ * datetime-local の入力欄に入れる時は分まで（秒を出すとブラウザのUIが変わるため）。 */
+function nowDateTimeLocal(withSeconds){
   const d = new Date();
   const off = d.getTimezoneOffset()*60000;
-  return new Date(d - off).toISOString().slice(0,16);
+  return new Date(d - off).toISOString().slice(0, withSeconds ? 19 : 16);
 }
 function cardImgUrl(card, size='low'){
   if(!card) return '';
@@ -989,12 +1227,34 @@ function cardImgUrl(card, size='low'){
 function hasJaImage(card){ return !!(card && (card.imageJa || card.imageDirect)); }
 
 /* ---------- Settings ---------- */
+function presetOptionsHtml(){
+  return Object.entries(RANK_PRESETS).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('');
+}
+function loseRuleOptionsHtml(){
+  return Object.entries(LOSE_RULES).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('');
+}
+/* カスタムランク表の入力欄（17ランク分） */
+function renderCustomSteps(values){
+  const grid = $('#customStepsGrid');
+  if(!grid) return;
+  grid.innerHTML = RANK_NAMES.map((n,i)=>
+    `<label><span style="flex:1">${n}</span><input type="number" class="step-input" data-i="${i}" value="${values[i] ?? 0}" style="width:74px"></label>`
+  ).join('');
+}
+function readCustomSteps(){
+  return $$('#customStepsGrid .step-input').map(el => Number(el.value) || 0);
+}
 function syncSettingsVisibility(){
   const manual = $('#setMode').value === 'manual';
+  const custom = $('#setRankPreset').value === 'custom';
   $('#manualPtsRow').style.display = manual ? '' : 'none';
   $('#autoModeNote').style.display = manual ? 'none' : '';
   $('#rankPresetWrap').style.display = manual ? 'none' : '';
+  $('#loseRuleWrap').style.display = manual ? 'none' : '';
+  $('#customStepsWrap').style.display = (!manual && custom) ? '' : 'none';
   if(manual) $('#rankTableBox').style.display = 'none';
+  const note = $('#loseRuleNote');
+  if(note) note.innerHTML = (LOSE_RULES[$('#setLoseRule').value] || LOSE_RULES.masterOnly).note;
 }
 /* 現在のランク表を一覧で見せる */
 function renderRankTable(){
@@ -1009,19 +1269,36 @@ function renderRankTable(){
       <span>${s.name}</span><span>${s.pts}pt</span></div>`).join('')}
   </div>`;
 }
+/* 設定パネルを選択中シーズンの内容で埋め直す */
 function bindSettings(){
-  $('#setMode').value = state.settings.pointMode || 'auto';
-  // シーズンプリセット
+  const st = state.settings;
+  const cur = currentSeason();
+  $('#settingsSeasonName').textContent = cur ? `— ${cur.name}` : '';
+  $('#setMode').value = st.pointMode || 'auto';
   const sel = $('#setRankPreset');
-  sel.innerHTML = Object.entries(RANK_PRESETS)
-    .map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('');
-  sel.value = state.settings.rankPreset || 'b';
-  $('#setWin').value = state.settings.pointWin;
-  $('#setLose').value = state.settings.pointLose;
-  $('#setDraw').value = state.settings.pointDraw;
-  $('#setStartPts').value = state.settings.startPts;
+  sel.innerHTML = presetOptionsHtml();
+  sel.value = RANK_PRESETS[st.rankPreset] ? st.rankPreset : 'b';
+  const lsel = $('#setLoseRule');
+  lsel.innerHTML = loseRuleOptionsHtml();
+  lsel.value = LOSE_RULES[st.loseRule] ? st.loseRule : 'masterOnly';
+  renderCustomSteps(stepsArrayOf(st));
+  $('#setWin').value = st.pointWin;
+  $('#setLose').value = st.pointLose;
+  $('#setDraw').value = st.pointDraw;
+  $('#setStartPts').value = st.startPts;
   syncSettingsVisibility();
   $('#setMode').onchange = syncSettingsVisibility;
+  $('#setLoseRule').onchange = syncSettingsVisibility;
+  $('#setRankPreset').onchange = ()=>{
+    // プリセット→カスタムに切り替えた時は、直前のプリセットの値を初期値として入れておく
+    if($('#setRankPreset').value === 'custom'){
+      const base = stepsArrayOf(state.settings);
+      renderCustomSteps(Array.isArray(state.settings.rankSteps) && state.settings.rankSteps.length === RANK_NAMES.length
+        ? state.settings.rankSteps : base);
+    }
+    syncSettingsVisibility();
+  };
+  $('#fillStepsBtn').onclick = ()=> renderCustomSteps(RANK_PRESETS.b.steps);
   $('#rankTableToggle').onclick = ()=>{
     const box = $('#rankTableBox');
     const open = box.style.display !== 'none';
@@ -1030,12 +1307,22 @@ function bindSettings(){
     if(!open) renderRankTable();
   };
   $('#saveSettingsBtn').onclick = ()=>{
-    state.settings.pointMode = $('#setMode').value;
-    state.settings.rankPreset = $('#setRankPreset').value;
-    state.settings.pointWin = +$('#setWin').value || 0;
-    state.settings.pointLose = +$('#setLose').value || 0;
-    state.settings.pointDraw = +$('#setDraw').value || 0;
-    state.settings.startPts = +$('#setStartPts').value || 0;
+    const s = state.settings;
+    s.pointMode = $('#setMode').value;
+    s.rankPreset = $('#setRankPreset').value;
+    s.loseRule = $('#setLoseRule').value;
+    if(s.rankPreset === 'custom'){
+      const steps = readCustomSteps();
+      // 昇順でないと昇格判定が壊れるのでチェック
+      for(let i=1;i<steps.length;i++){
+        if(steps[i] < steps[i-1]){ alert('カスタムランク表は小さい順に入力してください。'); return; }
+      }
+      s.rankSteps = steps;
+    }
+    s.pointWin = +$('#setWin').value || 0;
+    s.pointLose = +$('#setLose').value || 0;
+    s.pointDraw = +$('#setDraw').value || 0;
+    s.startPts = +$('#setStartPts').value || 0;
     recomputeAllPoints();
     saveState();
     renderAll();
@@ -1048,20 +1335,53 @@ function pointDelta(result){
   if(result==='lose') return state.settings.pointLose;
   return state.settings.pointDraw;
 }
+/* ---------- ポイント補正 ----------
+ * 記録し忘れなどでゲーム内の実ポイントとズレた時に差し込む記録。
+ * result:'adjust' / pointsTarget:その時点の実際のポイント。
+ * 「差分」ではなく「実際の値」で持つので、あとから抜けていた対戦を追加すると
+ * 補正量が自動で小さくなり、現在ポイントは実際の値のまま保たれる。
+ * 勝敗ではないので勝率・戦数には数えず、連勝も途切れさせない。 */
+function isAdjust(m){ return m && m.result === 'adjust'; }
+function realMatches(list){ return (list || []).filter(m => !isAdjust(m)); }
+
+/* ---------- 並び順 ----------
+ * 対戦日時は「分」までしか持たないので、同じ分に何戦もすると日時だけでは順序が決まらない。
+ * 以前は昇順(計算)と降順(履歴表示)がどちらも配列順のままになり、同じ分の対戦は
+ * 「画面の並び」と「計算上の並び」が逆になっていた（勝ちを負けに直しても連勝が残るバグの原因）。
+ * id は uid() = 記録時刻(base36) + 乱数 なので、同着は id 順＝記録した順で必ず決める。 */
+function cmpMatch(a, b){
+  const d = String(a.datetime).localeCompare(String(b.datetime));
+  if(d !== 0) return d;
+  return String(a.id || '').localeCompare(String(b.id || ''));
+}
+function sortAsc(list){ return [...(list||[])].sort(cmpMatch); }            // 古い→新しい（計算用）
+function sortDesc(list){ return [...(list||[])].sort((a,b)=>cmpMatch(b,a)); } // 新しい→古い（表示用）
+
 function recomputeAllPoints(){
   // 古い→新しい順に連勝数とpointsAfterを再計算
-  const sorted = [...state.matches].sort((a,b)=>a.datetime.localeCompare(b.datetime));
+  const sorted = sortAsc(state.matches);
   const auto = (state.settings.pointMode || 'auto') === 'auto';
+  const lose = loseTable();
   let running = state.settings.startPts;
   let streak = 0;
   let floorPts = tierFloorOf(running); // 到達済みボール帯の下限(降格保護)
   for(const m of sorted){
+    if(isAdjust(m)){
+      // 実際のポイントに合わせ直す。降格保護の基準もここで引き直す
+      const target = Number(m.pointsTarget) || 0;
+      m.pointsDelta = target - running;
+      running = target;
+      floorPts = tierFloorOf(running);
+      m.streak = streak;   // 連勝は維持
+      m.pointsAfter = running;
+      continue;
+    }
     if(m.result === 'win'){
       streak++;
       m.pointsDelta = auto ? 10 + streakBonusOf(streak) : pointDelta('win');
     }else if(m.result === 'lose'){
       streak = 0;
-      m.pointsDelta = auto ? TIER_LOSE[rankOf(running).tier] : pointDelta('lose');
+      m.pointsDelta = auto ? (lose[rankOf(running).tier] ?? 0) : pointDelta('lose');
     }else{
       streak = 0;
       m.pointsDelta = auto ? 0 : pointDelta('draw');
@@ -1079,17 +1399,249 @@ function recomputeAllPoints(){
 }
 function currentRankPoints(){
   if(!state.matches.length) return state.settings.startPts;
-  const latest = [...state.matches].sort((a,b)=>a.datetime.localeCompare(b.datetime)).pop();
+  const latest = sortAsc(state.matches).pop();
   return latest.pointsAfter;
 }
 function currentStreak(){
-  const sorted = [...state.matches].sort((a,b)=>a.datetime.localeCompare(b.datetime));
+  const sorted = sortAsc(realMatches(state.matches));
   let n = 0;
   for(let i=sorted.length-1; i>=0; i--){
     if(sorted[i].result === 'win') n++;
     else break;
   }
   return n;
+}
+
+/* ============================================================
+   シーズンUI（切替 / 新規作成 / 比較）
+   ============================================================ */
+function stepsOf(settings){
+  return stepsArrayOf(settings).map((pts, i) => ({name:RANK_NAMES[i], pts, tier:RANK_TIERS[i]}));
+}
+/* 任意シーズンの設定でランク名を求める（比較表用） */
+function rankNameAt(settings, pts){
+  const steps = stepsOf(settings);
+  let r = steps[0];
+  for(const s of steps){ if(pts >= s.pts) r = s; else break; }
+  return r.name;
+}
+function fmtDay(iso){
+  if(!iso) return '';
+  const d = new Date(iso);
+  return `${d.getMonth()+1}/${d.getDate()}`;
+}
+function seasonStats(sn){
+  const ms = realMatches(sn.matches); // 補正記録は戦数・勝率に数えない
+  const w = ms.filter(m=>m.result==='win').length;
+  const l = ms.filter(m=>m.result==='lose').length;
+  const d = ms.filter(m=>m.result==='draw').length;
+  const decided = w + l;
+  const sorted = sortAsc(ms);
+  // ポイントは補正記録も含めた全記録の並びで見る（補正後の値が現在ポイント）
+  const withAdj = sortAsc(sn.matches);
+  const start = sn.settings.startPts || 0;
+  const lastPts = withAdj.length ? (withAdj[withAdj.length-1].pointsAfter ?? start) : start;
+  const peak = withAdj.reduce((a,m)=>Math.max(a, m.pointsAfter ?? start), start);
+  const auto = (sn.settings.pointMode || 'auto') === 'auto';
+  return {
+    n: ms.length, w, l, d,
+    wr: decided ? Math.round(w/decided*1000)/10 : null,
+    pts: lastPts, peak,
+    rank: auto ? rankNameAt(sn.settings, lastPts) : '',
+    best: auto ? rankNameAt(sn.settings, peak) : '',
+    from: sorted.length ? sorted[0].datetime : '',
+    to: sorted.length ? sorted[sorted.length-1].datetime : '',
+  };
+}
+function renderSeasonBar(){
+  const chips = $('#seasonChips');
+  const seasons = state.seasons || [];
+  $('#seasonCount').textContent = `（全${seasons.length}シーズン）`;
+  chips.innerHTML = seasons.map(sn=>{
+    const s = seasonStats(sn);
+    return `<div class="season-chip ${sn.id===state.currentSeasonId?'active':''}" data-id="${escapeHtml(sn.id)}">
+      ${escapeHtml(sn.name)}<span class="sc-wl">${s.w}勝${s.l}敗</span></div>`;
+  }).join('');
+  chips.querySelectorAll('.season-chip').forEach(el=>{
+    el.onclick = ()=> switchSeason(el.dataset.id);
+  });
+
+  const cur = currentSeason();
+  const meta = $('#seasonMeta');
+  if(!cur){ meta.innerHTML = ''; return; }
+  const s = seasonStats(cur);
+  const rule = LOSE_RULES[cur.settings.loseRule] || LOSE_RULES.masterOnly;
+  const preset = RANK_PRESETS[cur.settings.rankPreset] || RANK_PRESETS.b;
+  const masterPt = stepsArrayOf(cur.settings)[RANK_NAMES.length-1];
+  meta.innerHTML = [
+    s.n ? `<span>期間 <b>${fmtDay(s.from)}〜${fmtDay(s.to)}</b></span>` : `<span>まだ対戦記録がありません</span>`,
+    s.n ? `<span><b>${s.n}戦</b> ${s.w}勝${s.l}敗${s.d?`${s.d}分`:''}${s.wr!==null?` / 勝率 <b>${s.wr}%</b>`:''}</span>` : '',
+    s.n ? `<span>現在 <b>${s.pts}pt</b>${s.rank?`（${s.rank}）`:''}</span>` : '',
+    s.n && s.best ? `<span>最高 <b>${s.best}</b>（${s.peak}pt）</span>` : '',
+    `<span class="tag">${escapeHtml(preset.label.split('（')[0])} / マスター${masterPt}pt</span>`,
+    `<span class="tag">負け: ${rule.label}</span>`,
+  ].filter(Boolean).join('');
+}
+function switchSeason(id){
+  if(!id || id === state.currentSeasonId) return;
+  if(!(state.seasons||[]).some(s=>s.id===id)) return;
+  state.currentSeasonId = id;
+  historyPage = 1;
+  chartDeckFilter = '';
+  recomputeAllPoints();
+  saveState();
+  bindSettings();
+  renderAll();
+  toast(`「${currentSeason().name}」に切り替えました`);
+}
+function renderSeasonCompare(){
+  const box = $('#seasonCompare');
+  const rows = (state.seasons||[]).map(sn=>{
+    const s = seasonStats(sn);
+    const wrCls = s.wr === null ? '' : (s.wr >= 50 ? 'wr-good' : 'wr-bad');
+    return `<tr class="${sn.id===state.currentSeasonId?'is-cur':''}">
+      <td>${escapeHtml(sn.name)}</td>
+      <td>${s.n ? `${fmtDay(s.from)}〜${fmtDay(s.to)}` : '—'}</td>
+      <td class="num">${s.n}</td>
+      <td class="num">${s.w}-${s.l}${s.d?`-${s.d}`:''}</td>
+      <td class="num ${wrCls}">${s.wr===null?'—':s.wr+'%'}</td>
+      <td class="num">${s.pts}</td>
+      <td>${s.rank||'—'}</td>
+      <td>${s.best||'—'}</td>
+    </tr>`;
+  }).join('');
+  box.innerHTML = `<div class="season-table-wrap"><table class="season-table">
+    <thead><tr><th>シーズン</th><th>期間</th><th>戦数</th><th>W-L</th><th>勝率</th><th>最終pt</th><th>最終ランク</th><th>最高ランク</th></tr></thead>
+    <tbody>${rows}</tbody></table></div>`;
+}
+/* 新しいシーズン作成モーダル */
+function openNewSeasonModal(){
+  const cur = currentSeason();
+  $('#nsName').value = `シーズン${(state.seasons||[]).length + 1}`;
+  const ps = $('#nsPreset');
+  ps.innerHTML = presetOptionsHtml();
+  ps.value = (cur && RANK_PRESETS[cur.settings.rankPreset]) ? cur.settings.rankPreset : 'b';
+  const ls = $('#nsLoseRule');
+  ls.innerHTML = loseRuleOptionsHtml();
+  ls.value = 'masterOnly'; // 現行仕様（マスター未満は減らない）を既定に
+  $('#nsStart').value = 0;
+  $('#seasonModal').classList.add('open');
+  setTimeout(()=>{ $('#nsName').focus(); $('#nsName').select(); }, 50);
+}
+function closeNewSeasonModal(){ $('#seasonModal').classList.remove('open'); }
+function createSeason(){
+  const name = $('#nsName').value.trim() || `シーズン${(state.seasons||[]).length + 1}`;
+  const preset = $('#nsPreset').value;
+  const base = { rankPreset: preset, loseRule: $('#nsLoseRule').value, startPts: +$('#nsStart').value || 0 };
+  if(preset === 'custom'){
+    // カスタムは作成後に設定パネルで数値を詰める。とりあえず現行シーズンの値を初期値に
+    const cur = currentSeason();
+    base.rankSteps = cur ? stepsArrayOf(cur.settings).slice() : RANK_PRESETS.b.steps.slice();
+  }
+  const sn = makeSeason({name, settings: base, matches: []});
+  state.seasons.push(sn);
+  state.currentSeasonId = sn.id;
+  historyPage = 1;
+  chartDeckFilter = '';
+  recomputeAllPoints();
+  saveState();
+  bindSettings();
+  renderAll();
+  closeNewSeasonModal();
+  toast(`「${name}」を作成しました`);
+}
+function renameSeason(){
+  const cur = currentSeason();
+  if(!cur) return;
+  const name = prompt('シーズン名を入力', cur.name);
+  if(name === null) return;
+  const t = name.trim();
+  if(!t) return;
+  cur.name = t;
+  saveState();
+  bindSettings();
+  renderSeasonBar();
+  if($('#seasonCompare').style.display !== 'none') renderSeasonCompare();
+  toast('シーズン名を変更しました');
+}
+function deleteSeason(){
+  const cur = currentSeason();
+  if(!cur) return;
+  if((state.seasons||[]).length <= 1){ toast('最後の1シーズンは削除できません'); return; }
+  const s = seasonStats(cur);
+  if(!confirm(`「${cur.name}」を削除します。この${s.n}戦の記録は元に戻せません。よろしいですか？`)) return;
+  state.seasons = state.seasons.filter(x => x.id !== cur.id);
+  state.currentSeasonId = state.seasons[state.seasons.length-1].id;
+  historyPage = 1;
+  chartDeckFilter = '';
+  recomputeAllPoints();
+  saveState();
+  bindSettings();
+  renderAll();
+  toast('シーズンを削除しました');
+}
+
+/* ============================================================
+   ポイント補正モーダル
+   ============================================================ */
+let adjustEditingId = null;
+/* 補正記録を除いた「その時点の計算上のポイント」を求める（編集時に自分自身を除くため） */
+function pointsBefore(excludeId, datetime){
+  const list = [...state.matches]
+    .filter(m => m.id !== excludeId)
+    .filter(m => !datetime || String(m.datetime) <= String(datetime))
+    .sort(cmpMatch);
+  return list.length ? (list[list.length-1].pointsAfter ?? state.settings.startPts) : state.settings.startPts;
+}
+function updateAdjDiff(){
+  const cur = Number($('#adjCurrent').value) || 0;
+  const raw = $('#adjTarget').value;
+  const el = $('#adjDiff');
+  if(raw === ''){ el.textContent = ''; return; }
+  const d = (Number(raw) || 0) - cur;
+  el.innerHTML = d === 0
+    ? `<span style="color:var(--ink-3)">ズレなし（補正は記録されません）</span>`
+    : `補正: <span style="color:${d>0?'var(--win)':'var(--lose)'}">${d>0?'+':''}${d}pt</span>`;
+}
+/* id を渡すと既存の補正を編集、省略で新規 */
+function openAdjustModal(id){
+  adjustEditingId = id || null;
+  const m = id ? state.matches.find(x=>x.id===id) : null;
+  const dt = m ? String(m.datetime).slice(0,16) : nowDateTimeLocal();
+  const before = pointsBefore(adjustEditingId, m ? m.datetime : null);
+  $('#adjTitle').textContent = m ? 'ポイント補正を編集' : '実際のポイントに合わせる';
+  $('#adjCurrent').value = before;
+  $('#adjTarget').value = m ? m.pointsTarget : currentRankPoints();
+  $('#adjMemo').value = m ? (m.memo || '') : '';
+  $('#adjDate').value = dt;
+  updateAdjDiff();
+  $('#adjustModal').classList.add('open');
+  setTimeout(()=>{ $('#adjTarget').focus(); $('#adjTarget').select(); }, 50);
+}
+function closeAdjustModal(){ $('#adjustModal').classList.remove('open'); adjustEditingId = null; }
+function saveAdjust(){
+  const raw = $('#adjTarget').value;
+  if(raw === ''){ toast('実際のポイントを入力してください'); return; }
+  const target = Number(raw) || 0;
+  const datetime = $('#adjDate').value || nowDateTimeLocal();
+  const memo = $('#adjMemo').value.trim();
+  if(adjustEditingId){
+    const m = state.matches.find(x=>x.id===adjustEditingId);
+    if(m) Object.assign(m, {pointsTarget:target, datetime, memo});
+  }else{
+    if(target === (Number($('#adjCurrent').value) || 0)){
+      closeAdjustModal();
+      toast('ズレがないので補正は記録しませんでした');
+      return;
+    }
+    state.matches.push({id:uid(), datetime, result:'adjust', pointsTarget:target, memo});
+    historyPage = 1;
+  }
+  recomputeAllPoints();
+  saveState();
+  renderAll();
+  closeAdjustModal();
+  toast(`ポイントを ${target}pt に合わせました`);
 }
 
 /* ---------- Render: rank pill + chart ---------- */
@@ -1139,7 +1691,7 @@ function renderDeckTabs(){
   });
 }
 function renderChartStats(){
-  const ms = state.matches.filter(m => !chartDeckFilter || (m.myDeck||'') === chartDeckFilter);
+  const ms = realMatches(state.matches).filter(m => !chartDeckFilter || (m.myDeck||'') === chartDeckFilter);
   const root = $('#chartStats');
   if(!ms.length){ root.innerHTML = ''; return; }
   const w = ms.filter(m=>m.result==='win').length;
@@ -1154,11 +1706,12 @@ function renderChartStats(){
     <span class="wr ${wrClass}">勝率 ${decided?wr:'--'}%</span>`;
 }
 function renderChart(){
-  const all = [...state.matches].sort((a,b)=>a.datetime.localeCompare(b.datetime));
+  const all = sortAsc(state.matches);
   const sorted = chartDeckFilter ? all.filter(m => (m.myDeck||'') === chartDeckFilter) : all;
   const labels = sorted.map(m => fmtDateTime(m.datetime).replace(' ','\n'));
   const data = sorted.map(m => m.pointsAfter);
-  const pointColors = sorted.map(m => m.result==='win' ? getCss('--win') : m.result==='lose' ? getCss('--lose') : getCss('--draw'));
+  const pointColors = sorted.map(m => isAdjust(m) ? getCss('--tcg-amber')
+    : m.result==='win' ? getCss('--win') : m.result==='lose' ? getCss('--lose') : getCss('--draw'));
 
   // 起点を含める(総合表示のみ。デッキ別は初戦から)
   if(sorted.length && !chartDeckFilter){
@@ -1199,8 +1752,9 @@ function renderChart(){
               if(hasStart && i===0 && sorted.length) return `開始: ${ctx.parsed.y}pt`;
               const m = sorted[hasStart ? i-1 : i];
               if(!m) return ctx.parsed.y;
-              const r = m.result==='win'?'勝ち':m.result==='lose'?'負け':'引分';
               const d = m.pointsDelta>=0?`+${m.pointsDelta}`:m.pointsDelta;
+              if(isAdjust(m)) return `ポイント補正 (${d}) → ${ctx.parsed.y}pt`;
+              const r = m.result==='win'?'勝ち':m.result==='lose'?'負け':'引分';
               const st = m.streak>=2 ? ` 🔥${m.streak}連勝` : '';
               return `${r} (${d}) → ${ctx.parsed.y}pt${st}`;
             },
@@ -1210,6 +1764,7 @@ function renderChart(){
               if(hasStart && i===0 && sorted.length) return '基準';
               const m = sorted[hasStart ? i-1 : i];
               if(!m) return '';
+              if(isAdjust(m)) return m.memo ? `⚙ 補正: ${m.memo}` : '⚙ ポイント補正';
               const mine = m.myDeck ? `${m.myDeck} ` : '';
               return `${mine}vs ${m.opponentDeck || '???'} (${m.opponentName||'???'})`;
             }
@@ -1232,8 +1787,7 @@ function renderHistory(){
   const filterTxt = $('#filterText').value.trim().toLowerCase();
   const filterRes = $('#filterResult').value;
   const filterMy = $('#filterMyDeck').value;
-  const list = [...state.matches]
-    .sort((a,b)=>b.datetime.localeCompare(a.datetime))
+  const list = sortDesc(state.matches)
     .filter(m => !filterRes || m.result===filterRes)
     .filter(m => !filterMy || (m.myDeck||'')===filterMy)
     .filter(m => !filterTxt || (
@@ -1243,7 +1797,9 @@ function renderHistory(){
       (m.memo||'').toLowerCase().includes(filterTxt)
     ));
 
-  $('#historyCount').textContent = `(${state.matches.length}戦 / 表示${list.length})`;
+  const adjCount = state.matches.length - realMatches(state.matches).length;
+  $('#historyCount').textContent =
+    `(${realMatches(state.matches).length}戦${adjCount?` + 補正${adjCount}件`:''} / 表示${list.length})`;
 
   const root = $('#matchList');
   const pager = $('#matchPager');
@@ -1260,10 +1816,27 @@ function renderHistory(){
   const pageList = list.slice(start, start + HISTORY_PER_PAGE);
 
   root.innerHTML = pageList.map(m=>{
-    const resLabel = m.result==='win'?'W':m.result==='lose'?'L':'D';
     const dPts = m.pointsDelta;
     const ptsClass = dPts>0?'plus':dPts<0?'minus':'';
     const ptsStr = dPts>0?`+${dPts}`:dPts;
+    // ポイント補正の行（勝敗ではないので専用の見た目にする）
+    if(isAdjust(m)){
+      return `
+      <div class="match-row" data-id="${m.id}">
+        <div class="res adjust">⚙</div>
+        <div class="meta">
+          <div class="top"><span class="deck">ポイント補正 → ${m.pointsTarget}pt</span></div>
+          <div class="dt">${fmtDateTime(m.datetime)} → ${m.pointsAfter}pt</div>
+          ${m.memo?`<div class="memo">${escapeHtml(m.memo)}</div>`:''}
+        </div>
+        <div class="pts ${ptsClass}">${ptsStr}</div>
+        <div class="actions">
+          <button class="btn-sm" data-act="edit">編集</button>
+          <button class="btn-sm btn-danger" data-act="del">削除</button>
+        </div>
+      </div>`;
+    }
+    const resLabel = m.result==='win'?'W':m.result==='lose'?'L':'D';
     const cardImgs = (m.cards||[]).map(c=>{
       const card = cardIndex[c.cardId];
       if(!card) return '';
@@ -1294,9 +1867,10 @@ function renderHistory(){
   // bind actions
   root.querySelectorAll('.match-row').forEach(row=>{
     const id = row.dataset.id;
-    row.querySelector('[data-act=edit]').onclick = ()=> startEdit(id);
+    const m = state.matches.find(x=>x.id===id);
+    row.querySelector('[data-act=edit]').onclick = ()=> isAdjust(m) ? openAdjustModal(id) : startEdit(id);
     row.querySelector('[data-act=del]').onclick = ()=>{
-      if(!confirm('この対戦記録を削除しますか？')) return;
+      if(!confirm(isAdjust(m) ? 'このポイント補正を削除しますか？（ポイントが補正前の計算に戻ります）' : 'この対戦記録を削除しますか？')) return;
       state.matches = state.matches.filter(x=>x.id!==id);
       recomputeAllPoints(); saveState(); renderAll();
       toast('削除しました');
@@ -1463,9 +2037,10 @@ function renderPickerBody(){
 }
 
 /* ---------- Form: save / edit ---------- */
-let dateTouched = false; // ユーザーが日時を手動変更したか
+let dateTouched = false;      // ユーザーが日時を手動変更したか
+let editingDatetime = null;   // 編集開始時の元の日時（秒を落とさないよう保持）
 function lastMyDeck(){
-  const sorted = [...state.matches].sort((a,b)=>a.datetime.localeCompare(b.datetime));
+  const sorted = sortAsc(state.matches);
   for(let i=sorted.length-1; i>=0; i--){
     if(sorted[i].myDeck) return sorted[i].myDeck;
   }
@@ -1481,8 +2056,13 @@ function resultToast(m){
 
 /* ---------- 記録フォーム（クイック記録に統合） ---------- */
 function readQuick(result){
-  // 新規は保存時の現在時刻を自動使用。編集時・手動変更時は入力値
-  const dt = (editingId || dateTouched) ? ($('#quickDate').value || nowDateTimeLocal()) : nowDateTimeLocal();
+  // 新規は保存時の現在時刻(秒まで)を自動使用。手動で日時をいじった時だけ入力値を使う。
+  // 編集時に日時を触っていなければ元の日時をそのまま維持する
+  // （入力欄は分までなので、そのまま読むと秒が落ちて同じ分の対戦の順序が崩れる）
+  let dt;
+  if(dateTouched) dt = $('#quickDate').value || nowDateTimeLocal(true);
+  else if(editingId) dt = editingDatetime || $('#quickDate').value || nowDateTimeLocal(true);
+  else dt = nowDateTimeLocal(true);
   return {
     datetime: dt,
     myDeck: $('#quickMyDeck').value.trim(),
@@ -1499,6 +2079,7 @@ function resetQuickForm(){
   $('#quickMemo').value = '';
   $('#quickDate').value = nowDateTimeLocal();
   dateTouched = false;
+  editingDatetime = null;
   pendingCards = [];
   renderPickedCards();
   editingId = null;
@@ -1519,6 +2100,7 @@ function startEdit(id){
   $('#quickMemo').value = m.memo || '';
   $('#quickDate').value = (m.datetime||'').slice(0,16);
   dateTouched = false;
+  editingDatetime = m.datetime || null;
   pendingCards = structuredClone(m.cards||[]);
   renderPickedCards();
   renderDeckPickers();
@@ -1565,7 +2147,7 @@ function allMyDecks(){
   return [...new Set([...registered, ...used])];
 }
 function findMyDeck(name){ return (state.myDecks||[]).find(d=>d.name===name); }
-/* 相手デッキを使用回数の多い順に */
+/* 相手デッキを当たった回数の多い順に（選択中シーズン） */
 function opponentDeckRanking(){
   const cnt = new Map();
   for(const m of state.matches){
@@ -1573,6 +2155,33 @@ function opponentDeckRanking(){
     if(d) cnt.set(d, (cnt.get(d)||0) + 1);
   }
   return [...cnt.entries()].sort((a,b)=>b[1]-a[1]).map(([name,n])=>({name, n}));
+}
+/* 相手デッキの入力候補。今シーズンの当たった順を先に、
+   過去シーズンでしか当たっていないデッキも後ろに候補として残す
+   （シーズンを新しく作った直後でも候補が空にならないように） */
+function opponentDeckCandidates(){
+  const cur = new Map(), past = new Map();
+  for(const sn of (state.seasons||[])){
+    const map = sn.id === state.currentSeasonId ? cur : past;
+    for(const m of (sn.matches||[])){
+      const d = (m.opponentDeck||'').trim();
+      if(d) map.set(d, (map.get(d)||0) + 1);
+    }
+  }
+  const sortDesc = m => [...m.entries()].sort((a,b)=>b[1]-a[1]);
+  return {
+    cur: sortDesc(cur).map(([name,n])=>({name, n})),
+    past: sortDesc(past).filter(([name])=>!cur.has(name)).map(([name])=>({name, dim:true})),
+  };
+}
+/* 全シーズンから相手デッキ名・プレイヤー名を集める（入力補完用） */
+function allSeasonValues(key){
+  const set = new Set();
+  for(const sn of (state.seasons||[])) for(const m of (sn.matches||[])){
+    const v = (m[key]||'').trim();
+    if(v) set.add(v);
+  }
+  return [...set];
 }
 /* チップ描画の共通処理。inputに連動して選択状態が変わる */
 function renderChips(rootSel, items, inputSel, {showCount=false, emptyText=''}={}){
@@ -1586,8 +2195,9 @@ function renderChips(rootSel, items, inputSel, {showCount=false, emptyText=''}={
   }
   root.innerHTML = items.map(it=>{
     const name = typeof it === 'string' ? it : it.name;
-    const n = (typeof it === 'object' && showCount) ? `<span class="cnt">${it.n}</span>` : '';
-    return `<div class="deck-chip ${name===cur?'active':''}" data-name="${escapeHtml(name)}">${escapeHtml(name)}${n}</div>`;
+    const n = (typeof it === 'object' && showCount && it.n) ? `<span class="cnt">${it.n}</span>` : '';
+    const dim = (typeof it === 'object' && it.dim) ? ' dim' : '';
+    return `<div class="deck-chip${dim} ${name===cur?'active':''}" data-name="${escapeHtml(name)}">${escapeHtml(name)}${n}</div>`;
   }).join('');
   root.querySelectorAll('.deck-chip').forEach(el=>{
     el.onclick = ()=>{
@@ -1602,11 +2212,16 @@ function renderChips(rootSel, items, inputSel, {showCount=false, emptyText=''}={
 function renderDeckPickers(){
   renderChips('#quickDeckChips', allMyDecks(), '#quickMyDeck',
     {emptyText:'まだデッキが登録されていません。下の「マイデッキ管理」から追加できます。'});
-  const opp = opponentDeckRanking().slice(0, 12);
-  renderChips('#oppDeckChips', opp, '#quickOppDeck',
+  // 相手デッキは絞らず全件表示（今シーズンの当たった順 → 過去シーズンのみのデッキ）
+  const {cur, past} = opponentDeckCandidates();
+  renderChips('#oppDeckChips', [...cur, ...past], '#quickOppDeck',
     {showCount:true, emptyText:'一度入力すると、次回からここに出て選べるようになります。'});
   const hint = $('#oppDeckHint');
-  if(hint) hint.textContent = opp.length ? `（よく当たる順・${opponentDeckRanking().length}種）` : '';
+  if(hint){
+    hint.textContent = (cur.length || past.length)
+      ? `（よく当たる順・今シーズン${cur.length}種${past.length ? ` / 過去シーズンのみ${past.length}種` : ''}）`
+      : '';
+  }
 }
 /* マイデッキ管理UI */
 function renderMyDeckManager(){
@@ -1683,8 +2298,9 @@ function openDeckCardEditor(i){
 
 /* ---------- Datalists (player/deck候補) ---------- */
 function refreshDatalists(){
-  const players = [...new Set(state.matches.map(m=>m.opponentName).filter(Boolean))];
-  const decks = [...new Set(state.matches.map(m=>m.opponentDeck).filter(Boolean))];
+  // 入力補完(datalist)は全シーズンから集める。履歴フィルタは選択中シーズンのデッキのみ
+  const players = allSeasonValues('opponentName');
+  const decks = allSeasonValues('opponentDeck');
   const mine = myDeckList();
   $('#playerList').innerHTML = players.map(p=>`<option value="${escapeHtml(p)}">`).join('');
   $('#deckList').innerHTML = decks.map(d=>`<option value="${escapeHtml(d)}">`).join('');
@@ -1714,9 +2330,13 @@ function importJson(file){
   r.onload = ()=>{
     try{
       const data = JSON.parse(r.result);
-      if(!data || !Array.isArray(data.matches)) throw new Error('形式が不正');
-      if(!confirm(`${data.matches.length}件の対戦記録をインポートします。現在のデータは上書きされます。よろしいですか？`)) return;
-      state = Object.assign(structuredClone(DEFAULT_STATE), data);
+      const ok = data && (Array.isArray(data.matches) || (Array.isArray(data.seasons) && data.seasons.length));
+      if(!ok) throw new Error('形式が不正');
+      const n = Array.isArray(data.seasons) && data.seasons.length
+        ? data.seasons.reduce((a,s)=>a + ((s.matches||[]).length), 0)
+        : data.matches.length;
+      if(!confirm(`${n}件の対戦記録をインポートします。現在のデータは上書きされます。よろしいですか？`)) return;
+      state = prepareState(data);
       recomputeAllPoints(); saveState(); bindSettings(); renderAll();
       toast('インポート完了');
     }catch(e){ alert('インポート失敗: '+e.message); }
@@ -1726,7 +2346,7 @@ function importJson(file){
 function resetAll(){
   if(!confirm('すべての対戦記録と設定を消去します。元に戻せません。続行しますか？')) return;
   if(!confirm('本当に消去しますか？')) return;
-  state = structuredClone(DEFAULT_STATE);
+  state = prepareState(null);
   saveState(); bindSettings(); renderAll();
   toast('全データを消去しました');
 }
@@ -1802,18 +2422,53 @@ function onAuthChanged(user){
 function cloudDocRef(){
   return fbDb.collection('users').doc(fbUser.uid);
 }
-/* ローカルとリモートを統合(matchesはid基準、設定は新しい方) */
+/* リモートのドキュメントをシーズン配列に正規化（旧形式=シーズンなし にも対応） */
+function remoteSeasons(doc){
+  if(Array.isArray(doc.seasons) && doc.seasons.length) return doc.seasons.map(normalizeSeason);
+  if(Array.isArray(doc.matches)){
+    const s = Object.assign({}, doc.settings || {});
+    if(doc.matches.length && !s.loseRule) s.loseRule = 'classic';
+    return [ normalizeSeason({id:LEGACY_SEASON_ID, name:'シーズン1', settings:s, matches:doc.matches}) ];
+  }
+  return [];
+}
+/* ローカルとリモートを統合
+   - シーズンはid基準でマージ。同じシーズンの中の対戦はid基準（同idはローカル優先）
+   - シーズン設定・マイデッキは updatedAt が新しい方を優先 */
 function mergeStates(localState, remoteState){
-  const byId = new Map();
-  for(const m of (remoteState.matches||[])) byId.set(m.id, m);
-  for(const m of (localState.matches||[])) byId.set(m.id, m); // 同idはローカル優先
-  const merged = {
-    settings: (remoteState.updatedAt||0) > (localState.updatedAt||0)
-      ? Object.assign({}, localState.settings, remoteState.settings)
-      : Object.assign({}, remoteState.settings, localState.settings),
-    matches: [...byId.values()],
+  const remoteNewer = (remoteState.updatedAt||0) > (localState.updatedAt||0);
+  const map = new Map();
+  for(const sn of remoteSeasons(remoteState)) map.set(sn.id, structuredClone(sn));
+  for(const sn of (localState.seasons||[])){
+    const ex = map.get(sn.id);
+    if(!ex){ map.set(sn.id, structuredClone(sn)); continue; }
+    const byId = new Map();
+    for(const m of (ex.matches||[])) byId.set(m.id, m);
+    for(const m of (sn.matches||[])) byId.set(m.id, m); // 同idはローカル優先
+    ex.matches = [...byId.values()];
+    ex.name = remoteNewer ? (ex.name || sn.name) : (sn.name || ex.name);
+    ex.settings = remoteNewer
+      ? Object.assign({}, sn.settings, ex.settings)
+      : Object.assign({}, ex.settings, sn.settings);
+  }
+  const localDecks = localState.myDecks || [], remoteDecks = remoteState.myDecks || [];
+  const deckMap = new Map();
+  for(const d of (remoteNewer ? localDecks : remoteDecks)) deckMap.set(d.name, d);
+  for(const d of (remoteNewer ? remoteDecks : localDecks)) deckMap.set(d.name, d);
+  return {
+    seasons: [...map.values()],
+    myDecks: [...deckMap.values()],
+    currentSeasonId: localState.currentSeasonId,
   };
-  return merged;
+}
+/* マージ結果を state に流し込む（アクセサを付け直す） */
+function applyMerged(merged){
+  state = prepareState({
+    seasons: merged.seasons,
+    myDecks: merged.myDecks,
+    currentSeasonId: merged.currentSeasonId,
+    updatedAt: state.updatedAt,
+  });
 }
 async function startCloudSync(){
   setSyncState('同期中…', 'busy');
@@ -1822,9 +2477,7 @@ async function startCloudSync(){
     const snap = await ref.get();
     if(snap.exists){
       const remote = snap.data() || {};
-      const merged = mergeStates(state, remote);
-      state.settings = Object.assign(structuredClone(DEFAULT_STATE.settings), merged.settings||{});
-      state.matches = merged.matches;
+      applyMerged(mergeStates(state, remote));
       recomputeAllPoints();
       saveState();
       bindSettings();
@@ -1838,9 +2491,7 @@ async function startCloudSync(){
       const remote = doc.data() || {};
       if((remote.updatedAt||0) <= (state.updatedAt||0)) return;
       applyingRemote = true;
-      const merged = mergeStates(state, remote);
-      state.settings = Object.assign(structuredClone(DEFAULT_STATE.settings), merged.settings||{});
-      state.matches = merged.matches;
+      applyMerged(mergeStates(state, remote));
       state.updatedAt = remote.updatedAt;
       recomputeAllPoints();
       saveState();
@@ -1866,8 +2517,10 @@ async function pushToCloud(){
     setSyncState('保存中…', 'busy');
     state.updatedAt = Date.now();
     await cloudDocRef().set({
-      settings: state.settings,
-      matches: state.matches,
+      version: 2,
+      seasons: state.seasons,
+      currentSeasonId: state.currentSeasonId,
+      myDecks: state.myDecks,
       updatedAt: state.updatedAt,
     });
     // localStorageに直接書く（saveState()経由だと再pushがスケジュールされ無限ループになる）
@@ -1945,6 +2598,8 @@ function renderSponsors(){
 
 /* ---------- Master render ---------- */
 function renderAll(){
+  renderSeasonBar();
+  if($('#seasonCompare').style.display !== 'none') renderSeasonCompare();
   renderRank();
   renderDeckTabs();
   renderChartStats();
@@ -1987,6 +2642,30 @@ function bindUi(){
   $('#newDeckInput').addEventListener('keydown', e=>{
     if(e.key === 'Enter'){ e.preventDefault(); $('#addDeckBtn').click(); }
   });
+  // ポイント補正
+  $('#adjustBtn').onclick = ()=> openAdjustModal();
+  $('#adjCancelBtn').onclick = closeAdjustModal;
+  $('#adjSaveBtn').onclick = saveAdjust;
+  $('#adjTarget').addEventListener('input', updateAdjDiff);
+  $('#adjTarget').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); saveAdjust(); } });
+  $('#adjustModal').addEventListener('click', e=>{ if(e.target.id==='adjustModal') closeAdjustModal(); });
+
+  // シーズン操作
+  $('#newSeasonBtn').onclick = openNewSeasonModal;
+  $('#nsCancelBtn').onclick = closeNewSeasonModal;
+  $('#nsCreateBtn').onclick = createSeason;
+  $('#seasonModal').addEventListener('click', e=>{ if(e.target.id==='seasonModal') closeNewSeasonModal(); });
+  $('#nsName').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); createSeason(); } });
+  $('#renameSeasonBtn').onclick = renameSeason;
+  $('#delSeasonBtn').onclick = deleteSeason;
+  $('#compareSeasonBtn').onclick = ()=>{
+    const box = $('#seasonCompare');
+    const open = box.style.display !== 'none';
+    box.style.display = open ? 'none' : '';
+    $('#compareSeasonBtn').textContent = open ? '📊 シーズン比較' : '📊 比較を閉じる';
+    if(!open) renderSeasonCompare();
+  };
+
   // OBS用ウィンドウ
   $('#obsBtn').onclick = ()=>{
     window.open('obs.html', 'pokepoke-obs', 'width=880,height=520,menubar=no,toolbar=no,location=no,status=no');
@@ -2016,7 +2695,10 @@ function bindUi(){
 
 
   document.addEventListener('keydown', e=>{
-    if(e.key==='Escape' && $('#pickerModal').classList.contains('open')) closePicker();
+    if(e.key!=='Escape') return;
+    if($('#pickerModal').classList.contains('open')) closePicker();
+    else if($('#seasonModal').classList.contains('open')) closeNewSeasonModal();
+    else if($('#adjustModal').classList.contains('open')) closeAdjustModal();
   });
 }
 
@@ -2027,6 +2709,7 @@ function bindUi(){
   initFirebase();
   renderSponsors();
   recomputeAllPoints();
+  if(didMigrate){ saveState(); didMigrate = false; } // 旧形式データをシーズン形式で保存し直す
   renderAll();
   await loadPokemonNames(); // 日英ポケモン名マッピングを先に
   await loadCardDb();

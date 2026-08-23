@@ -15,5 +15,3 @@ Disallow: /pokepoke/tracker/pokepoke-extra/
 Disallow: /inazuma/generate.html
 Disallow: /pokepoke/generate.html
 Disallow: /manager.html
-Disallow: /_write_gen.js
-Disallow: /_add_guide_links.js
