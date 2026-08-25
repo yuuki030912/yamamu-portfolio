@@ -645,10 +645,22 @@
     .foot-links a { color: var(--text-soft); border-bottom: 1px dashed transparent; }
     .foot-links a:hover { color: var(--primary); border-color: var(--primary); }
     .foot-copy { font-size: 12px; color: var(--text-soft); }
+
   </style>
   <link rel="stylesheet" href="theme.css?v=20260825">
+  <link rel="stylesheet" href="space.css?v=20260826">
 </head>
 <body class="ai-portal-page">
+
+  <!-- 3D SPACE BACKDROP -->
+  <div class="space-bg" aria-hidden="true">
+    <div class="sb-nebula"></div>
+    <div class="sb-stars"></div>
+    <div class="sb-stars2"></div>
+    <div class="sb-ceil"></div>
+    <div class="sb-floor"></div>
+    <div class="sb-horizon"></div>
+  </div>
 
   <!-- HEADER -->
   <header class="site-head">
@@ -679,7 +691,7 @@
         AIだから作れた発想を、そのままお届け。
       </p>
       <div class="hero-stats">
-        <div class="stat"><div class="num">13</div><div class="label">遊べるゲーム</div></div>
+        <div class="stat"><div class="num">14</div><div class="label">遊べるゲーム</div></div>
         <div class="stat"><div class="num">100%</div><div class="label">AI制作</div></div>
         <div class="stat"><div class="num">0円</div><div class="label">完全無料</div></div>
         <div class="stat"><div class="num">DL</div><div class="label">不要</div></div>
@@ -688,26 +700,6 @@
     </div>
   </section>
 
-  <!-- WHY -->
-  <section class="why">
-    <div class="why-inner">
-      <div class="why-card">
-        <span class="ico">⚡</span>
-        <h3>ブラウザで即プレイ</h3>
-        <p>インストール不要。URLを開くだけで遊べる。スマホもPCも対応。</p>
-      </div>
-      <div class="why-card">
-        <span class="ico">🤖</span>
-        <h3>全てAIで制作</h3>
-        <p>キャラ画像はNovelAI、コードはClaude、音楽はSuno。AI時代だから生まれた発想。</p>
-      </div>
-      <div class="why-card">
-        <span class="ico">🆕</span>
-        <h3>毎日新作追加</h3>
-        <p>YouTubeチャンネルで毎日1本制作。完成品からここに順次追加していきます。</p>
-      </div>
-    </div>
-  </section>
 
   <!-- AD SLOT 1 -->
   <aside class="ad-slot" aria-label="広告">
@@ -728,7 +720,7 @@
   <section class="games" id="games">
     <div class="section-head">
       <h2><span class="emoji">🎯</span> 全14作、今すぐ遊べる</h2>
-      <p>ジャンルはぜんぶバラバラ。AIと作った14本コレクション。クリック→即プレイ（各5〜15分）</p>
+      <p>ジャンルはぜんぶバラバラ。AIと作った14本コレクション。カセットを横にドラッグして選ぶ→本体に挿さってそのまま即プレイ（各5〜15分）</p>
     </div>
 
     <div class="game-grid">
@@ -1058,6 +1050,27 @@
     </div>
   </section>
 
+  <!-- WHY -->
+  <section class="why">
+    <div class="why-inner">
+      <div class="why-card">
+        <span class="ico">⚡</span>
+        <h3>ブラウザで即プレイ</h3>
+        <p>インストール不要。URLを開くだけで遊べる。スマホもPCも対応。</p>
+      </div>
+      <div class="why-card">
+        <span class="ico">🤖</span>
+        <h3>全てAIで制作</h3>
+        <p>キャラ画像はNovelAI、コードはClaude、音楽はSuno。AI時代だから生まれた発想。</p>
+      </div>
+      <div class="why-card">
+        <span class="ico">🆕</span>
+        <h3>毎日新作追加</h3>
+        <p>YouTubeチャンネルで毎日1本制作。完成品からここに順次追加していきます。</p>
+      </div>
+    </div>
+  </section>
+
   <!-- AD SLOT 3 -->
   <aside class="ad-slot" aria-label="広告">
     <div class="ad-label">SPONSORED</div>
@@ -1089,6 +1102,9 @@
       </div>
     </div>
   </footer>
+
+  <script defer src="space.js"></script>
+  <script defer src="cartridge-carousel.js"></script>
 
 </body>
 </html>
