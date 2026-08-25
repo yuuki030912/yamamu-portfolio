@@ -20,11 +20,21 @@
      （CSS の cart-insert キーフレームの 0% と同じ値にすること） */
   const TILT = 0.53;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* スマホ等では描画コストを削る（奥のカセットを描かない） */
+  const lowPower = window.matchMedia('(pointer: coarse)').matches ||
+    (navigator.deviceMemory || 8) <= 4;
 
   /* ---------------- カセット化 ---------------- */
   const items = cards.map((card, i) => {
     const thumb = card.querySelector('.game-thumb');
     const art = thumb ? getComputedStyle(thumb).backgroundImage : 'none';
+    /* 画像は3段構え。
+       ラベル(小)= assets/thumb/*.webp 448x280 … CSSで最初から読む
+       大サムネ・本体画面 = assets/shot/*.webp 900x472 … 選択時にだけ読む
+       OGP原寸(1200x630 PNG)はメタタグ専用でページからは読まない
+       ※14枚を原寸で並べるとデコードだけで40MB超えになり端末が落ちる */
+    const artSmall = art;
+    const artBig = art.replace(/thumb\/([a-z0-9-]+)\.webp/i, 'shot/$1.webp');
     const no = card.querySelector('.game-no');
     const badge = card.querySelector('.badge');
     const title = card.querySelector('.game-title');
@@ -52,7 +62,7 @@
       '<span class="cart-label"><span class="cart-art"></span></span>' +
       '<span class="cart-name"></span>' +
       '<span class="cart-pins"></span>';
-    shell.querySelector('.cart-art').style.backgroundImage = art;
+    shell.querySelector('.cart-art').style.backgroundImage = artSmall;
     if (title) shell.querySelector('.cart-name').appendChild(title);
     if (no) shell.appendChild(no);
     if (badge) shell.appendChild(badge);
@@ -64,7 +74,7 @@
     card.append(shell, back);
     return {
       card: card,
-      art: art,
+      art: artBig,
       url: card.getAttribute('href'),
       body: body,
       tags: tags,
@@ -171,18 +181,23 @@
   }
 
   function layout() {
+    if (playing) return;      /* 挿入演出中はリングを触らない */
     for (let i = 0; i < N; i++) {
       const el = items[i].card;
       const d = wrap(i - pos);
       const a = d * STEP;
       const f = Math.cos(a * Math.PI / 180);       /* 1=手前 / -1=奥 */
       const t = (f + 1) / 2;
+      /* filter は毎フレームのラスタライズを起こして端末が固まるので使わない。
+         奥行き表現は合成だけで済む opacity に一本化する */
+      const hide = f < (lowPower ? -0.15 : -0.98);
+      const vis = hide ? 'hidden' : '';
+      if (el.style.visibility !== vis) el.style.visibility = vis;
+      if (hide) continue;
       el.style.transform =
         'translateY(' + (TILT * R * f).toFixed(1) + 'px) ' +
         'rotateY(' + a.toFixed(2) + 'deg) translateZ(' + R + 'px)';
-      el.style.setProperty('--b', (0.32 + 0.68 * t * t).toFixed(3));
-      el.style.setProperty('--s', (0.45 + 0.55 * t).toFixed(3));
-      el.style.setProperty('--o', (0.22 + 0.78 * Math.pow(t, 1.4)).toFixed(3));
+      el.style.setProperty('--o', (0.14 + 0.86 * Math.pow(t, 1.7)).toFixed(3));
       el.style.pointerEvents = f > 0.12 ? 'auto' : 'none';
     }
     const p = ((pos % N) + N) % N;
@@ -219,6 +234,12 @@
   }
 
   function tick() {
+    if (dragging) {
+      pos = startPos - (dragX - startX) / pxPerItem();
+      layout();
+      raf = requestAnimationFrame(tick);
+      return;
+    }
     const diff = target - pos;
     if (Math.abs(diff) < 0.0008) { pos = target; layout(); raf = 0; return; }
     pos += diff * 0.17;
@@ -231,18 +252,17 @@
   function move(dir) { target = Math.round(target) + dir; kick(); }
 
   /* ---------------- ドラッグ / スワイプ ---------------- */
-  let dragging = false, startX = 0, startPos = 0, lastX = 0, vel = 0, moved = 0, dragId = null;
+  let dragging = false, startX = 0, startPos = 0, lastX = 0, vel = 0, moved = 0, dragId = null, dragX = 0;
   const pxPerItem = () => Math.max(64, Math.min(150, stage.clientWidth / 6));
 
   /* setPointerCapture は click の再ターゲットを招くので使わず、
      ドラッグ中だけ window にリスナーを張る */
   function onMove(e) {
     if (!dragging || e.pointerId !== dragId) return;
-    const dx = e.clientX - startX;
-    moved = Math.max(moved, Math.abs(dx));
-    vel = e.clientX - lastX; lastX = e.clientX;
-    pos = startPos - dx / pxPerItem();
-    layout();
+    dragX = e.clientX;
+    moved = Math.max(moved, Math.abs(dragX - startX));
+    vel = dragX - lastX; lastX = dragX;
+    /* 実際の反映は rAF（tick）側で1フレーム1回だけ行う */
   }
 
   function endDrag(e) {
@@ -260,9 +280,9 @@
   stage.addEventListener('pointerdown', e => {
     if (playing || (e.pointerType === 'mouse' && e.button !== 0)) return;
     dragging = true; moved = 0; vel = 0;
-    startX = lastX = e.clientX; startPos = pos; dragId = e.pointerId;
-    if (raf) { cancelAnimationFrame(raf); raf = 0; }
+    startX = lastX = dragX = e.clientX; startPos = pos; dragId = e.pointerId;
     stage.classList.add('is-grab');
+    kick();
     window.addEventListener('pointermove', onMove);
     window.addEventListener('pointerup', endDrag);
     window.addEventListener('pointercancel', endDrag);
@@ -291,6 +311,7 @@
     e.preventDefault();
     playing = true;
     stage.classList.add('is-playing');
+    if (raf) { cancelAnimationFrame(raf); raf = 0; }
 
     const src = items[i].card;
     const fly = src.cloneNode(true);
