@@ -161,7 +161,7 @@
     .foot-links a:hover{color:var(--primary);border-color:var(--primary)}
     .foot-copy{font-size:12px;color:var(--text-soft)}
   </style>
-  <link rel="stylesheet" href="../theme.css?v=20260722-2">
+  <link rel="stylesheet" href="../theme.css?v=20260825">
 </head>
 <body class="ai-game-page">
 
@@ -300,14 +300,31 @@
   </footer>
 
   <script>
-  /* 全画面プレイ：ネイティブFullscreen API → 不可な端末(iOS等)はCSS擬似全画面にフォールバック */
+  /* 全画面プレイ：ブラウザのウィンドウいっぱいに広げる（CSSの擬似全画面）
+   *
+   * ⚠ ネイティブの Fullscreen API は使わない。
+   *   ディスプレイ全体を占有してタブもURL欄も消えてしまい、
+   *   「ちょっと大きくして遊びたい」という用途に合わなかった。
+   *   .pseudo-fs（position:fixed; inset:0）ならブラウザの窓の中だけで最大になる。
+   */
   (function(){
-    var IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     function wrapOf(el){ return (el.closest && el.closest('.game-section') ? el.closest('.game-section').querySelector('.game-frame-wrap') : null) || (el.closest ? el.closest('.game-frame-wrap') : null) || document.querySelector('.game-frame-wrap'); }
     function enterPseudo(w){ w.classList.add('pseudo-fs'); document.body.style.overflow = 'hidden'; }
-    window.ydToggleFs = function(btn){ var w = wrapOf(btn); if(!w) return; if(w.classList.contains('pseudo-fs')){ window.ydExitFs(w); return; } var req = w.requestFullscreen || w.webkitRequestFullscreen; if(req && !IOS){ try{var settled=false;/* ⚠ requestFullscreen の Promise は成功も拒否も返さないまま宙に浮くことがある。.catch 頼みだと擬似全画面へ落ちず、ボタンが無反応になる */var fallback=function(){if(settled)return;settled=true;if(!document.fullscreenElement&&!document.webkitFullscreenElement)enterPseudo(w);};var p=req.call(w);if(p&&p.then)p.then(function(){settled=true;}).catch(fallback);setTimeout(fallback,350);}catch(e){enterPseudo(w);} } else { enterPseudo(w); } };
+    window.ydToggleFs = function(btn){
+      var w = wrapOf(btn);
+      if (!w) return;
+      if (w.classList.contains('pseudo-fs') || document.fullscreenElement || document.webkitFullscreenElement) { window.ydExitFs(w); return; }
+      enterPseudo(w);
+    };
     window.ydExitFs = function(el){ var w = (el.classList && el.classList.contains('game-frame-wrap')) ? el : wrapOf(el); if(document.fullscreenElement || document.webkitFullscreenElement){ (document.exitFullscreen || document.webkitExitFullscreen || function(){}).call(document); } if(w) w.classList.remove('pseudo-fs'); document.body.style.overflow=''; };
     document.addEventListener('fullscreenchange', function(){ if(!document.fullscreenElement) document.body.style.overflow=''; });
+
+    // 擬似全画面は Esc で閉じる
+    document.addEventListener('keydown', function(e){
+      if (e.key !== 'Escape') return;
+      var w = document.querySelector('.game-frame-wrap.pseudo-fs');
+      if (w) window.ydExitFs(w);
+    });
   })();
   </script>
 

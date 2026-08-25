@@ -46,12 +46,15 @@ for (const f of games) {
   if (!fs.existsSync(ogp)) problems.push(`ai-games/ogp-${slug}.png が無い（/games はここを読む）`);
 }
 
-// ---- ③ 全画面まわりの修正が入っているか ----
+// ---- ③ 全画面は「ブラウザのウィンドウいっぱい」に統一されているか ----
+// ネイティブ Fullscreen API はディスプレイ全体を占有してタブもURL欄も消してしまうので使わない。
+// 全ページ CSS の擬似全画面（.pseudo-fs = position:fixed; inset:0）に一本化してある。
 for (const f of games) {
   const s = fs.readFileSync(path.join(playDir, f), 'utf8');
-  if (!/requestFullscreen/.test(s)) continue;
-  if (!s.includes('setTimeout(fallback')) problems.push(`play/${f}: 全画面のフォールバックが .catch 頼み`);
+  if (/requestFullscreen/.test(s)) problems.push(`play/${f}: ネイティブ全画面(requestFullscreen)を呼んでいる`);
+  if (!/\.pseudo-fs\s*\{[^}]*position:fixed/.test(s)) problems.push(`play/${f}: 擬似全画面(.pseudo-fs)が無い`);
   if (!s.includes('max-height:none')) problems.push(`play/${f}: 全画面で max-height を解除していない`);
+  if (!/Escape/.test(s)) problems.push(`play/${f}: 擬似全画面を Esc で閉じられない`);
 }
 
 console.log(JSON.stringify({ games: N, problems: problems.length }, null, 2));

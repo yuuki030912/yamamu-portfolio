@@ -161,7 +161,7 @@
     .foot-links a:hover{color:var(--primary);border-color:var(--primary)}
     .foot-copy{font-size:12px;color:var(--text-soft)}
   </style>
-  <link rel="stylesheet" href="../theme.css?v=20260722-2">
+  <link rel="stylesheet" href="../theme.css?v=20260825">
 </head>
 <body class="ai-game-page">
 
@@ -309,7 +309,6 @@
     var close  = document.getElementById('fsClose');
     if(!wrap||!btn||!close) return;
 
-    function nativeSupported(){ return !!(wrap.requestFullscreen||wrap.webkitRequestFullscreen); }
     function inNativeFs(){ return !!(document.fullscreenElement||document.webkitFullscreenElement); }
 
     // ゲーム内canvasに再レイアウトを促す（同一オリジンなので直接resizeを発火）
@@ -319,19 +318,8 @@
     function exitPseudo(){ document.body.classList.remove('fs-active'); wrap.classList.remove('pseudo-fs'); poke(); }
 
     btn.addEventListener('click', function(){
-      if(nativeSupported()){
-        try{
-          // ⚠ requestFullscreen の Promise は成功も拒否も返さないまま宙に浮くことがある。
-          //    .catch 頼みだと擬似全画面へ落ちず、ボタンが無反応になる。
-          var settled = false;
-          var fallback = function(){ if(settled) return; settled = true; if(!inNativeFs()) enterPseudo(); };
-          var p = wrap.requestFullscreen ? wrap.requestFullscreen() : wrap.webkitRequestFullscreen();
-          if(p && p.then){ p.then(function(){ settled = true; }).catch(fallback); }
-          setTimeout(fallback, 350);
-        }catch(e){ enterPseudo(); }
-      }else{
-        enterPseudo(); // iOS Safari など Fullscreen API 非対応端末
-      }
+      // ブラウザのウィンドウいっぱいに広げるだけ（ネイティブ全画面は使わない）
+      if(wrap.classList.contains('pseudo-fs')) exitPseudo(); else enterPseudo();
     });
 
     close.addEventListener('click', function(){
