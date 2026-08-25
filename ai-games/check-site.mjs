@@ -17,7 +17,8 @@ const N = games.length;
 const problems = [];
 
 // ---- ① ゲーム数の表記が全部そろっているか ----
-const countFiles = ['index.html', 'about/index.html', 'games/index.html', 'ai-games/index.html'];
+// /games/ は 2026-08-26 に /ai-games/ へのリダイレクトへ変更したので対象外
+const countFiles = ['index.html', 'about/index.html', 'ai-games/index.html'];
 for (const rel of countFiles) {
   const p = path.join(root, rel);
   if (!fs.existsSync(p)) continue;
@@ -35,15 +36,17 @@ for (const rel of countFiles) {
 
 // ---- ② 各ゲームに一覧カードと sitemap のエントリがあるか ----
 const portal = fs.readFileSync(path.join(root, 'ai-games', 'index.html'), 'utf8');
-const gamesPage = fs.readFileSync(path.join(root, 'games', 'index.html'), 'utf8');
 const sitemap = fs.readFileSync(path.join(root, 'ai-games', 'sitemap.xml'), 'utf8');
+const gamesRedirect = fs.readFileSync(path.join(root, 'games', 'index.html'), 'utf8');
+if (!/url=\/ai-games\//.test(gamesRedirect)) {
+  problems.push('games/index.html が /ai-games/ へのリダイレクトになっていない');
+}
 for (const f of games) {
   const slug = f.replace(/\.html$/, '');
   if (!portal.includes(`play/${f}`)) problems.push(`ai-games/index.html に ${slug} のカードが無い`);
-  if (!gamesPage.includes(`play/${f}`)) problems.push(`games/index.html に ${slug} のカードが無い`);
   if (!sitemap.includes(`play/${f}`)) problems.push(`ai-games/sitemap.xml に ${slug} が無い`);
   const ogp = path.join(root, 'ai-games', `ogp-${slug}.png`);
-  if (!fs.existsSync(ogp)) problems.push(`ai-games/ogp-${slug}.png が無い（/games はここを読む）`);
+  if (!fs.existsSync(ogp)) problems.push(`ai-games/ogp-${slug}.png が無い`);
 }
 
 // ---- ③ 全画面は「ブラウザのウィンドウいっぱい」に統一されているか ----
