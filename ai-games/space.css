@@ -179,7 +179,7 @@ body.ai-portal-page .hero::after {
   background:
     linear-gradient(90deg, rgba(4,6,15,0.92) 0%, rgba(4,6,15,0.25) 40%, rgba(4,6,15,0.05)),
     linear-gradient(0deg, rgba(4,6,15,0.95) 0%, transparent 46%),
-    url("assets/ogp-portal.png") center / cover;
+    url("assets/hero-portal.webp") center / cover;
   opacity: 0.72;
   border: 1px solid rgba(53, 230, 255, 0.35);
   box-shadow: 0 0 90px rgba(53, 230, 255, 0.18), inset 0 0 60px rgba(53, 230, 255, 0.08);
