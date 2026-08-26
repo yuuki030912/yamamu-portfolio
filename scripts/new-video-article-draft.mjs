@@ -34,6 +34,15 @@ const PENDING_PATH = join(ROOT, "drafts", "pending-videos.md");
 // 専用ファイル名(video-<dir>-<id>.html)以外で既に記事化済みの動画。
 const HANDLED_IDS = new Set(["MSr1f_02oDA"]); // 序盤の正解 → palworld/guide-beginner.html
 
+// 生配信アーカイブは記事化しない（2026-08-26 方針。通常の動画だけ記事にする）。
+// RSSにはライブ判定のフラグが無いので、タイトルと説明文のキーワードで判定する。
+// 取りこぼしても下書きが1本できるだけなので、pending-videos.md を見て手で消せばよい。
+const LIVE_TITLE_RE = /生配信|ライブ配信|配信アーカイブ|LIVE配信/i;
+const LIVE_DESC_RE = /生配信|ライブ配信|配信アーカイブ|配信します|この配信|配信でやること|アーカイブです/;
+function isLiveStream({ title = "", description = "" }) {
+  return LIVE_TITLE_RE.test(title) || LIVE_DESC_RE.test(description);
+}
+
 // ---- ユーティリティ -------------------------------------------------------
 
 function decodeXml(v) {
@@ -290,8 +299,11 @@ async function main() {
   const newForPending = [];
   const toGenerate = []; // { cfg, video }
 
+  const skippedLive = [];
+
   for (const v of recent) {
     if (HANDLED_IDS.has(v.id)) continue;
+    if (isLiveStream(v)) { skippedLive.push(v); continue; }   // 生配信は記事化しない
     const game = classify(v.title);
     if (ONLY_GAME && game.key !== ONLY_GAME) continue;
     const cfg = GAMES[game.key];
@@ -301,6 +313,9 @@ async function main() {
     if (!alreadyPending && !hasArticle) newForPending.push({ ...v, game });
     if (cfg && !hasArticle) toGenerate.push({ cfg, video: v });
   }
+
+  // 生配信は記事にしないが、握りつぶすと気づけないのでログには残す
+  for (const v of skippedLive) console.log(`生配信のためスキップ: ${v.title} (${v.id})`);
 
   if (newForPending.length === 0 && toGenerate.length === 0) {
     console.log("新着なし（すべて処理済み or カットオフ前）");
