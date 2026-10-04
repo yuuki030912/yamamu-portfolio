@@ -1,0 +1,84 @@
+/* Mika extends the existing YAMAMU PLAYGROUND palette. */
+.mika-page{--mika-accent:#b8e49e;--mika-text:#d1dbd2;--mika-rule:#334336;color:var(--white);font-size:16px;line-height:1.85}
+.mika-page h1,.mika-page h2,.mika-page h3{font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",sans-serif;letter-spacing:.015em;line-height:1.5}
+.mika-page h1 em{color:var(--mika-accent);font-style:normal;-webkit-text-stroke:0;text-shadow:none}
+.mika-page a:focus-visible,.mika-page summary:focus-visible{outline:3px solid var(--neon);outline-offset:5px}
+.mika-page .site-header nav{gap:clamp(18px,2.1vw,36px)}
+.mika-page .site-header nav a{font-size:14px;letter-spacing:.02em}
+.mika-page [aria-current="page"]{color:var(--mika-accent)}
+.mika-header-start{justify-self:end;background:var(--mika-accent);color:var(--ink);font-size:14px;font-weight:800;padding:8px 20px;border-radius:4px}
+.mika-skip{position:fixed;left:20px;top:-100px;z-index:100;background:var(--mika-accent);color:var(--ink);padding:12px 20px}
+.mika-skip:focus{top:14px}
+.mika-kicker{font-family:Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:.19em;color:var(--mika-accent);margin:0 0 20px}
+.mika-kicker span{color:var(--muted);margin-left:14px;letter-spacing:.1em}
+.mika-hero{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(28px,4vw,68px);align-items:center;max-width:1512px;margin:0 auto;padding:138px clamp(24px,6vw,96px) 66px}
+.mika-product-name{font-size:19px;font-weight:700;margin-bottom:16px;letter-spacing:.12em}
+.mika-hero h1{font-size:clamp(36px,4.3vw,64px);font-weight:800;line-height:1.45;margin-bottom:24px;letter-spacing:-.035em}
+.mika-lead{font-size:16px;line-height:2.05;color:var(--mika-text);margin:0 0 28px}
+.mika-actions{display:flex;flex-wrap:wrap;gap:12px}
+.mika-button{display:inline-flex;justify-content:center;align-items:center;min-height:54px;padding:13px 24px;border-radius:5px;font-size:15px;font-weight:800;line-height:1.65;text-align:center;border:1px solid transparent;transition:background .2s ease, border-color .2s ease}
+.mika-button-primary{background:var(--mika-accent);color:var(--ink)}
+.mika-button-primary:hover,.mika-header-start:hover{background:#cef4b7}
+.mika-button-secondary{color:var(--white);border-color:#5d7261;background:transparent}
+.mika-button-secondary:hover{border-color:var(--mika-accent);background:#15291b}
+.mika-small{font-size:14px;color:var(--muted);line-height:1.8;margin:12px 0 0}
+.mika-release{border-top:1px solid var(--mika-rule);display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;font-size:14px;margin:28px 0 0;padding-top:18px}
+.mika-release strong{color:var(--mika-accent)}.mika-release span{color:var(--mika-text)}
+.mika-hero-image{margin:0;position:relative;min-width:0;background:#203226;border:1px solid #536c50;border-radius:160px 160px 12px 12px;overflow:hidden}
+.mika-hero-image img{width:100%;height:620px;object-fit:cover;object-position:50% 48%}
+.mika-hero-image figcaption{display:flex;justify-content:space-between;align-items:center;gap:14px;background:#14231a;border-top:1px solid var(--mika-rule);padding:15px 20px;font-size:12px;color:#c6d2c4}
+.mika-hero-image figcaption span{letter-spacing:.2em;font-size:14px;font-weight:700;color:var(--mika-accent)}
+.mika-section-nav{border-block:1px solid var(--mika-rule);display:flex;justify-content:center;gap:clamp(20px,7vw,100px);padding:17px 20px;background:#111d15;font-size:14px;font-weight:700;flex-wrap:wrap}
+.mika-section-nav a:hover{color:var(--mika-accent)}
+.mika-section,.mika-pricing{max-width:1440px;padding:96px clamp(24px,6vw,88px);margin-inline:auto;scroll-margin-top:90px}
+.mika-section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:44px}
+.mika-section-head h2{font-size:clamp(28px,3.1vw,42px);margin:0;font-weight:800;letter-spacing:-.02em}
+.mika-section-head>p{font-size:16px;color:var(--mika-text);max-width:485px;margin:0 0 5px}
+.mika-feature-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+.mika-feature-grid article{padding-top:24px;border-top:1px solid #648055;display:flex;flex-direction:column;min-width:0}
+.mika-feature-number{font-family:Arial,sans-serif;font-size:12px;color:var(--mika-accent);letter-spacing:.1em}
+.mika-feature-grid h3{font-size:23px;margin:25px 0 13px}
+.mika-feature-grid p{color:var(--mika-text);font-size:16px;line-height:1.95;margin-bottom:26px}
+.mika-feature-grid blockquote{border-left:2px solid #72975f;padding:14px 0 14px 17px;margin:auto 0 0;font-size:16px;color:#edf4e8;background:linear-gradient(90deg,#192b1b,transparent)}
+.mika-feature-grid blockquote span{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}
+.mika-product-view{display:grid;grid-template-columns:1.45fr 1fr;align-items:center;gap:52px;margin-top:85px}
+.mika-product-view figure{margin:0;min-width:0}.mika-product-view img{width:100%;height:auto;border:1px solid var(--mika-rule);border-radius:8px}
+.mika-product-view figcaption{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.7}
+.mika-product-view h3{font-size:28px;margin-bottom:20px}.mika-product-view p:not(.mika-kicker){color:var(--mika-text);font-size:16px}
+.mika-inline-link,.mika-faq-list a{text-decoration:underline;text-underline-offset:5px;color:var(--mika-accent)}
+.mika-pricing{max-width:none;background:#111d15;border-block:1px solid var(--mika-rule)}
+.mika-pricing> *{max-width:1264px;margin-inline:auto}
+.mika-pricing-status{border-left:3px solid var(--mika-accent);background:#1c2d20;padding:16px 22px;margin-bottom:28px;font-size:14px}
+.mika-pricing-status strong{color:var(--mika-accent);font-size:16px}.mika-pricing-status p{margin:5px 0 0;color:var(--mika-text)}
+.mika-plans{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.mika-plan{min-width:0;display:flex;flex-direction:column;border:1px solid #405044;border-radius:8px;padding:26px 22px;background:#142119}
+.mika-plan-free{border-color:var(--mika-accent);background:#1d3021}
+.mika-plan-label{color:var(--mika-accent);font-size:12px;letter-spacing:.08em;margin-bottom:15px}
+.mika-plan h3{font-size:23px;margin:0 0 8px}.mika-plan-purpose{color:var(--muted);font-size:14px;min-height:50px;margin-bottom:14px}
+.mika-price{margin:0 0 25px;display:flex;flex-wrap:wrap;align-items:baseline;column-gap:6px;line-height:1.4}
+.mika-price strong{font-family:Arial,sans-serif;font-size:42px;letter-spacing:-.04em;font-weight:700}.mika-price>span{font-size:14px;color:var(--mika-text)}
+.mika-plan dl{margin:0 0 25px;border-top:1px solid var(--mika-rule);padding-top:20px;display:grid;gap:18px}
+.mika-plan dt{font-size:14px;color:var(--muted)}.mika-plan dd{font-size:18px;font-weight:700;margin:4px 0 0}.mika-plan dd small{display:block;font-size:14px;font-weight:400;color:var(--mika-text)}
+.mika-plan .mika-button{margin-top:auto;width:100%;padding-inline:10px;min-height:50px}
+.mika-plan-availability{margin:auto 0 0;padding-top:15px;border-top:1px solid var(--mika-rule);text-align:center;font-size:14px;color:var(--muted)}
+.mika-pricing-note{font-size:14px;color:var(--mika-text);margin-top:24px;margin-bottom:24px;line-height:1.85}
+.mika-quota-details{border:1px solid #415845;border-radius:7px;padding:0 20px;font-size:14px}
+.mika-quota-details summary,.mika-faq-list summary{cursor:pointer;display:flex;justify-content:space-between;gap:18px;align-items:center;list-style:none;font-weight:700}
+.mika-quota-details summary{padding-block:18px}.mika-quota-details p{color:var(--mika-text);margin-bottom:18px}.mika-updated{font-size:12px;color:var(--muted);margin-top:16px;margin-bottom:0;text-align:right}
+.mika-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:34px;padding:0;list-style:none;margin:0}
+.mika-steps li{border-left:1px solid var(--mika-rule);padding:0 0 0 25px;min-width:0}
+.mika-steps li>span{font-family:Arial,sans-serif;font-size:36px;color:var(--mika-accent);font-weight:700;line-height:1}
+.mika-steps h3{font-size:22px;margin:24px 0 14px}.mika-steps p{color:var(--mika-text);font-size:16px;margin:0}
+.mika-faq{padding-top:0}.mika-faq-list{border-top:1px solid var(--mika-rule)}.mika-faq-list details{border-bottom:1px solid var(--mika-rule)}
+.mika-faq-list summary{padding:23px 4px;font-size:16px}.mika-faq-list summary span,.mika-quota-details summary span{color:var(--mika-accent);font-size:22px;font-weight:400;flex-shrink:0}
+.mika-faq-list p{color:var(--mika-text);font-size:16px;max-width:960px;padding:0 36px 25px 4px;margin:0;line-height:2}
+.mika-page summary::-webkit-details-marker{display:none}.mika-page details[open] summary>span{transform:rotate(45deg)}
+.mika-closing{text-align:center;background:#233827;padding:80px 24px 85px;border-block:1px solid #3e5540}
+.mika-closing h2{font-size:clamp(29px,3.7vw,48px);margin-bottom:20px}.mika-closing>p:not(.mika-kicker):not(.mika-small){color:var(--mika-text);font-size:17px;line-height:2;margin-bottom:28px}
+.mika-closing .mika-button{min-width:290px}.mika-page .footer-links a{font-size:14px;line-height:1.8}
+@media(min-width:1450px){.mika-hero-image img{height:670px}}
+@media(max-width:1100px){.mika-hero{padding-inline:32px;gap:26px;grid-template-columns:1fr 1fr}.mika-hero-image img{height:590px}.mika-hero h1{font-size:42px}.desktop-break{display:none}.mika-plans{grid-template-columns:repeat(2,minmax(0,1fr))}.mika-plan-purpose{min-height:0}.mika-product-view{gap:30px}.mika-section-head{align-items:flex-start;flex-direction:column;gap:20px}.mika-feature-grid{gap:22px}.mika-feature-grid h3{font-size:21px}}
+@media(max-width:760px){.mika-hero{grid-template-columns:1fr;padding:110px 24px 36px;gap:34px}.mika-hero-copy{max-width:550px}.mika-hero h1{font-size:clamp(35px,7.7vw,48px)}.mika-hero-image{border-radius:90px 90px 8px 8px;max-width:560px;width:100%;justify-self:center}.mika-hero-image img{height:clamp(380px,100vw,570px)}.mika-section,.mika-pricing{padding:64px 24px;scroll-margin-top:80px}.mika-section-head{margin-bottom:32px}.mika-feature-grid,.mika-steps,.mika-product-view{grid-template-columns:1fr}.mika-feature-grid{gap:34px}.mika-feature-grid h3{font-size:23px;margin-top:15px}.mika-feature-grid p{margin-bottom:20px}.mika-product-view{margin-top:55px;gap:28px}.mika-plans{gap:12px}.mika-plan{padding:23px 18px}.mika-plan h3{font-size:21px}.mika-price strong{font-size:36px}.mika-price>span{width:100%}.mika-plan-purpose{min-height:50px}.mika-plan dl{gap:14px}.mika-plan dd{font-size:17px}.mika-steps{gap:32px}.mika-steps h3{margin-top:14px}.mika-faq{padding-top:0}.mika-section-nav{justify-content:space-between;gap:12px;padding:15px 24px;font-size:13px}.mika-closing{padding-block:62px}.mika-closing .mika-button{min-width:0;max-width:400px;width:100%}.mika-kicker{letter-spacing:.13em}.mika-hero .mika-kicker span{margin-left:6px}}
+@media(max-width:380px){.mika-hero{padding-inline:20px}.mika-actions{flex-direction:column}.mika-actions .mika-button{width:100%}.mika-section,.mika-pricing{padding-inline:20px}.mika-plans{grid-template-columns:1fr}.mika-plan-purpose{min-height:0}.mika-price>span{width:auto}.mika-section-nav{gap:14px 20px;justify-content:center;padding-inline:15px}.mika-header-start{padding-inline:13px}.mika-hero-image figcaption{flex-direction:column;align-items:flex-start;gap:2px}.mika-hero h1{font-size:34px}}
+@media(prefers-reduced-motion:reduce){.mika-page{scroll-behavior:auto}.mika-button{transition:none}}
+@media(max-width:760px){.mika-hero{gap:18px;padding-top:96px}.mika-hero-copy{display:contents}.mika-hero .mika-kicker,.mika-product-name,.mika-hero h1,.mika-lead{margin-bottom:0}.mika-hero-image{grid-row:4;margin:6px 0 4px;border-radius:70px 70px 8px 8px}.mika-hero-image img{height:320px;object-position:50% 35%}.mika-hero-image figcaption{padding:10px 15px}.mika-actions{flex-direction:column}.mika-actions .mika-button{width:100%}.mika-hero .mika-small,.mika-release{margin-top:0}.mika-release{padding-top:16px}}

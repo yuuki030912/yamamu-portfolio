@@ -1,0 +1,9 @@
+.home-mika{display:grid;grid-template-columns:180px 1fr auto;align-items:center;gap:40px;margin:75px clamp(24px,6vw,88px) 0;border:1px solid #425c3a;background:#15251a;overflow:hidden;border-radius:8px;padding:0 36px 0 0}
+.home-mika>img{width:180px;height:280px;object-fit:cover;object-position:50% 40%}
+.home-mika p{font-size:16px;line-height:1.9;color:#cedbcd;margin:0}
+.home-mika .home-mika-label{font-size:12px;font-weight:700;letter-spacing:.13em;color:#b8e49e;margin-bottom:10px}
+.home-mika h2{font-family:"Yu Gothic",sans-serif;font-size:32px;line-height:1.5;letter-spacing:0;margin:0 0 12px}
+.home-mika>a{background:#b8e49e;color:#07100a;font-size:15px;font-weight:800;line-height:1.8;text-align:center;padding:15px 22px;border-radius:4px;white-space:nowrap}
+.home-mika>a:hover{background:#cef4b7}.home-mika>a:focus-visible{outline:3px solid #80ff48;outline-offset:5px}
+@media(max-width:1000px){.home-mika{grid-template-columns:150px 1fr;gap:25px;padding:0 24px 24px 0}.home-mika>img{width:150px;grid-row:1/3;height:100%;min-height:300px}.home-mika>div{padding-top:24px}.home-mika>a{justify-self:start}.home-mika h2{font-size:27px}}
+@media(max-width:540px){.home-mika{margin:50px 20px 0;grid-template-columns:100px 1fr;gap:20px;padding:0 20px 24px 0}.home-mika>img{width:100px;height:220px;min-height:0;grid-row:1}.home-mika>div{padding-block:20px 0}.home-mika h2{font-size:22px}.home-mika p{font-size:14px}.home-mika .home-mika-label{font-size:12px;letter-spacing:.02em}.home-mika>a{grid-column:1/3;justify-self:stretch;margin-left:20px;white-space:normal}}
