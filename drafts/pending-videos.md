@@ -27,3 +27,14 @@
 - [ ] **ポケポケ** [【ポケポケ】ランクマ生配信！一桁目指して頑張る！！](https://www.youtube.com/watch?v=qDxWOp7Glk4) (qDxWOp7Glk4) — 2026-08-15 — 生配信のため記事化しない（2026-08-26 方針）
 - [ ] **ポケポケ** [【ポケポケ】ランクマ生配信！一桁目指して頑張る！！](https://www.youtube.com/watch?v=gmb8JQAkwSA) (gmb8JQAkwSA) — 2026-08-14 — 生配信のため記事化しない（2026-08-26 方針）
 - [ ] **ポケポケ** [【ポケポケ】ランクマ生配信！一桁目指して頑張る！！](https://www.youtube.com/watch?v=qM_nTgnk354) (qM_nTgnk354) — 2026-08-14 — 生配信のため記事化しない（2026-08-26 方針）
+- [ ] **ポケポケ** [【ポケポケ】マネネ2枚のアルセウス×クロバットが強い。ドロー全振り「アルクロベビィ」で5戦](https://www.youtube.com/watch?v=rtM0J3yIsdw) (rtM0J3yIsdw) — 2026-09-05 — 下書き自動生成済み
+- [ ] **その他** [ウォーデン1体 vs スケルトン100体…自作MODでマイクラ最強モブ13番勝負【まいくら・マインクラフト】](https://www.youtube.com/watch?v=VW9jgESAeu0) (VW9jgESAeu0) — 2026-09-04 — 要手動
+- [ ] **その他** [AIに"丸投げ"で作らせたマイクラMODがガチすぎたwww【まいくら・マインクラフト】](https://www.youtube.com/watch?v=UBRVtsIu88o) (UBRVtsIu88o) — 2026-09-02 — 要手動
+- [ ] **ポケポケ** [ポケポケに大会が無いのが納得いかないので、競技ルールを自分で作りました](https://www.youtube.com/watch?v=juHGfufYjXY) (juHGfufYjXY) — 2026-09-01 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】開発陣が使ってた"運営デッキ"を組んだら、まさかの6連勝したんだがwww](https://www.youtube.com/watch?v=5DiGwq6sxgw) (5DiGwq6sxgw) — 2026-08-30 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】マスターボール級の隠し入口が予想不可能すぎた。公式謎解き全8問攻略](https://www.youtube.com/watch?v=zwu_ePpaAlI) (zwu_ePpaAlI) — 2026-08-29 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】ヌメラ採用型ガブリアス、無敵ループが強すぎたｗ4連勝](https://www.youtube.com/watch?v=EpDDQb1d0jw) (EpDDQb1d0jw) — 2026-08-29 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】HP70のブーバーで1ターン210ダメ出す組み方](https://www.youtube.com/watch?v=XEx4PnGw3g0) (XEx4PnGw3g0) — 2026-08-28 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】新弾のブーバーが強すぎる…最大210ダメで5連勝したデッキ](https://www.youtube.com/watch?v=K5MO7qd6obg) (K5MO7qd6obg) — 2026-08-28 — 下書き自動生成済み
+- [ ] **ポケポケ** [ポケポケの「こうだったら面白いのに」を検証したくて、カードゲームごと3日で作った](https://www.youtube.com/watch?v=IL80lhQLrSo) (IL80lhQLrSo) — 2026-08-26 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】新パック「ロケット団」全カード先行解説！ファイヤーの弱点がまさかの変更…](https://www.youtube.com/watch?v=3kV-HeBOAro) (3kV-HeBOAro) — 2026-08-23 — 下書き自動生成済み
