@@ -60,6 +60,23 @@ for (const f of games) {
   if (!/Escape/.test(s)) problems.push(`play/${f}: 擬似全画面を Esc で閉じられない`);
 }
 
+// ---- ④ 有料ゲームに一覧カード・sitemap・OGP があるか（無料ゲーム数 N には含めない） ----
+const premiumDir = path.join(root, 'ai-games', 'premium');
+const premiumGames = fs.existsSync(premiumDir)
+  ? fs.readdirSync(premiumDir, { withFileTypes: true }).filter((f) => f.isFile() && f.name.endsWith('.html')).map((f) => f.name)
+  : [];
+const cardLinks = [...portal.matchAll(/<a\b[^>]*>/gi)].filter(([tag]) => {
+  const classes = tag.match(/\bclass\s*=\s*["']([^"']*)["']/i);
+  return classes && classes[1].split(/\s+/).includes('game-card');
+}).map(([tag]) => tag.match(/\bhref\s*=\s*["']([^"']*)["']/i)?.[1]);
+for (const f of premiumGames) {
+  const slug = f.replace(/\.html$/, '');
+  if (!cardLinks.includes(`premium/${f}`)) problems.push(`ai-games/index.html に有料ゲーム ${slug} のカードが無い`);
+  if (!sitemap.includes(`<loc>https://yamamu-youtube.jp/ai-games/premium/${f}</loc>`)) problems.push(`ai-games/sitemap.xml に有料ゲーム ${slug} が無い`);
+  const ogp = path.join(premiumDir, 'assets', `ogp-${slug}.png`);
+  if (!fs.existsSync(ogp)) problems.push(`premium/assets/ogp-${slug}.png が無い（GPTで作って配置）`);
+}
+
 console.log(JSON.stringify({ games: N, problems: problems.length }, null, 2));
 if (problems.length) {
   console.error('\n' + problems.map((p) => '  ★ ' + p).join('\n'));

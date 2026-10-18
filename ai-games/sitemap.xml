@@ -184,4 +184,12 @@
     </image:image>
   </url>
 
+  <!-- ことだまショット（有料ゲーム） -->
+  <url>
+    <loc>https://yamamu-youtube.jp/ai-games/premium/kotodama-shot.html</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
 </urlset>
