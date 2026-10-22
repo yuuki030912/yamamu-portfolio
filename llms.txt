@@ -12,6 +12,11 @@
 - ジャンル: サッカーRPG（Nintendo Switch / モバイル）
 - カバー範囲: ビルド攻略、パッシブ継承、装備・ビーンズ、対戦テクニック、周回効率、アップデート情報、初心者ガイド
 
+### Nintendo Switch スポーツ リゾート（スイッチスポーツリゾート）
+- URL: https://yamamu-youtube.jp/switchsportsresort/
+- ジャンル: スポーツ（Nintendo Switch 2・2026年10月22日発売）
+- カバー範囲: アーチェリーの隠し的（全12個）の当て方。ボウリングなど他種目も順次追加
+
 ### Pokémon Trading Card Game Pocket（ポケポケ / ポケカポケット）
 - URL: https://yamamu-youtube.jp/pokepoke/
 - ジャンル: デジタルトレーディングカードゲーム（iOS / Android）
@@ -212,6 +217,10 @@
 ### イナイレV
 - 【イナイレV】ver.4.0.1アップデートまとめ｜オリオンルート前編・アバターBASARA化・バランス調整: https://yamamu-youtube.jp/inazuma/guide-update-v401.html
   - イナイレV（イナズマイレブン英雄たちのヴィクトリーロード）ver.4.0.1アプデ内容を完全まとめ。クロニクルモード「オリオンルート前編」追加、アバターBASARA化、BASARA選手の監督マネージャー化、カウンターシュ
+
+### スイッチスポーツリゾート（Nintendo Switch スポーツ リゾート）
+- 【スイッチスポーツリゾート】アーチェリー隠し的12個の当て方まとめ: https://yamamu-youtube.jp/switchsportsresort/guide-archery-hidden-targets.html
+  - アーチェリーの広場・砂浜・草原・山岳の4ステージに隠れているリンゴ・ハンバーガー・ピニャータ・プリン・メロン・トースター全12個の当て方を、景色の目印つきで解説。一番簡単なのは草原のハンバーガー（2本のヤシの木）、一番難しいのは山岳・洞窟のピニャータ。
 
 ### パルワールド
 - 【パルワールド】序盤の"正解"完全ガイド｜おすすめ設定・爆速レベル上げ・建築の罠: https://yamamu-youtube.jp/palworld/guide-beginner.html
