@@ -221,6 +221,9 @@
 ### スイッチスポーツリゾート（Nintendo Switch スポーツ リゾート）
 - 【スイッチスポーツリゾート】アーチェリー隠し的12個の当て方まとめ: https://yamamu-youtube.jp/switchsportsresort/guide-archery-hidden-targets.html
   - アーチェリーの広場・砂浜・草原・山岳の4ステージに隠れているリンゴ・ハンバーガー・ピニャータ・プリン・メロン・トースター全12個の当て方を、景色の目印つきで解説。一番簡単なのは草原のハンバーガー（2本のヤシの木）、一番難しいのは山岳・洞窟のピニャータ。
+- 【スイッチスポーツリゾート】スポッコフォト全105か所の場所一覧: https://yamamu-youtube.jp/switchsportsresort/guide-spokko-photo-locations.html
+  - 島めぐりレコード「スポッコフォト」No.001〜105の撮影場所を、ゲーム内の地図画面（撮影ポイントが赤枠で光る）で1枚ずつ紹介。番号と名前の一覧表から各場所へ直接飛べる。
+  - English version: https://yamamu-youtube.jp/en/switchsportsresort-spokko-photo-locations.html
 
 ### パルワールド
 - 【パルワールド】序盤の"正解"完全ガイド｜おすすめ設定・爆速レベル上げ・建築の罠: https://yamamu-youtube.jp/palworld/guide-beginner.html
