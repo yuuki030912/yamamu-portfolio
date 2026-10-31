@@ -27,3 +27,14 @@
 - [ ] **ポケポケ** [【ポケポケ】ランクマ生配信！一桁目指して頑張る！！](https://www.youtube.com/watch?v=qDxWOp7Glk4) (qDxWOp7Glk4) — 2026-08-15 — 生配信のため記事化しない（2026-08-26 方針）
 - [ ] **ポケポケ** [【ポケポケ】ランクマ生配信！一桁目指して頑張る！！](https://www.youtube.com/watch?v=gmb8JQAkwSA) (gmb8JQAkwSA) — 2026-08-14 — 生配信のため記事化しない（2026-08-26 方針）
 - [ ] **ポケポケ** [【ポケポケ】ランクマ生配信！一桁目指して頑張る！！](https://www.youtube.com/watch?v=qM_nTgnk354) (qM_nTgnk354) — 2026-08-14 — 生配信のため記事化しない（2026-08-26 方針）
+- [ ] **ポケポケ** [【ポケポケ】新カード「メガミュウツーX ex」が強すぎて7勝2敗！コルニで190ワンパン【ポケモンカードゲームポケット】](https://www.youtube.com/watch?v=iY2d3LmOIkU) (iY2d3LmOIkU) — 2026-10-30 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】新カード「グリーンの挑発」×非exリザードンが強すぎて6連勝！相手のメガを呼んで即終了【ポケモンカードゲームポケット】](https://www.youtube.com/watch?v=nH5HXFgzti0) (nH5HXFgzti0) — 2026-10-29 — 下書き自動生成済み
+- [ ] **その他** [【スイッチスポーツリゾート】ハイビスカス10個の場所まとめ！「ハイビスカス・マスター」の取り方＋スポッコフォト105個【Switch Sports Resort】](https://www.youtube.com/watch?v=cYSTt_H4HN4) (cYSTt_H4HN4) — 2026-10-27 — 要手動
+- [ ] **その他** [【スイッチスポーツリゾート】ボウリング「フックボールの達人」の取り方！大きく曲げてストライクを取るコツ4つ【Switch Sports Resort】](https://www.youtube.com/watch?v=7d3J-rnpxU0) (7d3J-rnpxU0) — 2026-10-26 — 要手動
+- [ ] **その他** [【スイッチスポーツリゾート】アーチェリー隠し的12個、全部当ててみた](https://www.youtube.com/watch?v=WV5S-7kc70o) (WV5S-7kc70o) — 2026-10-24 — 要手動
+- [ ] **ポケポケ** [【ポケポケ】新パック「デュアルフュージョン」10/29登場！ランクマより熱い〇〇がきた](https://www.youtube.com/watch?v=4-54e0udqAM) (4-54e0udqAM) — 2026-10-23 — 下書き自動生成済み
+- [ ] **その他** [【スイッチスポーツリゾート】アーチェリー隠し要素12個 全部の当て方！目印を覚えれば当たる【Switch Sports Resort】](https://www.youtube.com/watch?v=s7cwSAGYcLM) (s7cwSAGYcLM) — 2026-10-22 — 要手動
+- [ ] **ポケポケ** [【ポケポケ】マネネ2枚のアルセウス×クロバットが強い。ドロー全振り「アルクロベビィ」で5戦](https://www.youtube.com/watch?v=rtM0J3yIsdw) (rtM0J3yIsdw) — 2026-09-05 — 下書き自動生成済み
+- [ ] **その他** [ウォーデン1体 vs スケルトン100体…自作MODでマイクラ最強モブ13番勝負【まいくら・マインクラフト】](https://www.youtube.com/watch?v=VW9jgESAeu0) (VW9jgESAeu0) — 2026-09-04 — 要手動
+- [ ] **その他** [AIに"丸投げ"で作らせたマイクラMODがガチすぎたwww【まいくら・マインクラフト】](https://www.youtube.com/watch?v=UBRVtsIu88o) (UBRVtsIu88o) — 2026-09-02 — 要手動
+- [ ] **ポケポケ** [ポケポケに大会が無いのが納得いかないので、競技ルールを自分で作りました](https://www.youtube.com/watch?v=juHGfufYjXY) (juHGfufYjXY) — 2026-09-01 — 下書き自動生成済み
