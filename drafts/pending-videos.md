@@ -27,3 +27,13 @@
 - [ ] **ポケポケ** [【ポケポケ】ランクマ生配信！一桁目指して頑張る！！](https://www.youtube.com/watch?v=qDxWOp7Glk4) (qDxWOp7Glk4) — 2026-08-15 — 生配信のため記事化しない（2026-08-26 方針）
 - [ ] **ポケポケ** [【ポケポケ】ランクマ生配信！一桁目指して頑張る！！](https://www.youtube.com/watch?v=gmb8JQAkwSA) (gmb8JQAkwSA) — 2026-08-14 — 生配信のため記事化しない（2026-08-26 方針）
 - [ ] **ポケポケ** [【ポケポケ】ランクマ生配信！一桁目指して頑張る！！](https://www.youtube.com/watch?v=qM_nTgnk354) (qM_nTgnk354) — 2026-08-14 — 生配信のため記事化しない（2026-08-26 方針）
+- [ ] **その他** [【ポケモン】AIとのモザイク早当て4戦目、〇問しか勝てなかった](https://www.youtube.com/watch?v=R6jCHoq7eBI) (R6jCHoq7eBI) — 2026-11-28 — 要手動
+- [ ] **その他** [【自作FPS】2週間でここまで進化！キャラ10体・部位破壊・スキル｜制作日記 #2](https://www.youtube.com/watch?v=-S9ihtGjyNU) (-S9ihtGjyNU) — 2026-11-28 — 要手動
+- [ ] **その他** [【ポケモン】AIとのモザイク早当て3戦目でついに〇〇した](https://www.youtube.com/watch?v=_8gjcbJ8Rnk) (_8gjcbJ8Rnk) — 2026-11-28 — 要手動
+- [ ] **その他** [【ポケモン】AIにモザイク早当てでリベンジしたら〇〇だった](https://www.youtube.com/watch?v=xeaSc02YYw0) (xeaSc02YYw0) — 2026-11-27 — 要手動
+- [ ] **その他** [【ポケモン】モザイク早当てでAIと対決したら強すぎて〇〇した](https://www.youtube.com/watch?v=CSMJ99KsWDY) (CSMJ99KsWDY) — 2026-11-27 — 要手動
+- [ ] **その他** [GPT-6.2 Astraでイラストを3Dモデル化｜Blenderで白瀬ミオが動くまで](https://www.youtube.com/watch?v=heYTAtlEC7I) (heYTAtlEC7I) — 2026-11-26 — 要手動
+- [ ] **その他** [【自作FPS】エーペックスを超えるFPSを作る！制作日記 DAY1](https://www.youtube.com/watch?v=gFoSOUo8vqE) (gFoSOUo8vqE) — 2026-11-13 — 要手動
+- [ ] **ポケポケ** [【ポケポケ】ベビィ採用メガバンギラス！？育ったら最強、できなきゃ負け【リーシャン・ピィ】【ポケモンカードゲームポケット】](https://www.youtube.com/watch?v=s36LMYSMePI) (s36LMYSMePI) — 2026-11-10 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】たった2エネで480ダメ！？ラビットジャンプのマリルリで3連勝【タマンタ・ラビフット】【ポケモンカードゲームポケット】](https://www.youtube.com/watch?v=FXLKYR4Ej80) (FXLKYR4Ej80) — 2026-11-09 — 下書き自動生成済み
+- [ ] **ポケポケ** [【ポケポケ】2ターンで130ダメ！？パルデアドオー型メガルカリオで3連勝【メガルカリオex・パルデアドオー】【ポケモンカードゲームポケット】](https://www.youtube.com/watch?v=5zAJ7cI8xEQ) (5zAJ7cI8xEQ) — 2026-11-03 — 下書き自動生成済み

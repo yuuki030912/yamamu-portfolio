@@ -2793,4 +2793,22 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/pokepoke/video-pokepoke-s36LMYSMePI.html</loc>
+    <lastmod>2026-11-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/pokepoke/video-pokepoke-FXLKYR4Ej80.html</loc>
+    <lastmod>2026-11-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yamamu-youtube.jp/pokepoke/video-pokepoke-5zAJ7cI8xEQ.html</loc>
+    <lastmod>2026-11-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>
